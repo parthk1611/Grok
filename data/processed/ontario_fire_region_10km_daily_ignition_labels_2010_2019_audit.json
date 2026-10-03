@@ -1,0 +1,30 @@
+{
+  "created_at_utc": "2026-10-02T18:01:08.079455+00:00",
+  "scope": {
+    "boundary": "Ontario Fire Response Plan Area: RES_SECTOR != OFR",
+    "projection": "EPSG:3978 (NAD83 / Canada Atlas Lambert)",
+    "cell_size_m": 10000,
+    "years_inclusive": [
+      2010,
+      2019
+    ],
+    "fire_season": "May 1 through October 31 inclusive"
+  },
+  "cell_inclusion": "Grid-cell centroid is in the managed Fire Region, plus any edge cell containing a selected NFDB ignition.",
+  "counts": {
+    "input_events": 8740,
+    "included_events": 8109,
+    "excluded_outside_fire_season": 620,
+    "excluded_outside_fire_region": 11,
+    "grid_cells": 9673,
+    "fire_season_days": 1840,
+    "label_rows": 17798320,
+    "positive_cell_days": 7785,
+    "large_fire_positive_cell_days": 318
+  },
+  "outputs": {
+    "grid": "data/interim/ontario_fire_region_10km_grid.csv",
+    "events": "data/interim/ontario_fire_region_nfdb_ignitions_2010_2019.csv",
+    "daily_labels": "data/processed/ontario_fire_region_10km_daily_ignition_labels_2010_2019.csv.gz"
+  }
+}

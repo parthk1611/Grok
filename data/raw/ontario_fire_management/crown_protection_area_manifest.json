@@ -1,0 +1,11 @@
+{
+  "source_name": "Ontario Fire Management Agreement Area",
+  "source_url": "https://ws.gisetl.lrc.gov.on.ca/fmedatadownload/Packages/FIREMAA.zip",
+  "selection": "PROT_CODE = 'CPA'",
+  "license": "Open Government Licence \u2013 Ontario",
+  "downloaded_at_utc": "2026-10-02T17:47:45.035424+00:00",
+  "archive_filename": "FIREMAA.zip",
+  "archive_sha256": "49b8e7744a52c590eb914b7ad2f61faed2f957868d20524c39adf54a82c6f383",
+  "geojson_sha256": "dcb310a1a211a6799a22e10932b8d79cc023f033fd4e4c2f68384cddaea3fff6",
+  "feature_count": 1141
+}
