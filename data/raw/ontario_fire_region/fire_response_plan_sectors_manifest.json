@@ -1,0 +1,11 @@
+{
+  "source_name": "Ontario Fire Response Plan Area",
+  "source_url": "https://ws.gisetl.lrc.gov.on.ca/fmedatadownload/Packages/FIRERESP.zip",
+  "selection": "RES_SECTOR != 'OFR' (Outside Fire Region)",
+  "license": "Open Government Licence \u2013 Ontario",
+  "downloaded_at_utc": "2026-10-02T17:52:46.890282+00:00",
+  "archive_filename": "FIRERESP.zip",
+  "archive_sha256": "1368d14e5faa3503ce4c8d2de20da553e9dffcc74e1309e24378e711ffa8f4a9",
+  "geojson_sha256": "37efcdb2054ba98d884938a90fdae6309bc4f0f8d2c7f6fab4da0d12a9522263",
+  "feature_count": 15
+}

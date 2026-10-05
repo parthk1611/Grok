@@ -1,0 +1,96 @@
+{
+  "feature_set_version": "ignition-feature-v1.0.0",
+  "created_at_utc": "2026-10-02T00:00:00Z",
+  "issue_contract": {
+    "timezone": "America/Toronto",
+    "issue_time_local": "00:00:00",
+    "target": "The existing local-calendar-day ignition label. Inputs must be known before the local day begins.",
+    "operational_forecast_claim": false
+  },
+  "sources": [
+    {
+      "source_id": "nfdb_ontario_ignition_labels",
+      "role": "label and retrospective past-only ignition history",
+      "local_artifacts": [
+        "data/interim/ontario_fire_region_nfdb_ignitions_2010_2019.csv",
+        "data/processed/ontario_fire_region_10km_daily_ignition_labels_2010_2019.csv.gz"
+      ],
+      "source_url": "https://cwfis.cfs.nrcan.gc.ca/downloads/nfdb/fire_pnt/current_version/NFDB_point_txt.zip",
+      "observation_coverage": "Ontario records with dates in the committed panel, 2010-05-01 through 2019-10-31",
+      "retrieved_at_utc": "2026-10-02T17:37:05.192810+00:00",
+      "publication_or_availability_timestamp": null,
+      "historical_semantics": "retrospective recorded incident dates; the build only counts records whose ignition_date is strictly earlier than the issue date",
+      "operational_eligible": false,
+      "quality_notes": "NFDB point positions and dates have variable precision. The source does not establish historical report/discovery availability."
+    },
+    {
+      "source_id": "cwfis_fwi_2010s_v3_ll",
+      "role": "historical noon weather and Canadian Fire Weather Index components",
+      "source_url": "https://cwfis.cfs.nrcan.gc.ca/downloads/fwi_obs/cwfis_fwi2010sv3.0_ll.csv.bz2",
+      "documentation_url": "https://cwfis.cfs.nrcan.gc.ca/downloads/fwi_obs/",
+      "expected_sha256": "67e706160316e2b1e496bc3b316d17d5c1623954f29231d5cb71e618f0329246",
+      "observation_coverage": "2010-01-01 through 2019-12-31; the build checks the required day-before-issue coverage",
+      "publication_or_availability_timestamp": null,
+      "historical_semantics": "retrospective hindcast. The feature uses a record dated t-1 for issue date t and records the observation date, station count, distance, interpolation and calculation-status flags.",
+      "operational_eligible": false,
+      "quality_notes": "The public archive readme describes its historical system transition, but does not provide per-record historical publication timestamps. Do not replay this archive as an operational alert feed."
+    },
+    {
+      "source_id": "nrcan_cdem_1945_2011",
+      "role": "static terrain",
+      "source_url": "https://open.canada.ca/data/en/dataset/7f245e4d-76c2-4caa-951a-45d1d2051333",
+      "elevation_api": "https://geogratis.gc.ca/services/elevation/cdem/profile",
+      "vintage_end_year": 2011,
+      "publication_or_availability_timestamp": "2013-04-01",
+      "historical_semantics": "static ground-elevation terrain only; it is not used as a vegetation, disturbance, road, or built-environment proxy",
+      "operational_eligible": true,
+      "quality_notes": "CDEM is a legacy terrain model. The summary uses nine equal-area samples in each existing EPSG:3978 grid cell and retains coverage."
+    },
+    {
+      "source_id": "era5_land",
+      "role": "optional reanalysis enrichment",
+      "source_url": "https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land?tab=documentation",
+      "observation_coverage": "hourly from 1950",
+      "publication_or_availability_timestamp": "2019-07-12",
+      "historical_semantics": "not materialized in v1. ERA5-Land is a retrospective reanalysis and must be labelled as hindcast if added.",
+      "operational_eligible": false,
+      "quality_notes": "An archived forecast product issued before the target day is required for an operational next-day claim."
+    },
+    {
+      "source_id": "modis_mcd12q1_land_cover",
+      "role": "land cover and fuel summaries",
+      "source_url": "https://developers.google.com/earth-engine/datasets/catalog/MODIS_061_MCD12Q1",
+      "observation_coverage": "annual, 500 m, 2001 onward",
+      "publication_or_availability_timestamp": null,
+      "historical_semantics": "deferred. A current reprocessed annual image is not accepted for an earlier issue date without a retained, previously released vintage and a known available-at date.",
+      "operational_eligible": false,
+      "quality_notes": "No time-safe local historical asset and publication ledger were supplied; v1 intentionally does not fill these fields with a 2024/current map."
+    },
+    {
+      "source_id": "ontario_road_network_historic",
+      "role": "road/access proxy",
+      "source_url": "https://library.mcmaster.ca/maps/geospatial/historic-ontario-road-network-orn-address-2010",
+      "observation_coverage": "historic 2010 Ontario Road Network editions",
+      "publication_or_availability_timestamp": null,
+      "historical_semantics": "deferred. A licensed historic geometry extract and redistribution clearance are required before length/distance values can be materialized.",
+      "operational_eligible": false,
+      "quality_notes": "The current Ontario Road Network is explicitly not substituted because it may encode post-2019 access."
+    },
+    {
+      "source_id": "statistics_canada_settlement",
+      "role": "settlement and population/access proxy",
+      "source_url": "https://www150.statcan.gc.ca/n1/en/catalogue/92-163-X",
+      "observation_coverage": "dated Census geography and population/dwellings",
+      "publication_or_availability_timestamp": null,
+      "historical_semantics": "deferred pending an archived geography/value extract and an available-at ledger for each Census vintage.",
+      "operational_eligible": false,
+      "quality_notes": "No current population or settlement geometry is silently backfilled into 2010-2019."
+    }
+  ],
+  "prohibited_predictors": [
+    "final fire perimeter or final fire size",
+    "future fire perimeter, future active-fire detection, or post-event burn product",
+    "post-issue weather observation or same-day completed FWI",
+    "current road, fuel, land-cover, or settlement geometry without a valid historical vintage"
+  ]
+}

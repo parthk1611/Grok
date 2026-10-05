@@ -1,0 +1,20 @@
+{
+  "source_id": "cwfis_fwi_2010s_v3_ll",
+  "source_url": "https://cwfis.cfs.nrcan.gc.ca/downloads/fwi_obs/cwfis_fwi2010sv3.0_ll.csv.bz2",
+  "downloaded_at_utc": "2026-10-02T23:25:26.337030+00:00",
+  "archive_filename": "cwfis_fwi2010sv3.0_ll.csv.bz2",
+  "archive_sha256": "67e706160316e2b1e496bc3b316d17d5c1623954f29231d5cb71e618f0329246",
+  "expected_sha256": "67e706160316e2b1e496bc3b316d17d5c1623954f29231d5cb71e618f0329246",
+  "source_change_accepted": false,
+  "profile": {
+    "rows": 4159936,
+    "first_observation_date": "2010-01-01",
+    "last_observation_date": "2019-12-31"
+  },
+  "availability_semantics": {
+    "publication_or_available_at_per_record": null,
+    "use": "retrospective hindcast only",
+    "operational_eligible": false,
+    "feature_rule": "The feature builder uses only the source record dated t-1 for issue date t."
+  }
+}

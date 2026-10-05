@@ -1,0 +1,22 @@
+# Reproducibly downloaded source archives.  Their checksums and retrieval details
+# are retained in the source manifests, but the archives are not redistributed.
+data/raw/cwfis/*.csv.bz2
+data/raw/cwfis/*.log
+data/raw/nfdb/NFDB_point_txt.zip
+data/raw/nfdb/extracted/
+data/raw/ontario_fire_management/*.zip
+data/raw/ontario_fire_management/*.geojson
+data/raw/ontario_fire_region/*.zip
+data/raw/ontario_fire_region/*.geojson
+
+# Full cell-day panels are intentionally build artifacts. Their compact source
+# inputs, manifests, and audits are tracked; regenerated panels are not.
+data/processed/*daily_ignition_labels*.csv.gz
+data/processed/*daily_ignition_features*.csv.gz
+data/processed/*daily_ignition_features*_audit.json
+
+# Temporary and resumable elevation API response material.
+data/raw/cdem/*.json
+data/raw/cdem/*.log
+
+__pycache__/

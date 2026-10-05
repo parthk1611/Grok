@@ -1,0 +1,26 @@
+{
+  "feature_set_version": "ignition-feature-v1.0.0",
+  "created_at_utc": "2026-10-03T02:30:33.873489+00:00",
+  "source": {
+    "source_id": "nrcan_cdem_1945_2011",
+    "elevation_api": "https://geogratis.gc.ca/services/elevation/cdem/profile",
+    "vintage_end_year": 2011,
+    "sampling": "3 by 3 equal-area EPSG:3978 cell-centre quadrature samples",
+    "historical_semantics": "static terrain only"
+  },
+  "input_grid": "data/interim/ontario_fire_region_10km_grid.csv",
+  "output": "data/interim/cdem_terrain_10km_summary.csv",
+  "counts": {
+    "grid_rows": 9673,
+    "requested_samples": 87057,
+    "returned_samples": 86915,
+    "api_batches": null,
+    "full_coverage_cells": 9625,
+    "cells_with_no_coverage": 1
+  },
+  "quality": {
+    "minimum_cell_coverage_fraction": 0.0,
+    "maximum_cell_coverage_fraction": 1.0,
+    "missing_slope_cells": 48
+  }
+}

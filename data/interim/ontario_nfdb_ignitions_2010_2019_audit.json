@@ -1,0 +1,123 @@
+{
+  "created_at_utc": "2026-10-02T17:37:38.644862+00:00",
+  "source": "data/raw/nfdb/extracted/NFDB_point_20260811.txt",
+  "selection": {
+    "source_agency": "ON",
+    "years_inclusive": [
+      2010,
+      2019
+    ],
+    "requires_valid_calendar_date_and_wgs84_coordinates": true
+  },
+  "counts": {
+    "source_rows": 448618,
+    "ontario_rows": 65881,
+    "excluded_outside_study_years": 57092,
+    "included_rows": 8740,
+    "excluded_invalid_date_or_coordinates": 49
+  },
+  "included_fires_by_year": {
+    "2010": 934,
+    "2011": 1336,
+    "2012": 1621,
+    "2013": 581,
+    "2014": 305,
+    "2015": 670,
+    "2016": 648,
+    "2017": 779,
+    "2018": 1328,
+    "2019": 538
+  },
+  "included_fires_by_cause": {
+    "H": 3756,
+    "N": 4791,
+    "U": 193
+  },
+  "invalid_record_examples": [
+    {
+      "nfdb_fire_id": "ON-1996-MID1",
+      "year": "1996",
+      "month": "0",
+      "day": "0",
+      "latitude": "44.682699999999997",
+      "longitude": "-81.145099999999999"
+    },
+    {
+      "nfdb_fire_id": "ON-1997-KEN52",
+      "year": "1997",
+      "month": "0",
+      "day": "0",
+      "latitude": "50.340600000000002",
+      "longitude": "-94.222600000000000"
+    },
+    {
+      "nfdb_fire_id": "ON-2006-RED97",
+      "year": "2006",
+      "month": "0",
+      "day": "0",
+      "latitude": "51.735900000000001",
+      "longitude": "-92.688599999999994"
+    },
+    {
+      "nfdb_fire_id": "ON-2000-SUD110",
+      "year": "2000",
+      "month": "0",
+      "day": "0",
+      "latitude": "46.508699999999997",
+      "longitude": "-80.459000000000003"
+    },
+    {
+      "nfdb_fire_id": "ON-2000-COC18",
+      "year": "2000",
+      "month": "0",
+      "day": "0",
+      "latitude": "48.952800000000003",
+      "longitude": "-81.000000000000000"
+    },
+    {
+      "nfdb_fire_id": "ON-1997-RED10",
+      "year": "1997",
+      "month": "0",
+      "day": "0",
+      "latitude": "50.858899999999998",
+      "longitude": "-92.573800000000006"
+    },
+    {
+      "nfdb_fire_id": "ON-2007-THU1",
+      "year": "2007",
+      "month": "0",
+      "day": "0",
+      "latitude": "48.630000000000003",
+      "longitude": "-90.700000000000003"
+    },
+    {
+      "nfdb_fire_id": "ON-2011-RED4",
+      "year": "2011",
+      "month": "0",
+      "day": "0",
+      "latitude": "50.805999999999997",
+      "longitude": "-93.639300000000006"
+    },
+    {
+      "nfdb_fire_id": "ON-2000-SUD109",
+      "year": "2000",
+      "month": "0",
+      "day": "0",
+      "latitude": "46.283600000000000",
+      "longitude": "-80.435299999999998"
+    },
+    {
+      "nfdb_fire_id": "ON-1995-HEA2",
+      "year": "1995",
+      "month": "0",
+      "day": "0",
+      "latitude": "48.806300000000000",
+      "longitude": "-83.982600000000005"
+    }
+  ],
+  "notes": [
+    "This is an event table, not yet a grid-by-day modelling dataset.",
+    "NFDB point positions have variable precision and must not be treated as exact ignition coordinates.",
+    "The Ontario Crown Protection Area boundary filter is a later spatial processing step."
+  ]
+}
