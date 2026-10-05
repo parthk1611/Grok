@@ -1,0 +1,111 @@
+{
+  "source_file": "ontario_fire_region_10km_daily_ignition_features_v1.csv",
+  "source_bytes": 6542580992,
+  "rows": 17798320,
+  "columns": 48,
+  "grid_cells": 9673,
+  "dates": 1840,
+  "date_start": "2010-05-01",
+  "date_end": "2019-10-31",
+  "positive_cell_days": 7785,
+  "event_records": 8109,
+  "large_fire_positive_cell_days": 318,
+  "ignition_prevalence_pct": 0.0437400833337079,
+  "all_negative_accuracy_pct": 99.95625991666628,
+  "negative_to_positive_ratio": 2285.232498394348,
+  "weather_label_counts": [
+    {
+      "ignition": 0,
+      "cwfis_missing": 0,
+      "rows": 8453073
+    },
+    {
+      "ignition": 0,
+      "cwfis_missing": 1,
+      "rows": 9337462
+    },
+    {
+      "ignition": 1,
+      "cwfis_missing": 0,
+      "rows": 4331
+    },
+    {
+      "ignition": 1,
+      "cwfis_missing": 1,
+      "rows": 3454
+    }
+  ],
+  "unique_metadata_values": {
+    "cwfis_source_id": [
+      "cwfis_fwi_2010s_v3_ll"
+    ],
+    "feature_set_version": [
+      "ignition-feature-v1.0.0"
+    ],
+    "fire_history_source_id": [
+      "nfdb_ontario_ignition_labels"
+    ],
+    "terrain_source_id": [
+      "nrcan_cdem_1945_2011"
+    ],
+    "terrain_source_vintage_end_year": [
+      "2011"
+    ]
+  },
+  "validation_violation_counts": {
+    "unknown_grid_id_rows": 0,
+    "date_outside_expected_fire_seasons_rows": 0,
+    "nonbinary_ignition_rows": 0,
+    "nonbinary_large_fire_rows": 0,
+    "nonbinary_weather_missing_rows": 0,
+    "ignition_count_label_mismatch_rows": 0,
+    "large_fire_without_ignition_rows": 0,
+    "numeric_infinite_values": 0,
+    "prior_day_observation_date_mismatch_rows": 0,
+    "local_midnight_issue_time_mismatch_rows": 0,
+    "day_of_year_mismatch_rows": 0,
+    "station_count_outside_0to4_rows": 0,
+    "station_coverage_fraction_mismatch_rows": 0,
+    "terrain_sample_count_outside_0to9_rows": 0,
+    "terrain_coverage_fraction_mismatch_rows": 0,
+    "weather_missing_station_count_mismatch_rows": 0,
+    "daily_weather_null_pattern_mismatch_rows": 0,
+    "rain_7d_coverage_outside_0to7_rows": 0,
+    "rain_7d_null_coverage_mismatch_rows": 0,
+    "humidity_outside_0to100_rows": 0,
+    "ffmc_outside_0to101_rows": 0,
+    "cwfis_wind_speed_kmh_negative_rows": 0,
+    "cwfis_precip_mm_negative_rows": 0,
+    "cwfis_precip_7d_mm_negative_rows": 0,
+    "cwfis_dmc_negative_rows": 0,
+    "cwfis_dc_negative_rows": 0,
+    "cwfis_isi_negative_rows": 0,
+    "cwfis_bui_negative_rows": 0,
+    "cwfis_fwi_negative_rows": 0,
+    "cwfis_dsr_negative_rows": 0,
+    "ignition_count_negative_or_noninteger_rows": 0,
+    "terrain_sample_count_negative_or_noninteger_rows": 0,
+    "cwfis_station_count_negative_or_noninteger_rows": 0,
+    "cwfis_precip_7d_coverage_days_negative_or_noninteger_rows": 0,
+    "fire_history_same_cell_30d_negative_or_noninteger_rows": 0,
+    "fire_history_neighborhood_30d_negative_or_noninteger_rows": 0,
+    "fire_history_same_cell_365d_negative_or_noninteger_rows": 0,
+    "fire_history_neighborhood_365d_negative_or_noninteger_rows": 0,
+    "fire_history_days_since_same_cell_negative_or_noninteger_rows": 0,
+    "days_since_fire_nonpositive_observed_rows": 0,
+    "duplicate_key_excess_rows": 0,
+    "expected_keys_missing": 0,
+    "row_count_mismatch": 0,
+    "dates_with_incorrect_cell_count": 0,
+    "cells_with_incorrect_date_count": 0
+  },
+  "uniform_sample_rows": 100000,
+  "uniform_sample_positive_rows": 35,
+  "sample_seed": 385,
+  "method": "Every row scanned. Counts, missingness, means, ranges, cell/date summaries and listed checks are exact; quantiles and Pearson correlations use a uniform priority sample. All positive cell-days retained for distribution plots. No rows altered, imputation, training or source-record revalidation.",
+  "library_versions": {
+    "pandas": "3.0.1",
+    "numpy": "2.3.5"
+  },
+  "scan_seconds": 163.47
+}

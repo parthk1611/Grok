@@ -1,0 +1,49 @@
+{
+  "feature_set_version": "ignition-feature-v1.0.0",
+  "created_at_utc": "2026-10-05T17:58:51.336872+00:00",
+  "mode": "retrospective_hindcast_not_operational_forecast",
+  "inputs": {
+    "grid": "data/interim/ontario_fire_region_10km_grid.csv",
+    "labels": "data/processed/ontario_fire_region_10km_daily_ignition_labels_2010_2019.csv.gz",
+    "events": "data/interim/ontario_fire_region_nfdb_ignitions_2010_2019.csv",
+    "terrain": "data/interim/cdem_terrain_10km_summary.csv",
+    "cwfis": "data/raw/cwfis/cwfis_fwi2010sv3.0_ll.csv.bz2",
+    "cwfis_manifest": "data/raw/cwfis/manifest.json",
+    "source_registry": "data/metadata/ignition_feature_source_registry_v1.json"
+  },
+  "date_coverage": {
+    "panel_start": "2010-05-01",
+    "panel_end": "2019-10-31",
+    "panel_dates": 1840,
+    "cwfis_required_observation_start": "2010-04-24",
+    "cwfis_required_observation_end": "2019-10-30"
+  },
+  "counts": {
+    "input_label_rows": 17798320,
+    "output_rows": 17798320,
+    "expected_selected_rows": 17798320,
+    "grid_cells": 9673,
+    "cwfis_station_catalog": 817,
+    "cwfis_station_candidates_per_cell": 4,
+    "selected_event_records": 8109
+  },
+  "missingness": {
+    "cwfis_rows_missing": 9340916,
+    "cwfis_rows_available": 8457404,
+    "terrain_elevation_missing_rows": 1840
+  },
+  "validation": {
+    "input_row_universe_validated": true,
+    "output_row_count_matches_selected_panel": true,
+    "input_and_output_key_uniqueness_validated": true,
+    "terrain_grid_alignment_validated": true,
+    "cwfis_observation_before_issue_violations": 0,
+    "past_fire_history_includes_issue_or_future_date": false,
+    "prohibited_spread_or_post_event_predictors_included": false
+  },
+  "source_semantics": {
+    "cwfis": "CWFIS archive values are t-1 retrospective hindcast features; per-record available-at timestamps are unavailable.",
+    "fire_history": "Only label-source records dated strictly before the issue date are counted; source reporting availability is retrospective.",
+    "terrain": "CDEM is static terrain with vintage end year 2011; no land-cover, fuel, road, settlement, perimeter, or burn-product proxy is substituted."
+  }
+}
