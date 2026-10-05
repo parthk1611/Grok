@@ -12,3 +12,6 @@ ignition-history features without changing that panel's row universe.
 See [the ignition feature documentation](docs/ignition_features.md) for source
 provenance, leakage boundaries, deferred feature families, and reproducible
 build commands. This repository does not build a fire-spread dataset.
+
+See [the planned model comparison](docs/model_selection.md) for the ignition
+baselines, candidate classifier, and evaluation boundaries.
