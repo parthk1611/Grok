@@ -1,0 +1,100 @@
+{
+  "dataset_version": "fire-spread-v1.0.0",
+  "created_at_utc": "2026-10-09T03:39:19.878875+00:00",
+  "checks_passed": 18,
+  "checks_failed": [],
+  "checks": {
+    "fire ids are unique in the fire table": true,
+    "(fire, observation) keys are unique": true,
+    "every master fire is in the fire table": true,
+    "observations are numbered 1..n in time order": true,
+    "cumulative area never decreases": true,
+    "new area equals the change in cumulative area": true,
+    "arrival cells match each fire's final cumulative cell count": true,
+    "an arrival cell appears once per fire": true,
+    "hours between observations are positive": true,
+    "no observation is dated before the fire's detection window": true,
+    "holdout and calibration fires do not share a year": true,
+    "bearings and wind directions lie in 0-360": true,
+    "hourly wind components reproduce the wind speed": true,
+    "hourly weather is physically plausible": true,
+    "fire-weather codes are in range": true,
+    "vector-mean wind never exceeds mean wind speed": true,
+    "every row has interval weather, fire-weather codes, fuel and terrain": true,
+    "fuel shares add up to one": true
+  },
+  "sanity": {
+    "satellite_area_vs_agency_perimeter": {
+      "fires": 631,
+      "rank_correlation": 0.862,
+      "median_detected_share": 0.77,
+      "share_for_fires_of_1000_ha_or_more": 0.69,
+      "share_for_fires_under_200_ha": 0.91
+    },
+    "first_detection_days_after_reported_start": {
+      "0.1": 0.0,
+      "0.5": 2.0,
+      "0.9": 12.0
+    },
+    "computed_fwi_vs_agency_recorded_fwi_on_start_date": {
+      "fires": 254,
+      "pearson_r": 0.467,
+      "median_computed": 14.6,
+      "median_recorded": 16.5
+    },
+    "head_within_45_deg_of_downwind": {
+      "all_growth_steps": 0.422,
+      "if_unrelated": 0.25,
+      "by_mean_wind_kmh": {
+        "[0, 10)": 0.35,
+        "[10, 15)": 0.454,
+        "[15, 20)": 0.495,
+        "[20, 100)": 0.538
+      },
+      "steps": 4787
+    },
+    "growth_by_initial_spread_index": {
+      "[0, 2)": {
+        "observations": 820,
+        "share_with_new_area": 0.802,
+        "median_new_area_ha_when_growing": 28.1
+      },
+      "[2, 4)": {
+        "observations": 765,
+        "share_with_new_area": 0.854,
+        "median_new_area_ha_when_growing": 56.2
+      },
+      "[4, 6)": {
+        "observations": 1298,
+        "share_with_new_area": 0.845,
+        "median_new_area_ha_when_growing": 56.2
+      },
+      "[6, 8)": {
+        "observations": 1186,
+        "share_with_new_area": 0.892,
+        "median_new_area_ha_when_growing": 70.3
+      },
+      "[8, 12)": {
+        "observations": 1143,
+        "share_with_new_area": 0.899,
+        "median_new_area_ha_when_growing": 112.5
+      },
+      "[12, 100)": {
+        "observations": 406,
+        "share_with_new_area": 0.921,
+        "median_new_area_ha_when_growing": 210.9
+      }
+    },
+    "spread_rate_m_per_h": {
+      "0.5": 57.9,
+      "0.9": 278.6,
+      "0.99": 935.9
+    },
+    "hours_between_observations": {
+      "share_6h_or_less": 0.12,
+      "share_12h_or_less": 0.524,
+      "share_over_24h": 0.185,
+      "median": 12.2
+    }
+  }
+}

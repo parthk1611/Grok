@@ -1,0 +1,50 @@
+{
+  "dataset_version": "fire-spread-v1.0.0",
+  "created_at_utc": "2026-10-09T00:58:58.694515+00:00",
+  "mode": "retrospective_hindcast_not_operational_forecast",
+  "grain": "one row per fire per satellite observation",
+  "counts": {
+    "fires_in_catalogue": 752,
+    "fires_in_master": 631,
+    "rows": 6249,
+    "columns": 119,
+    "growth_steps": 4867,
+    "rows_with_interval_weather": 6249,
+    "rows_with_fire_weather_codes": 6249,
+    "rows_with_fuel_summary": 6249,
+    "rows_with_terrain_summary": 6249
+  },
+  "split": {
+    "calibration": {
+      "fires": 432,
+      "fires_in_master": 392,
+      "rows": 3242
+    },
+    "holdout": {
+      "fires": 251,
+      "fires_in_master": 239,
+      "rows": 3007
+    },
+    "no_satellite_archive": {
+      "fires": 69,
+      "fires_in_master": 0,
+      "rows": 0
+    }
+  },
+  "split_rule": "calibration: fire years before 2021; holdout: 2021 onward; fires in years with no FIRMS yearly archive have no rows",
+  "coherence": {
+    "definition": "angle between the observed head direction and the downwind direction, on growth steps with mean wind of at least 10 km/h",
+    "steps": 2923,
+    "share_within_45_deg": 0.4684,
+    "share_within_45_deg_if_unrelated": 0.25,
+    "median_angle_deg": 50.5
+  },
+  "outputs": {
+    "master": "ontario_fire_spread_master_v1.csv",
+    "fires": "ontario_fire_spread_fires_v1.csv",
+    "weather_hourly": "ontario_fire_spread_weather_hourly_v1.csv.gz",
+    "weather_daily": "ontario_fire_spread_weather_daily_v1.csv",
+    "arrival_cells": "ontario_fire_spread_arrival_cells_v1.csv.gz",
+    "detections": "ontario_fire_spread_detections_v1.csv.gz"
+  }
+}

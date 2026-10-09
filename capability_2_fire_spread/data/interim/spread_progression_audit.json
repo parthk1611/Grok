@@ -1,0 +1,40 @@
+{
+  "dataset_version": "fire-spread-v1.0.0",
+  "created_at_utc": "2026-10-09T00:46:02.110083+00:00",
+  "method": {
+    "grid": "EPSG:3978, 375 m cells aligned to multiples of 375 m",
+    "match": "type 0, confidence nominal or high, within 750 m of the final perimeter, from 3 days before the start date to 1 day after the out date",
+    "observation": "detections separated by no more than 90 minutes",
+    "trackable": "at least 3 growth steps and detections covering at least 20% of the perimeter area"
+  },
+  "counts": {
+    "detections_read_after_quality_filter": 867217,
+    "detections_matched_to_a_fire": 300601,
+    "detections_claimed_by_two_fires": 12121,
+    "fires": 752,
+    "fires_in_years_without_satellite_archive": 69,
+    "fires_with_detections": 631,
+    "fires_trackable": 368,
+    "observations": 6249,
+    "observations_with_new_area": 5498,
+    "arrival_cells": 118400
+  },
+  "hours_between_observations": {
+    "0.1": 1.7,
+    "0.25": 10.6,
+    "0.5": 12.2,
+    "0.75": 22.0,
+    "0.9": 58.0
+  },
+  "detected_share_of_perimeter": {
+    "0.1": 0.25,
+    "0.5": 0.77,
+    "0.9": 1.63
+  },
+  "outputs": {
+    "fires": "spread_fires_with_progression.csv",
+    "observations": "spread_observations.csv",
+    "detections": "spread_detections.csv.gz",
+    "arrival_cells": "spread_arrival_cells.csv.gz"
+  }
+}

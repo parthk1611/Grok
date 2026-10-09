@@ -1,0 +1,35 @@
+{
+  "source_name": "Ontario Fire Disturbance Point and Fire Disturbance Area",
+  "publisher": "Ontario Ministry of Natural Resources, Land Information Ontario",
+  "license": "Open Government Licence \u2013 Ontario",
+  "coordinate_system": "EPSG:4326 as served (source datum NAD83)",
+  "downloaded_at_utc": "2026-10-09T00:37:19.809324+00:00",
+  "layers": [
+    {
+      "layer": "area",
+      "source_page": "https://geohub.lio.gov.on.ca/datasets/lio::fire-disturbance-area/about",
+      "service_url": "https://ws.lioservices.lrc.gov.on.ca/arcgis2/rest/services/LIO_OPEN_DATA/LIO_Open09/MapServer/28",
+      "filename": "fire_disturbance_area.geojson",
+      "records": 2751,
+      "fire_years": [
+        1960,
+        2025
+      ],
+      "bytes": 94345740,
+      "sha256": "deefdb081d80481159530dc8ec7b4d1e3ca65734aedf7539c79fd841e1721a76"
+    },
+    {
+      "layer": "point",
+      "source_page": "https://geohub.lio.gov.on.ca/datasets/lio::fire-disturbance-point/about",
+      "service_url": "https://ws.lioservices.lrc.gov.on.ca/arcgis2/rest/services/LIO_OPEN_DATA/LIO_Open09/MapServer/30",
+      "filename": "fire_disturbance_point.geojson",
+      "records": 65655,
+      "fire_years": [
+        1976,
+        2025
+      ],
+      "bytes": 36363934,
+      "sha256": "a91844ce173dc5b7414668452b796a4a7a59259eb7e08648bffdda37ac4ef949"
+    }
+  ]
+}
