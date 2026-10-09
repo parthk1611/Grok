@@ -1,0 +1,39 @@
+{
+  "dataset_version": "fire-spread-v1.0.0",
+  "created_at_utc": "2026-10-09T00:53:25.405177+00:00",
+  "fires": 631,
+  "unrecognised_codes_seen": [
+    -9999
+  ],
+  "dominant_fuel_type_around_fires": {
+    "C-2": 383,
+    "D-1/D-2": 100,
+    "C-3": 44,
+    "C-4": 39,
+    "M-1/M-2 (50% conifer)": 35,
+    "D-1": 17,
+    "O-1a": 12,
+    "M-1/M-2 (75% conifer)": 1
+  },
+  "median_shares_around_fires": {
+    "conifer": 0.588,
+    "mixedwood": 0.117,
+    "deciduous": 0.06,
+    "open": 0.026,
+    "non_fuel": 0.002,
+    "water": 0.093
+  },
+  "median_shares_inside_perimeters": {
+    "conifer": 0.292,
+    "mixedwood": 0.071,
+    "deciduous": 0.148,
+    "open": 0.024,
+    "non_fuel": 0.007,
+    "water": 0.011
+  },
+  "caveat": "The fuel map is from 2024; inside older perimeters it shows post-fire regrowth, not the fuel that burned.",
+  "outputs": {
+    "summary": "spread_fuel_summary.csv",
+    "codes": "fbp_fuel_type_codes.csv"
+  }
+}

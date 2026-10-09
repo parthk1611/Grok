@@ -11,4 +11,10 @@ ignition-history features without changing that panel's row universe.
 
 See [the ignition feature documentation](docs/ignition_features.md) for source
 provenance, leakage boundaries, deferred feature families, and reproducible
-build commands. This repository does not build a fire-spread dataset.
+build commands.
+
+The second AI capability, wind-driven fire spread, has its own folder:
+[`capability_2_fire_spread/`](capability_2_fire_spread/README.md). It holds a
+separate dataset of 752 Ontario fires from 2012–2025 with their growth rebuilt
+from satellite passes, hourly wind and fire-weather codes, fuel and terrain.
+It is a replay set for the spread simulator and is never an ignition input.

@@ -1,0 +1,216 @@
+{
+  "source_name": "NASA FIRMS VIIRS 375 m active fire detections, country yearly archive",
+  "publisher": "NASA LANCE / FIRMS",
+  "source_page": "https://firms.modaps.eosdis.nasa.gov/country/",
+  "citation": "NASA FIRMS, VIIRS 375 m Active Fire product (VNP14IMGT / VJ114IMGT), doi:10.5067/FIRMS/VIIRS/VNP14IMGT_NRT.002",
+  "downloaded_at_utc": "2026-10-09T00:42:12.374339+00:00",
+  "spatial_filter": {
+    "west": -96.0,
+    "east": -74.0,
+    "south": 41.0,
+    "north": 57.5
+  },
+  "use": "validation only; never an ignition predictor",
+  "files": [
+    {
+      "sensor": "viirs-snpp",
+      "year": 2012,
+      "source_url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2012/viirs-snpp_2012_Canada.csv",
+      "source_bytes": 15231513,
+      "source_sha256": "091f6b5888c9abd6be145e62061bab03b197dfcd475144689bdbd03cb61b9cca",
+      "source_rows_canada": 190200,
+      "rows_kept_ontario_box": 24272,
+      "filename": "viirs-snpp_2012_ontario.csv.gz"
+    },
+    {
+      "sensor": "viirs-snpp",
+      "year": 2013,
+      "source_url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2013/viirs-snpp_2013_Canada.csv",
+      "source_bytes": 27665154,
+      "source_sha256": "bdf805ff036b48096783dda9963a06f94b94bc544213cd167206852b1fd9d6bb",
+      "source_rows_canada": 346361,
+      "rows_kept_ontario_box": 80939,
+      "filename": "viirs-snpp_2013_ontario.csv.gz"
+    },
+    {
+      "sensor": "viirs-snpp",
+      "year": 2014,
+      "source_url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2014/viirs-snpp_2014_Canada.csv",
+      "source_bytes": 42015486,
+      "source_sha256": "cba0b8d2c16724ed5efd26cf758214c9d2e106459b95440365200259aaaa7b00",
+      "source_rows_canada": 523413,
+      "rows_kept_ontario_box": 7314,
+      "filename": "viirs-snpp_2014_ontario.csv.gz"
+    },
+    {
+      "sensor": "viirs-snpp",
+      "year": 2015,
+      "source_url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2015/viirs-snpp_2015_Canada.csv",
+      "source_bytes": 26647955,
+      "source_sha256": "cdb8b6705effa0dc1de1a9a533ba601a0219cfcf85a4536c33adba3b1e7932e1",
+      "source_rows_canada": 331862,
+      "rows_kept_ontario_box": 8781,
+      "filename": "viirs-snpp_2015_ontario.csv.gz"
+    },
+    {
+      "sensor": "viirs-snpp",
+      "year": 2016,
+      "source_url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2016/viirs-snpp_2016_Canada.csv",
+      "source_bytes": 9532246,
+      "source_sha256": "36e71da138f9a7e404d9ce9bbfd760c83a3790d24a63632543d08d4a6cf70ce6",
+      "source_rows_canada": 118847,
+      "rows_kept_ontario_box": 11684,
+      "filename": "viirs-snpp_2016_ontario.csv.gz"
+    },
+    {
+      "sensor": "viirs-snpp",
+      "year": 2017,
+      "source_url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2017/viirs-snpp_2017_Canada.csv",
+      "source_bytes": 37461017,
+      "source_sha256": "486e424309d1b76855fd5cb998c0290718002f06c63a59f25009c9639e63ee4c",
+      "source_rows_canada": 466851,
+      "rows_kept_ontario_box": 22508,
+      "filename": "viirs-snpp_2017_ontario.csv.gz"
+    },
+    {
+      "sensor": "viirs-snpp",
+      "year": 2018,
+      "source_url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2018/viirs-snpp_2018_Canada.csv",
+      "source_bytes": 26089031,
+      "source_sha256": "4d6a163e45fb481aead4cdea2846b22f89cf17db42c8cb34803e898910eba6d0",
+      "source_rows_canada": 325367,
+      "rows_kept_ontario_box": 35192,
+      "filename": "viirs-snpp_2018_ontario.csv.gz"
+    },
+    {
+      "sensor": "viirs-snpp",
+      "year": 2019,
+      "source_url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2019/viirs-snpp_2019_Canada.csv",
+      "source_bytes": 15125906,
+      "source_sha256": "9f6221b8e572dbb8f0488873dd0599401472c308cfd173bc32b61225f6672ae9",
+      "source_rows_canada": 188692,
+      "rows_kept_ontario_box": 29063,
+      "filename": "viirs-snpp_2019_ontario.csv.gz"
+    },
+    {
+      "sensor": "viirs-snpp",
+      "year": 2020,
+      "source_url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2020/viirs-snpp_2020_Canada.csv",
+      "source_bytes": 3762134,
+      "source_sha256": "ca08fdc9eba733cc9c851fa2bb1435ae7946f2c125cac341514ccc839d862185",
+      "source_rows_canada": 47009,
+      "rows_kept_ontario_box": 7991,
+      "filename": "viirs-snpp_2020_ontario.csv.gz"
+    },
+    {
+      "sensor": "viirs-snpp",
+      "year": 2021,
+      "source_url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2021/viirs-snpp_2021_Canada.csv",
+      "source_bytes": 37166522,
+      "source_sha256": "11b37dc84795530ba61e6a290df1c7c244578dfec522b7311a745357bb253819",
+      "source_rows_canada": 464714,
+      "rows_kept_ontario_box": 107597,
+      "filename": "viirs-snpp_2021_ontario.csv.gz"
+    },
+    {
+      "sensor": "viirs-snpp",
+      "year": 2022,
+      "source_url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2022/viirs-snpp_2022_Canada.csv",
+      "source_bytes": 13606146,
+      "source_sha256": "f8c5e06a450a6d28f1c9a0ea44bb90ad426c1a629de439d0333fc83ebdcfaf60",
+      "source_rows_canada": 169522,
+      "rows_kept_ontario_box": 6301,
+      "filename": "viirs-snpp_2022_ontario.csv.gz"
+    },
+    {
+      "sensor": "viirs-snpp",
+      "year": 2023,
+      "source_url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2023/viirs-snpp_2023_Canada.csv",
+      "source_bytes": 140649416,
+      "source_sha256": "ea259492be7563c74ab0afe06934316f33a5a323ca270d0182f30722dc9d2166",
+      "source_rows_canada": 1754727,
+      "rows_kept_ontario_box": 234466,
+      "filename": "viirs-snpp_2023_ontario.csv.gz"
+    },
+    {
+      "sensor": "viirs-snpp",
+      "year": 2024,
+      "source_url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2024/viirs-snpp_2024_Canada.csv",
+      "source_bytes": 58265064,
+      "source_sha256": "7a7131bcba610fe485e9c4353f7dfe5316b93289275e16952069e21cfb5301f8",
+      "source_rows_canada": 726118,
+      "rows_kept_ontario_box": 23266,
+      "filename": "viirs-snpp_2024_ontario.csv.gz"
+    },
+    {
+      "sensor": "viirs-jpss1",
+      "year": 2018,
+      "source_url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-jpss1/2018/viirs-jpss1_2018_Canada.csv",
+      "source_bytes": 25785533,
+      "source_sha256": "2270f594c51692ffda5f948a0a771d741ffeaed4f3f78732c1b047ef78b17762",
+      "source_rows_canada": 313615,
+      "rows_kept_ontario_box": 31564,
+      "filename": "viirs-jpss1_2018_ontario.csv.gz"
+    },
+    {
+      "sensor": "viirs-jpss1",
+      "year": 2019,
+      "source_url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-jpss1/2019/viirs-jpss1_2019_Canada.csv",
+      "source_bytes": 15899238,
+      "source_sha256": "4cfe3cf3df396a95c13579f945e6bd8517920db9db28fdb6d81e39b0989fcfd4",
+      "source_rows_canada": 193502,
+      "rows_kept_ontario_box": 29774,
+      "filename": "viirs-jpss1_2019_ontario.csv.gz"
+    },
+    {
+      "sensor": "viirs-jpss1",
+      "year": 2020,
+      "source_url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-jpss1/2020/viirs-jpss1_2020_Canada.csv",
+      "source_bytes": 3906933,
+      "source_sha256": "d803e0ac894777448687939e9f3d64a1f1366bb070b984e81f97b30cf4cea794",
+      "source_rows_canada": 47623,
+      "rows_kept_ontario_box": 8364,
+      "filename": "viirs-jpss1_2020_ontario.csv.gz"
+    },
+    {
+      "sensor": "viirs-jpss1",
+      "year": 2021,
+      "source_url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-jpss1/2021/viirs-jpss1_2021_Canada.csv",
+      "source_bytes": 38367350,
+      "source_sha256": "7f9fd1d6fc3f2220f975c377c18e7e74c61207f010edd6f92b22e0107b0b439a",
+      "source_rows_canada": 467782,
+      "rows_kept_ontario_box": 108720,
+      "filename": "viirs-jpss1_2021_ontario.csv.gz"
+    },
+    {
+      "sensor": "viirs-jpss1",
+      "year": 2022,
+      "source_url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-jpss1/2022/viirs-jpss1_2022_Canada.csv",
+      "source_bytes": 14552533,
+      "source_sha256": "d6ffa3b7764a8452b0dc750cc847bc343261d768a8f37b52ea224eb96bd933fb",
+      "source_rows_canada": 176869,
+      "rows_kept_ontario_box": 7202,
+      "filename": "viirs-jpss1_2022_ontario.csv.gz"
+    },
+    {
+      "sensor": "viirs-jpss1",
+      "year": 2023,
+      "source_url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-jpss1/2023/viirs-jpss1_2023_Canada.csv",
+      "source_bytes": 138176145,
+      "source_sha256": "d29eac43f26c9490baf1bec7e454268cc56ca0b6fed885410e79a971d1910ca0",
+      "source_rows_canada": 1681190,
+      "rows_kept_ontario_box": 226223,
+      "filename": "viirs-jpss1_2023_ontario.csv.gz"
+    },
+    {
+      "sensor": "viirs-jpss1",
+      "year": 2024,
+      "source_url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-jpss1/2024/viirs-jpss1_2024_Canada.csv",
+      "source_bytes": 66308238,
+      "source_sha256": "ad6f60541c0d1bcfc143d5bf3cdbf47fa7c5a4a9519e5a8c87ba447ccbfcfa88",
+      "source_rows_canada": 805914,
+      "rows_kept_ontario_box": 25838,
+      "filename": "viirs-jpss1_2024_ontario.csv.gz"
+    }
+  ]
+}

@@ -1,0 +1,181 @@
+2026-10-08 20:36:27 | 1 download fire disturbance | START: Ontario Fire Disturbance layers from https://ws.lioservices.lrc.gov.on.ca/arcgis2/rest/services/LIO_OPEN_DATA/LIO_Open09/MapServer
+2026-10-08 20:36:29 | 1 download fire disturbance | point layer: 10,000 of 65,655 records received
+2026-10-08 20:36:31 | 1 download fire disturbance | point layer: 20,000 of 65,655 records received
+2026-10-08 20:36:33 | 1 download fire disturbance | point layer: 30,000 of 65,655 records received
+2026-10-08 20:36:35 | 1 download fire disturbance | point layer: 40,000 of 65,655 records received
+2026-10-08 20:36:47 | 1 download fire disturbance | point layer: 50,000 of 65,655 records received
+2026-10-08 20:36:49 | 1 download fire disturbance | point layer: 60,000 of 65,655 records received
+2026-10-08 20:36:52 | 1 download fire disturbance | downloaded point layer: 65,655 records, fire years 1976-2025, 34.7 MB -> fire_disturbance_point.geojson
+2026-10-08 20:36:55 | 1 download fire disturbance | area layer: 1,000 of 2,751 records received
+2026-10-08 20:37:05 | 1 download fire disturbance | area layer: 2,000 of 2,751 records received
+2026-10-08 20:37:19 | 1 download fire disturbance | downloaded area layer: 2,751 records, fire years 1960-2025, 90.0 MB -> fire_disturbance_area.geojson
+2026-10-08 20:37:19 | 1 download fire disturbance | DONE: wrote manifest manifest.json
+2026-10-08 20:40:34 | 2 fire catalogue | START: loaded 65,655 fire points and 2,751 fire perimeters
+2026-10-08 20:40:34 | 2 fire catalogue | dropped 78 perimeters that are prescribed burns (PB) or outside the fire region (OFR)
+2026-10-08 20:40:34 | 2 fire catalogue | dropped 1,920 perimeters from before 2012 (no VIIRS satellite coverage)
+2026-10-08 20:40:34 | 2 fire catalogue | dropped 1 perimeters with a missing start/out date or an out date before the start date
+2026-10-08 20:40:34 | 2 fire catalogue | dropped 0 perimeters whose fire identifier repeats within a year
+2026-10-08 20:40:34 | 2 fire catalogue | linked perimeters to point records on (identifier, year): 752 linked, 0 without a point, 0 resolved from repeated point keys
+2026-10-08 20:40:38 | 2 fire catalogue | repaired 17 self-intersecting perimeter polygons
+2026-10-08 20:40:39 | 2 fire catalogue | DONE: kept 752 fires for 2012-2025; ignition point inside its perimeter for 650, outside for 102 (median 112 m away); wrote spread_fires.csv and spread_fire_perimeters.geojson
+2026-10-08 20:41:27 | 3 download FIRMS | START: FIRMS VIIRS yearly Canada files, 22 sensor-years, kept rows inside box {'west': -96.0, 'east': -74.0, 'south': 41.0, 'north': 57.5}
+2026-10-08 20:42:12 | 3 download FIRMS | viirs-snpp 2012: read 190,200 Canada detections (14.5 MB), kept 24,272 in the Ontario box
+2026-10-08 20:42:12 | 3 download FIRMS | viirs-snpp 2013: read 346,361 Canada detections (26.4 MB), kept 80,939 in the Ontario box
+2026-10-08 20:42:12 | 3 download FIRMS | viirs-snpp 2014: read 523,413 Canada detections (40.1 MB), kept 7,314 in the Ontario box
+2026-10-08 20:42:12 | 3 download FIRMS | viirs-snpp 2015: read 331,862 Canada detections (25.4 MB), kept 8,781 in the Ontario box
+2026-10-08 20:42:12 | 3 download FIRMS | viirs-snpp 2016: read 118,847 Canada detections (9.1 MB), kept 11,684 in the Ontario box
+2026-10-08 20:42:12 | 3 download FIRMS | viirs-snpp 2017: read 466,851 Canada detections (35.7 MB), kept 22,508 in the Ontario box
+2026-10-08 20:42:12 | 3 download FIRMS | viirs-snpp 2018: read 325,367 Canada detections (24.9 MB), kept 35,192 in the Ontario box
+2026-10-08 20:42:12 | 3 download FIRMS | viirs-snpp 2019: read 188,692 Canada detections (14.4 MB), kept 29,063 in the Ontario box
+2026-10-08 20:42:12 | 3 download FIRMS | viirs-snpp 2020: read 47,009 Canada detections (3.6 MB), kept 7,991 in the Ontario box
+2026-10-08 20:42:12 | 3 download FIRMS | viirs-snpp 2021: read 464,714 Canada detections (35.4 MB), kept 107,597 in the Ontario box
+2026-10-08 20:42:12 | 3 download FIRMS | viirs-snpp 2022: read 169,522 Canada detections (13.0 MB), kept 6,301 in the Ontario box
+2026-10-08 20:42:12 | 3 download FIRMS | viirs-snpp 2023: read 1,754,727 Canada detections (134.1 MB), kept 234,466 in the Ontario box
+2026-10-08 20:42:12 | 3 download FIRMS | viirs-snpp 2024: read 726,118 Canada detections (55.6 MB), kept 23,266 in the Ontario box
+2026-10-08 20:42:12 | 3 download FIRMS | viirs-snpp 2025: no yearly file published yet
+2026-10-08 20:42:12 | 3 download FIRMS | viirs-jpss1 2018: read 313,615 Canada detections (24.6 MB), kept 31,564 in the Ontario box
+2026-10-08 20:42:12 | 3 download FIRMS | viirs-jpss1 2019: read 193,502 Canada detections (15.2 MB), kept 29,774 in the Ontario box
+2026-10-08 20:42:12 | 3 download FIRMS | viirs-jpss1 2020: read 47,623 Canada detections (3.7 MB), kept 8,364 in the Ontario box
+2026-10-08 20:42:12 | 3 download FIRMS | viirs-jpss1 2021: read 467,782 Canada detections (36.6 MB), kept 108,720 in the Ontario box
+2026-10-08 20:42:12 | 3 download FIRMS | viirs-jpss1 2022: read 176,869 Canada detections (13.9 MB), kept 7,202 in the Ontario box
+2026-10-08 20:42:12 | 3 download FIRMS | viirs-jpss1 2023: read 1,681,190 Canada detections (131.8 MB), kept 226,223 in the Ontario box
+2026-10-08 20:42:12 | 3 download FIRMS | viirs-jpss1 2024: read 805,914 Canada detections (63.2 MB), kept 25,838 in the Ontario box
+2026-10-08 20:42:12 | 3 download FIRMS | viirs-jpss1 2025: no yearly file published yet
+2026-10-08 20:42:12 | 3 download FIRMS | DONE: 20 files, 1,037,059 Ontario detections, 721 MB read from NASA
+2026-10-08 20:44:17 | 4 fire progression | START: 752 fires; perimeters projected to EPSG:3978; buffer 750 m; time window start-3d to out+1d
+2026-10-08 20:44:17 | 4 fire progression | 2012: 24,272 detections read; kept 17,265 that are vegetation fires (type 0) with nominal or high confidence
+2026-10-08 20:44:18 | 4 fire progression | 2012: matched 8,739 detections to 71 of 80 fires
+2026-10-08 20:44:20 | 4 fire progression | 2013: 80,939 detections read; kept 69,701 that are vegetation fires (type 0) with nominal or high confidence
+2026-10-08 20:44:20 | 4 fire progression | 2013: matched 2,506 detections to 37 of 41 fires
+2026-10-08 20:44:20 | 4 fire progression | 2014: 7,314 detections read; kept 2,353 that are vegetation fires (type 0) with nominal or high confidence
+2026-10-08 20:44:20 | 4 fire progression | 2014: matched 173 detections to 7 of 9 fires
+2026-10-08 20:44:21 | 4 fire progression | 2015: 8,781 detections read; kept 3,578 that are vegetation fires (type 0) with nominal or high confidence
+2026-10-08 20:44:21 | 4 fire progression | 2015: matched 1,254 detections to 33 of 42 fires
+2026-10-08 20:44:21 | 4 fire progression | 2016: 11,684 detections read; kept 5,422 that are vegetation fires (type 0) with nominal or high confidence
+2026-10-08 20:44:24 | 4 fire progression | 2016: matched 2,886 detections to 13 of 16 fires
+2026-10-08 20:44:24 | 4 fire progression | 2017: 22,508 detections read; kept 16,298 that are vegetation fires (type 0) with nominal or high confidence
+2026-10-08 20:44:25 | 4 fire progression | 2017: matched 8,254 detections to 73 of 78 fires
+2026-10-08 20:44:26 | 4 fire progression | 2018: 66,756 detections read; kept 53,377 that are vegetation fires (type 0) with nominal or high confidence
+2026-10-08 20:44:33 | 4 fire progression | 2018: matched 31,311 detections to 98 of 101 fires
+2026-10-08 20:44:35 | 4 fire progression | 2019: 58,837 detections read; kept 46,514 that are vegetation fires (type 0) with nominal or high confidence
+2026-10-08 20:44:41 | 4 fire progression | 2019: matched 39,667 detections to 30 of 31 fires
+2026-10-08 20:44:42 | 4 fire progression | 2020: 16,355 detections read; kept 6,782 that are vegetation fires (type 0) with nominal or high confidence
+2026-10-08 20:44:43 | 4 fire progression | 2020: matched 2,361 detections to 30 of 34 fires
+2026-10-08 20:44:43 | 4 fire progression | 2021: 216,317 detections read; kept 190,035 that are vegetation fires (type 0) with nominal or high confidence
+2026-10-08 20:45:28 | 4 fire progression | 2021: matched 141,339 detections to 106 of 111 fires
+2026-10-08 20:45:31 | 4 fire progression | 2022: 13,503 detections read; kept 2,950 that are vegetation fires (type 0) with nominal or high confidence
+2026-10-08 20:45:31 | 4 fire progression | 2022: matched 116 detections to 7 of 7 fires
+2026-10-08 20:45:32 | 4 fire progression | 2023: 460,689 detections read; kept 418,080 that are vegetation fires (type 0) with nominal or high confidence
+2026-10-08 20:45:52 | 4 fire progression | 2023: matched 48,393 detections to 78 of 81 fires
+2026-10-08 20:45:54 | 4 fire progression | 2024: 49,104 detections read; kept 34,862 that are vegetation fires (type 0) with nominal or high confidence
+2026-10-08 20:45:55 | 4 fire progression | 2024: matched 13,602 detections to 48 of 52 fires
+2026-10-08 20:45:56 | 4 fire progression | 2025: no FIRMS yearly archive; 69 fires get no satellite progression
+2026-10-08 20:46:02 | 4 fire progression | DONE: 300,601 detections matched; 631 of 752 fires seen by satellite; 6,249 observations; 368 fires trackable; median 12.2 h between observations
+2026-10-08 20:47:02 | 5a download weather | START: hourly era5_seamless weather from Open-Meteo for 6 fires with satellite detections; variables temperature_2m, dew_point_2m, relative_humidity_2m, precipitation, wind_speed_10m, wind_direction_10m
+2026-10-08 20:47:08 | 5a download weather | DONE: 6 fires, 17,136 hourly records, 0 hours without wind
+2026-10-08 20:47:32 | 5a download weather | START: hourly era5_seamless weather from Open-Meteo for 631 fires with satellite detections; variables temperature_2m, dew_point_2m, relative_humidity_2m, precipitation, wind_speed_10m, wind_direction_10m
+2026-10-08 20:50:59 | 6a download fuel windows | START: FBP Fuel Types 2024 windows for 5 fires from https://cwfis.cfs.nrcan.gc.ca/geoserver/public/wcs; 90 m pixels, 3000 m margin; largest window 176 x 142 pixels
+2026-10-08 20:51:00 | 6a download fuel windows | DONE: 5 fuel windows, 0.3 MB
+2026-10-08 20:51:32 | 6a download fuel windows | START: FBP Fuel Types 2024 windows for 631 fires from https://cwfis.cfs.nrcan.gc.ca/geoserver/public/wcs; 90 m pixels, 3000 m margin; largest window 649 x 985 pixels
+2026-10-08 20:52:10 | 6a download fuel windows | DONE: 631 fuel windows, 63.8 MB
+2026-10-08 20:53:04 | 6b fuel summary | START: fuel summaries for 631 fire windows; codes from the FBP Fuel Types 2024 legend
+2026-10-08 20:53:25 | 6b fuel summary | DONE: fuel summary for 631 fires; dominant fuel around fires: {'C-2': 383, 'D-1/D-2': 100, 'C-3': 44, 'C-4': 39, 'M-1/M-2 (50% conifer)': 35, 'D-1': 17, 'O-1a': 12, 'M-1/M-2 (75% conifer)': 1}; unrecognised codes: [-9999]
+2026-10-08 20:53:46 | 6c download terrain windows | START: MRDEM-30 DTM windows for 631 fires from https://canelevation-dem.s3.ca-central-1.amazonaws.com/mrdem-30/mrdem-30-dtm.tif, warped to the fuel-window grids (EPSG:3978, 90 m, bilinear)
+2026-10-08 20:54:08 | 6c download terrain windows | 100 of 631 terrain windows read
+2026-10-08 20:54:27 | 6c download terrain windows | 200 of 631 terrain windows read
+2026-10-08 20:54:39 | 6c download terrain windows | 300 of 631 terrain windows read
+2026-10-08 20:54:52 | 6c download terrain windows | 400 of 631 terrain windows read
+2026-10-08 20:55:06 | 6c download terrain windows | 500 of 631 terrain windows read
+2026-10-08 20:55:25 | 6c download terrain windows | 600 of 631 terrain windows read
+2026-10-08 20:55:29 | 6c download terrain windows | DONE: 631 terrain windows; 0 have some cells without elevation
+2026-10-08 20:55:43 | 6d terrain summary | START: slope and aspect for 631 terrain windows
+2026-10-08 20:55:47 | 5a download weather | DONE: 631 fires, 1,717,416 hourly records, 0 hours without wind
+2026-10-08 20:56:08 | 6d terrain summary | DONE: terrain summary for 631 fires; median window slope 2.15%, steepest 11.11%
+2026-10-08 20:56:15 | 5b fire weather | START: fire-weather build for 631 fires; codes started at FFMC 85, DMC 6, DC 15; noon is 12:00 local standard time
+2026-10-08 20:56:56 | 5b fire weather | DONE: 212,472 hourly rows and 8,853 daily rows for 631 fires; 0 hourly rows with a missing value; 0 fires with under 21 days of code spin-up
+2026-10-08 20:56:57 | 7 master dataset | START: 752 fires, 6,249 observations, 212,472 weather hours, 8,853 fire-weather days, 631 fuel and 631 terrain summaries
+2026-10-08 20:57:20 | 7 master dataset | DONE: master has 6,249 rows x 119 columns for 631 fires; 4,867 growth steps; head within 45 degrees of downwind on 46.8% of windy steps (25% if unrelated)
+2026-10-08 20:58:06 | 8 validation | START: validating master (6,249 rows x 119 columns) and its supporting tables
+2026-10-08 20:58:06 | 8 validation | PASS fire ids are unique in the fire table
+2026-10-08 20:58:06 | 8 validation | PASS (fire, observation) keys are unique
+2026-10-08 20:58:06 | 8 validation | PASS every master fire is in the fire table
+2026-10-08 20:58:06 | 8 validation | PASS observations are numbered 1..n in time order
+2026-10-08 20:58:06 | 8 validation | PASS cumulative area never decreases
+2026-10-08 20:58:06 | 8 validation | PASS new area equals the change in cumulative area
+2026-10-08 20:58:06 | 8 validation | PASS arrival cells match each fire's final cumulative cell count
+2026-10-08 20:58:06 | 8 validation | PASS an arrival cell appears once per fire
+2026-10-08 20:58:06 | 8 validation | PASS hours between observations are positive
+2026-10-08 20:58:06 | 8 validation | PASS no observation is dated before the fire's detection window
+2026-10-08 20:58:06 | 8 validation | PASS holdout and calibration fires do not share a year
+2026-10-08 20:58:06 | 8 validation | PASS bearings and wind directions lie in 0-360
+2026-10-08 20:58:06 | 8 validation | PASS hourly wind components reproduce the wind speed
+2026-10-08 20:58:06 | 8 validation | PASS hourly weather is physically plausible [wind max 47 km/h, temp -3 to 34 C]
+2026-10-08 20:58:06 | 8 validation | PASS fire-weather codes are in range
+2026-10-08 20:58:06 | 8 validation | PASS vector-mean wind never exceeds mean wind speed
+2026-10-08 20:58:06 | 8 validation | PASS every row has interval weather, fire-weather codes, fuel and terrain [missing: weather 0, codes 0, fuel 0, terrain 0]
+2026-10-08 20:58:06 | 8 validation | PASS fuel shares add up to one
+2026-10-08 20:58:10 | 8 validation | SANITY satellite_area_vs_agency_perimeter: {"fires": 631, "rank_correlation": 0.862, "median_detected_share": 0.77, "share_for_fires_of_1000_ha_or_more": 0.69, "share_for_fires_under_200_ha": 0.91}
+2026-10-08 20:58:10 | 8 validation | SANITY first_detection_days_after_reported_start: {"0.1": 0.0, "0.5": 2.0, "0.9": 12.0}
+2026-10-08 20:58:10 | 8 validation | SANITY computed_fwi_vs_agency_recorded_fwi_on_start_date: {"fires": 254, "pearson_r": 0.467, "median_computed": 14.6, "median_recorded": 16.5}
+2026-10-08 20:58:10 | 8 validation | SANITY head_within_45_deg_of_downwind: {"all_growth_steps": 0.422, "if_unrelated": 0.25, "by_mean_wind_kmh": {"[0, 10)": 0.35, "[10, 15)": 0.454, "[15, 20)": 0.495, "[20, 100)": 0.538}, "steps": 4787}
+2026-10-08 20:58:10 | 8 validation | SANITY growth_by_initial_spread_index: {"[0, 2)": {"observations": 820, "share_with_new_area": 0.802, "median_new_area_ha_when_growing": 28.1}, "[2, 4)": {"observations": 765, "share_with_new_area": 0.854, "median_new_area_ha_when_growing": 56.2}, "[4, 6)": {"observations": 1298, "share_with_new_area": 0.845, "median_new_area_ha_when_growing": 56.2}, "[6, 8)": {"observations": 1186, "share_with_new_area": 0.892, "median_new_area_ha_when_growing": 70.3}, "[8, 12)": {"observations": 1143, "share_with_new_area": 0.899, "median_new_area_ha_when_growing": 112.5}, "[12, 100)": {"observations": 406, "share_with_new_area": 0.921, "median_new_area_ha_when_growing": 210.9}}
+2026-10-08 20:58:10 | 8 validation | SANITY spread_rate_m_per_h: {"0.5": 57.9, "0.9": 278.6, "0.99": 935.9}
+2026-10-08 20:58:10 | 8 validation | SANITY hours_between_observations: {"share_6h_or_less": 0.12, "share_12h_or_less": 0.524, "share_over_24h": 0.185, "median": 12.2}
+2026-10-08 20:58:10 | 8 validation | DONE: 18 of 18 structural checks passed
+2026-10-08 20:58:36 | 7 master dataset | START: 752 fires, 6,249 observations, 212,472 weather hours, 8,853 fire-weather days, 631 fuel and 631 terrain summaries
+2026-10-08 20:58:58 | 7 master dataset | DONE: master has 6,249 rows x 119 columns for 631 fires; 4,867 growth steps; head within 45 degrees of downwind on 46.8% of windy steps (25% if unrelated)
+2026-10-08 20:59:00 | 8 validation | START: validating master (6,249 rows x 119 columns) and its supporting tables
+2026-10-08 20:59:00 | 8 validation | PASS fire ids are unique in the fire table
+2026-10-08 20:59:00 | 8 validation | PASS (fire, observation) keys are unique
+2026-10-08 20:59:00 | 8 validation | PASS every master fire is in the fire table
+2026-10-08 20:59:00 | 8 validation | PASS observations are numbered 1..n in time order
+2026-10-08 20:59:00 | 8 validation | PASS cumulative area never decreases
+2026-10-08 20:59:00 | 8 validation | PASS new area equals the change in cumulative area
+2026-10-08 20:59:00 | 8 validation | PASS arrival cells match each fire's final cumulative cell count
+2026-10-08 20:59:00 | 8 validation | PASS an arrival cell appears once per fire
+2026-10-08 20:59:00 | 8 validation | PASS hours between observations are positive
+2026-10-08 20:59:00 | 8 validation | PASS no observation is dated before the fire's detection window
+2026-10-08 20:59:00 | 8 validation | PASS holdout and calibration fires do not share a year
+2026-10-08 20:59:00 | 8 validation | PASS bearings and wind directions lie in 0-360
+2026-10-08 20:59:00 | 8 validation | PASS hourly wind components reproduce the wind speed
+2026-10-08 20:59:00 | 8 validation | PASS hourly weather is physically plausible [wind max 47 km/h, temp -3 to 34 C]
+2026-10-08 20:59:00 | 8 validation | PASS fire-weather codes are in range
+2026-10-08 20:59:00 | 8 validation | PASS vector-mean wind never exceeds mean wind speed
+2026-10-08 20:59:00 | 8 validation | PASS every row has interval weather, fire-weather codes, fuel and terrain [missing: weather 0, codes 0, fuel 0, terrain 0]
+2026-10-08 20:59:00 | 8 validation | PASS fuel shares add up to one
+2026-10-08 20:59:03 | 8 validation | SANITY satellite_area_vs_agency_perimeter: {"fires": 631, "rank_correlation": 0.862, "median_detected_share": 0.77, "share_for_fires_of_1000_ha_or_more": 0.69, "share_for_fires_under_200_ha": 0.91}
+2026-10-08 20:59:03 | 8 validation | SANITY first_detection_days_after_reported_start: {"0.1": 0.0, "0.5": 2.0, "0.9": 12.0}
+2026-10-08 20:59:03 | 8 validation | SANITY computed_fwi_vs_agency_recorded_fwi_on_start_date: {"fires": 254, "pearson_r": 0.467, "median_computed": 14.6, "median_recorded": 16.5}
+2026-10-08 20:59:03 | 8 validation | SANITY head_within_45_deg_of_downwind: {"all_growth_steps": 0.422, "if_unrelated": 0.25, "by_mean_wind_kmh": {"[0, 10)": 0.35, "[10, 15)": 0.454, "[15, 20)": 0.495, "[20, 100)": 0.538}, "steps": 4787}
+2026-10-08 20:59:03 | 8 validation | SANITY growth_by_initial_spread_index: {"[0, 2)": {"observations": 820, "share_with_new_area": 0.802, "median_new_area_ha_when_growing": 28.1}, "[2, 4)": {"observations": 765, "share_with_new_area": 0.854, "median_new_area_ha_when_growing": 56.2}, "[4, 6)": {"observations": 1298, "share_with_new_area": 0.845, "median_new_area_ha_when_growing": 56.2}, "[6, 8)": {"observations": 1186, "share_with_new_area": 0.892, "median_new_area_ha_when_growing": 70.3}, "[8, 12)": {"observations": 1143, "share_with_new_area": 0.899, "median_new_area_ha_when_growing": 112.5}, "[12, 100)": {"observations": 406, "share_with_new_area": 0.921, "median_new_area_ha_when_growing": 210.9}}
+2026-10-08 20:59:03 | 8 validation | SANITY spread_rate_m_per_h: {"0.5": 57.9, "0.9": 278.6, "0.99": 935.9}
+2026-10-08 20:59:03 | 8 validation | SANITY hours_between_observations: {"share_6h_or_less": 0.12, "share_12h_or_less": 0.524, "share_over_24h": 0.185, "median": 12.2}
+2026-10-08 20:59:03 | 8 validation | DONE: 18 of 18 structural checks passed
+2026-10-08 23:39:13 | 9 reorganise | moved all fire-spread scripts, tests, docs, logs and data into capability_2_fire_spread/; data paths are now data/raw, data/interim and data/processed inside that folder
+2026-10-08 23:39:14 | 8 validation | START: validating master (6,249 rows x 119 columns) and its supporting tables
+2026-10-08 23:39:14 | 8 validation | PASS fire ids are unique in the fire table
+2026-10-08 23:39:14 | 8 validation | PASS (fire, observation) keys are unique
+2026-10-08 23:39:14 | 8 validation | PASS every master fire is in the fire table
+2026-10-08 23:39:14 | 8 validation | PASS observations are numbered 1..n in time order
+2026-10-08 23:39:14 | 8 validation | PASS cumulative area never decreases
+2026-10-08 23:39:14 | 8 validation | PASS new area equals the change in cumulative area
+2026-10-08 23:39:14 | 8 validation | PASS arrival cells match each fire's final cumulative cell count
+2026-10-08 23:39:14 | 8 validation | PASS an arrival cell appears once per fire
+2026-10-08 23:39:14 | 8 validation | PASS hours between observations are positive
+2026-10-08 23:39:14 | 8 validation | PASS no observation is dated before the fire's detection window
+2026-10-08 23:39:14 | 8 validation | PASS holdout and calibration fires do not share a year
+2026-10-08 23:39:14 | 8 validation | PASS bearings and wind directions lie in 0-360
+2026-10-08 23:39:14 | 8 validation | PASS hourly wind components reproduce the wind speed
+2026-10-08 23:39:14 | 8 validation | PASS hourly weather is physically plausible [wind max 47 km/h, temp -3 to 34 C]
+2026-10-08 23:39:14 | 8 validation | PASS fire-weather codes are in range
+2026-10-08 23:39:14 | 8 validation | PASS vector-mean wind never exceeds mean wind speed
+2026-10-08 23:39:14 | 8 validation | PASS every row has interval weather, fire-weather codes, fuel and terrain [missing: weather 0, codes 0, fuel 0, terrain 0]
+2026-10-08 23:39:14 | 8 validation | PASS fuel shares add up to one
+2026-10-08 23:39:19 | 8 validation | SANITY satellite_area_vs_agency_perimeter: {"fires": 631, "rank_correlation": 0.862, "median_detected_share": 0.77, "share_for_fires_of_1000_ha_or_more": 0.69, "share_for_fires_under_200_ha": 0.91}
+2026-10-08 23:39:19 | 8 validation | SANITY first_detection_days_after_reported_start: {"0.1": 0.0, "0.5": 2.0, "0.9": 12.0}
+2026-10-08 23:39:19 | 8 validation | SANITY computed_fwi_vs_agency_recorded_fwi_on_start_date: {"fires": 254, "pearson_r": 0.467, "median_computed": 14.6, "median_recorded": 16.5}
+2026-10-08 23:39:19 | 8 validation | SANITY head_within_45_deg_of_downwind: {"all_growth_steps": 0.422, "if_unrelated": 0.25, "by_mean_wind_kmh": {"[0, 10)": 0.35, "[10, 15)": 0.454, "[15, 20)": 0.495, "[20, 100)": 0.538}, "steps": 4787}
+2026-10-08 23:39:19 | 8 validation | SANITY growth_by_initial_spread_index: {"[0, 2)": {"observations": 820, "share_with_new_area": 0.802, "median_new_area_ha_when_growing": 28.1}, "[2, 4)": {"observations": 765, "share_with_new_area": 0.854, "median_new_area_ha_when_growing": 56.2}, "[4, 6)": {"observations": 1298, "share_with_new_area": 0.845, "median_new_area_ha_when_growing": 56.2}, "[6, 8)": {"observations": 1186, "share_with_new_area": 0.892, "median_new_area_ha_when_growing": 70.3}, "[8, 12)": {"observations": 1143, "share_with_new_area": 0.899, "median_new_area_ha_when_growing": 112.5}, "[12, 100)": {"observations": 406, "share_with_new_area": 0.921, "median_new_area_ha_when_growing": 210.9}}
+2026-10-08 23:39:19 | 8 validation | SANITY spread_rate_m_per_h: {"0.5": 57.9, "0.9": 278.6, "0.99": 935.9}
+2026-10-08 23:39:19 | 8 validation | SANITY hours_between_observations: {"share_6h_or_less": 0.12, "share_12h_or_less": 0.524, "share_over_24h": 0.185, "median": 12.2}
+2026-10-08 23:39:19 | 8 validation | DONE: 18 of 18 structural checks passed

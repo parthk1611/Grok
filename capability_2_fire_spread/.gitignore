@@ -1,0 +1,11 @@
+# Downloaded source files are reproducible with the download_* scripts. Their
+# sizes, checksums and request details are kept in the tracked manifests.
+data/raw/fire_disturbance/*.geojson
+data/raw/firms/*.csv.gz
+data/raw/era5_openmeteo/fires/
+data/raw/fuel_terrain/windows/
+
+# Intermediate tables are rebuilt by the build_* scripts; their audits are tracked.
+data/interim/*.csv
+data/interim/*.csv.gz
+data/interim/*.geojson

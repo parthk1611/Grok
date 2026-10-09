@@ -1,0 +1,19 @@
+{
+  "dataset_version": "fire-spread-v1.0.0",
+  "created_at_utc": "2026-10-09T00:56:08.318276+00:00",
+  "method": "central differences on the 90 m DTM; aspect is the downslope direction from grid north, slope-weighted when averaged",
+  "fires": 631,
+  "slope_mean_pct_quantiles": {
+    "0.1": 0.94,
+    "0.5": 2.15,
+    "0.9": 4.84,
+    "1.0": 11.11
+  },
+  "elevation_mean_m_range": [
+    11.6,
+    478.3
+  ],
+  "outputs": {
+    "summary": "spread_terrain_summary.csv"
+  }
+}

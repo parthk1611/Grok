@@ -1,0 +1,62 @@
+{
+  "dataset_version": "fire-spread-v1.0.0",
+  "created_at_utc": "2026-10-09T00:56:56.197707+00:00",
+  "mode": "retrospective_hindcast_not_operational_forecast",
+  "source": "ERA5 / ERA5-Land reanalysis via Open-Meteo (era5_seamless), at each fire's centroid",
+  "fire_weather": {
+    "equations": "Van Wagner (1987) Canadian Forest Fire Weather Index System, standard daily version",
+    "startup_values": {
+      "ffmc": 85.0,
+      "dmc": 6.0,
+      "dc": 15.0
+    },
+    "startup_date": "first day of each fire's weather record (1 April, or 30 days before the fire if earlier)",
+    "noon": "12:00 local standard time",
+    "rain": "sum of the 24 hours ending at local noon",
+    "overwintering": "not applied; every season starts from the standard values"
+  },
+  "counts": {
+    "fires": 631,
+    "fires_without_cached_weather": 0,
+    "hourly_rows": 212472,
+    "daily_rows": 8853,
+    "hourly_rows_with_a_missing_value": 0,
+    "fires_with_under_min_spinup_days": 0
+  },
+  "ranges": {
+    "ffmc": [
+      1.0,
+      86.0,
+      95.2
+    ],
+    "dmc": [
+      1.7,
+      26.4,
+      134.5
+    ],
+    "dc": [
+      23.6,
+      281.4,
+      541.4
+    ],
+    "isi": [
+      0.0,
+      4.3,
+      32.9
+    ],
+    "bui": [
+      3.3,
+      41.2,
+      158.3
+    ],
+    "fwi": [
+      0.0,
+      10.5,
+      58.6
+    ]
+  },
+  "outputs": {
+    "hourly": "spread_weather_hourly.csv.gz",
+    "daily": "spread_weather_daily.csv"
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "dataset_version": "fire-spread-v1.0.0",
+  "created_at_utc": "2026-10-09T00:40:39.864984+00:00",
+  "selection": {
+    "fire_type": "IFR (wildfire inside the fire region); prescribed burns and outside-region fires dropped",
+    "first_fire_year": 2012,
+    "requires": "a final perimeter polygon, a start date, and an out date on or after the start date"
+  },
+  "counts": {
+    "point_records": 65655,
+    "area_records": 2751,
+    "dropped_not_a_wildfire": 78,
+    "dropped_before_satellite_era": 1920,
+    "dropped_unusable_dates": 1,
+    "dropped_ambiguous_identifier": 0,
+    "fires_with_several_point_records": 0,
+    "fires_without_a_point_record": 0,
+    "fires_kept": 752,
+    "perimeters_repaired": 17,
+    "ignition_point_inside_perimeter": 650,
+    "ignition_point_outside_perimeter": 102,
+    "perimeter_area_within_20pct_of_reported_size": 701
+  },
+  "fires_by_year": {
+    "2012": 80,
+    "2013": 41,
+    "2014": 9,
+    "2015": 42,
+    "2016": 16,
+    "2017": 78,
+    "2018": 101,
+    "2019": 31,
+    "2020": 34,
+    "2021": 111,
+    "2022": 7,
+    "2023": 81,
+    "2024": 52,
+    "2025": 69
+  },
+  "fires_by_size_class": {
+    "40-200 ha": 299,
+    "200-1,000 ha": 209,
+    "1,000-10,000 ha": 179,
+    "10,000 ha or more": 65
+  },
+  "fires_by_cause_group": {
+    "lightning": 681,
+    "human": 68,
+    "unknown": 3
+  },
+  "fires_by_response_code": {
+    "MON": 477,
+    "FUL": 212,
+    "MOD": 61,
+    "MDP": 1,
+    "MNP": 1
+  },
+  "notes": [
+    "Dates carry no time of day; a fire's start date is the reported start, not the first satellite detection.",
+    "The reported point is the agency's fire location. It is used as the ignition point and flagged when it falls outside the perimeter.",
+    "response_code describes how the fire was managed. It is kept to interpret spread results and must not be an ignition predictor.",
+    "FIRE_WEATHER_INDEX from the source is deliberately not carried forward."
+  ],
+  "outputs": {
+    "fires": "spread_fires.csv",
+    "perimeters": "spread_fire_perimeters.geojson"
+  }
+}

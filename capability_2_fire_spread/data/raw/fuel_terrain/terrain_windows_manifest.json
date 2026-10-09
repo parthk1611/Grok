@@ -1,0 +1,5691 @@
+{
+ "source_name": "Medium Resolution Digital Elevation Model (MRDEM-30), CanElevation Series, digital terrain model",
+ "publisher": "Natural Resources Canada",
+ "source_page": "https://open.canada.ca/data/en/dataset/18752265-bda3-498c-a4ba-9dfe68cb98da",
+ "source_url": "https://canelevation-dem.s3.ca-central-1.amazonaws.com/mrdem-30/mrdem-30-dtm.tif",
+ "license": "Open Government Licence \u2013 Canada",
+ "source_grid": "EPSG:3979, 30 m",
+ "window_grid": "EPSG:3978, 90 m, identical to the fuel windows; bilinear resampling",
+ "downloaded_at_utc": "2026-10-09T00:55:29.508459+00:00",
+ "windows": [
+  {
+   "fire_id": "2012_COC10",
+   "filename": "2012_COC10_mrdem_dtm_90m.tif",
+   "columns": 84,
+   "rows": 100,
+   "valid_share": 1.0,
+   "elevation_min_m": 284.1,
+   "elevation_max_m": 322.9
+  },
+  {
+   "fire_id": "2012_COC25",
+   "filename": "2012_COC25_mrdem_dtm_90m.tif",
+   "columns": 82,
+   "rows": 98,
+   "valid_share": 1.0,
+   "elevation_min_m": 28.8,
+   "elevation_max_m": 57.3
+  },
+  {
+   "fire_id": "2012_COC32",
+   "filename": "2012_COC32_mrdem_dtm_90m.tif",
+   "columns": 118,
+   "rows": 120,
+   "valid_share": 1.0,
+   "elevation_min_m": 15.5,
+   "elevation_max_m": 50.4
+  },
+  {
+   "fire_id": "2012_COC36",
+   "filename": "2012_COC36_mrdem_dtm_90m.tif",
+   "columns": 176,
+   "rows": 142,
+   "valid_share": 1.0,
+   "elevation_min_m": 132.8,
+   "elevation_max_m": 163.6
+  },
+  {
+   "fire_id": "2012_COC38",
+   "filename": "2012_COC38_mrdem_dtm_90m.tif",
+   "columns": 83,
+   "rows": 96,
+   "valid_share": 1.0,
+   "elevation_min_m": 35.9,
+   "elevation_max_m": 68.6
+  },
+  {
+   "fire_id": "2012_COC43",
+   "filename": "2012_COC43_mrdem_dtm_90m.tif",
+   "columns": 105,
+   "rows": 133,
+   "valid_share": 1.0,
+   "elevation_min_m": 65.8,
+   "elevation_max_m": 135.7
+  },
+  {
+   "fire_id": "2012_COC9",
+   "filename": "2012_COC9_mrdem_dtm_90m.tif",
+   "columns": 76,
+   "rows": 88,
+   "valid_share": 1.0,
+   "elevation_min_m": 68.4,
+   "elevation_max_m": 135.4
+  },
+  {
+   "fire_id": "2012_FOR59",
+   "filename": "2012_FOR59_mrdem_dtm_90m.tif",
+   "columns": 115,
+   "rows": 96,
+   "valid_share": 1.0,
+   "elevation_min_m": 416.2,
+   "elevation_max_m": 543.8
+  },
+  {
+   "fire_id": "2012_HEA32",
+   "filename": "2012_HEA32_mrdem_dtm_90m.tif",
+   "columns": 92,
+   "rows": 89,
+   "valid_share": 1.0,
+   "elevation_min_m": 97.2,
+   "elevation_max_m": 130.4
+  },
+  {
+   "fire_id": "2012_HEA9",
+   "filename": "2012_HEA9_mrdem_dtm_90m.tif",
+   "columns": 153,
+   "rows": 104,
+   "valid_share": 1.0,
+   "elevation_min_m": 273.8,
+   "elevation_max_m": 328.9
+  },
+  {
+   "fire_id": "2012_KEN103",
+   "filename": "2012_KEN103_mrdem_dtm_90m.tif",
+   "columns": 89,
+   "rows": 75,
+   "valid_share": 1.0,
+   "elevation_min_m": 322.6,
+   "elevation_max_m": 365.9
+  },
+  {
+   "fire_id": "2012_KEN36",
+   "filename": "2012_KEN36_mrdem_dtm_90m.tif",
+   "columns": 95,
+   "rows": 123,
+   "valid_share": 1.0,
+   "elevation_min_m": 321.5,
+   "elevation_max_m": 359.4
+  },
+  {
+   "fire_id": "2012_KLK11",
+   "filename": "2012_KLK11_mrdem_dtm_90m.tif",
+   "columns": 74,
+   "rows": 80,
+   "valid_share": 1.0,
+   "elevation_min_m": 237.3,
+   "elevation_max_m": 330.2
+  },
+  {
+   "fire_id": "2012_KLK13",
+   "filename": "2012_KLK13_mrdem_dtm_90m.tif",
+   "columns": 110,
+   "rows": 121,
+   "valid_share": 1.0,
+   "elevation_min_m": 282.7,
+   "elevation_max_m": 477.1
+  },
+  {
+   "fire_id": "2012_KLK8",
+   "filename": "2012_KLK8_mrdem_dtm_90m.tif",
+   "columns": 103,
+   "rows": 241,
+   "valid_share": 1.0,
+   "elevation_min_m": 275.1,
+   "elevation_max_m": 442.2
+  },
+  {
+   "fire_id": "2012_NIP103",
+   "filename": "2012_NIP103_mrdem_dtm_90m.tif",
+   "columns": 109,
+   "rows": 97,
+   "valid_share": 1.0,
+   "elevation_min_m": 180.9,
+   "elevation_max_m": 215.0
+  },
+  {
+   "fire_id": "2012_NIP104",
+   "filename": "2012_NIP104_mrdem_dtm_90m.tif",
+   "columns": 86,
+   "rows": 80,
+   "valid_share": 1.0,
+   "elevation_min_m": 322.0,
+   "elevation_max_m": 368.8
+  },
+  {
+   "fire_id": "2012_NIP24",
+   "filename": "2012_NIP24_mrdem_dtm_90m.tif",
+   "columns": 84,
+   "rows": 92,
+   "valid_share": 1.0,
+   "elevation_min_m": 259.9,
+   "elevation_max_m": 309.6
+  },
+  {
+   "fire_id": "2012_NIP32",
+   "filename": "2012_NIP32_mrdem_dtm_90m.tif",
+   "columns": 78,
+   "rows": 77,
+   "valid_share": 1.0,
+   "elevation_min_m": 302.4,
+   "elevation_max_m": 358.7
+  },
+  {
+   "fire_id": "2012_NIP40",
+   "filename": "2012_NIP40_mrdem_dtm_90m.tif",
+   "columns": 85,
+   "rows": 79,
+   "valid_share": 1.0,
+   "elevation_min_m": 153.3,
+   "elevation_max_m": 174.3
+  },
+  {
+   "fire_id": "2012_NIP49",
+   "filename": "2012_NIP49_mrdem_dtm_90m.tif",
+   "columns": 133,
+   "rows": 129,
+   "valid_share": 1.0,
+   "elevation_min_m": 152.1,
+   "elevation_max_m": 184.2
+  },
+  {
+   "fire_id": "2012_NIP59",
+   "filename": "2012_NIP59_mrdem_dtm_90m.tif",
+   "columns": 81,
+   "rows": 78,
+   "valid_share": 1.0,
+   "elevation_min_m": 293.1,
+   "elevation_max_m": 322.3
+  },
+  {
+   "fire_id": "2012_NIP60",
+   "filename": "2012_NIP60_mrdem_dtm_90m.tif",
+   "columns": 140,
+   "rows": 120,
+   "valid_share": 1.0,
+   "elevation_min_m": 222.2,
+   "elevation_max_m": 255.3
+  },
+  {
+   "fire_id": "2012_NIP61",
+   "filename": "2012_NIP61_mrdem_dtm_90m.tif",
+   "columns": 180,
+   "rows": 133,
+   "valid_share": 1.0,
+   "elevation_min_m": 265.9,
+   "elevation_max_m": 351.0
+  },
+  {
+   "fire_id": "2012_NIP62",
+   "filename": "2012_NIP62_mrdem_dtm_90m.tif",
+   "columns": 232,
+   "rows": 145,
+   "valid_share": 1.0,
+   "elevation_min_m": 160.9,
+   "elevation_max_m": 220.7
+  },
+  {
+   "fire_id": "2012_PEM25",
+   "filename": "2012_PEM25_mrdem_dtm_90m.tif",
+   "columns": 91,
+   "rows": 89,
+   "valid_share": 1.0,
+   "elevation_min_m": 154.1,
+   "elevation_max_m": 287.7
+  },
+  {
+   "fire_id": "2012_RED103",
+   "filename": "2012_RED103_mrdem_dtm_90m.tif",
+   "columns": 90,
+   "rows": 97,
+   "valid_share": 1.0,
+   "elevation_min_m": 279.0,
+   "elevation_max_m": 330.9
+  },
+  {
+   "fire_id": "2012_RED28",
+   "filename": "2012_RED28_mrdem_dtm_90m.tif",
+   "columns": 89,
+   "rows": 84,
+   "valid_share": 1.0,
+   "elevation_min_m": 270.4,
+   "elevation_max_m": 333.1
+  },
+  {
+   "fire_id": "2012_RED34",
+   "filename": "2012_RED34_mrdem_dtm_90m.tif",
+   "columns": 79,
+   "rows": 86,
+   "valid_share": 1.0,
+   "elevation_min_m": 244.5,
+   "elevation_max_m": 290.5
+  },
+  {
+   "fire_id": "2012_RED38",
+   "filename": "2012_RED38_mrdem_dtm_90m.tif",
+   "columns": 146,
+   "rows": 117,
+   "valid_share": 1.0,
+   "elevation_min_m": 338.2,
+   "elevation_max_m": 391.7
+  },
+  {
+   "fire_id": "2012_RED41",
+   "filename": "2012_RED41_mrdem_dtm_90m.tif",
+   "columns": 96,
+   "rows": 98,
+   "valid_share": 1.0,
+   "elevation_min_m": 270.1,
+   "elevation_max_m": 316.1
+  },
+  {
+   "fire_id": "2012_RED49",
+   "filename": "2012_RED49_mrdem_dtm_90m.tif",
+   "columns": 101,
+   "rows": 105,
+   "valid_share": 1.0,
+   "elevation_min_m": 306.1,
+   "elevation_max_m": 367.6
+  },
+  {
+   "fire_id": "2012_RED50",
+   "filename": "2012_RED50_mrdem_dtm_90m.tif",
+   "columns": 264,
+   "rows": 168,
+   "valid_share": 1.0,
+   "elevation_min_m": 319.0,
+   "elevation_max_m": 383.4
+  },
+  {
+   "fire_id": "2012_RED51",
+   "filename": "2012_RED51_mrdem_dtm_90m.tif",
+   "columns": 99,
+   "rows": 97,
+   "valid_share": 1.0,
+   "elevation_min_m": 334.7,
+   "elevation_max_m": 383.2
+  },
+  {
+   "fire_id": "2012_RED52",
+   "filename": "2012_RED52_mrdem_dtm_90m.tif",
+   "columns": 96,
+   "rows": 87,
+   "valid_share": 1.0,
+   "elevation_min_m": 292.9,
+   "elevation_max_m": 361.9
+  },
+  {
+   "fire_id": "2012_RED53",
+   "filename": "2012_RED53_mrdem_dtm_90m.tif",
+   "columns": 296,
+   "rows": 260,
+   "valid_share": 1.0,
+   "elevation_min_m": 283.7,
+   "elevation_max_m": 368.4
+  },
+  {
+   "fire_id": "2012_RED57",
+   "filename": "2012_RED57_mrdem_dtm_90m.tif",
+   "columns": 167,
+   "rows": 135,
+   "valid_share": 1.0,
+   "elevation_min_m": 269.8,
+   "elevation_max_m": 339.0
+  },
+  {
+   "fire_id": "2012_RED58",
+   "filename": "2012_RED58_mrdem_dtm_90m.tif",
+   "columns": 188,
+   "rows": 110,
+   "valid_share": 1.0,
+   "elevation_min_m": 270.0,
+   "elevation_max_m": 365.4
+  },
+  {
+   "fire_id": "2012_RED60",
+   "filename": "2012_RED60_mrdem_dtm_90m.tif",
+   "columns": 163,
+   "rows": 138,
+   "valid_share": 1.0,
+   "elevation_min_m": 276.1,
+   "elevation_max_m": 382.1
+  },
+  {
+   "fire_id": "2012_RED61",
+   "filename": "2012_RED61_mrdem_dtm_90m.tif",
+   "columns": 109,
+   "rows": 139,
+   "valid_share": 1.0,
+   "elevation_min_m": 252.0,
+   "elevation_max_m": 333.5
+  },
+  {
+   "fire_id": "2012_RED62",
+   "filename": "2012_RED62_mrdem_dtm_90m.tif",
+   "columns": 122,
+   "rows": 119,
+   "valid_share": 1.0,
+   "elevation_min_m": 249.6,
+   "elevation_max_m": 309.2
+  },
+  {
+   "fire_id": "2012_RED63",
+   "filename": "2012_RED63_mrdem_dtm_90m.tif",
+   "columns": 160,
+   "rows": 172,
+   "valid_share": 1.0,
+   "elevation_min_m": 244.4,
+   "elevation_max_m": 323.8
+  },
+  {
+   "fire_id": "2012_RED64",
+   "filename": "2012_RED64_mrdem_dtm_90m.tif",
+   "columns": 93,
+   "rows": 94,
+   "valid_share": 1.0,
+   "elevation_min_m": 249.4,
+   "elevation_max_m": 310.7
+  },
+  {
+   "fire_id": "2012_RED66",
+   "filename": "2012_RED66_mrdem_dtm_90m.tif",
+   "columns": 165,
+   "rows": 138,
+   "valid_share": 1.0,
+   "elevation_min_m": 270.2,
+   "elevation_max_m": 343.5
+  },
+  {
+   "fire_id": "2012_RED69",
+   "filename": "2012_RED69_mrdem_dtm_90m.tif",
+   "columns": 94,
+   "rows": 102,
+   "valid_share": 1.0,
+   "elevation_min_m": 277.2,
+   "elevation_max_m": 345.2
+  },
+  {
+   "fire_id": "2012_RED70",
+   "filename": "2012_RED70_mrdem_dtm_90m.tif",
+   "columns": 81,
+   "rows": 86,
+   "valid_share": 1.0,
+   "elevation_min_m": 280.6,
+   "elevation_max_m": 341.1
+  },
+  {
+   "fire_id": "2012_RED71",
+   "filename": "2012_RED71_mrdem_dtm_90m.tif",
+   "columns": 229,
+   "rows": 180,
+   "valid_share": 1.0,
+   "elevation_min_m": 308.3,
+   "elevation_max_m": 367.3
+  },
+  {
+   "fire_id": "2012_RED72",
+   "filename": "2012_RED72_mrdem_dtm_90m.tif",
+   "columns": 276,
+   "rows": 234,
+   "valid_share": 1.0,
+   "elevation_min_m": 302.3,
+   "elevation_max_m": 357.7
+  },
+  {
+   "fire_id": "2012_RED94",
+   "filename": "2012_RED94_mrdem_dtm_90m.tif",
+   "columns": 131,
+   "rows": 96,
+   "valid_share": 1.0,
+   "elevation_min_m": 291.2,
+   "elevation_max_m": 336.5
+  },
+  {
+   "fire_id": "2012_SLK101",
+   "filename": "2012_SLK101_mrdem_dtm_90m.tif",
+   "columns": 89,
+   "rows": 88,
+   "valid_share": 1.0,
+   "elevation_min_m": 366.5,
+   "elevation_max_m": 423.3
+  },
+  {
+   "fire_id": "2012_SLK105",
+   "filename": "2012_SLK105_mrdem_dtm_90m.tif",
+   "columns": 77,
+   "rows": 80,
+   "valid_share": 1.0,
+   "elevation_min_m": 354.6,
+   "elevation_max_m": 413.4
+  },
+  {
+   "fire_id": "2012_SLK26",
+   "filename": "2012_SLK26_mrdem_dtm_90m.tif",
+   "columns": 110,
+   "rows": 87,
+   "valid_share": 1.0,
+   "elevation_min_m": 269.9,
+   "elevation_max_m": 326.3
+  },
+  {
+   "fire_id": "2012_SLK29",
+   "filename": "2012_SLK29_mrdem_dtm_90m.tif",
+   "columns": 84,
+   "rows": 79,
+   "valid_share": 1.0,
+   "elevation_min_m": 260.4,
+   "elevation_max_m": 301.9
+  },
+  {
+   "fire_id": "2012_SLK32",
+   "filename": "2012_SLK32_mrdem_dtm_90m.tif",
+   "columns": 81,
+   "rows": 88,
+   "valid_share": 1.0,
+   "elevation_min_m": 297.0,
+   "elevation_max_m": 333.8
+  },
+  {
+   "fire_id": "2012_SLK47",
+   "filename": "2012_SLK47_mrdem_dtm_90m.tif",
+   "columns": 101,
+   "rows": 110,
+   "valid_share": 1.0,
+   "elevation_min_m": 382.5,
+   "elevation_max_m": 454.8
+  },
+  {
+   "fire_id": "2012_SLK72",
+   "filename": "2012_SLK72_mrdem_dtm_90m.tif",
+   "columns": 116,
+   "rows": 110,
+   "valid_share": 1.0,
+   "elevation_min_m": 345.0,
+   "elevation_max_m": 453.3
+  },
+  {
+   "fire_id": "2012_SLK73",
+   "filename": "2012_SLK73_mrdem_dtm_90m.tif",
+   "columns": 112,
+   "rows": 102,
+   "valid_share": 1.0,
+   "elevation_min_m": 293.6,
+   "elevation_max_m": 415.4
+  },
+  {
+   "fire_id": "2012_SLK74",
+   "filename": "2012_SLK74_mrdem_dtm_90m.tif",
+   "columns": 254,
+   "rows": 249,
+   "valid_share": 1.0,
+   "elevation_min_m": 283.7,
+   "elevation_max_m": 426.5
+  },
+  {
+   "fire_id": "2012_SLK79",
+   "filename": "2012_SLK79_mrdem_dtm_90m.tif",
+   "columns": 82,
+   "rows": 84,
+   "valid_share": 1.0,
+   "elevation_min_m": 230.1,
+   "elevation_max_m": 255.6
+  },
+  {
+   "fire_id": "2012_SLK82",
+   "filename": "2012_SLK82_mrdem_dtm_90m.tif",
+   "columns": 132,
+   "rows": 135,
+   "valid_share": 1.0,
+   "elevation_min_m": 293.6,
+   "elevation_max_m": 377.1
+  },
+  {
+   "fire_id": "2012_SLK85",
+   "filename": "2012_SLK85_mrdem_dtm_90m.tif",
+   "columns": 92,
+   "rows": 83,
+   "valid_share": 1.0,
+   "elevation_min_m": 238.3,
+   "elevation_max_m": 282.6
+  },
+  {
+   "fire_id": "2012_SLK91",
+   "filename": "2012_SLK91_mrdem_dtm_90m.tif",
+   "columns": 150,
+   "rows": 122,
+   "valid_share": 1.0,
+   "elevation_min_m": 390.3,
+   "elevation_max_m": 462.9
+  },
+  {
+   "fire_id": "2012_SLK97",
+   "filename": "2012_SLK97_mrdem_dtm_90m.tif",
+   "columns": 130,
+   "rows": 110,
+   "valid_share": 1.0,
+   "elevation_min_m": 330.2,
+   "elevation_max_m": 393.5
+  },
+  {
+   "fire_id": "2012_THU35",
+   "filename": "2012_THU35_mrdem_dtm_90m.tif",
+   "columns": 107,
+   "rows": 98,
+   "valid_share": 1.0,
+   "elevation_min_m": 379.9,
+   "elevation_max_m": 454.8
+  },
+  {
+   "fire_id": "2012_THU65",
+   "filename": "2012_THU65_mrdem_dtm_90m.tif",
+   "columns": 135,
+   "rows": 106,
+   "valid_share": 1.0,
+   "elevation_min_m": 325.2,
+   "elevation_max_m": 406.3
+  },
+  {
+   "fire_id": "2012_TIM27",
+   "filename": "2012_TIM27_mrdem_dtm_90m.tif",
+   "columns": 82,
+   "rows": 84,
+   "valid_share": 1.0,
+   "elevation_min_m": 328.0,
+   "elevation_max_m": 443.6
+  },
+  {
+   "fire_id": "2012_TIM47",
+   "filename": "2012_TIM47_mrdem_dtm_90m.tif",
+   "columns": 77,
+   "rows": 77,
+   "valid_share": 1.0,
+   "elevation_min_m": 403.9,
+   "elevation_max_m": 519.0
+  },
+  {
+   "fire_id": "2012_TIM7",
+   "filename": "2012_TIM7_mrdem_dtm_90m.tif",
+   "columns": 96,
+   "rows": 110,
+   "valid_share": 1.0,
+   "elevation_min_m": 370.3,
+   "elevation_max_m": 450.8
+  },
+  {
+   "fire_id": "2012_TIM9",
+   "filename": "2012_TIM9_mrdem_dtm_90m.tif",
+   "columns": 254,
+   "rows": 757,
+   "valid_share": 1.0,
+   "elevation_min_m": 302.4,
+   "elevation_max_m": 515.8
+  },
+  {
+   "fire_id": "2012_WAW17",
+   "filename": "2012_WAW17_mrdem_dtm_90m.tif",
+   "columns": 74,
+   "rows": 92,
+   "valid_share": 1.0,
+   "elevation_min_m": 424.7,
+   "elevation_max_m": 523.6
+  },
+  {
+   "fire_id": "2012_WAW4",
+   "filename": "2012_WAW4_mrdem_dtm_90m.tif",
+   "columns": 218,
+   "rows": 163,
+   "valid_share": 1.0,
+   "elevation_min_m": 400.4,
+   "elevation_max_m": 562.6
+  },
+  {
+   "fire_id": "2013_COC19",
+   "filename": "2013_COC19_mrdem_dtm_90m.tif",
+   "columns": 110,
+   "rows": 114,
+   "valid_share": 1.0,
+   "elevation_min_m": 128.5,
+   "elevation_max_m": 171.5
+  },
+  {
+   "fire_id": "2013_COC23",
+   "filename": "2013_COC23_mrdem_dtm_90m.tif",
+   "columns": 191,
+   "rows": 275,
+   "valid_share": 1.0,
+   "elevation_min_m": 72.7,
+   "elevation_max_m": 123.7
+  },
+  {
+   "fire_id": "2013_COC26",
+   "filename": "2013_COC26_mrdem_dtm_90m.tif",
+   "columns": 80,
+   "rows": 85,
+   "valid_share": 1.0,
+   "elevation_min_m": 13.0,
+   "elevation_max_m": 27.3
+  },
+  {
+   "fire_id": "2013_COC3",
+   "filename": "2013_COC3_mrdem_dtm_90m.tif",
+   "columns": 123,
+   "rows": 128,
+   "valid_share": 1.0,
+   "elevation_min_m": 93.9,
+   "elevation_max_m": 124.5
+  },
+  {
+   "fire_id": "2013_COC4",
+   "filename": "2013_COC4_mrdem_dtm_90m.tif",
+   "columns": 141,
+   "rows": 118,
+   "valid_share": 1.0,
+   "elevation_min_m": 79.9,
+   "elevation_max_m": 111.3
+  },
+  {
+   "fire_id": "2013_NIP11",
+   "filename": "2013_NIP11_mrdem_dtm_90m.tif",
+   "columns": 86,
+   "rows": 103,
+   "valid_share": 1.0,
+   "elevation_min_m": 144.2,
+   "elevation_max_m": 179.1
+  },
+  {
+   "fire_id": "2013_NIP19",
+   "filename": "2013_NIP19_mrdem_dtm_90m.tif",
+   "columns": 148,
+   "rows": 179,
+   "valid_share": 1.0,
+   "elevation_min_m": 241.6,
+   "elevation_max_m": 285.1
+  },
+  {
+   "fire_id": "2013_NIP23",
+   "filename": "2013_NIP23_mrdem_dtm_90m.tif",
+   "columns": 106,
+   "rows": 85,
+   "valid_share": 1.0,
+   "elevation_min_m": 279.3,
+   "elevation_max_m": 315.4
+  },
+  {
+   "fire_id": "2013_NIP25",
+   "filename": "2013_NIP25_mrdem_dtm_90m.tif",
+   "columns": 101,
+   "rows": 102,
+   "valid_share": 1.0,
+   "elevation_min_m": 303.5,
+   "elevation_max_m": 361.5
+  },
+  {
+   "fire_id": "2013_NIP40",
+   "filename": "2013_NIP40_mrdem_dtm_90m.tif",
+   "columns": 77,
+   "rows": 82,
+   "valid_share": 1.0,
+   "elevation_min_m": 192.4,
+   "elevation_max_m": 220.3
+  },
+  {
+   "fire_id": "2013_NIP43",
+   "filename": "2013_NIP43_mrdem_dtm_90m.tif",
+   "columns": 169,
+   "rows": 177,
+   "valid_share": 1.0,
+   "elevation_min_m": 267.3,
+   "elevation_max_m": 320.5
+  },
+  {
+   "fire_id": "2013_NIP44",
+   "filename": "2013_NIP44_mrdem_dtm_90m.tif",
+   "columns": 92,
+   "rows": 102,
+   "valid_share": 1.0,
+   "elevation_min_m": 240.5,
+   "elevation_max_m": 269.8
+  },
+  {
+   "fire_id": "2013_NIP48",
+   "filename": "2013_NIP48_mrdem_dtm_90m.tif",
+   "columns": 91,
+   "rows": 109,
+   "valid_share": 1.0,
+   "elevation_min_m": 174.5,
+   "elevation_max_m": 197.4
+  },
+  {
+   "fire_id": "2013_NIP50",
+   "filename": "2013_NIP50_mrdem_dtm_90m.tif",
+   "columns": 90,
+   "rows": 84,
+   "valid_share": 1.0,
+   "elevation_min_m": 203.7,
+   "elevation_max_m": 246.1
+  },
+  {
+   "fire_id": "2013_NIP51",
+   "filename": "2013_NIP51_mrdem_dtm_90m.tif",
+   "columns": 104,
+   "rows": 111,
+   "valid_share": 1.0,
+   "elevation_min_m": 117.7,
+   "elevation_max_m": 138.4
+  },
+  {
+   "fire_id": "2013_NIP52",
+   "filename": "2013_NIP52_mrdem_dtm_90m.tif",
+   "columns": 105,
+   "rows": 82,
+   "valid_share": 1.0,
+   "elevation_min_m": 118.3,
+   "elevation_max_m": 127.8
+  },
+  {
+   "fire_id": "2013_NIP53",
+   "filename": "2013_NIP53_mrdem_dtm_90m.tif",
+   "columns": 87,
+   "rows": 83,
+   "valid_share": 1.0,
+   "elevation_min_m": 166.3,
+   "elevation_max_m": 187.9
+  },
+  {
+   "fire_id": "2013_NIP57",
+   "filename": "2013_NIP57_mrdem_dtm_90m.tif",
+   "columns": 137,
+   "rows": 112,
+   "valid_share": 1.0,
+   "elevation_min_m": 95.8,
+   "elevation_max_m": 120.5
+  },
+  {
+   "fire_id": "2013_RED24",
+   "filename": "2013_RED24_mrdem_dtm_90m.tif",
+   "columns": 105,
+   "rows": 86,
+   "valid_share": 1.0,
+   "elevation_min_m": 385.7,
+   "elevation_max_m": 427.2
+  },
+  {
+   "fire_id": "2013_RED31",
+   "filename": "2013_RED31_mrdem_dtm_90m.tif",
+   "columns": 317,
+   "rows": 273,
+   "valid_share": 1.0,
+   "elevation_min_m": 337.0,
+   "elevation_max_m": 422.7
+  },
+  {
+   "fire_id": "2013_RED32",
+   "filename": "2013_RED32_mrdem_dtm_90m.tif",
+   "columns": 178,
+   "rows": 140,
+   "valid_share": 1.0,
+   "elevation_min_m": 348.8,
+   "elevation_max_m": 420.4
+  },
+  {
+   "fire_id": "2013_RED41",
+   "filename": "2013_RED41_mrdem_dtm_90m.tif",
+   "columns": 105,
+   "rows": 116,
+   "valid_share": 1.0,
+   "elevation_min_m": 274.0,
+   "elevation_max_m": 336.0
+  },
+  {
+   "fire_id": "2013_RED56",
+   "filename": "2013_RED56_mrdem_dtm_90m.tif",
+   "columns": 101,
+   "rows": 76,
+   "valid_share": 1.0,
+   "elevation_min_m": 313.3,
+   "elevation_max_m": 378.6
+  },
+  {
+   "fire_id": "2013_SLK16",
+   "filename": "2013_SLK16_mrdem_dtm_90m.tif",
+   "columns": 96,
+   "rows": 101,
+   "valid_share": 1.0,
+   "elevation_min_m": 290.2,
+   "elevation_max_m": 329.6
+  },
+  {
+   "fire_id": "2013_SLK18",
+   "filename": "2013_SLK18_mrdem_dtm_90m.tif",
+   "columns": 88,
+   "rows": 84,
+   "valid_share": 1.0,
+   "elevation_min_m": 205.3,
+   "elevation_max_m": 226.8
+  },
+  {
+   "fire_id": "2013_SLK19",
+   "filename": "2013_SLK19_mrdem_dtm_90m.tif",
+   "columns": 91,
+   "rows": 89,
+   "valid_share": 1.0,
+   "elevation_min_m": 306.7,
+   "elevation_max_m": 348.7
+  },
+  {
+   "fire_id": "2013_SLK21",
+   "filename": "2013_SLK21_mrdem_dtm_90m.tif",
+   "columns": 133,
+   "rows": 143,
+   "valid_share": 1.0,
+   "elevation_min_m": 287.1,
+   "elevation_max_m": 347.9
+  },
+  {
+   "fire_id": "2013_SLK23",
+   "filename": "2013_SLK23_mrdem_dtm_90m.tif",
+   "columns": 120,
+   "rows": 105,
+   "valid_share": 1.0,
+   "elevation_min_m": 188.4,
+   "elevation_max_m": 221.1
+  },
+  {
+   "fire_id": "2013_SLK24",
+   "filename": "2013_SLK24_mrdem_dtm_90m.tif",
+   "columns": 107,
+   "rows": 102,
+   "valid_share": 1.0,
+   "elevation_min_m": 197.8,
+   "elevation_max_m": 229.4
+  },
+  {
+   "fire_id": "2013_SLK25",
+   "filename": "2013_SLK25_mrdem_dtm_90m.tif",
+   "columns": 122,
+   "rows": 134,
+   "valid_share": 1.0,
+   "elevation_min_m": 201.7,
+   "elevation_max_m": 244.5
+  },
+  {
+   "fire_id": "2013_SLK27",
+   "filename": "2013_SLK27_mrdem_dtm_90m.tif",
+   "columns": 82,
+   "rows": 87,
+   "valid_share": 1.0,
+   "elevation_min_m": 239.6,
+   "elevation_max_m": 298.8
+  },
+  {
+   "fire_id": "2013_SLK31",
+   "filename": "2013_SLK31_mrdem_dtm_90m.tif",
+   "columns": 205,
+   "rows": 205,
+   "valid_share": 1.0,
+   "elevation_min_m": 206.9,
+   "elevation_max_m": 247.8
+  },
+  {
+   "fire_id": "2013_SLK35",
+   "filename": "2013_SLK35_mrdem_dtm_90m.tif",
+   "columns": 93,
+   "rows": 96,
+   "valid_share": 1.0,
+   "elevation_min_m": 303.9,
+   "elevation_max_m": 357.7
+  },
+  {
+   "fire_id": "2013_SLK37",
+   "filename": "2013_SLK37_mrdem_dtm_90m.tif",
+   "columns": 92,
+   "rows": 86,
+   "valid_share": 1.0,
+   "elevation_min_m": 288.2,
+   "elevation_max_m": 321.3
+  },
+  {
+   "fire_id": "2013_SLK41",
+   "filename": "2013_SLK41_mrdem_dtm_90m.tif",
+   "columns": 109,
+   "rows": 110,
+   "valid_share": 1.0,
+   "elevation_min_m": 179.0,
+   "elevation_max_m": 207.1
+  },
+  {
+   "fire_id": "2013_SLK43",
+   "filename": "2013_SLK43_mrdem_dtm_90m.tif",
+   "columns": 93,
+   "rows": 81,
+   "valid_share": 1.0,
+   "elevation_min_m": 144.7,
+   "elevation_max_m": 183.3
+  },
+  {
+   "fire_id": "2013_SLK45",
+   "filename": "2013_SLK45_mrdem_dtm_90m.tif",
+   "columns": 93,
+   "rows": 85,
+   "valid_share": 1.0,
+   "elevation_min_m": 224.8,
+   "elevation_max_m": 255.4
+  },
+  {
+   "fire_id": "2014_COC12",
+   "filename": "2014_COC12_mrdem_dtm_90m.tif",
+   "columns": 86,
+   "rows": 77,
+   "valid_share": 1.0,
+   "elevation_min_m": 12.1,
+   "elevation_max_m": 57.5
+  },
+  {
+   "fire_id": "2014_COC4",
+   "filename": "2014_COC4_mrdem_dtm_90m.tif",
+   "columns": 84,
+   "rows": 81,
+   "valid_share": 1.0,
+   "elevation_min_m": 128.9,
+   "elevation_max_m": 145.6
+  },
+  {
+   "fire_id": "2014_COC8",
+   "filename": "2014_COC8_mrdem_dtm_90m.tif",
+   "columns": 144,
+   "rows": 238,
+   "valid_share": 1.0,
+   "elevation_min_m": 54.1,
+   "elevation_max_m": 88.1
+  },
+  {
+   "fire_id": "2014_RED17",
+   "filename": "2014_RED17_mrdem_dtm_90m.tif",
+   "columns": 84,
+   "rows": 102,
+   "valid_share": 1.0,
+   "elevation_min_m": 316.7,
+   "elevation_max_m": 361.3
+  },
+  {
+   "fire_id": "2014_RED29",
+   "filename": "2014_RED29_mrdem_dtm_90m.tif",
+   "columns": 109,
+   "rows": 111,
+   "valid_share": 1.0,
+   "elevation_min_m": 366.8,
+   "elevation_max_m": 416.1
+  },
+  {
+   "fire_id": "2014_RED8",
+   "filename": "2014_RED8_mrdem_dtm_90m.tif",
+   "columns": 82,
+   "rows": 87,
+   "valid_share": 1.0,
+   "elevation_min_m": 334.1,
+   "elevation_max_m": 412.6
+  },
+  {
+   "fire_id": "2014_SLK13",
+   "filename": "2014_SLK13_mrdem_dtm_90m.tif",
+   "columns": 80,
+   "rows": 88,
+   "valid_share": 1.0,
+   "elevation_min_m": 200.3,
+   "elevation_max_m": 233.6
+  },
+  {
+   "fire_id": "2015_COC10",
+   "filename": "2015_COC10_mrdem_dtm_90m.tif",
+   "columns": 110,
+   "rows": 121,
+   "valid_share": 1.0,
+   "elevation_min_m": 127.6,
+   "elevation_max_m": 155.8
+  },
+  {
+   "fire_id": "2015_COC12",
+   "filename": "2015_COC12_mrdem_dtm_90m.tif",
+   "columns": 84,
+   "rows": 99,
+   "valid_share": 1.0,
+   "elevation_min_m": 304.4,
+   "elevation_max_m": 399.0
+  },
+  {
+   "fire_id": "2015_COC13",
+   "filename": "2015_COC13_mrdem_dtm_90m.tif",
+   "columns": 104,
+   "rows": 139,
+   "valid_share": 1.0,
+   "elevation_min_m": 101.3,
+   "elevation_max_m": 204.4
+  },
+  {
+   "fire_id": "2015_COC6",
+   "filename": "2015_COC6_mrdem_dtm_90m.tif",
+   "columns": 149,
+   "rows": 209,
+   "valid_share": 1.0,
+   "elevation_min_m": 81.7,
+   "elevation_max_m": 128.7
+  },
+  {
+   "fire_id": "2015_KEN28",
+   "filename": "2015_KEN28_mrdem_dtm_90m.tif",
+   "columns": 93,
+   "rows": 91,
+   "valid_share": 1.0,
+   "elevation_min_m": 322.7,
+   "elevation_max_m": 396.9
+  },
+  {
+   "fire_id": "2015_KEN5",
+   "filename": "2015_KEN5_mrdem_dtm_90m.tif",
+   "columns": 97,
+   "rows": 112,
+   "valid_share": 1.0,
+   "elevation_min_m": 302.6,
+   "elevation_max_m": 390.2
+  },
+  {
+   "fire_id": "2015_NIP17",
+   "filename": "2015_NIP17_mrdem_dtm_90m.tif",
+   "columns": 258,
+   "rows": 261,
+   "valid_share": 1.0,
+   "elevation_min_m": 143.0,
+   "elevation_max_m": 222.6
+  },
+  {
+   "fire_id": "2015_NIP23",
+   "filename": "2015_NIP23_mrdem_dtm_90m.tif",
+   "columns": 174,
+   "rows": 174,
+   "valid_share": 1.0,
+   "elevation_min_m": 220.8,
+   "elevation_max_m": 257.3
+  },
+  {
+   "fire_id": "2015_NIP24",
+   "filename": "2015_NIP24_mrdem_dtm_90m.tif",
+   "columns": 110,
+   "rows": 101,
+   "valid_share": 1.0,
+   "elevation_min_m": 240.0,
+   "elevation_max_m": 290.1
+  },
+  {
+   "fire_id": "2015_NIP30",
+   "filename": "2015_NIP30_mrdem_dtm_90m.tif",
+   "columns": 79,
+   "rows": 86,
+   "valid_share": 1.0,
+   "elevation_min_m": 263.1,
+   "elevation_max_m": 325.4
+  },
+  {
+   "fire_id": "2015_NIP31",
+   "filename": "2015_NIP31_mrdem_dtm_90m.tif",
+   "columns": 87,
+   "rows": 100,
+   "valid_share": 1.0,
+   "elevation_min_m": 240.8,
+   "elevation_max_m": 271.0
+  },
+  {
+   "fire_id": "2015_NIP38",
+   "filename": "2015_NIP38_mrdem_dtm_90m.tif",
+   "columns": 96,
+   "rows": 90,
+   "valid_share": 1.0,
+   "elevation_min_m": 239.7,
+   "elevation_max_m": 278.7
+  },
+  {
+   "fire_id": "2015_RED10",
+   "filename": "2015_RED10_mrdem_dtm_90m.tif",
+   "columns": 110,
+   "rows": 105,
+   "valid_share": 1.0,
+   "elevation_min_m": 337.4,
+   "elevation_max_m": 401.3
+  },
+  {
+   "fire_id": "2015_RED11",
+   "filename": "2015_RED11_mrdem_dtm_90m.tif",
+   "columns": 93,
+   "rows": 87,
+   "valid_share": 1.0,
+   "elevation_min_m": 351.5,
+   "elevation_max_m": 407.4
+  },
+  {
+   "fire_id": "2015_RED16",
+   "filename": "2015_RED16_mrdem_dtm_90m.tif",
+   "columns": 199,
+   "rows": 152,
+   "valid_share": 1.0,
+   "elevation_min_m": 295.3,
+   "elevation_max_m": 376.0
+  },
+  {
+   "fire_id": "2015_RED17",
+   "filename": "2015_RED17_mrdem_dtm_90m.tif",
+   "columns": 127,
+   "rows": 92,
+   "valid_share": 1.0,
+   "elevation_min_m": 306.9,
+   "elevation_max_m": 379.6
+  },
+  {
+   "fire_id": "2015_RED24",
+   "filename": "2015_RED24_mrdem_dtm_90m.tif",
+   "columns": 86,
+   "rows": 80,
+   "valid_share": 1.0,
+   "elevation_min_m": 320.5,
+   "elevation_max_m": 365.4
+  },
+  {
+   "fire_id": "2015_RED25",
+   "filename": "2015_RED25_mrdem_dtm_90m.tif",
+   "columns": 151,
+   "rows": 166,
+   "valid_share": 1.0,
+   "elevation_min_m": 339.4,
+   "elevation_max_m": 408.9
+  },
+  {
+   "fire_id": "2015_RED44",
+   "filename": "2015_RED44_mrdem_dtm_90m.tif",
+   "columns": 130,
+   "rows": 135,
+   "valid_share": 1.0,
+   "elevation_min_m": 320.3,
+   "elevation_max_m": 393.1
+  },
+  {
+   "fire_id": "2015_RED46",
+   "filename": "2015_RED46_mrdem_dtm_90m.tif",
+   "columns": 95,
+   "rows": 100,
+   "valid_share": 1.0,
+   "elevation_min_m": 316.7,
+   "elevation_max_m": 362.5
+  },
+  {
+   "fire_id": "2015_RED50",
+   "filename": "2015_RED50_mrdem_dtm_90m.tif",
+   "columns": 93,
+   "rows": 84,
+   "valid_share": 1.0,
+   "elevation_min_m": 350.3,
+   "elevation_max_m": 430.0
+  },
+  {
+   "fire_id": "2015_RED58",
+   "filename": "2015_RED58_mrdem_dtm_90m.tif",
+   "columns": 80,
+   "rows": 80,
+   "valid_share": 1.0,
+   "elevation_min_m": 255.0,
+   "elevation_max_m": 307.2
+  },
+  {
+   "fire_id": "2015_RED59",
+   "filename": "2015_RED59_mrdem_dtm_90m.tif",
+   "columns": 86,
+   "rows": 91,
+   "valid_share": 1.0,
+   "elevation_min_m": 226.1,
+   "elevation_max_m": 255.1
+  },
+  {
+   "fire_id": "2015_RED7",
+   "filename": "2015_RED7_mrdem_dtm_90m.tif",
+   "columns": 130,
+   "rows": 128,
+   "valid_share": 1.0,
+   "elevation_min_m": 338.1,
+   "elevation_max_m": 416.0
+  },
+  {
+   "fire_id": "2015_SLK19",
+   "filename": "2015_SLK19_mrdem_dtm_90m.tif",
+   "columns": 98,
+   "rows": 88,
+   "valid_share": 1.0,
+   "elevation_min_m": 256.2,
+   "elevation_max_m": 299.5
+  },
+  {
+   "fire_id": "2015_SLK21",
+   "filename": "2015_SLK21_mrdem_dtm_90m.tif",
+   "columns": 118,
+   "rows": 100,
+   "valid_share": 1.0,
+   "elevation_min_m": 327.3,
+   "elevation_max_m": 401.7
+  },
+  {
+   "fire_id": "2015_SLK30",
+   "filename": "2015_SLK30_mrdem_dtm_90m.tif",
+   "columns": 89,
+   "rows": 91,
+   "valid_share": 1.0,
+   "elevation_min_m": 308.4,
+   "elevation_max_m": 353.4
+  },
+  {
+   "fire_id": "2015_SLK32",
+   "filename": "2015_SLK32_mrdem_dtm_90m.tif",
+   "columns": 79,
+   "rows": 84,
+   "valid_share": 1.0,
+   "elevation_min_m": 261.4,
+   "elevation_max_m": 312.1
+  },
+  {
+   "fire_id": "2015_SLK41",
+   "filename": "2015_SLK41_mrdem_dtm_90m.tif",
+   "columns": 84,
+   "rows": 87,
+   "valid_share": 1.0,
+   "elevation_min_m": 293.3,
+   "elevation_max_m": 322.0
+  },
+  {
+   "fire_id": "2015_SLK53",
+   "filename": "2015_SLK53_mrdem_dtm_90m.tif",
+   "columns": 90,
+   "rows": 89,
+   "valid_share": 1.0,
+   "elevation_min_m": 293.2,
+   "elevation_max_m": 357.0
+  },
+  {
+   "fire_id": "2015_SLK55",
+   "filename": "2015_SLK55_mrdem_dtm_90m.tif",
+   "columns": 95,
+   "rows": 120,
+   "valid_share": 1.0,
+   "elevation_min_m": 207.5,
+   "elevation_max_m": 236.3
+  },
+  {
+   "fire_id": "2015_SLK57",
+   "filename": "2015_SLK57_mrdem_dtm_90m.tif",
+   "columns": 91,
+   "rows": 90,
+   "valid_share": 1.0,
+   "elevation_min_m": 270.7,
+   "elevation_max_m": 319.3
+  },
+  {
+   "fire_id": "2015_SUD38",
+   "filename": "2015_SUD38_mrdem_dtm_90m.tif",
+   "columns": 87,
+   "rows": 124,
+   "valid_share": 1.0,
+   "elevation_min_m": 397.3,
+   "elevation_max_m": 495.9
+  },
+  {
+   "fire_id": "2016_APK20",
+   "filename": "2016_APK20_mrdem_dtm_90m.tif",
+   "columns": 77,
+   "rows": 80,
+   "valid_share": 1.0,
+   "elevation_min_m": 174.0,
+   "elevation_max_m": 333.3
+  },
+  {
+   "fire_id": "2016_HEA5",
+   "filename": "2016_HEA5_mrdem_dtm_90m.tif",
+   "columns": 168,
+   "rows": 200,
+   "valid_share": 1.0,
+   "elevation_min_m": 206.4,
+   "elevation_max_m": 277.9
+  },
+  {
+   "fire_id": "2016_KEN18",
+   "filename": "2016_KEN18_mrdem_dtm_90m.tif",
+   "columns": 225,
+   "rows": 183,
+   "valid_share": 1.0,
+   "elevation_min_m": 310.4,
+   "elevation_max_m": 398.2
+  },
+  {
+   "fire_id": "2016_NIP12",
+   "filename": "2016_NIP12_mrdem_dtm_90m.tif",
+   "columns": 85,
+   "rows": 112,
+   "valid_share": 1.0,
+   "elevation_min_m": 329.2,
+   "elevation_max_m": 383.1
+  },
+  {
+   "fire_id": "2016_NIP15",
+   "filename": "2016_NIP15_mrdem_dtm_90m.tif",
+   "columns": 85,
+   "rows": 96,
+   "valid_share": 1.0,
+   "elevation_min_m": 241.0,
+   "elevation_max_m": 277.6
+  },
+  {
+   "fire_id": "2016_NIP23",
+   "filename": "2016_NIP23_mrdem_dtm_90m.tif",
+   "columns": 146,
+   "rows": 118,
+   "valid_share": 1.0,
+   "elevation_min_m": 237.2,
+   "elevation_max_m": 287.9
+  },
+  {
+   "fire_id": "2016_NOR32",
+   "filename": "2016_NOR32_mrdem_dtm_90m.tif",
+   "columns": 77,
+   "rows": 82,
+   "valid_share": 1.0,
+   "elevation_min_m": 293.6,
+   "elevation_max_m": 407.0
+  },
+  {
+   "fire_id": "2016_RED3",
+   "filename": "2016_RED3_mrdem_dtm_90m.tif",
+   "columns": 726,
+   "rows": 759,
+   "valid_share": 1.0,
+   "elevation_min_m": 280.3,
+   "elevation_max_m": 425.6
+  },
+  {
+   "fire_id": "2016_SLK23",
+   "filename": "2016_SLK23_mrdem_dtm_90m.tif",
+   "columns": 85,
+   "rows": 80,
+   "valid_share": 1.0,
+   "elevation_min_m": 302.5,
+   "elevation_max_m": 340.5
+  },
+  {
+   "fire_id": "2016_SLK29",
+   "filename": "2016_SLK29_mrdem_dtm_90m.tif",
+   "columns": 121,
+   "rows": 80,
+   "valid_share": 1.0,
+   "elevation_min_m": 381.7,
+   "elevation_max_m": 436.5
+  },
+  {
+   "fire_id": "2016_SLK6",
+   "filename": "2016_SLK6_mrdem_dtm_90m.tif",
+   "columns": 82,
+   "rows": 82,
+   "valid_share": 1.0,
+   "elevation_min_m": 245.8,
+   "elevation_max_m": 277.7
+  },
+  {
+   "fire_id": "2016_SUD35",
+   "filename": "2016_SUD35_mrdem_dtm_90m.tif",
+   "columns": 92,
+   "rows": 75,
+   "valid_share": 1.0,
+   "elevation_min_m": 222.9,
+   "elevation_max_m": 280.5
+  },
+  {
+   "fire_id": "2016_THU19",
+   "filename": "2016_THU19_mrdem_dtm_90m.tif",
+   "columns": 124,
+   "rows": 182,
+   "valid_share": 1.0,
+   "elevation_min_m": 445.1,
+   "elevation_max_m": 523.8
+  },
+  {
+   "fire_id": "2017_COC10",
+   "filename": "2017_COC10_mrdem_dtm_90m.tif",
+   "columns": 403,
+   "rows": 295,
+   "valid_share": 1.0,
+   "elevation_min_m": 67.6,
+   "elevation_max_m": 146.4
+  },
+  {
+   "fire_id": "2017_COC11",
+   "filename": "2017_COC11_mrdem_dtm_90m.tif",
+   "columns": 102,
+   "rows": 82,
+   "valid_share": 1.0,
+   "elevation_min_m": 61.9,
+   "elevation_max_m": 81.6
+  },
+  {
+   "fire_id": "2017_COC12",
+   "filename": "2017_COC12_mrdem_dtm_90m.tif",
+   "columns": 104,
+   "rows": 207,
+   "valid_share": 1.0,
+   "elevation_min_m": 19.0,
+   "elevation_max_m": 40.7
+  },
+  {
+   "fire_id": "2017_COC13",
+   "filename": "2017_COC13_mrdem_dtm_90m.tif",
+   "columns": 327,
+   "rows": 256,
+   "valid_share": 1.0,
+   "elevation_min_m": 51.8,
+   "elevation_max_m": 140.6
+  },
+  {
+   "fire_id": "2017_COC14",
+   "filename": "2017_COC14_mrdem_dtm_90m.tif",
+   "columns": 230,
+   "rows": 208,
+   "valid_share": 1.0,
+   "elevation_min_m": 42.8,
+   "elevation_max_m": 79.7
+  },
+  {
+   "fire_id": "2017_COC15",
+   "filename": "2017_COC15_mrdem_dtm_90m.tif",
+   "columns": 81,
+   "rows": 79,
+   "valid_share": 1.0,
+   "elevation_min_m": 95.1,
+   "elevation_max_m": 124.4
+  },
+  {
+   "fire_id": "2017_COC21",
+   "filename": "2017_COC21_mrdem_dtm_90m.tif",
+   "columns": 82,
+   "rows": 75,
+   "valid_share": 1.0,
+   "elevation_min_m": 98.3,
+   "elevation_max_m": 116.9
+  },
+  {
+   "fire_id": "2017_COC23",
+   "filename": "2017_COC23_mrdem_dtm_90m.tif",
+   "columns": 94,
+   "rows": 91,
+   "valid_share": 1.0,
+   "elevation_min_m": 86.8,
+   "elevation_max_m": 110.6
+  },
+  {
+   "fire_id": "2017_COC26",
+   "filename": "2017_COC26_mrdem_dtm_90m.tif",
+   "columns": 154,
+   "rows": 135,
+   "valid_share": 1.0,
+   "elevation_min_m": 63.2,
+   "elevation_max_m": 101.8
+  },
+  {
+   "fire_id": "2017_COC5",
+   "filename": "2017_COC5_mrdem_dtm_90m.tif",
+   "columns": 89,
+   "rows": 79,
+   "valid_share": 1.0,
+   "elevation_min_m": 50.2,
+   "elevation_max_m": 76.2
+  },
+  {
+   "fire_id": "2017_COC8",
+   "filename": "2017_COC8_mrdem_dtm_90m.tif",
+   "columns": 95,
+   "rows": 117,
+   "valid_share": 1.0,
+   "elevation_min_m": 54.4,
+   "elevation_max_m": 82.5
+  },
+  {
+   "fire_id": "2017_COC9",
+   "filename": "2017_COC9_mrdem_dtm_90m.tif",
+   "columns": 89,
+   "rows": 75,
+   "valid_share": 1.0,
+   "elevation_min_m": 67.4,
+   "elevation_max_m": 80.0
+  },
+  {
+   "fire_id": "2017_NIP105",
+   "filename": "2017_NIP105_mrdem_dtm_90m.tif",
+   "columns": 91,
+   "rows": 82,
+   "valid_share": 1.0,
+   "elevation_min_m": 114.6,
+   "elevation_max_m": 130.0
+  },
+  {
+   "fire_id": "2017_NIP12",
+   "filename": "2017_NIP12_mrdem_dtm_90m.tif",
+   "columns": 140,
+   "rows": 146,
+   "valid_share": 1.0,
+   "elevation_min_m": 154.2,
+   "elevation_max_m": 180.1
+  },
+  {
+   "fire_id": "2017_NIP18",
+   "filename": "2017_NIP18_mrdem_dtm_90m.tif",
+   "columns": 140,
+   "rows": 108,
+   "valid_share": 1.0,
+   "elevation_min_m": 164.0,
+   "elevation_max_m": 191.8
+  },
+  {
+   "fire_id": "2017_NIP29",
+   "filename": "2017_NIP29_mrdem_dtm_90m.tif",
+   "columns": 197,
+   "rows": 235,
+   "valid_share": 1.0,
+   "elevation_min_m": 219.5,
+   "elevation_max_m": 263.1
+  },
+  {
+   "fire_id": "2017_NIP32",
+   "filename": "2017_NIP32_mrdem_dtm_90m.tif",
+   "columns": 93,
+   "rows": 94,
+   "valid_share": 1.0,
+   "elevation_min_m": 262.8,
+   "elevation_max_m": 297.2
+  },
+  {
+   "fire_id": "2017_NIP37",
+   "filename": "2017_NIP37_mrdem_dtm_90m.tif",
+   "columns": 175,
+   "rows": 220,
+   "valid_share": 1.0,
+   "elevation_min_m": 235.0,
+   "elevation_max_m": 286.8
+  },
+  {
+   "fire_id": "2017_NIP38",
+   "filename": "2017_NIP38_mrdem_dtm_90m.tif",
+   "columns": 88,
+   "rows": 97,
+   "valid_share": 1.0,
+   "elevation_min_m": 238.8,
+   "elevation_max_m": 282.0
+  },
+  {
+   "fire_id": "2017_NIP39",
+   "filename": "2017_NIP39_mrdem_dtm_90m.tif",
+   "columns": 100,
+   "rows": 87,
+   "valid_share": 1.0,
+   "elevation_min_m": 239.3,
+   "elevation_max_m": 290.1
+  },
+  {
+   "fire_id": "2017_NIP40",
+   "filename": "2017_NIP40_mrdem_dtm_90m.tif",
+   "columns": 86,
+   "rows": 79,
+   "valid_share": 1.0,
+   "elevation_min_m": 267.9,
+   "elevation_max_m": 297.5
+  },
+  {
+   "fire_id": "2017_NIP46",
+   "filename": "2017_NIP46_mrdem_dtm_90m.tif",
+   "columns": 110,
+   "rows": 87,
+   "valid_share": 1.0,
+   "elevation_min_m": 252.3,
+   "elevation_max_m": 310.0
+  },
+  {
+   "fire_id": "2017_NIP54",
+   "filename": "2017_NIP54_mrdem_dtm_90m.tif",
+   "columns": 83,
+   "rows": 82,
+   "valid_share": 1.0,
+   "elevation_min_m": 261.4,
+   "elevation_max_m": 292.1
+  },
+  {
+   "fire_id": "2017_NIP64",
+   "filename": "2017_NIP64_mrdem_dtm_90m.tif",
+   "columns": 99,
+   "rows": 123,
+   "valid_share": 1.0,
+   "elevation_min_m": 222.9,
+   "elevation_max_m": 265.2
+  },
+  {
+   "fire_id": "2017_NIP65",
+   "filename": "2017_NIP65_mrdem_dtm_90m.tif",
+   "columns": 152,
+   "rows": 183,
+   "valid_share": 1.0,
+   "elevation_min_m": 228.8,
+   "elevation_max_m": 278.0
+  },
+  {
+   "fire_id": "2017_NIP67",
+   "filename": "2017_NIP67_mrdem_dtm_90m.tif",
+   "columns": 77,
+   "rows": 77,
+   "valid_share": 1.0,
+   "elevation_min_m": 281.9,
+   "elevation_max_m": 320.4
+  },
+  {
+   "fire_id": "2017_NIP68",
+   "filename": "2017_NIP68_mrdem_dtm_90m.tif",
+   "columns": 108,
+   "rows": 122,
+   "valid_share": 1.0,
+   "elevation_min_m": 262.1,
+   "elevation_max_m": 319.2
+  },
+  {
+   "fire_id": "2017_NIP73",
+   "filename": "2017_NIP73_mrdem_dtm_90m.tif",
+   "columns": 80,
+   "rows": 79,
+   "valid_share": 1.0,
+   "elevation_min_m": 269.8,
+   "elevation_max_m": 313.4
+  },
+  {
+   "fire_id": "2017_NIP75",
+   "filename": "2017_NIP75_mrdem_dtm_90m.tif",
+   "columns": 116,
+   "rows": 108,
+   "valid_share": 1.0,
+   "elevation_min_m": 253.0,
+   "elevation_max_m": 302.0
+  },
+  {
+   "fire_id": "2017_NIP77",
+   "filename": "2017_NIP77_mrdem_dtm_90m.tif",
+   "columns": 114,
+   "rows": 95,
+   "valid_share": 1.0,
+   "elevation_min_m": 311.9,
+   "elevation_max_m": 383.1
+  },
+  {
+   "fire_id": "2017_NIP78",
+   "filename": "2017_NIP78_mrdem_dtm_90m.tif",
+   "columns": 83,
+   "rows": 75,
+   "valid_share": 1.0,
+   "elevation_min_m": 312.7,
+   "elevation_max_m": 363.7
+  },
+  {
+   "fire_id": "2017_NIP9",
+   "filename": "2017_NIP9_mrdem_dtm_90m.tif",
+   "columns": 309,
+   "rows": 207,
+   "valid_share": 1.0,
+   "elevation_min_m": 265.2,
+   "elevation_max_m": 361.3
+  },
+  {
+   "fire_id": "2017_NIP95",
+   "filename": "2017_NIP95_mrdem_dtm_90m.tif",
+   "columns": 98,
+   "rows": 98,
+   "valid_share": 1.0,
+   "elevation_min_m": 220.8,
+   "elevation_max_m": 255.0
+  },
+  {
+   "fire_id": "2017_NIP98",
+   "filename": "2017_NIP98_mrdem_dtm_90m.tif",
+   "columns": 137,
+   "rows": 241,
+   "valid_share": 1.0,
+   "elevation_min_m": 229.3,
+   "elevation_max_m": 278.0
+  },
+  {
+   "fire_id": "2017_NIP99",
+   "filename": "2017_NIP99_mrdem_dtm_90m.tif",
+   "columns": 100,
+   "rows": 101,
+   "valid_share": 1.0,
+   "elevation_min_m": 263.1,
+   "elevation_max_m": 583.2
+  },
+  {
+   "fire_id": "2017_RED103",
+   "filename": "2017_RED103_mrdem_dtm_90m.tif",
+   "columns": 90,
+   "rows": 80,
+   "valid_share": 1.0,
+   "elevation_min_m": 330.2,
+   "elevation_max_m": 400.2
+  },
+  {
+   "fire_id": "2017_RED23",
+   "filename": "2017_RED23_mrdem_dtm_90m.tif",
+   "columns": 164,
+   "rows": 127,
+   "valid_share": 1.0,
+   "elevation_min_m": 319.8,
+   "elevation_max_m": 373.5
+  },
+  {
+   "fire_id": "2017_RED34",
+   "filename": "2017_RED34_mrdem_dtm_90m.tif",
+   "columns": 112,
+   "rows": 104,
+   "valid_share": 1.0,
+   "elevation_min_m": 277.9,
+   "elevation_max_m": 342.5
+  },
+  {
+   "fire_id": "2017_RED54",
+   "filename": "2017_RED54_mrdem_dtm_90m.tif",
+   "columns": 187,
+   "rows": 153,
+   "valid_share": 1.0,
+   "elevation_min_m": 306.4,
+   "elevation_max_m": 366.1
+  },
+  {
+   "fire_id": "2017_RED56",
+   "filename": "2017_RED56_mrdem_dtm_90m.tif",
+   "columns": 100,
+   "rows": 78,
+   "valid_share": 1.0,
+   "elevation_min_m": 281.4,
+   "elevation_max_m": 360.7
+  },
+  {
+   "fire_id": "2017_RED69",
+   "filename": "2017_RED69_mrdem_dtm_90m.tif",
+   "columns": 130,
+   "rows": 107,
+   "valid_share": 1.0,
+   "elevation_min_m": 293.4,
+   "elevation_max_m": 378.7
+  },
+  {
+   "fire_id": "2017_RED87",
+   "filename": "2017_RED87_mrdem_dtm_90m.tif",
+   "columns": 88,
+   "rows": 84,
+   "valid_share": 1.0,
+   "elevation_min_m": 248.2,
+   "elevation_max_m": 322.6
+  },
+  {
+   "fire_id": "2017_SLK102",
+   "filename": "2017_SLK102_mrdem_dtm_90m.tif",
+   "columns": 103,
+   "rows": 98,
+   "valid_share": 1.0,
+   "elevation_min_m": 318.1,
+   "elevation_max_m": 386.7
+  },
+  {
+   "fire_id": "2017_SLK103",
+   "filename": "2017_SLK103_mrdem_dtm_90m.tif",
+   "columns": 99,
+   "rows": 86,
+   "valid_share": 1.0,
+   "elevation_min_m": 289.8,
+   "elevation_max_m": 327.6
+  },
+  {
+   "fire_id": "2017_SLK115",
+   "filename": "2017_SLK115_mrdem_dtm_90m.tif",
+   "columns": 82,
+   "rows": 78,
+   "valid_share": 1.0,
+   "elevation_min_m": 243.8,
+   "elevation_max_m": 280.2
+  },
+  {
+   "fire_id": "2017_SLK122",
+   "filename": "2017_SLK122_mrdem_dtm_90m.tif",
+   "columns": 79,
+   "rows": 84,
+   "valid_share": 1.0,
+   "elevation_min_m": 223.0,
+   "elevation_max_m": 262.8
+  },
+  {
+   "fire_id": "2017_SLK129",
+   "filename": "2017_SLK129_mrdem_dtm_90m.tif",
+   "columns": 89,
+   "rows": 82,
+   "valid_share": 1.0,
+   "elevation_min_m": 207.1,
+   "elevation_max_m": 234.3
+  },
+  {
+   "fire_id": "2017_SLK162",
+   "filename": "2017_SLK162_mrdem_dtm_90m.tif",
+   "columns": 76,
+   "rows": 79,
+   "valid_share": 1.0,
+   "elevation_min_m": 345.2,
+   "elevation_max_m": 413.5
+  },
+  {
+   "fire_id": "2017_SLK17",
+   "filename": "2017_SLK17_mrdem_dtm_90m.tif",
+   "columns": 203,
+   "rows": 162,
+   "valid_share": 1.0,
+   "elevation_min_m": 380.9,
+   "elevation_max_m": 446.2
+  },
+  {
+   "fire_id": "2017_SLK175",
+   "filename": "2017_SLK175_mrdem_dtm_90m.tif",
+   "columns": 113,
+   "rows": 114,
+   "valid_share": 1.0,
+   "elevation_min_m": 257.1,
+   "elevation_max_m": 299.5
+  },
+  {
+   "fire_id": "2017_SLK187",
+   "filename": "2017_SLK187_mrdem_dtm_90m.tif",
+   "columns": 77,
+   "rows": 92,
+   "valid_share": 1.0,
+   "elevation_min_m": 267.1,
+   "elevation_max_m": 303.8
+  },
+  {
+   "fire_id": "2017_SLK200",
+   "filename": "2017_SLK200_mrdem_dtm_90m.tif",
+   "columns": 86,
+   "rows": 95,
+   "valid_share": 1.0,
+   "elevation_min_m": 297.1,
+   "elevation_max_m": 333.8
+  },
+  {
+   "fire_id": "2017_SLK23",
+   "filename": "2017_SLK23_mrdem_dtm_90m.tif",
+   "columns": 107,
+   "rows": 81,
+   "valid_share": 1.0,
+   "elevation_min_m": 368.1,
+   "elevation_max_m": 402.0
+  },
+  {
+   "fire_id": "2017_SLK26",
+   "filename": "2017_SLK26_mrdem_dtm_90m.tif",
+   "columns": 96,
+   "rows": 83,
+   "valid_share": 1.0,
+   "elevation_min_m": 363.9,
+   "elevation_max_m": 407.2
+  },
+  {
+   "fire_id": "2017_SLK32",
+   "filename": "2017_SLK32_mrdem_dtm_90m.tif",
+   "columns": 91,
+   "rows": 96,
+   "valid_share": 1.0,
+   "elevation_min_m": 287.7,
+   "elevation_max_m": 346.4
+  },
+  {
+   "fire_id": "2017_SLK33",
+   "filename": "2017_SLK33_mrdem_dtm_90m.tif",
+   "columns": 85,
+   "rows": 82,
+   "valid_share": 1.0,
+   "elevation_min_m": 362.2,
+   "elevation_max_m": 423.8
+  },
+  {
+   "fire_id": "2017_SLK36",
+   "filename": "2017_SLK36_mrdem_dtm_90m.tif",
+   "columns": 156,
+   "rows": 135,
+   "valid_share": 1.0,
+   "elevation_min_m": 310.1,
+   "elevation_max_m": 380.1
+  },
+  {
+   "fire_id": "2017_SLK38",
+   "filename": "2017_SLK38_mrdem_dtm_90m.tif",
+   "columns": 122,
+   "rows": 105,
+   "valid_share": 1.0,
+   "elevation_min_m": 331.3,
+   "elevation_max_m": 388.2
+  },
+  {
+   "fire_id": "2017_SLK42",
+   "filename": "2017_SLK42_mrdem_dtm_90m.tif",
+   "columns": 117,
+   "rows": 109,
+   "valid_share": 1.0,
+   "elevation_min_m": 307.5,
+   "elevation_max_m": 383.3
+  },
+  {
+   "fire_id": "2017_SLK43",
+   "filename": "2017_SLK43_mrdem_dtm_90m.tif",
+   "columns": 91,
+   "rows": 106,
+   "valid_share": 1.0,
+   "elevation_min_m": 296.0,
+   "elevation_max_m": 337.2
+  },
+  {
+   "fire_id": "2017_SLK45",
+   "filename": "2017_SLK45_mrdem_dtm_90m.tif",
+   "columns": 89,
+   "rows": 86,
+   "valid_share": 1.0,
+   "elevation_min_m": 269.1,
+   "elevation_max_m": 326.4
+  },
+  {
+   "fire_id": "2017_SLK52",
+   "filename": "2017_SLK52_mrdem_dtm_90m.tif",
+   "columns": 141,
+   "rows": 113,
+   "valid_share": 1.0,
+   "elevation_min_m": 277.0,
+   "elevation_max_m": 342.9
+  },
+  {
+   "fire_id": "2017_SLK63",
+   "filename": "2017_SLK63_mrdem_dtm_90m.tif",
+   "columns": 78,
+   "rows": 82,
+   "valid_share": 1.0,
+   "elevation_min_m": 311.2,
+   "elevation_max_m": 377.4
+  },
+  {
+   "fire_id": "2017_SLK64",
+   "filename": "2017_SLK64_mrdem_dtm_90m.tif",
+   "columns": 82,
+   "rows": 100,
+   "valid_share": 1.0,
+   "elevation_min_m": 304.9,
+   "elevation_max_m": 352.4
+  },
+  {
+   "fire_id": "2017_SLK68",
+   "filename": "2017_SLK68_mrdem_dtm_90m.tif",
+   "columns": 98,
+   "rows": 130,
+   "valid_share": 1.0,
+   "elevation_min_m": 234.1,
+   "elevation_max_m": 285.9
+  },
+  {
+   "fire_id": "2017_SLK7",
+   "filename": "2017_SLK7_mrdem_dtm_90m.tif",
+   "columns": 113,
+   "rows": 87,
+   "valid_share": 1.0,
+   "elevation_min_m": 263.6,
+   "elevation_max_m": 309.4
+  },
+  {
+   "fire_id": "2017_SLK8",
+   "filename": "2017_SLK8_mrdem_dtm_90m.tif",
+   "columns": 110,
+   "rows": 106,
+   "valid_share": 1.0,
+   "elevation_min_m": 226.3,
+   "elevation_max_m": 264.3
+  },
+  {
+   "fire_id": "2017_SLK82",
+   "filename": "2017_SLK82_mrdem_dtm_90m.tif",
+   "columns": 78,
+   "rows": 88,
+   "valid_share": 1.0,
+   "elevation_min_m": 306.4,
+   "elevation_max_m": 382.2
+  },
+  {
+   "fire_id": "2017_SLK96",
+   "filename": "2017_SLK96_mrdem_dtm_90m.tif",
+   "columns": 88,
+   "rows": 86,
+   "valid_share": 1.0,
+   "elevation_min_m": 226.8,
+   "elevation_max_m": 258.3
+  },
+  {
+   "fire_id": "2017_THU31",
+   "filename": "2017_THU31_mrdem_dtm_90m.tif",
+   "columns": 96,
+   "rows": 86,
+   "valid_share": 1.0,
+   "elevation_min_m": 343.0,
+   "elevation_max_m": 411.4
+  },
+  {
+   "fire_id": "2017_THU58",
+   "filename": "2017_THU58_mrdem_dtm_90m.tif",
+   "columns": 104,
+   "rows": 93,
+   "valid_share": 1.0,
+   "elevation_min_m": 334.6,
+   "elevation_max_m": 401.6
+  },
+  {
+   "fire_id": "2017_THU59",
+   "filename": "2017_THU59_mrdem_dtm_90m.tif",
+   "columns": 93,
+   "rows": 88,
+   "valid_share": 1.0,
+   "elevation_min_m": 342.0,
+   "elevation_max_m": 412.9
+  },
+  {
+   "fire_id": "2017_THU61",
+   "filename": "2017_THU61_mrdem_dtm_90m.tif",
+   "columns": 88,
+   "rows": 86,
+   "valid_share": 1.0,
+   "elevation_min_m": 352.8,
+   "elevation_max_m": 401.9
+  },
+  {
+   "fire_id": "2018_COC13",
+   "filename": "2018_COC13_mrdem_dtm_90m.tif",
+   "columns": 81,
+   "rows": 104,
+   "valid_share": 1.0,
+   "elevation_min_m": 45.6,
+   "elevation_max_m": 101.7
+  },
+  {
+   "fire_id": "2018_COC14",
+   "filename": "2018_COC14_mrdem_dtm_90m.tif",
+   "columns": 211,
+   "rows": 173,
+   "valid_share": 1.0,
+   "elevation_min_m": 260.2,
+   "elevation_max_m": 299.3
+  },
+  {
+   "fire_id": "2018_COC2",
+   "filename": "2018_COC2_mrdem_dtm_90m.tif",
+   "columns": 82,
+   "rows": 84,
+   "valid_share": 1.0,
+   "elevation_min_m": 22.7,
+   "elevation_max_m": 54.6
+  },
+  {
+   "fire_id": "2018_COC20",
+   "filename": "2018_COC20_mrdem_dtm_90m.tif",
+   "columns": 100,
+   "rows": 149,
+   "valid_share": 1.0,
+   "elevation_min_m": 53.2,
+   "elevation_max_m": 122.0
+  },
+  {
+   "fire_id": "2018_COC23",
+   "filename": "2018_COC23_mrdem_dtm_90m.tif",
+   "columns": 92,
+   "rows": 101,
+   "valid_share": 1.0,
+   "elevation_min_m": 66.4,
+   "elevation_max_m": 140.5
+  },
+  {
+   "fire_id": "2018_COC25",
+   "filename": "2018_COC25_mrdem_dtm_90m.tif",
+   "columns": 124,
+   "rows": 106,
+   "valid_share": 1.0,
+   "elevation_min_m": 63.2,
+   "elevation_max_m": 97.0
+  },
+  {
+   "fire_id": "2018_COC26",
+   "filename": "2018_COC26_mrdem_dtm_90m.tif",
+   "columns": 166,
+   "rows": 168,
+   "valid_share": 1.0,
+   "elevation_min_m": 31.0,
+   "elevation_max_m": 81.5
+  },
+  {
+   "fire_id": "2018_COC28",
+   "filename": "2018_COC28_mrdem_dtm_90m.tif",
+   "columns": 84,
+   "rows": 101,
+   "valid_share": 1.0,
+   "elevation_min_m": 37.2,
+   "elevation_max_m": 57.0
+  },
+  {
+   "fire_id": "2018_COC30",
+   "filename": "2018_COC30_mrdem_dtm_90m.tif",
+   "columns": 100,
+   "rows": 89,
+   "valid_share": 1.0,
+   "elevation_min_m": 43.1,
+   "elevation_max_m": 70.9
+  },
+  {
+   "fire_id": "2018_COC31",
+   "filename": "2018_COC31_mrdem_dtm_90m.tif",
+   "columns": 82,
+   "rows": 84,
+   "valid_share": 1.0,
+   "elevation_min_m": 79.9,
+   "elevation_max_m": 106.6
+  },
+  {
+   "fire_id": "2018_COC36",
+   "filename": "2018_COC36_mrdem_dtm_90m.tif",
+   "columns": 80,
+   "rows": 81,
+   "valid_share": 1.0,
+   "elevation_min_m": 96.8,
+   "elevation_max_m": 114.4
+  },
+  {
+   "fire_id": "2018_COC4",
+   "filename": "2018_COC4_mrdem_dtm_90m.tif",
+   "columns": 185,
+   "rows": 183,
+   "valid_share": 1.0,
+   "elevation_min_m": 7.9,
+   "elevation_max_m": 43.8
+  },
+  {
+   "fire_id": "2018_COC5",
+   "filename": "2018_COC5_mrdem_dtm_90m.tif",
+   "columns": 231,
+   "rows": 164,
+   "valid_share": 1.0,
+   "elevation_min_m": 48.0,
+   "elevation_max_m": 84.3
+  },
+  {
+   "fire_id": "2018_COC8",
+   "filename": "2018_COC8_mrdem_dtm_90m.tif",
+   "columns": 82,
+   "rows": 92,
+   "valid_share": 1.0,
+   "elevation_min_m": 303.9,
+   "elevation_max_m": 370.2
+  },
+  {
+   "fire_id": "2018_FOR24",
+   "filename": "2018_FOR24_mrdem_dtm_90m.tif",
+   "columns": 179,
+   "rows": 144,
+   "valid_share": 1.0,
+   "elevation_min_m": 364.7,
+   "elevation_max_m": 458.4
+  },
+  {
+   "fire_id": "2018_HEA12",
+   "filename": "2018_HEA12_mrdem_dtm_90m.tif",
+   "columns": 98,
+   "rows": 119,
+   "valid_share": 1.0,
+   "elevation_min_m": 135.1,
+   "elevation_max_m": 197.0
+  },
+  {
+   "fire_id": "2018_HEA13",
+   "filename": "2018_HEA13_mrdem_dtm_90m.tif",
+   "columns": 142,
+   "rows": 106,
+   "valid_share": 1.0,
+   "elevation_min_m": 140.2,
+   "elevation_max_m": 164.9
+  },
+  {
+   "fire_id": "2018_KEN71",
+   "filename": "2018_KEN71_mrdem_dtm_90m.tif",
+   "columns": 245,
+   "rows": 278,
+   "valid_share": 1.0,
+   "elevation_min_m": 317.7,
+   "elevation_max_m": 399.6
+  },
+  {
+   "fire_id": "2018_KEN77",
+   "filename": "2018_KEN77_mrdem_dtm_90m.tif",
+   "columns": 100,
+   "rows": 96,
+   "valid_share": 1.0,
+   "elevation_min_m": 352.6,
+   "elevation_max_m": 414.1
+  },
+  {
+   "fire_id": "2018_NIP13",
+   "filename": "2018_NIP13_mrdem_dtm_90m.tif",
+   "columns": 121,
+   "rows": 148,
+   "valid_share": 1.0,
+   "elevation_min_m": 230.2,
+   "elevation_max_m": 278.8
+  },
+  {
+   "fire_id": "2018_NIP16",
+   "filename": "2018_NIP16_mrdem_dtm_90m.tif",
+   "columns": 126,
+   "rows": 118,
+   "valid_share": 1.0,
+   "elevation_min_m": 279.4,
+   "elevation_max_m": 349.1
+  },
+  {
+   "fire_id": "2018_NIP20",
+   "filename": "2018_NIP20_mrdem_dtm_90m.tif",
+   "columns": 204,
+   "rows": 329,
+   "valid_share": 1.0,
+   "elevation_min_m": 204.3,
+   "elevation_max_m": 278.0
+  },
+  {
+   "fire_id": "2018_NIP24",
+   "filename": "2018_NIP24_mrdem_dtm_90m.tif",
+   "columns": 80,
+   "rows": 76,
+   "valid_share": 1.0,
+   "elevation_min_m": 275.1,
+   "elevation_max_m": 307.4
+  },
+  {
+   "fire_id": "2018_NIP27",
+   "filename": "2018_NIP27_mrdem_dtm_90m.tif",
+   "columns": 77,
+   "rows": 83,
+   "valid_share": 1.0,
+   "elevation_min_m": 294.6,
+   "elevation_max_m": 334.9
+  },
+  {
+   "fire_id": "2018_NIP29",
+   "filename": "2018_NIP29_mrdem_dtm_90m.tif",
+   "columns": 154,
+   "rows": 223,
+   "valid_share": 1.0,
+   "elevation_min_m": 211.1,
+   "elevation_max_m": 279.3
+  },
+  {
+   "fire_id": "2018_NIP30",
+   "filename": "2018_NIP30_mrdem_dtm_90m.tif",
+   "columns": 350,
+   "rows": 417,
+   "valid_share": 1.0,
+   "elevation_min_m": 206.4,
+   "elevation_max_m": 279.6
+  },
+  {
+   "fire_id": "2018_NIP31",
+   "filename": "2018_NIP31_mrdem_dtm_90m.tif",
+   "columns": 98,
+   "rows": 153,
+   "valid_share": 1.0,
+   "elevation_min_m": 269.8,
+   "elevation_max_m": 332.6
+  },
+  {
+   "fire_id": "2018_NIP32",
+   "filename": "2018_NIP32_mrdem_dtm_90m.tif",
+   "columns": 124,
+   "rows": 185,
+   "valid_share": 1.0,
+   "elevation_min_m": 199.7,
+   "elevation_max_m": 253.9
+  },
+  {
+   "fire_id": "2018_NIP36",
+   "filename": "2018_NIP36_mrdem_dtm_90m.tif",
+   "columns": 85,
+   "rows": 77,
+   "valid_share": 1.0,
+   "elevation_min_m": 151.6,
+   "elevation_max_m": 168.8
+  },
+  {
+   "fire_id": "2018_NIP37",
+   "filename": "2018_NIP37_mrdem_dtm_90m.tif",
+   "columns": 83,
+   "rows": 76,
+   "valid_share": 1.0,
+   "elevation_min_m": 256.8,
+   "elevation_max_m": 315.1
+  },
+  {
+   "fire_id": "2018_NIP38",
+   "filename": "2018_NIP38_mrdem_dtm_90m.tif",
+   "columns": 81,
+   "rows": 77,
+   "valid_share": 1.0,
+   "elevation_min_m": 154.5,
+   "elevation_max_m": 175.9
+  },
+  {
+   "fire_id": "2018_NIP40",
+   "filename": "2018_NIP40_mrdem_dtm_90m.tif",
+   "columns": 97,
+   "rows": 86,
+   "valid_share": 1.0,
+   "elevation_min_m": 249.0,
+   "elevation_max_m": 308.2
+  },
+  {
+   "fire_id": "2018_NIP45",
+   "filename": "2018_NIP45_mrdem_dtm_90m.tif",
+   "columns": 96,
+   "rows": 116,
+   "valid_share": 1.0,
+   "elevation_min_m": 171.6,
+   "elevation_max_m": 232.2
+  },
+  {
+   "fire_id": "2018_NIP49",
+   "filename": "2018_NIP49_mrdem_dtm_90m.tif",
+   "columns": 100,
+   "rows": 92,
+   "valid_share": 1.0,
+   "elevation_min_m": 200.2,
+   "elevation_max_m": 244.7
+  },
+  {
+   "fire_id": "2018_NIP5",
+   "filename": "2018_NIP5_mrdem_dtm_90m.tif",
+   "columns": 81,
+   "rows": 92,
+   "valid_share": 1.0,
+   "elevation_min_m": 191.9,
+   "elevation_max_m": 216.6
+  },
+  {
+   "fire_id": "2018_NIP53",
+   "filename": "2018_NIP53_mrdem_dtm_90m.tif",
+   "columns": 111,
+   "rows": 87,
+   "valid_share": 1.0,
+   "elevation_min_m": 281.7,
+   "elevation_max_m": 325.1
+  },
+  {
+   "fire_id": "2018_NOR19",
+   "filename": "2018_NOR19_mrdem_dtm_90m.tif",
+   "columns": 138,
+   "rows": 176,
+   "valid_share": 1.0,
+   "elevation_min_m": 300.0,
+   "elevation_max_m": 580.0
+  },
+  {
+   "fire_id": "2018_NOR25",
+   "filename": "2018_NOR25_mrdem_dtm_90m.tif",
+   "columns": 89,
+   "rows": 88,
+   "valid_share": 1.0,
+   "elevation_min_m": 238.1,
+   "elevation_max_m": 340.0
+  },
+  {
+   "fire_id": "2018_NOR42",
+   "filename": "2018_NOR42_mrdem_dtm_90m.tif",
+   "columns": 89,
+   "rows": 127,
+   "valid_share": 1.0,
+   "elevation_min_m": 276.2,
+   "elevation_max_m": 363.4
+  },
+  {
+   "fire_id": "2018_NOR46",
+   "filename": "2018_NOR46_mrdem_dtm_90m.tif",
+   "columns": 91,
+   "rows": 93,
+   "valid_share": 1.0,
+   "elevation_min_m": 288.9,
+   "elevation_max_m": 514.7
+  },
+  {
+   "fire_id": "2018_NOR55",
+   "filename": "2018_NOR55_mrdem_dtm_90m.tif",
+   "columns": 83,
+   "rows": 112,
+   "valid_share": 1.0,
+   "elevation_min_m": 291.4,
+   "elevation_max_m": 392.6
+  },
+  {
+   "fire_id": "2018_NOR56",
+   "filename": "2018_NOR56_mrdem_dtm_90m.tif",
+   "columns": 85,
+   "rows": 111,
+   "valid_share": 1.0,
+   "elevation_min_m": 285.8,
+   "elevation_max_m": 375.7
+  },
+  {
+   "fire_id": "2018_NOR61",
+   "filename": "2018_NOR61_mrdem_dtm_90m.tif",
+   "columns": 81,
+   "rows": 100,
+   "valid_share": 1.0,
+   "elevation_min_m": 303.0,
+   "elevation_max_m": 540.5
+  },
+  {
+   "fire_id": "2018_NOR62",
+   "filename": "2018_NOR62_mrdem_dtm_90m.tif",
+   "columns": 133,
+   "rows": 176,
+   "valid_share": 1.0,
+   "elevation_min_m": 246.8,
+   "elevation_max_m": 364.7
+  },
+  {
+   "fire_id": "2018_NOR68",
+   "filename": "2018_NOR68_mrdem_dtm_90m.tif",
+   "columns": 97,
+   "rows": 125,
+   "valid_share": 1.0,
+   "elevation_min_m": 197.0,
+   "elevation_max_m": 338.5
+  },
+  {
+   "fire_id": "2018_NOR69",
+   "filename": "2018_NOR69_mrdem_dtm_90m.tif",
+   "columns": 94,
+   "rows": 105,
+   "valid_share": 1.0,
+   "elevation_min_m": 291.4,
+   "elevation_max_m": 385.5
+  },
+  {
+   "fire_id": "2018_NOR72",
+   "filename": "2018_NOR72_mrdem_dtm_90m.tif",
+   "columns": 342,
+   "rows": 356,
+   "valid_share": 1.0,
+   "elevation_min_m": 274.0,
+   "elevation_max_m": 633.9
+  },
+  {
+   "fire_id": "2018_PAR33",
+   "filename": "2018_PAR33_mrdem_dtm_90m.tif",
+   "columns": 234,
+   "rows": 254,
+   "valid_share": 1.0,
+   "elevation_min_m": 173.5,
+   "elevation_max_m": 218.5
+  },
+  {
+   "fire_id": "2018_PEM6",
+   "filename": "2018_PEM6_mrdem_dtm_90m.tif",
+   "columns": 109,
+   "rows": 108,
+   "valid_share": 1.0,
+   "elevation_min_m": 234.0,
+   "elevation_max_m": 353.8
+  },
+  {
+   "fire_id": "2018_PEM7",
+   "filename": "2018_PEM7_mrdem_dtm_90m.tif",
+   "columns": 84,
+   "rows": 80,
+   "valid_share": 1.0,
+   "elevation_min_m": 151.7,
+   "elevation_max_m": 345.3
+  },
+  {
+   "fire_id": "2018_RED103",
+   "filename": "2018_RED103_mrdem_dtm_90m.tif",
+   "columns": 117,
+   "rows": 109,
+   "valid_share": 1.0,
+   "elevation_min_m": 346.2,
+   "elevation_max_m": 404.5
+  },
+  {
+   "fire_id": "2018_RED108",
+   "filename": "2018_RED108_mrdem_dtm_90m.tif",
+   "columns": 94,
+   "rows": 97,
+   "valid_share": 1.0,
+   "elevation_min_m": 329.7,
+   "elevation_max_m": 405.4
+  },
+  {
+   "fire_id": "2018_RED109",
+   "filename": "2018_RED109_mrdem_dtm_90m.tif",
+   "columns": 79,
+   "rows": 76,
+   "valid_share": 1.0,
+   "elevation_min_m": 316.7,
+   "elevation_max_m": 360.3
+  },
+  {
+   "fire_id": "2018_RED110",
+   "filename": "2018_RED110_mrdem_dtm_90m.tif",
+   "columns": 95,
+   "rows": 78,
+   "valid_share": 1.0,
+   "elevation_min_m": 406.9,
+   "elevation_max_m": 444.7
+  },
+  {
+   "fire_id": "2018_RED115",
+   "filename": "2018_RED115_mrdem_dtm_90m.tif",
+   "columns": 85,
+   "rows": 85,
+   "valid_share": 1.0,
+   "elevation_min_m": 384.8,
+   "elevation_max_m": 448.0
+  },
+  {
+   "fire_id": "2018_RED121",
+   "filename": "2018_RED121_mrdem_dtm_90m.tif",
+   "columns": 85,
+   "rows": 79,
+   "valid_share": 1.0,
+   "elevation_min_m": 289.3,
+   "elevation_max_m": 360.7
+  },
+  {
+   "fire_id": "2018_RED170",
+   "filename": "2018_RED170_mrdem_dtm_90m.tif",
+   "columns": 277,
+   "rows": 197,
+   "valid_share": 1.0,
+   "elevation_min_m": 301.5,
+   "elevation_max_m": 358.8
+  },
+  {
+   "fire_id": "2018_RED30",
+   "filename": "2018_RED30_mrdem_dtm_90m.tif",
+   "columns": 117,
+   "rows": 210,
+   "valid_share": 1.0,
+   "elevation_min_m": 301.1,
+   "elevation_max_m": 354.6
+  },
+  {
+   "fire_id": "2018_RED38",
+   "filename": "2018_RED38_mrdem_dtm_90m.tif",
+   "columns": 350,
+   "rows": 336,
+   "valid_share": 1.0,
+   "elevation_min_m": 298.8,
+   "elevation_max_m": 419.6
+  },
+  {
+   "fire_id": "2018_RED52",
+   "filename": "2018_RED52_mrdem_dtm_90m.tif",
+   "columns": 181,
+   "rows": 150,
+   "valid_share": 1.0,
+   "elevation_min_m": 356.3,
+   "elevation_max_m": 418.6
+  },
+  {
+   "fire_id": "2018_RED55",
+   "filename": "2018_RED55_mrdem_dtm_90m.tif",
+   "columns": 243,
+   "rows": 169,
+   "valid_share": 1.0,
+   "elevation_min_m": 291.0,
+   "elevation_max_m": 345.6
+  },
+  {
+   "fire_id": "2018_RED57",
+   "filename": "2018_RED57_mrdem_dtm_90m.tif",
+   "columns": 115,
+   "rows": 92,
+   "valid_share": 1.0,
+   "elevation_min_m": 293.0,
+   "elevation_max_m": 347.4
+  },
+  {
+   "fire_id": "2018_RED67",
+   "filename": "2018_RED67_mrdem_dtm_90m.tif",
+   "columns": 160,
+   "rows": 140,
+   "valid_share": 1.0,
+   "elevation_min_m": 293.3,
+   "elevation_max_m": 336.6
+  },
+  {
+   "fire_id": "2018_RED70",
+   "filename": "2018_RED70_mrdem_dtm_90m.tif",
+   "columns": 233,
+   "rows": 186,
+   "valid_share": 1.0,
+   "elevation_min_m": 332.7,
+   "elevation_max_m": 389.8
+  },
+  {
+   "fire_id": "2018_RED76",
+   "filename": "2018_RED76_mrdem_dtm_90m.tif",
+   "columns": 363,
+   "rows": 234,
+   "valid_share": 1.0,
+   "elevation_min_m": 318.7,
+   "elevation_max_m": 403.8
+  },
+  {
+   "fire_id": "2018_RED78",
+   "filename": "2018_RED78_mrdem_dtm_90m.tif",
+   "columns": 92,
+   "rows": 84,
+   "valid_share": 1.0,
+   "elevation_min_m": 316.7,
+   "elevation_max_m": 362.5
+  },
+  {
+   "fire_id": "2018_RED80",
+   "filename": "2018_RED80_mrdem_dtm_90m.tif",
+   "columns": 101,
+   "rows": 91,
+   "valid_share": 1.0,
+   "elevation_min_m": 332.6,
+   "elevation_max_m": 392.1
+  },
+  {
+   "fire_id": "2018_RED81",
+   "filename": "2018_RED81_mrdem_dtm_90m.tif",
+   "columns": 193,
+   "rows": 195,
+   "valid_share": 1.0,
+   "elevation_min_m": 316.6,
+   "elevation_max_m": 372.6
+  },
+  {
+   "fire_id": "2018_RED82",
+   "filename": "2018_RED82_mrdem_dtm_90m.tif",
+   "columns": 135,
+   "rows": 123,
+   "valid_share": 1.0,
+   "elevation_min_m": 318.2,
+   "elevation_max_m": 368.2
+  },
+  {
+   "fire_id": "2018_RED86",
+   "filename": "2018_RED86_mrdem_dtm_90m.tif",
+   "columns": 143,
+   "rows": 130,
+   "valid_share": 1.0,
+   "elevation_min_m": 319.1,
+   "elevation_max_m": 379.3
+  },
+  {
+   "fire_id": "2018_RED96",
+   "filename": "2018_RED96_mrdem_dtm_90m.tif",
+   "columns": 244,
+   "rows": 302,
+   "valid_share": 1.0,
+   "elevation_min_m": 325.8,
+   "elevation_max_m": 404.6
+  },
+  {
+   "fire_id": "2018_RED97",
+   "filename": "2018_RED97_mrdem_dtm_90m.tif",
+   "columns": 290,
+   "rows": 292,
+   "valid_share": 1.0,
+   "elevation_min_m": 320.4,
+   "elevation_max_m": 409.1
+  },
+  {
+   "fire_id": "2018_SLK113",
+   "filename": "2018_SLK113_mrdem_dtm_90m.tif",
+   "columns": 89,
+   "rows": 85,
+   "valid_share": 1.0,
+   "elevation_min_m": 355.2,
+   "elevation_max_m": 419.5
+  },
+  {
+   "fire_id": "2018_SLK117",
+   "filename": "2018_SLK117_mrdem_dtm_90m.tif",
+   "columns": 111,
+   "rows": 121,
+   "valid_share": 1.0,
+   "elevation_min_m": 373.1,
+   "elevation_max_m": 425.8
+  },
+  {
+   "fire_id": "2018_SLK162",
+   "filename": "2018_SLK162_mrdem_dtm_90m.tif",
+   "columns": 91,
+   "rows": 87,
+   "valid_share": 1.0,
+   "elevation_min_m": 384.1,
+   "elevation_max_m": 454.0
+  },
+  {
+   "fire_id": "2018_SLK18",
+   "filename": "2018_SLK18_mrdem_dtm_90m.tif",
+   "columns": 117,
+   "rows": 144,
+   "valid_share": 1.0,
+   "elevation_min_m": 233.7,
+   "elevation_max_m": 267.9
+  },
+  {
+   "fire_id": "2018_SLK19",
+   "filename": "2018_SLK19_mrdem_dtm_90m.tif",
+   "columns": 141,
+   "rows": 126,
+   "valid_share": 1.0,
+   "elevation_min_m": 244.3,
+   "elevation_max_m": 298.7
+  },
+  {
+   "fire_id": "2018_SLK22",
+   "filename": "2018_SLK22_mrdem_dtm_90m.tif",
+   "columns": 78,
+   "rows": 86,
+   "valid_share": 1.0,
+   "elevation_min_m": 320.7,
+   "elevation_max_m": 355.8
+  },
+  {
+   "fire_id": "2018_SLK23",
+   "filename": "2018_SLK23_mrdem_dtm_90m.tif",
+   "columns": 84,
+   "rows": 92,
+   "valid_share": 1.0,
+   "elevation_min_m": 286.9,
+   "elevation_max_m": 318.5
+  },
+  {
+   "fire_id": "2018_SLK26",
+   "filename": "2018_SLK26_mrdem_dtm_90m.tif",
+   "columns": 242,
+   "rows": 248,
+   "valid_share": 1.0,
+   "elevation_min_m": 176.5,
+   "elevation_max_m": 233.5
+  },
+  {
+   "fire_id": "2018_SLK27",
+   "filename": "2018_SLK27_mrdem_dtm_90m.tif",
+   "columns": 207,
+   "rows": 211,
+   "valid_share": 1.0,
+   "elevation_min_m": 265.2,
+   "elevation_max_m": 336.6
+  },
+  {
+   "fire_id": "2018_SLK37",
+   "filename": "2018_SLK37_mrdem_dtm_90m.tif",
+   "columns": 90,
+   "rows": 91,
+   "valid_share": 1.0,
+   "elevation_min_m": 241.6,
+   "elevation_max_m": 299.6
+  },
+  {
+   "fire_id": "2018_SLK44",
+   "filename": "2018_SLK44_mrdem_dtm_90m.tif",
+   "columns": 179,
+   "rows": 196,
+   "valid_share": 1.0,
+   "elevation_min_m": 273.9,
+   "elevation_max_m": 334.9
+  },
+  {
+   "fire_id": "2018_SLK48",
+   "filename": "2018_SLK48_mrdem_dtm_90m.tif",
+   "columns": 146,
+   "rows": 173,
+   "valid_share": 1.0,
+   "elevation_min_m": 290.5,
+   "elevation_max_m": 364.7
+  },
+  {
+   "fire_id": "2018_SLK49",
+   "filename": "2018_SLK49_mrdem_dtm_90m.tif",
+   "columns": 93,
+   "rows": 78,
+   "valid_share": 1.0,
+   "elevation_min_m": 362.2,
+   "elevation_max_m": 400.0
+  },
+  {
+   "fire_id": "2018_SLK51",
+   "filename": "2018_SLK51_mrdem_dtm_90m.tif",
+   "columns": 96,
+   "rows": 94,
+   "valid_share": 1.0,
+   "elevation_min_m": 372.1,
+   "elevation_max_m": 423.3
+  },
+  {
+   "fire_id": "2018_SLK53",
+   "filename": "2018_SLK53_mrdem_dtm_90m.tif",
+   "columns": 92,
+   "rows": 112,
+   "valid_share": 1.0,
+   "elevation_min_m": 230.7,
+   "elevation_max_m": 266.9
+  },
+  {
+   "fire_id": "2018_SLK55",
+   "filename": "2018_SLK55_mrdem_dtm_90m.tif",
+   "columns": 105,
+   "rows": 87,
+   "valid_share": 1.0,
+   "elevation_min_m": 357.8,
+   "elevation_max_m": 424.1
+  },
+  {
+   "fire_id": "2018_SLK56",
+   "filename": "2018_SLK56_mrdem_dtm_90m.tif",
+   "columns": 87,
+   "rows": 99,
+   "valid_share": 1.0,
+   "elevation_min_m": 362.9,
+   "elevation_max_m": 452.4
+  },
+  {
+   "fire_id": "2018_SLK57",
+   "filename": "2018_SLK57_mrdem_dtm_90m.tif",
+   "columns": 248,
+   "rows": 233,
+   "valid_share": 1.0,
+   "elevation_min_m": 221.5,
+   "elevation_max_m": 284.6
+  },
+  {
+   "fire_id": "2018_SLK67",
+   "filename": "2018_SLK67_mrdem_dtm_90m.tif",
+   "columns": 134,
+   "rows": 99,
+   "valid_share": 1.0,
+   "elevation_min_m": 300.0,
+   "elevation_max_m": 367.3
+  },
+  {
+   "fire_id": "2018_SLK68",
+   "filename": "2018_SLK68_mrdem_dtm_90m.tif",
+   "columns": 100,
+   "rows": 94,
+   "valid_share": 1.0,
+   "elevation_min_m": 302.3,
+   "elevation_max_m": 354.7
+  },
+  {
+   "fire_id": "2018_SLK78",
+   "filename": "2018_SLK78_mrdem_dtm_90m.tif",
+   "columns": 83,
+   "rows": 77,
+   "valid_share": 1.0,
+   "elevation_min_m": 354.7,
+   "elevation_max_m": 392.1
+  },
+  {
+   "fire_id": "2018_SUD83",
+   "filename": "2018_SUD83_mrdem_dtm_90m.tif",
+   "columns": 76,
+   "rows": 80,
+   "valid_share": 1.0,
+   "elevation_min_m": 345.8,
+   "elevation_max_m": 446.1
+  },
+  {
+   "fire_id": "2018_THU36",
+   "filename": "2018_THU36_mrdem_dtm_90m.tif",
+   "columns": 89,
+   "rows": 86,
+   "valid_share": 1.0,
+   "elevation_min_m": 393.3,
+   "elevation_max_m": 449.4
+  },
+  {
+   "fire_id": "2018_THU52",
+   "filename": "2018_THU52_mrdem_dtm_90m.tif",
+   "columns": 224,
+   "rows": 195,
+   "valid_share": 1.0,
+   "elevation_min_m": 341.2,
+   "elevation_max_m": 430.0
+  },
+  {
+   "fire_id": "2018_TIM12",
+   "filename": "2018_TIM12_mrdem_dtm_90m.tif",
+   "columns": 83,
+   "rows": 87,
+   "valid_share": 1.0,
+   "elevation_min_m": 260.9,
+   "elevation_max_m": 360.1
+  },
+  {
+   "fire_id": "2018_TIM6",
+   "filename": "2018_TIM6_mrdem_dtm_90m.tif",
+   "columns": 79,
+   "rows": 76,
+   "valid_share": 1.0,
+   "elevation_min_m": 282.7,
+   "elevation_max_m": 368.1
+  },
+  {
+   "fire_id": "2019_COC10",
+   "filename": "2019_COC10_mrdem_dtm_90m.tif",
+   "columns": 100,
+   "rows": 115,
+   "valid_share": 1.0,
+   "elevation_min_m": 226.4,
+   "elevation_max_m": 265.8
+  },
+  {
+   "fire_id": "2019_FOR2",
+   "filename": "2019_FOR2_mrdem_dtm_90m.tif",
+   "columns": 77,
+   "rows": 85,
+   "valid_share": 1.0,
+   "elevation_min_m": 330.3,
+   "elevation_max_m": 416.7
+  },
+  {
+   "fire_id": "2019_NIP11",
+   "filename": "2019_NIP11_mrdem_dtm_90m.tif",
+   "columns": 83,
+   "rows": 83,
+   "valid_share": 1.0,
+   "elevation_min_m": 178.2,
+   "elevation_max_m": 380.1
+  },
+  {
+   "fire_id": "2019_RED14",
+   "filename": "2019_RED14_mrdem_dtm_90m.tif",
+   "columns": 155,
+   "rows": 170,
+   "valid_share": 1.0,
+   "elevation_min_m": 321.1,
+   "elevation_max_m": 387.3
+  },
+  {
+   "fire_id": "2019_RED17",
+   "filename": "2019_RED17_mrdem_dtm_90m.tif",
+   "columns": 181,
+   "rows": 248,
+   "valid_share": 1.0,
+   "elevation_min_m": 396.8,
+   "elevation_max_m": 462.9
+  },
+  {
+   "fire_id": "2019_RED23",
+   "filename": "2019_RED23_mrdem_dtm_90m.tif",
+   "columns": 750,
+   "rows": 409,
+   "valid_share": 1.0,
+   "elevation_min_m": 267.7,
+   "elevation_max_m": 359.9
+  },
+  {
+   "fire_id": "2019_RED24",
+   "filename": "2019_RED24_mrdem_dtm_90m.tif",
+   "columns": 332,
+   "rows": 233,
+   "valid_share": 1.0,
+   "elevation_min_m": 307.5,
+   "elevation_max_m": 383.3
+  },
+  {
+   "fire_id": "2019_RED25",
+   "filename": "2019_RED25_mrdem_dtm_90m.tif",
+   "columns": 259,
+   "rows": 187,
+   "valid_share": 1.0,
+   "elevation_min_m": 292.1,
+   "elevation_max_m": 362.1
+  },
+  {
+   "fire_id": "2019_RED37",
+   "filename": "2019_RED37_mrdem_dtm_90m.tif",
+   "columns": 89,
+   "rows": 75,
+   "valid_share": 1.0,
+   "elevation_min_m": 385.7,
+   "elevation_max_m": 433.4
+  },
+  {
+   "fire_id": "2019_RED38",
+   "filename": "2019_RED38_mrdem_dtm_90m.tif",
+   "columns": 127,
+   "rows": 118,
+   "valid_share": 1.0,
+   "elevation_min_m": 321.9,
+   "elevation_max_m": 396.7
+  },
+  {
+   "fire_id": "2019_RED39",
+   "filename": "2019_RED39_mrdem_dtm_90m.tif",
+   "columns": 335,
+   "rows": 510,
+   "valid_share": 1.0,
+   "elevation_min_m": 320.3,
+   "elevation_max_m": 429.9
+  },
+  {
+   "fire_id": "2019_RED40",
+   "filename": "2019_RED40_mrdem_dtm_90m.tif",
+   "columns": 428,
+   "rows": 368,
+   "valid_share": 1.0,
+   "elevation_min_m": 366.4,
+   "elevation_max_m": 472.8
+  },
+  {
+   "fire_id": "2019_RED44",
+   "filename": "2019_RED44_mrdem_dtm_90m.tif",
+   "columns": 223,
+   "rows": 213,
+   "valid_share": 1.0,
+   "elevation_min_m": 303.4,
+   "elevation_max_m": 366.1
+  },
+  {
+   "fire_id": "2019_RED45",
+   "filename": "2019_RED45_mrdem_dtm_90m.tif",
+   "columns": 396,
+   "rows": 397,
+   "valid_share": 1.0,
+   "elevation_min_m": 303.6,
+   "elevation_max_m": 384.9
+  },
+  {
+   "fire_id": "2019_RED49",
+   "filename": "2019_RED49_mrdem_dtm_90m.tif",
+   "columns": 100,
+   "rows": 126,
+   "valid_share": 1.0,
+   "elevation_min_m": 305.1,
+   "elevation_max_m": 351.1
+  },
+  {
+   "fire_id": "2019_RED57",
+   "filename": "2019_RED57_mrdem_dtm_90m.tif",
+   "columns": 87,
+   "rows": 94,
+   "valid_share": 1.0,
+   "elevation_min_m": 263.0,
+   "elevation_max_m": 343.0
+  },
+  {
+   "fire_id": "2019_RED59",
+   "filename": "2019_RED59_mrdem_dtm_90m.tif",
+   "columns": 117,
+   "rows": 250,
+   "valid_share": 1.0,
+   "elevation_min_m": 321.9,
+   "elevation_max_m": 396.8
+  },
+  {
+   "fire_id": "2019_RED60",
+   "filename": "2019_RED60_mrdem_dtm_90m.tif",
+   "columns": 87,
+   "rows": 92,
+   "valid_share": 1.0,
+   "elevation_min_m": 247.1,
+   "elevation_max_m": 311.9
+  },
+  {
+   "fire_id": "2019_RED62",
+   "filename": "2019_RED62_mrdem_dtm_90m.tif",
+   "columns": 93,
+   "rows": 107,
+   "valid_share": 1.0,
+   "elevation_min_m": 254.1,
+   "elevation_max_m": 322.6
+  },
+  {
+   "fire_id": "2019_RED75",
+   "filename": "2019_RED75_mrdem_dtm_90m.tif",
+   "columns": 76,
+   "rows": 79,
+   "valid_share": 1.0,
+   "elevation_min_m": 353.3,
+   "elevation_max_m": 444.0
+  },
+  {
+   "fire_id": "2019_SLK22",
+   "filename": "2019_SLK22_mrdem_dtm_90m.tif",
+   "columns": 83,
+   "rows": 81,
+   "valid_share": 1.0,
+   "elevation_min_m": 377.0,
+   "elevation_max_m": 424.5
+  },
+  {
+   "fire_id": "2019_SLK31",
+   "filename": "2019_SLK31_mrdem_dtm_90m.tif",
+   "columns": 81,
+   "rows": 93,
+   "valid_share": 1.0,
+   "elevation_min_m": 272.8,
+   "elevation_max_m": 320.7
+  },
+  {
+   "fire_id": "2019_SLK33",
+   "filename": "2019_SLK33_mrdem_dtm_90m.tif",
+   "columns": 129,
+   "rows": 139,
+   "valid_share": 1.0,
+   "elevation_min_m": 255.9,
+   "elevation_max_m": 308.9
+  },
+  {
+   "fire_id": "2019_SLK37",
+   "filename": "2019_SLK37_mrdem_dtm_90m.tif",
+   "columns": 89,
+   "rows": 102,
+   "valid_share": 1.0,
+   "elevation_min_m": 262.7,
+   "elevation_max_m": 307.1
+  },
+  {
+   "fire_id": "2019_SLK38",
+   "filename": "2019_SLK38_mrdem_dtm_90m.tif",
+   "columns": 103,
+   "rows": 116,
+   "valid_share": 1.0,
+   "elevation_min_m": 273.4,
+   "elevation_max_m": 324.4
+  },
+  {
+   "fire_id": "2019_SLK39",
+   "filename": "2019_SLK39_mrdem_dtm_90m.tif",
+   "columns": 88,
+   "rows": 81,
+   "valid_share": 1.0,
+   "elevation_min_m": 351.1,
+   "elevation_max_m": 401.1
+  },
+  {
+   "fire_id": "2019_SLK40",
+   "filename": "2019_SLK40_mrdem_dtm_90m.tif",
+   "columns": 103,
+   "rows": 88,
+   "valid_share": 1.0,
+   "elevation_min_m": 261.8,
+   "elevation_max_m": 309.4
+  },
+  {
+   "fire_id": "2019_SLK41",
+   "filename": "2019_SLK41_mrdem_dtm_90m.tif",
+   "columns": 84,
+   "rows": 92,
+   "valid_share": 1.0,
+   "elevation_min_m": 269.4,
+   "elevation_max_m": 303.4
+  },
+  {
+   "fire_id": "2019_SLK8",
+   "filename": "2019_SLK8_mrdem_dtm_90m.tif",
+   "columns": 107,
+   "rows": 119,
+   "valid_share": 1.0,
+   "elevation_min_m": 328.6,
+   "elevation_max_m": 400.0
+  },
+  {
+   "fire_id": "2019_TIM2",
+   "filename": "2019_TIM2_mrdem_dtm_90m.tif",
+   "columns": 137,
+   "rows": 284,
+   "valid_share": 1.0,
+   "elevation_min_m": 348.1,
+   "elevation_max_m": 501.0
+  },
+  {
+   "fire_id": "2020_CHA3",
+   "filename": "2020_CHA3_mrdem_dtm_90m.tif",
+   "columns": 75,
+   "rows": 82,
+   "valid_share": 1.0,
+   "elevation_min_m": 417.8,
+   "elevation_max_m": 556.3
+  },
+  {
+   "fire_id": "2020_COC11",
+   "filename": "2020_COC11_mrdem_dtm_90m.tif",
+   "columns": 86,
+   "rows": 84,
+   "valid_share": 1.0,
+   "elevation_min_m": 140.3,
+   "elevation_max_m": 180.5
+  },
+  {
+   "fire_id": "2020_COC12",
+   "filename": "2020_COC12_mrdem_dtm_90m.tif",
+   "columns": 84,
+   "rows": 84,
+   "valid_share": 1.0,
+   "elevation_min_m": 119.2,
+   "elevation_max_m": 147.8
+  },
+  {
+   "fire_id": "2020_COC13",
+   "filename": "2020_COC13_mrdem_dtm_90m.tif",
+   "columns": 81,
+   "rows": 102,
+   "valid_share": 1.0,
+   "elevation_min_m": 86.4,
+   "elevation_max_m": 108.7
+  },
+  {
+   "fire_id": "2020_COC15",
+   "filename": "2020_COC15_mrdem_dtm_90m.tif",
+   "columns": 82,
+   "rows": 81,
+   "valid_share": 1.0,
+   "elevation_min_m": 41.0,
+   "elevation_max_m": 84.4
+  },
+  {
+   "fire_id": "2020_COC18",
+   "filename": "2020_COC18_mrdem_dtm_90m.tif",
+   "columns": 118,
+   "rows": 98,
+   "valid_share": 1.0,
+   "elevation_min_m": 67.3,
+   "elevation_max_m": 104.6
+  },
+  {
+   "fire_id": "2020_COC4",
+   "filename": "2020_COC4_mrdem_dtm_90m.tif",
+   "columns": 85,
+   "rows": 90,
+   "valid_share": 1.0,
+   "elevation_min_m": 22.4,
+   "elevation_max_m": 45.8
+  },
+  {
+   "fire_id": "2020_COC7",
+   "filename": "2020_COC7_mrdem_dtm_90m.tif",
+   "columns": 114,
+   "rows": 96,
+   "valid_share": 1.0,
+   "elevation_min_m": 46.5,
+   "elevation_max_m": 62.0
+  },
+  {
+   "fire_id": "2020_COC9",
+   "filename": "2020_COC9_mrdem_dtm_90m.tif",
+   "columns": 89,
+   "rows": 99,
+   "valid_share": 1.0,
+   "elevation_min_m": 79.5,
+   "elevation_max_m": 103.9
+  },
+  {
+   "fire_id": "2020_NIP26",
+   "filename": "2020_NIP26_mrdem_dtm_90m.tif",
+   "columns": 83,
+   "rows": 93,
+   "valid_share": 1.0,
+   "elevation_min_m": 194.9,
+   "elevation_max_m": 224.9
+  },
+  {
+   "fire_id": "2020_NIP30",
+   "filename": "2020_NIP30_mrdem_dtm_90m.tif",
+   "columns": 80,
+   "rows": 79,
+   "valid_share": 1.0,
+   "elevation_min_m": 255.2,
+   "elevation_max_m": 287.6
+  },
+  {
+   "fire_id": "2020_NIP40",
+   "filename": "2020_NIP40_mrdem_dtm_90m.tif",
+   "columns": 89,
+   "rows": 81,
+   "valid_share": 1.0,
+   "elevation_min_m": 258.3,
+   "elevation_max_m": 383.4
+  },
+  {
+   "fire_id": "2020_NIP45",
+   "filename": "2020_NIP45_mrdem_dtm_90m.tif",
+   "columns": 297,
+   "rows": 183,
+   "valid_share": 1.0,
+   "elevation_min_m": 268.1,
+   "elevation_max_m": 392.4
+  },
+  {
+   "fire_id": "2020_NIP46",
+   "filename": "2020_NIP46_mrdem_dtm_90m.tif",
+   "columns": 79,
+   "rows": 79,
+   "valid_share": 1.0,
+   "elevation_min_m": 243.5,
+   "elevation_max_m": 268.8
+  },
+  {
+   "fire_id": "2020_NIP47",
+   "filename": "2020_NIP47_mrdem_dtm_90m.tif",
+   "columns": 110,
+   "rows": 142,
+   "valid_share": 1.0,
+   "elevation_min_m": 227.9,
+   "elevation_max_m": 260.5
+  },
+  {
+   "fire_id": "2020_NIP49",
+   "filename": "2020_NIP49_mrdem_dtm_90m.tif",
+   "columns": 111,
+   "rows": 103,
+   "valid_share": 1.0,
+   "elevation_min_m": 155.3,
+   "elevation_max_m": 180.1
+  },
+  {
+   "fire_id": "2020_RED18",
+   "filename": "2020_RED18_mrdem_dtm_90m.tif",
+   "columns": 119,
+   "rows": 141,
+   "valid_share": 1.0,
+   "elevation_min_m": 256.0,
+   "elevation_max_m": 325.2
+  },
+  {
+   "fire_id": "2020_RED22",
+   "filename": "2020_RED22_mrdem_dtm_90m.tif",
+   "columns": 119,
+   "rows": 122,
+   "valid_share": 1.0,
+   "elevation_min_m": 281.4,
+   "elevation_max_m": 334.9
+  },
+  {
+   "fire_id": "2020_RED24",
+   "filename": "2020_RED24_mrdem_dtm_90m.tif",
+   "columns": 87,
+   "rows": 91,
+   "valid_share": 1.0,
+   "elevation_min_m": 293.0,
+   "elevation_max_m": 353.0
+  },
+  {
+   "fire_id": "2020_RED29",
+   "filename": "2020_RED29_mrdem_dtm_90m.tif",
+   "columns": 101,
+   "rows": 98,
+   "valid_share": 1.0,
+   "elevation_min_m": 305.3,
+   "elevation_max_m": 359.6
+  },
+  {
+   "fire_id": "2020_RED30",
+   "filename": "2020_RED30_mrdem_dtm_90m.tif",
+   "columns": 85,
+   "rows": 75,
+   "valid_share": 1.0,
+   "elevation_min_m": 306.3,
+   "elevation_max_m": 367.2
+  },
+  {
+   "fire_id": "2020_RED49",
+   "filename": "2020_RED49_mrdem_dtm_90m.tif",
+   "columns": 136,
+   "rows": 96,
+   "valid_share": 1.0,
+   "elevation_min_m": 355.4,
+   "elevation_max_m": 451.1
+  },
+  {
+   "fire_id": "2020_RED9",
+   "filename": "2020_RED9_mrdem_dtm_90m.tif",
+   "columns": 88,
+   "rows": 129,
+   "valid_share": 1.0,
+   "elevation_min_m": 332.2,
+   "elevation_max_m": 371.3
+  },
+  {
+   "fire_id": "2020_SLK25",
+   "filename": "2020_SLK25_mrdem_dtm_90m.tif",
+   "columns": 79,
+   "rows": 85,
+   "valid_share": 1.0,
+   "elevation_min_m": 201.0,
+   "elevation_max_m": 240.7
+  },
+  {
+   "fire_id": "2020_SLK26",
+   "filename": "2020_SLK26_mrdem_dtm_90m.tif",
+   "columns": 112,
+   "rows": 96,
+   "valid_share": 1.0,
+   "elevation_min_m": 201.4,
+   "elevation_max_m": 229.4
+  },
+  {
+   "fire_id": "2020_SLK3",
+   "filename": "2020_SLK3_mrdem_dtm_90m.tif",
+   "columns": 79,
+   "rows": 86,
+   "valid_share": 1.0,
+   "elevation_min_m": 390.4,
+   "elevation_max_m": 438.8
+  },
+  {
+   "fire_id": "2020_SLK36",
+   "filename": "2020_SLK36_mrdem_dtm_90m.tif",
+   "columns": 82,
+   "rows": 79,
+   "valid_share": 1.0,
+   "elevation_min_m": 333.6,
+   "elevation_max_m": 392.4
+  },
+  {
+   "fire_id": "2020_SLK37",
+   "filename": "2020_SLK37_mrdem_dtm_90m.tif",
+   "columns": 86,
+   "rows": 76,
+   "valid_share": 1.0,
+   "elevation_min_m": 328.5,
+   "elevation_max_m": 391.4
+  },
+  {
+   "fire_id": "2020_SLK47",
+   "filename": "2020_SLK47_mrdem_dtm_90m.tif",
+   "columns": 78,
+   "rows": 88,
+   "valid_share": 1.0,
+   "elevation_min_m": 237.2,
+   "elevation_max_m": 277.9
+  },
+  {
+   "fire_id": "2020_SLK48",
+   "filename": "2020_SLK48_mrdem_dtm_90m.tif",
+   "columns": 83,
+   "rows": 89,
+   "valid_share": 1.0,
+   "elevation_min_m": 212.4,
+   "elevation_max_m": 239.9
+  },
+  {
+   "fire_id": "2021_COC18",
+   "filename": "2021_COC18_mrdem_dtm_90m.tif",
+   "columns": 96,
+   "rows": 93,
+   "valid_share": 1.0,
+   "elevation_min_m": 25.8,
+   "elevation_max_m": 41.4
+  },
+  {
+   "fire_id": "2021_COC21",
+   "filename": "2021_COC21_mrdem_dtm_90m.tif",
+   "columns": 78,
+   "rows": 94,
+   "valid_share": 1.0,
+   "elevation_min_m": 46.1,
+   "elevation_max_m": 55.8
+  },
+  {
+   "fire_id": "2021_COC22",
+   "filename": "2021_COC22_mrdem_dtm_90m.tif",
+   "columns": 176,
+   "rows": 185,
+   "valid_share": 1.0,
+   "elevation_min_m": 128.9,
+   "elevation_max_m": 167.9
+  },
+  {
+   "fire_id": "2021_COC23",
+   "filename": "2021_COC23_mrdem_dtm_90m.tif",
+   "columns": 85,
+   "rows": 84,
+   "valid_share": 1.0,
+   "elevation_min_m": 75.0,
+   "elevation_max_m": 104.9
+  },
+  {
+   "fire_id": "2021_COC26",
+   "filename": "2021_COC26_mrdem_dtm_90m.tif",
+   "columns": 284,
+   "rows": 248,
+   "valid_share": 1.0,
+   "elevation_min_m": 66.3,
+   "elevation_max_m": 125.9
+  },
+  {
+   "fire_id": "2021_COC28",
+   "filename": "2021_COC28_mrdem_dtm_90m.tif",
+   "columns": 86,
+   "rows": 118,
+   "valid_share": 1.0,
+   "elevation_min_m": 254.2,
+   "elevation_max_m": 286.4
+  },
+  {
+   "fire_id": "2021_DRY31",
+   "filename": "2021_DRY31_mrdem_dtm_90m.tif",
+   "columns": 125,
+   "rows": 147,
+   "valid_share": 1.0,
+   "elevation_min_m": 411.3,
+   "elevation_max_m": 458.6
+  },
+  {
+   "fire_id": "2021_DRY71",
+   "filename": "2021_DRY71_mrdem_dtm_90m.tif",
+   "columns": 113,
+   "rows": 110,
+   "valid_share": 1.0,
+   "elevation_min_m": 397.7,
+   "elevation_max_m": 473.3
+  },
+  {
+   "fire_id": "2021_DRY76",
+   "filename": "2021_DRY76_mrdem_dtm_90m.tif",
+   "columns": 100,
+   "rows": 106,
+   "valid_share": 1.0,
+   "elevation_min_m": 395.3,
+   "elevation_max_m": 462.0
+  },
+  {
+   "fire_id": "2021_FOR116",
+   "filename": "2021_FOR116_mrdem_dtm_90m.tif",
+   "columns": 87,
+   "rows": 90,
+   "valid_share": 1.0,
+   "elevation_min_m": 340.3,
+   "elevation_max_m": 419.7
+  },
+  {
+   "fire_id": "2021_FOR120",
+   "filename": "2021_FOR120_mrdem_dtm_90m.tif",
+   "columns": 85,
+   "rows": 98,
+   "valid_share": 1.0,
+   "elevation_min_m": 372.6,
+   "elevation_max_m": 467.6
+  },
+  {
+   "fire_id": "2021_FOR19",
+   "filename": "2021_FOR19_mrdem_dtm_90m.tif",
+   "columns": 103,
+   "rows": 102,
+   "valid_share": 1.0,
+   "elevation_min_m": 413.4,
+   "elevation_max_m": 516.9
+  },
+  {
+   "fire_id": "2021_FOR3",
+   "filename": "2021_FOR3_mrdem_dtm_90m.tif",
+   "columns": 111,
+   "rows": 87,
+   "valid_share": 1.0,
+   "elevation_min_m": 323.1,
+   "elevation_max_m": 352.9
+  },
+  {
+   "fire_id": "2021_FOR35",
+   "filename": "2021_FOR35_mrdem_dtm_90m.tif",
+   "columns": 493,
+   "rows": 498,
+   "valid_share": 1.0,
+   "elevation_min_m": 359.3,
+   "elevation_max_m": 530.5
+  },
+  {
+   "fire_id": "2021_FOR38",
+   "filename": "2021_FOR38_mrdem_dtm_90m.tif",
+   "columns": 163,
+   "rows": 181,
+   "valid_share": 1.0,
+   "elevation_min_m": 372.5,
+   "elevation_max_m": 472.1
+  },
+  {
+   "fire_id": "2021_FOR40",
+   "filename": "2021_FOR40_mrdem_dtm_90m.tif",
+   "columns": 141,
+   "rows": 129,
+   "valid_share": 1.0,
+   "elevation_min_m": 377.8,
+   "elevation_max_m": 510.2
+  },
+  {
+   "fire_id": "2021_FOR47",
+   "filename": "2021_FOR47_mrdem_dtm_90m.tif",
+   "columns": 116,
+   "rows": 130,
+   "valid_share": 1.0,
+   "elevation_min_m": 336.3,
+   "elevation_max_m": 430.6
+  },
+  {
+   "fire_id": "2021_FOR5",
+   "filename": "2021_FOR5_mrdem_dtm_90m.tif",
+   "columns": 93,
+   "rows": 83,
+   "valid_share": 1.0,
+   "elevation_min_m": 353.1,
+   "elevation_max_m": 408.2
+  },
+  {
+   "fire_id": "2021_FOR55",
+   "filename": "2021_FOR55_mrdem_dtm_90m.tif",
+   "columns": 140,
+   "rows": 295,
+   "valid_share": 1.0,
+   "elevation_min_m": 369.5,
+   "elevation_max_m": 505.8
+  },
+  {
+   "fire_id": "2021_FOR56",
+   "filename": "2021_FOR56_mrdem_dtm_90m.tif",
+   "columns": 182,
+   "rows": 114,
+   "valid_share": 1.0,
+   "elevation_min_m": 394.5,
+   "elevation_max_m": 504.3
+  },
+  {
+   "fire_id": "2021_FOR57",
+   "filename": "2021_FOR57_mrdem_dtm_90m.tif",
+   "columns": 193,
+   "rows": 214,
+   "valid_share": 1.0,
+   "elevation_min_m": 367.0,
+   "elevation_max_m": 496.8
+  },
+  {
+   "fire_id": "2021_FOR92",
+   "filename": "2021_FOR92_mrdem_dtm_90m.tif",
+   "columns": 86,
+   "rows": 86,
+   "valid_share": 1.0,
+   "elevation_min_m": 376.0,
+   "elevation_max_m": 452.5
+  },
+  {
+   "fire_id": "2021_HEA4",
+   "filename": "2021_HEA4_mrdem_dtm_90m.tif",
+   "columns": 147,
+   "rows": 203,
+   "valid_share": 1.0,
+   "elevation_min_m": 91.9,
+   "elevation_max_m": 140.3
+  },
+  {
+   "fire_id": "2021_KEN25",
+   "filename": "2021_KEN25_mrdem_dtm_90m.tif",
+   "columns": 119,
+   "rows": 226,
+   "valid_share": 1.0,
+   "elevation_min_m": 345.0,
+   "elevation_max_m": 465.6
+  },
+  {
+   "fire_id": "2021_KEN27",
+   "filename": "2021_KEN27_mrdem_dtm_90m.tif",
+   "columns": 127,
+   "rows": 224,
+   "valid_share": 1.0,
+   "elevation_min_m": 317.1,
+   "elevation_max_m": 422.7
+  },
+  {
+   "fire_id": "2021_KEN30",
+   "filename": "2021_KEN30_mrdem_dtm_90m.tif",
+   "columns": 110,
+   "rows": 167,
+   "valid_share": 1.0,
+   "elevation_min_m": 375.8,
+   "elevation_max_m": 465.6
+  },
+  {
+   "fire_id": "2021_KEN31",
+   "filename": "2021_KEN31_mrdem_dtm_90m.tif",
+   "columns": 76,
+   "rows": 84,
+   "valid_share": 1.0,
+   "elevation_min_m": 318.7,
+   "elevation_max_m": 417.4
+  },
+  {
+   "fire_id": "2021_KEN51",
+   "filename": "2021_KEN51_mrdem_dtm_90m.tif",
+   "columns": 649,
+   "rows": 985,
+   "valid_share": 1.0,
+   "elevation_min_m": 280.3,
+   "elevation_max_m": 438.3
+  },
+  {
+   "fire_id": "2021_KEN94",
+   "filename": "2021_KEN94_mrdem_dtm_90m.tif",
+   "columns": 79,
+   "rows": 84,
+   "valid_share": 1.0,
+   "elevation_min_m": 302.6,
+   "elevation_max_m": 390.3
+  },
+  {
+   "fire_id": "2021_KLK6",
+   "filename": "2021_KLK6_mrdem_dtm_90m.tif",
+   "columns": 85,
+   "rows": 92,
+   "valid_share": 1.0,
+   "elevation_min_m": 322.4,
+   "elevation_max_m": 436.9
+  },
+  {
+   "fire_id": "2021_NIP18",
+   "filename": "2021_NIP18_mrdem_dtm_90m.tif",
+   "columns": 103,
+   "rows": 93,
+   "valid_share": 1.0,
+   "elevation_min_m": 244.3,
+   "elevation_max_m": 294.8
+  },
+  {
+   "fire_id": "2021_NIP24",
+   "filename": "2021_NIP24_mrdem_dtm_90m.tif",
+   "columns": 90,
+   "rows": 107,
+   "valid_share": 1.0,
+   "elevation_min_m": 212.5,
+   "elevation_max_m": 248.7
+  },
+  {
+   "fire_id": "2021_NIP29",
+   "filename": "2021_NIP29_mrdem_dtm_90m.tif",
+   "columns": 79,
+   "rows": 77,
+   "valid_share": 1.0,
+   "elevation_min_m": 309.0,
+   "elevation_max_m": 411.2
+  },
+  {
+   "fire_id": "2021_NIP37",
+   "filename": "2021_NIP37_mrdem_dtm_90m.tif",
+   "columns": 150,
+   "rows": 172,
+   "valid_share": 1.0,
+   "elevation_min_m": 217.1,
+   "elevation_max_m": 283.5
+  },
+  {
+   "fire_id": "2021_NIP46",
+   "filename": "2021_NIP46_mrdem_dtm_90m.tif",
+   "columns": 81,
+   "rows": 87,
+   "valid_share": 1.0,
+   "elevation_min_m": 217.3,
+   "elevation_max_m": 245.0
+  },
+  {
+   "fire_id": "2021_NIP50",
+   "filename": "2021_NIP50_mrdem_dtm_90m.tif",
+   "columns": 83,
+   "rows": 84,
+   "valid_share": 1.0,
+   "elevation_min_m": 334.6,
+   "elevation_max_m": 373.7
+  },
+  {
+   "fire_id": "2021_NIP54",
+   "filename": "2021_NIP54_mrdem_dtm_90m.tif",
+   "columns": 85,
+   "rows": 122,
+   "valid_share": 1.0,
+   "elevation_min_m": 287.0,
+   "elevation_max_m": 327.8
+  },
+  {
+   "fire_id": "2021_NIP60",
+   "filename": "2021_NIP60_mrdem_dtm_90m.tif",
+   "columns": 102,
+   "rows": 109,
+   "valid_share": 1.0,
+   "elevation_min_m": 299.5,
+   "elevation_max_m": 401.9
+  },
+  {
+   "fire_id": "2021_NIP62",
+   "filename": "2021_NIP62_mrdem_dtm_90m.tif",
+   "columns": 95,
+   "rows": 97,
+   "valid_share": 1.0,
+   "elevation_min_m": 303.4,
+   "elevation_max_m": 385.0
+  },
+  {
+   "fire_id": "2021_NIP7",
+   "filename": "2021_NIP7_mrdem_dtm_90m.tif",
+   "columns": 123,
+   "rows": 155,
+   "valid_share": 1.0,
+   "elevation_min_m": 251.2,
+   "elevation_max_m": 540.0
+  },
+  {
+   "fire_id": "2021_NIP71",
+   "filename": "2021_NIP71_mrdem_dtm_90m.tif",
+   "columns": 113,
+   "rows": 145,
+   "valid_share": 1.0,
+   "elevation_min_m": 186.7,
+   "elevation_max_m": 212.4
+  },
+  {
+   "fire_id": "2021_NIP73",
+   "filename": "2021_NIP73_mrdem_dtm_90m.tif",
+   "columns": 83,
+   "rows": 92,
+   "valid_share": 1.0,
+   "elevation_min_m": 165.0,
+   "elevation_max_m": 188.4
+  },
+  {
+   "fire_id": "2021_NIP8",
+   "filename": "2021_NIP8_mrdem_dtm_90m.tif",
+   "columns": 85,
+   "rows": 90,
+   "valid_share": 1.0,
+   "elevation_min_m": 402.9,
+   "elevation_max_m": 521.5
+  },
+  {
+   "fire_id": "2021_RED10",
+   "filename": "2021_RED10_mrdem_dtm_90m.tif",
+   "columns": 144,
+   "rows": 336,
+   "valid_share": 1.0,
+   "elevation_min_m": 338.0,
+   "elevation_max_m": 414.7
+  },
+  {
+   "fire_id": "2021_RED102",
+   "filename": "2021_RED102_mrdem_dtm_90m.tif",
+   "columns": 190,
+   "rows": 136,
+   "valid_share": 1.0,
+   "elevation_min_m": 299.0,
+   "elevation_max_m": 381.5
+  },
+  {
+   "fire_id": "2021_RED108",
+   "filename": "2021_RED108_mrdem_dtm_90m.tif",
+   "columns": 306,
+   "rows": 321,
+   "valid_share": 1.0,
+   "elevation_min_m": 302.1,
+   "elevation_max_m": 359.0
+  },
+  {
+   "fire_id": "2021_RED111",
+   "filename": "2021_RED111_mrdem_dtm_90m.tif",
+   "columns": 134,
+   "rows": 118,
+   "valid_share": 1.0,
+   "elevation_min_m": 265.5,
+   "elevation_max_m": 327.7
+  },
+  {
+   "fire_id": "2021_RED114",
+   "filename": "2021_RED114_mrdem_dtm_90m.tif",
+   "columns": 379,
+   "rows": 518,
+   "valid_share": 1.0,
+   "elevation_min_m": 301.0,
+   "elevation_max_m": 379.6
+  },
+  {
+   "fire_id": "2021_RED12",
+   "filename": "2021_RED12_mrdem_dtm_90m.tif",
+   "columns": 82,
+   "rows": 95,
+   "valid_share": 1.0,
+   "elevation_min_m": 351.9,
+   "elevation_max_m": 426.7
+  },
+  {
+   "fire_id": "2021_RED120",
+   "filename": "2021_RED120_mrdem_dtm_90m.tif",
+   "columns": 147,
+   "rows": 193,
+   "valid_share": 1.0,
+   "elevation_min_m": 326.9,
+   "elevation_max_m": 366.6
+  },
+  {
+   "fire_id": "2021_RED127",
+   "filename": "2021_RED127_mrdem_dtm_90m.tif",
+   "columns": 105,
+   "rows": 105,
+   "valid_share": 1.0,
+   "elevation_min_m": 341.1,
+   "elevation_max_m": 394.1
+  },
+  {
+   "fire_id": "2021_RED135",
+   "filename": "2021_RED135_mrdem_dtm_90m.tif",
+   "columns": 77,
+   "rows": 78,
+   "valid_share": 1.0,
+   "elevation_min_m": 390.7,
+   "elevation_max_m": 442.9
+  },
+  {
+   "fire_id": "2021_RED137",
+   "filename": "2021_RED137_mrdem_dtm_90m.tif",
+   "columns": 208,
+   "rows": 177,
+   "valid_share": 1.0,
+   "elevation_min_m": 326.0,
+   "elevation_max_m": 390.4
+  },
+  {
+   "fire_id": "2021_RED139",
+   "filename": "2021_RED139_mrdem_dtm_90m.tif",
+   "columns": 98,
+   "rows": 134,
+   "valid_share": 1.0,
+   "elevation_min_m": 343.2,
+   "elevation_max_m": 383.5
+  },
+  {
+   "fire_id": "2021_RED141",
+   "filename": "2021_RED141_mrdem_dtm_90m.tif",
+   "columns": 79,
+   "rows": 75,
+   "valid_share": 1.0,
+   "elevation_min_m": 311.8,
+   "elevation_max_m": 370.1
+  },
+  {
+   "fire_id": "2021_RED142",
+   "filename": "2021_RED142_mrdem_dtm_90m.tif",
+   "columns": 95,
+   "rows": 84,
+   "valid_share": 1.0,
+   "elevation_min_m": 340.7,
+   "elevation_max_m": 380.7
+  },
+  {
+   "fire_id": "2021_RED146",
+   "filename": "2021_RED146_mrdem_dtm_90m.tif",
+   "columns": 81,
+   "rows": 84,
+   "valid_share": 1.0,
+   "elevation_min_m": 332.1,
+   "elevation_max_m": 366.0
+  },
+  {
+   "fire_id": "2021_RED147",
+   "filename": "2021_RED147_mrdem_dtm_90m.tif",
+   "columns": 155,
+   "rows": 143,
+   "valid_share": 1.0,
+   "elevation_min_m": 328.8,
+   "elevation_max_m": 368.8
+  },
+  {
+   "fire_id": "2021_RED16",
+   "filename": "2021_RED16_mrdem_dtm_90m.tif",
+   "columns": 919,
+   "rows": 621,
+   "valid_share": 1.0,
+   "elevation_min_m": 303.6,
+   "elevation_max_m": 437.5
+  },
+  {
+   "fire_id": "2021_RED163",
+   "filename": "2021_RED163_mrdem_dtm_90m.tif",
+   "columns": 109,
+   "rows": 97,
+   "valid_share": 1.0,
+   "elevation_min_m": 334.3,
+   "elevation_max_m": 385.2
+  },
+  {
+   "fire_id": "2021_RED167",
+   "filename": "2021_RED167_mrdem_dtm_90m.tif",
+   "columns": 93,
+   "rows": 77,
+   "valid_share": 1.0,
+   "elevation_min_m": 285.4,
+   "elevation_max_m": 334.9
+  },
+  {
+   "fire_id": "2021_RED185",
+   "filename": "2021_RED185_mrdem_dtm_90m.tif",
+   "columns": 78,
+   "rows": 80,
+   "valid_share": 1.0,
+   "elevation_min_m": 272.6,
+   "elevation_max_m": 339.0
+  },
+  {
+   "fire_id": "2021_RED192",
+   "filename": "2021_RED192_mrdem_dtm_90m.tif",
+   "columns": 102,
+   "rows": 103,
+   "valid_share": 1.0,
+   "elevation_min_m": 302.3,
+   "elevation_max_m": 351.0
+  },
+  {
+   "fire_id": "2021_RED216",
+   "filename": "2021_RED216_mrdem_dtm_90m.tif",
+   "columns": 111,
+   "rows": 101,
+   "valid_share": 1.0,
+   "elevation_min_m": 324.4,
+   "elevation_max_m": 363.6
+  },
+  {
+   "fire_id": "2021_RED221",
+   "filename": "2021_RED221_mrdem_dtm_90m.tif",
+   "columns": 86,
+   "rows": 92,
+   "valid_share": 1.0,
+   "elevation_min_m": 250.7,
+   "elevation_max_m": 288.8
+  },
+  {
+   "fire_id": "2021_RED51",
+   "filename": "2021_RED51_mrdem_dtm_90m.tif",
+   "columns": 399,
+   "rows": 448,
+   "valid_share": 1.0,
+   "elevation_min_m": 295.5,
+   "elevation_max_m": 381.7
+  },
+  {
+   "fire_id": "2021_RED55",
+   "filename": "2021_RED55_mrdem_dtm_90m.tif",
+   "columns": 121,
+   "rows": 100,
+   "valid_share": 1.0,
+   "elevation_min_m": 389.0,
+   "elevation_max_m": 422.9
+  },
+  {
+   "fire_id": "2021_RED57",
+   "filename": "2021_RED57_mrdem_dtm_90m.tif",
+   "columns": 129,
+   "rows": 124,
+   "valid_share": 1.0,
+   "elevation_min_m": 323.9,
+   "elevation_max_m": 408.4
+  },
+  {
+   "fire_id": "2021_RED64",
+   "filename": "2021_RED64_mrdem_dtm_90m.tif",
+   "columns": 226,
+   "rows": 267,
+   "valid_share": 1.0,
+   "elevation_min_m": 341.8,
+   "elevation_max_m": 427.6
+  },
+  {
+   "fire_id": "2021_RED65",
+   "filename": "2021_RED65_mrdem_dtm_90m.tif",
+   "columns": 314,
+   "rows": 309,
+   "valid_share": 1.0,
+   "elevation_min_m": 310.1,
+   "elevation_max_m": 384.9
+  },
+  {
+   "fire_id": "2021_RED67",
+   "filename": "2021_RED67_mrdem_dtm_90m.tif",
+   "columns": 316,
+   "rows": 251,
+   "valid_share": 1.0,
+   "elevation_min_m": 327.7,
+   "elevation_max_m": 427.2
+  },
+  {
+   "fire_id": "2021_RED68",
+   "filename": "2021_RED68_mrdem_dtm_90m.tif",
+   "columns": 392,
+   "rows": 451,
+   "valid_share": 1.0,
+   "elevation_min_m": 325.9,
+   "elevation_max_m": 451.6
+  },
+  {
+   "fire_id": "2021_RED70",
+   "filename": "2021_RED70_mrdem_dtm_90m.tif",
+   "columns": 266,
+   "rows": 227,
+   "valid_share": 1.0,
+   "elevation_min_m": 323.7,
+   "elevation_max_m": 418.4
+  },
+  {
+   "fire_id": "2021_RED71",
+   "filename": "2021_RED71_mrdem_dtm_90m.tif",
+   "columns": 81,
+   "rows": 86,
+   "valid_share": 1.0,
+   "elevation_min_m": 341.7,
+   "elevation_max_m": 408.4
+  },
+  {
+   "fire_id": "2021_RED72",
+   "filename": "2021_RED72_mrdem_dtm_90m.tif",
+   "columns": 215,
+   "rows": 167,
+   "valid_share": 1.0,
+   "elevation_min_m": 327.8,
+   "elevation_max_m": 409.0
+  },
+  {
+   "fire_id": "2021_RED73",
+   "filename": "2021_RED73_mrdem_dtm_90m.tif",
+   "columns": 237,
+   "rows": 214,
+   "valid_share": 1.0,
+   "elevation_min_m": 318.7,
+   "elevation_max_m": 388.9
+  },
+  {
+   "fire_id": "2021_RED74",
+   "filename": "2021_RED74_mrdem_dtm_90m.tif",
+   "columns": 79,
+   "rows": 79,
+   "valid_share": 1.0,
+   "elevation_min_m": 385.4,
+   "elevation_max_m": 423.8
+  },
+  {
+   "fire_id": "2021_RED77",
+   "filename": "2021_RED77_mrdem_dtm_90m.tif",
+   "columns": 338,
+   "rows": 423,
+   "valid_share": 1.0,
+   "elevation_min_m": 327.8,
+   "elevation_max_m": 436.7
+  },
+  {
+   "fire_id": "2021_RED81",
+   "filename": "2021_RED81_mrdem_dtm_90m.tif",
+   "columns": 200,
+   "rows": 138,
+   "valid_share": 1.0,
+   "elevation_min_m": 234.3,
+   "elevation_max_m": 285.9
+  },
+  {
+   "fire_id": "2021_RED87",
+   "filename": "2021_RED87_mrdem_dtm_90m.tif",
+   "columns": 87,
+   "rows": 87,
+   "valid_share": 1.0,
+   "elevation_min_m": 360.7,
+   "elevation_max_m": 426.7
+  },
+  {
+   "fire_id": "2021_RED93",
+   "filename": "2021_RED93_mrdem_dtm_90m.tif",
+   "columns": 132,
+   "rows": 147,
+   "valid_share": 1.0,
+   "elevation_min_m": 308.5,
+   "elevation_max_m": 363.3
+  },
+  {
+   "fire_id": "2021_SLK104",
+   "filename": "2021_SLK104_mrdem_dtm_90m.tif",
+   "columns": 114,
+   "rows": 110,
+   "valid_share": 1.0,
+   "elevation_min_m": 287.6,
+   "elevation_max_m": 346.4
+  },
+  {
+   "fire_id": "2021_SLK106",
+   "filename": "2021_SLK106_mrdem_dtm_90m.tif",
+   "columns": 154,
+   "rows": 128,
+   "valid_share": 1.0,
+   "elevation_min_m": 355.3,
+   "elevation_max_m": 448.1
+  },
+  {
+   "fire_id": "2021_SLK115",
+   "filename": "2021_SLK115_mrdem_dtm_90m.tif",
+   "columns": 121,
+   "rows": 135,
+   "valid_share": 1.0,
+   "elevation_min_m": 262.3,
+   "elevation_max_m": 314.8
+  },
+  {
+   "fire_id": "2021_SLK124",
+   "filename": "2021_SLK124_mrdem_dtm_90m.tif",
+   "columns": 83,
+   "rows": 81,
+   "valid_share": 1.0,
+   "elevation_min_m": 324.1,
+   "elevation_max_m": 357.0
+  },
+  {
+   "fire_id": "2021_SLK17",
+   "filename": "2021_SLK17_mrdem_dtm_90m.tif",
+   "columns": 206,
+   "rows": 125,
+   "valid_share": 1.0,
+   "elevation_min_m": 381.4,
+   "elevation_max_m": 452.9
+  },
+  {
+   "fire_id": "2021_SLK3",
+   "filename": "2021_SLK3_mrdem_dtm_90m.tif",
+   "columns": 151,
+   "rows": 210,
+   "valid_share": 1.0,
+   "elevation_min_m": 356.2,
+   "elevation_max_m": 432.2
+  },
+  {
+   "fire_id": "2021_SLK34",
+   "filename": "2021_SLK34_mrdem_dtm_90m.tif",
+   "columns": 88,
+   "rows": 78,
+   "valid_share": 1.0,
+   "elevation_min_m": 356.4,
+   "elevation_max_m": 388.7
+  },
+  {
+   "fire_id": "2021_SLK35",
+   "filename": "2021_SLK35_mrdem_dtm_90m.tif",
+   "columns": 138,
+   "rows": 112,
+   "valid_share": 1.0,
+   "elevation_min_m": 270.4,
+   "elevation_max_m": 317.6
+  },
+  {
+   "fire_id": "2021_SLK37",
+   "filename": "2021_SLK37_mrdem_dtm_90m.tif",
+   "columns": 98,
+   "rows": 94,
+   "valid_share": 1.0,
+   "elevation_min_m": 247.9,
+   "elevation_max_m": 299.1
+  },
+  {
+   "fire_id": "2021_SLK39",
+   "filename": "2021_SLK39_mrdem_dtm_90m.tif",
+   "columns": 355,
+   "rows": 353,
+   "valid_share": 1.0,
+   "elevation_min_m": 358.7,
+   "elevation_max_m": 444.3
+  },
+  {
+   "fire_id": "2021_SLK43",
+   "filename": "2021_SLK43_mrdem_dtm_90m.tif",
+   "columns": 274,
+   "rows": 184,
+   "valid_share": 1.0,
+   "elevation_min_m": 349.1,
+   "elevation_max_m": 437.5
+  },
+  {
+   "fire_id": "2021_SLK46",
+   "filename": "2021_SLK46_mrdem_dtm_90m.tif",
+   "columns": 200,
+   "rows": 224,
+   "valid_share": 1.0,
+   "elevation_min_m": 352.1,
+   "elevation_max_m": 412.9
+  },
+  {
+   "fire_id": "2021_SLK47",
+   "filename": "2021_SLK47_mrdem_dtm_90m.tif",
+   "columns": 376,
+   "rows": 289,
+   "valid_share": 1.0,
+   "elevation_min_m": 369.4,
+   "elevation_max_m": 450.0
+  },
+  {
+   "fire_id": "2021_SLK5",
+   "filename": "2021_SLK5_mrdem_dtm_90m.tif",
+   "columns": 88,
+   "rows": 109,
+   "valid_share": 1.0,
+   "elevation_min_m": 355.7,
+   "elevation_max_m": 433.6
+  },
+  {
+   "fire_id": "2021_SLK50",
+   "filename": "2021_SLK50_mrdem_dtm_90m.tif",
+   "columns": 93,
+   "rows": 101,
+   "valid_share": 1.0,
+   "elevation_min_m": 222.9,
+   "elevation_max_m": 270.4
+  },
+  {
+   "fire_id": "2021_SLK60",
+   "filename": "2021_SLK60_mrdem_dtm_90m.tif",
+   "columns": 166,
+   "rows": 114,
+   "valid_share": 1.0,
+   "elevation_min_m": 389.3,
+   "elevation_max_m": 438.3
+  },
+  {
+   "fire_id": "2021_SLK63",
+   "filename": "2021_SLK63_mrdem_dtm_90m.tif",
+   "columns": 91,
+   "rows": 84,
+   "valid_share": 1.0,
+   "elevation_min_m": 268.1,
+   "elevation_max_m": 314.8
+  },
+  {
+   "fire_id": "2021_SLK73",
+   "filename": "2021_SLK73_mrdem_dtm_90m.tif",
+   "columns": 206,
+   "rows": 141,
+   "valid_share": 1.0,
+   "elevation_min_m": 288.8,
+   "elevation_max_m": 365.1
+  },
+  {
+   "fire_id": "2021_SLK87",
+   "filename": "2021_SLK87_mrdem_dtm_90m.tif",
+   "columns": 90,
+   "rows": 85,
+   "valid_share": 1.0,
+   "elevation_min_m": 304.9,
+   "elevation_max_m": 337.0
+  },
+  {
+   "fire_id": "2021_SUD42",
+   "filename": "2021_SUD42_mrdem_dtm_90m.tif",
+   "columns": 79,
+   "rows": 78,
+   "valid_share": 1.0,
+   "elevation_min_m": 286.3,
+   "elevation_max_m": 441.5
+  },
+  {
+   "fire_id": "2021_THU33",
+   "filename": "2021_THU33_mrdem_dtm_90m.tif",
+   "columns": 96,
+   "rows": 84,
+   "valid_share": 1.0,
+   "elevation_min_m": 413.2,
+   "elevation_max_m": 462.8
+  },
+  {
+   "fire_id": "2021_THU36",
+   "filename": "2021_THU36_mrdem_dtm_90m.tif",
+   "columns": 115,
+   "rows": 111,
+   "valid_share": 1.0,
+   "elevation_min_m": 446.3,
+   "elevation_max_m": 495.2
+  },
+  {
+   "fire_id": "2021_THU38",
+   "filename": "2021_THU38_mrdem_dtm_90m.tif",
+   "columns": 79,
+   "rows": 76,
+   "valid_share": 1.0,
+   "elevation_min_m": 369.2,
+   "elevation_max_m": 493.8
+  },
+  {
+   "fire_id": "2021_THU8",
+   "filename": "2021_THU8_mrdem_dtm_90m.tif",
+   "columns": 78,
+   "rows": 89,
+   "valid_share": 1.0,
+   "elevation_min_m": 297.3,
+   "elevation_max_m": 534.6
+  },
+  {
+   "fire_id": "2021_TIM10",
+   "filename": "2021_TIM10_mrdem_dtm_90m.tif",
+   "columns": 90,
+   "rows": 85,
+   "valid_share": 1.0,
+   "elevation_min_m": 361.9,
+   "elevation_max_m": 463.1
+  },
+  {
+   "fire_id": "2022_CHA2",
+   "filename": "2022_CHA2_mrdem_dtm_90m.tif",
+   "columns": 73,
+   "rows": 91,
+   "valid_share": 1.0,
+   "elevation_min_m": 321.0,
+   "elevation_max_m": 376.3
+  },
+  {
+   "fire_id": "2022_SLK4",
+   "filename": "2022_SLK4_mrdem_dtm_90m.tif",
+   "columns": 86,
+   "rows": 82,
+   "valid_share": 1.0,
+   "elevation_min_m": 289.8,
+   "elevation_max_m": 319.6
+  },
+  {
+   "fire_id": "2022_SUD11",
+   "filename": "2022_SUD11_mrdem_dtm_90m.tif",
+   "columns": 78,
+   "rows": 107,
+   "valid_share": 1.0,
+   "elevation_min_m": 408.1,
+   "elevation_max_m": 515.2
+  },
+  {
+   "fire_id": "2022_SUD4",
+   "filename": "2022_SUD4_mrdem_dtm_90m.tif",
+   "columns": 82,
+   "rows": 111,
+   "valid_share": 1.0,
+   "elevation_min_m": 205.6,
+   "elevation_max_m": 272.0
+  },
+  {
+   "fire_id": "2022_SUD7",
+   "filename": "2022_SUD7_mrdem_dtm_90m.tif",
+   "columns": 84,
+   "rows": 97,
+   "valid_share": 1.0,
+   "elevation_min_m": 238.0,
+   "elevation_max_m": 331.4
+  },
+  {
+   "fire_id": "2022_TIM1",
+   "filename": "2022_TIM1_mrdem_dtm_90m.tif",
+   "columns": 112,
+   "rows": 160,
+   "valid_share": 1.0,
+   "elevation_min_m": 353.5,
+   "elevation_max_m": 441.0
+  },
+  {
+   "fire_id": "2022_TIM2",
+   "filename": "2022_TIM2_mrdem_dtm_90m.tif",
+   "columns": 81,
+   "rows": 94,
+   "valid_share": 1.0,
+   "elevation_min_m": 386.1,
+   "elevation_max_m": 454.3
+  },
+  {
+   "fire_id": "2023_CHA3",
+   "filename": "2023_CHA3_mrdem_dtm_90m.tif",
+   "columns": 176,
+   "rows": 175,
+   "valid_share": 1.0,
+   "elevation_min_m": 370.2,
+   "elevation_max_m": 456.1
+  },
+  {
+   "fire_id": "2023_CHA6",
+   "filename": "2023_CHA6_mrdem_dtm_90m.tif",
+   "columns": 135,
+   "rows": 137,
+   "valid_share": 1.0,
+   "elevation_min_m": 342.5,
+   "elevation_max_m": 515.1
+  },
+  {
+   "fire_id": "2023_COC1",
+   "filename": "2023_COC1_mrdem_dtm_90m.tif",
+   "columns": 128,
+   "rows": 106,
+   "valid_share": 1.0,
+   "elevation_min_m": 113.5,
+   "elevation_max_m": 160.5
+  },
+  {
+   "fire_id": "2023_COC11",
+   "filename": "2023_COC11_mrdem_dtm_90m.tif",
+   "columns": 125,
+   "rows": 139,
+   "valid_share": 1.0,
+   "elevation_min_m": -0.8,
+   "elevation_max_m": 32.5
+  },
+  {
+   "fire_id": "2023_COC12",
+   "filename": "2023_COC12_mrdem_dtm_90m.tif",
+   "columns": 81,
+   "rows": 84,
+   "valid_share": 1.0,
+   "elevation_min_m": 4.2,
+   "elevation_max_m": 19.5
+  },
+  {
+   "fire_id": "2023_COC19",
+   "filename": "2023_COC19_mrdem_dtm_90m.tif",
+   "columns": 101,
+   "rows": 114,
+   "valid_share": 1.0,
+   "elevation_min_m": 270.3,
+   "elevation_max_m": 300.7
+  },
+  {
+   "fire_id": "2023_COC20",
+   "filename": "2023_COC20_mrdem_dtm_90m.tif",
+   "columns": 214,
+   "rows": 142,
+   "valid_share": 1.0,
+   "elevation_min_m": 79.2,
+   "elevation_max_m": 109.3
+  },
+  {
+   "fire_id": "2023_COC22",
+   "filename": "2023_COC22_mrdem_dtm_90m.tif",
+   "columns": 79,
+   "rows": 86,
+   "valid_share": 1.0,
+   "elevation_min_m": 96.8,
+   "elevation_max_m": 135.2
+  },
+  {
+   "fire_id": "2023_COC23",
+   "filename": "2023_COC23_mrdem_dtm_90m.tif",
+   "columns": 82,
+   "rows": 92,
+   "valid_share": 1.0,
+   "elevation_min_m": 108.5,
+   "elevation_max_m": 131.9
+  },
+  {
+   "fire_id": "2023_COC24",
+   "filename": "2023_COC24_mrdem_dtm_90m.tif",
+   "columns": 189,
+   "rows": 296,
+   "valid_share": 1.0,
+   "elevation_min_m": 79.8,
+   "elevation_max_m": 123.0
+  },
+  {
+   "fire_id": "2023_COC26",
+   "filename": "2023_COC26_mrdem_dtm_90m.tif",
+   "columns": 106,
+   "rows": 97,
+   "valid_share": 1.0,
+   "elevation_min_m": 120.2,
+   "elevation_max_m": 151.2
+  },
+  {
+   "fire_id": "2023_COC29",
+   "filename": "2023_COC29_mrdem_dtm_90m.tif",
+   "columns": 86,
+   "rows": 97,
+   "valid_share": 1.0,
+   "elevation_min_m": 125.6,
+   "elevation_max_m": 146.1
+  },
+  {
+   "fire_id": "2023_COC3",
+   "filename": "2023_COC3_mrdem_dtm_90m.tif",
+   "columns": 79,
+   "rows": 88,
+   "valid_share": 1.0,
+   "elevation_min_m": 248.5,
+   "elevation_max_m": 290.1
+  },
+  {
+   "fire_id": "2023_COC30",
+   "filename": "2023_COC30_mrdem_dtm_90m.tif",
+   "columns": 157,
+   "rows": 186,
+   "valid_share": 1.0,
+   "elevation_min_m": 122.9,
+   "elevation_max_m": 174.5
+  },
+  {
+   "fire_id": "2023_COC32",
+   "filename": "2023_COC32_mrdem_dtm_90m.tif",
+   "columns": 140,
+   "rows": 142,
+   "valid_share": 1.0,
+   "elevation_min_m": 108.5,
+   "elevation_max_m": 141.0
+  },
+  {
+   "fire_id": "2023_COC33",
+   "filename": "2023_COC33_mrdem_dtm_90m.tif",
+   "columns": 75,
+   "rows": 82,
+   "valid_share": 1.0,
+   "elevation_min_m": 109.9,
+   "elevation_max_m": 127.5
+  },
+  {
+   "fire_id": "2023_COC34",
+   "filename": "2023_COC34_mrdem_dtm_90m.tif",
+   "columns": 87,
+   "rows": 114,
+   "valid_share": 1.0,
+   "elevation_min_m": 87.8,
+   "elevation_max_m": 102.8
+  },
+  {
+   "fire_id": "2023_COC37",
+   "filename": "2023_COC37_mrdem_dtm_90m.tif",
+   "columns": 79,
+   "rows": 83,
+   "valid_share": 1.0,
+   "elevation_min_m": 110.3,
+   "elevation_max_m": 127.3
+  },
+  {
+   "fire_id": "2023_COC38",
+   "filename": "2023_COC38_mrdem_dtm_90m.tif",
+   "columns": 295,
+   "rows": 335,
+   "valid_share": 1.0,
+   "elevation_min_m": 15.4,
+   "elevation_max_m": 193.7
+  },
+  {
+   "fire_id": "2023_COC39",
+   "filename": "2023_COC39_mrdem_dtm_90m.tif",
+   "columns": 99,
+   "rows": 114,
+   "valid_share": 1.0,
+   "elevation_min_m": 85.2,
+   "elevation_max_m": 170.5
+  },
+  {
+   "fire_id": "2023_COC42",
+   "filename": "2023_COC42_mrdem_dtm_90m.tif",
+   "columns": 83,
+   "rows": 76,
+   "valid_share": 1.0,
+   "elevation_min_m": 78.9,
+   "elevation_max_m": 139.6
+  },
+  {
+   "fire_id": "2023_COC46",
+   "filename": "2023_COC46_mrdem_dtm_90m.tif",
+   "columns": 131,
+   "rows": 141,
+   "valid_share": 1.0,
+   "elevation_min_m": 103.8,
+   "elevation_max_m": 157.4
+  },
+  {
+   "fire_id": "2023_COC49",
+   "filename": "2023_COC49_mrdem_dtm_90m.tif",
+   "columns": 198,
+   "rows": 388,
+   "valid_share": 1.0,
+   "elevation_min_m": 42.4,
+   "elevation_max_m": 212.0
+  },
+  {
+   "fire_id": "2023_COC52",
+   "filename": "2023_COC52_mrdem_dtm_90m.tif",
+   "columns": 107,
+   "rows": 120,
+   "valid_share": 1.0,
+   "elevation_min_m": 79.6,
+   "elevation_max_m": 93.5
+  },
+  {
+   "fire_id": "2023_COC53",
+   "filename": "2023_COC53_mrdem_dtm_90m.tif",
+   "columns": 136,
+   "rows": 126,
+   "valid_share": 1.0,
+   "elevation_min_m": 145.4,
+   "elevation_max_m": 170.7
+  },
+  {
+   "fire_id": "2023_COC55",
+   "filename": "2023_COC55_mrdem_dtm_90m.tif",
+   "columns": 165,
+   "rows": 298,
+   "valid_share": 1.0,
+   "elevation_min_m": 114.8,
+   "elevation_max_m": 274.5
+  },
+  {
+   "fire_id": "2023_COC6",
+   "filename": "2023_COC6_mrdem_dtm_90m.tif",
+   "columns": 111,
+   "rows": 132,
+   "valid_share": 1.0,
+   "elevation_min_m": 267.5,
+   "elevation_max_m": 309.4
+  },
+  {
+   "fire_id": "2023_COC7",
+   "filename": "2023_COC7_mrdem_dtm_90m.tif",
+   "columns": 349,
+   "rows": 427,
+   "valid_share": 1.0,
+   "elevation_min_m": 264.5,
+   "elevation_max_m": 418.3
+  },
+  {
+   "fire_id": "2023_HEA18",
+   "filename": "2023_HEA18_mrdem_dtm_90m.tif",
+   "columns": 126,
+   "rows": 184,
+   "valid_share": 1.0,
+   "elevation_min_m": 75.6,
+   "elevation_max_m": 134.9
+  },
+  {
+   "fire_id": "2023_HEA5",
+   "filename": "2023_HEA5_mrdem_dtm_90m.tif",
+   "columns": 84,
+   "rows": 84,
+   "valid_share": 1.0,
+   "elevation_min_m": 233.7,
+   "elevation_max_m": 276.5
+  },
+  {
+   "fire_id": "2023_KLK5",
+   "filename": "2023_KLK5_mrdem_dtm_90m.tif",
+   "columns": 98,
+   "rows": 211,
+   "valid_share": 1.0,
+   "elevation_min_m": 277.4,
+   "elevation_max_m": 554.5
+  },
+  {
+   "fire_id": "2023_NIP107",
+   "filename": "2023_NIP107_mrdem_dtm_90m.tif",
+   "columns": 92,
+   "rows": 91,
+   "valid_share": 1.0,
+   "elevation_min_m": 150.6,
+   "elevation_max_m": 171.3
+  },
+  {
+   "fire_id": "2023_NIP13",
+   "filename": "2023_NIP13_mrdem_dtm_90m.tif",
+   "columns": 406,
+   "rows": 562,
+   "valid_share": 1.0,
+   "elevation_min_m": 227.2,
+   "elevation_max_m": 349.5
+  },
+  {
+   "fire_id": "2023_NIP19",
+   "filename": "2023_NIP19_mrdem_dtm_90m.tif",
+   "columns": 246,
+   "rows": 248,
+   "valid_share": 1.0,
+   "elevation_min_m": 262.0,
+   "elevation_max_m": 354.5
+  },
+  {
+   "fire_id": "2023_NIP24",
+   "filename": "2023_NIP24_mrdem_dtm_90m.tif",
+   "columns": 151,
+   "rows": 178,
+   "valid_share": 1.0,
+   "elevation_min_m": 165.6,
+   "elevation_max_m": 208.2
+  },
+  {
+   "fire_id": "2023_NIP25",
+   "filename": "2023_NIP25_mrdem_dtm_90m.tif",
+   "columns": 81,
+   "rows": 87,
+   "valid_share": 1.0,
+   "elevation_min_m": 212.3,
+   "elevation_max_m": 253.8
+  },
+  {
+   "fire_id": "2023_NIP26",
+   "filename": "2023_NIP26_mrdem_dtm_90m.tif",
+   "columns": 224,
+   "rows": 244,
+   "valid_share": 1.0,
+   "elevation_min_m": 156.9,
+   "elevation_max_m": 220.7
+  },
+  {
+   "fire_id": "2023_NIP29",
+   "filename": "2023_NIP29_mrdem_dtm_90m.tif",
+   "columns": 79,
+   "rows": 80,
+   "valid_share": 1.0,
+   "elevation_min_m": 287.4,
+   "elevation_max_m": 334.5
+  },
+  {
+   "fire_id": "2023_NIP35",
+   "filename": "2023_NIP35_mrdem_dtm_90m.tif",
+   "columns": 76,
+   "rows": 86,
+   "valid_share": 1.0,
+   "elevation_min_m": 192.3,
+   "elevation_max_m": 217.2
+  },
+  {
+   "fire_id": "2023_NIP36",
+   "filename": "2023_NIP36_mrdem_dtm_90m.tif",
+   "columns": 88,
+   "rows": 96,
+   "valid_share": 1.0,
+   "elevation_min_m": 186.7,
+   "elevation_max_m": 209.4
+  },
+  {
+   "fire_id": "2023_NIP37",
+   "filename": "2023_NIP37_mrdem_dtm_90m.tif",
+   "columns": 98,
+   "rows": 108,
+   "valid_share": 1.0,
+   "elevation_min_m": 234.3,
+   "elevation_max_m": 280.7
+  },
+  {
+   "fire_id": "2023_NIP39",
+   "filename": "2023_NIP39_mrdem_dtm_90m.tif",
+   "columns": 97,
+   "rows": 87,
+   "valid_share": 1.0,
+   "elevation_min_m": 230.5,
+   "elevation_max_m": 278.8
+  },
+  {
+   "fire_id": "2023_NIP42",
+   "filename": "2023_NIP42_mrdem_dtm_90m.tif",
+   "columns": 83,
+   "rows": 85,
+   "valid_share": 1.0,
+   "elevation_min_m": 160.6,
+   "elevation_max_m": 183.1
+  },
+  {
+   "fire_id": "2023_NIP43",
+   "filename": "2023_NIP43_mrdem_dtm_90m.tif",
+   "columns": 103,
+   "rows": 103,
+   "valid_share": 1.0,
+   "elevation_min_m": 160.0,
+   "elevation_max_m": 205.7
+  },
+  {
+   "fire_id": "2023_NIP9",
+   "filename": "2023_NIP9_mrdem_dtm_90m.tif",
+   "columns": 353,
+   "rows": 547,
+   "valid_share": 1.0,
+   "elevation_min_m": 201.2,
+   "elevation_max_m": 269.9
+  },
+  {
+   "fire_id": "2023_NIP98",
+   "filename": "2023_NIP98_mrdem_dtm_90m.tif",
+   "columns": 75,
+   "rows": 84,
+   "valid_share": 1.0,
+   "elevation_min_m": 220.4,
+   "elevation_max_m": 259.7
+  },
+  {
+   "fire_id": "2023_PEM1",
+   "filename": "2023_PEM1_mrdem_dtm_90m.tif",
+   "columns": 78,
+   "rows": 82,
+   "valid_share": 1.0,
+   "elevation_min_m": 247.2,
+   "elevation_max_m": 391.5
+  },
+  {
+   "fire_id": "2023_RED26",
+   "filename": "2023_RED26_mrdem_dtm_90m.tif",
+   "columns": 94,
+   "rows": 91,
+   "valid_share": 1.0,
+   "elevation_min_m": 411.2,
+   "elevation_max_m": 458.7
+  },
+  {
+   "fire_id": "2023_RED27",
+   "filename": "2023_RED27_mrdem_dtm_90m.tif",
+   "columns": 110,
+   "rows": 109,
+   "valid_share": 1.0,
+   "elevation_min_m": 391.9,
+   "elevation_max_m": 458.4
+  },
+  {
+   "fire_id": "2023_RED28",
+   "filename": "2023_RED28_mrdem_dtm_90m.tif",
+   "columns": 297,
+   "rows": 259,
+   "valid_share": 1.0,
+   "elevation_min_m": 376.8,
+   "elevation_max_m": 481.6
+  },
+  {
+   "fire_id": "2023_RED29",
+   "filename": "2023_RED29_mrdem_dtm_90m.tif",
+   "columns": 224,
+   "rows": 229,
+   "valid_share": 1.0,
+   "elevation_min_m": 361.5,
+   "elevation_max_m": 476.3
+  },
+  {
+   "fire_id": "2023_RED32",
+   "filename": "2023_RED32_mrdem_dtm_90m.tif",
+   "columns": 103,
+   "rows": 105,
+   "valid_share": 1.0,
+   "elevation_min_m": 311.7,
+   "elevation_max_m": 360.1
+  },
+  {
+   "fire_id": "2023_RED5",
+   "filename": "2023_RED5_mrdem_dtm_90m.tif",
+   "columns": 261,
+   "rows": 338,
+   "valid_share": 1.0,
+   "elevation_min_m": 244.4,
+   "elevation_max_m": 325.6
+  },
+  {
+   "fire_id": "2023_RED70",
+   "filename": "2023_RED70_mrdem_dtm_90m.tif",
+   "columns": 106,
+   "rows": 143,
+   "valid_share": 1.0,
+   "elevation_min_m": 323.5,
+   "elevation_max_m": 363.8
+  },
+  {
+   "fire_id": "2023_SLK18",
+   "filename": "2023_SLK18_mrdem_dtm_90m.tif",
+   "columns": 162,
+   "rows": 133,
+   "valid_share": 1.0,
+   "elevation_min_m": 306.2,
+   "elevation_max_m": 356.9
+  },
+  {
+   "fire_id": "2023_SLK19",
+   "filename": "2023_SLK19_mrdem_dtm_90m.tif",
+   "columns": 117,
+   "rows": 105,
+   "valid_share": 1.0,
+   "elevation_min_m": 294.3,
+   "elevation_max_m": 336.6
+  },
+  {
+   "fire_id": "2023_SLK20",
+   "filename": "2023_SLK20_mrdem_dtm_90m.tif",
+   "columns": 85,
+   "rows": 78,
+   "valid_share": 1.0,
+   "elevation_min_m": 384.9,
+   "elevation_max_m": 451.1
+  },
+  {
+   "fire_id": "2023_SLK23",
+   "filename": "2023_SLK23_mrdem_dtm_90m.tif",
+   "columns": 319,
+   "rows": 320,
+   "valid_share": 1.0,
+   "elevation_min_m": 206.9,
+   "elevation_max_m": 273.9
+  },
+  {
+   "fire_id": "2023_SLK29",
+   "filename": "2023_SLK29_mrdem_dtm_90m.tif",
+   "columns": 104,
+   "rows": 111,
+   "valid_share": 1.0,
+   "elevation_min_m": 306.4,
+   "elevation_max_m": 348.3
+  },
+  {
+   "fire_id": "2023_SLK30",
+   "filename": "2023_SLK30_mrdem_dtm_90m.tif",
+   "columns": 84,
+   "rows": 81,
+   "valid_share": 1.0,
+   "elevation_min_m": 262.1,
+   "elevation_max_m": 292.2
+  },
+  {
+   "fire_id": "2023_SLK31",
+   "filename": "2023_SLK31_mrdem_dtm_90m.tif",
+   "columns": 332,
+   "rows": 476,
+   "valid_share": 1.0,
+   "elevation_min_m": 321.4,
+   "elevation_max_m": 431.9
+  },
+  {
+   "fire_id": "2023_SLK33",
+   "filename": "2023_SLK33_mrdem_dtm_90m.tif",
+   "columns": 417,
+   "rows": 539,
+   "valid_share": 1.0,
+   "elevation_min_m": 345.2,
+   "elevation_max_m": 449.8
+  },
+  {
+   "fire_id": "2023_SLK44",
+   "filename": "2023_SLK44_mrdem_dtm_90m.tif",
+   "columns": 214,
+   "rows": 222,
+   "valid_share": 1.0,
+   "elevation_min_m": 364.7,
+   "elevation_max_m": 425.8
+  },
+  {
+   "fire_id": "2023_SLK48",
+   "filename": "2023_SLK48_mrdem_dtm_90m.tif",
+   "columns": 187,
+   "rows": 198,
+   "valid_share": 1.0,
+   "elevation_min_m": 242.4,
+   "elevation_max_m": 296.2
+  },
+  {
+   "fire_id": "2023_SLK51",
+   "filename": "2023_SLK51_mrdem_dtm_90m.tif",
+   "columns": 78,
+   "rows": 90,
+   "valid_share": 1.0,
+   "elevation_min_m": 297.1,
+   "elevation_max_m": 331.1
+  },
+  {
+   "fire_id": "2023_SLK53",
+   "filename": "2023_SLK53_mrdem_dtm_90m.tif",
+   "columns": 102,
+   "rows": 119,
+   "valid_share": 1.0,
+   "elevation_min_m": 218.6,
+   "elevation_max_m": 259.5
+  },
+  {
+   "fire_id": "2023_SLK54",
+   "filename": "2023_SLK54_mrdem_dtm_90m.tif",
+   "columns": 146,
+   "rows": 155,
+   "valid_share": 1.0,
+   "elevation_min_m": 264.6,
+   "elevation_max_m": 313.5
+  },
+  {
+   "fire_id": "2023_SLK58",
+   "filename": "2023_SLK58_mrdem_dtm_90m.tif",
+   "columns": 79,
+   "rows": 82,
+   "valid_share": 1.0,
+   "elevation_min_m": 197.8,
+   "elevation_max_m": 221.2
+  },
+  {
+   "fire_id": "2023_SLK7",
+   "filename": "2023_SLK7_mrdem_dtm_90m.tif",
+   "columns": 356,
+   "rows": 349,
+   "valid_share": 1.0,
+   "elevation_min_m": 388.4,
+   "elevation_max_m": 450.0
+  },
+  {
+   "fire_id": "2023_SLK70",
+   "filename": "2023_SLK70_mrdem_dtm_90m.tif",
+   "columns": 104,
+   "rows": 100,
+   "valid_share": 1.0,
+   "elevation_min_m": 192.3,
+   "elevation_max_m": 229.1
+  },
+  {
+   "fire_id": "2023_SLK75",
+   "filename": "2023_SLK75_mrdem_dtm_90m.tif",
+   "columns": 90,
+   "rows": 88,
+   "valid_share": 1.0,
+   "elevation_min_m": 203.9,
+   "elevation_max_m": 238.4
+  },
+  {
+   "fire_id": "2023_SUD10",
+   "filename": "2023_SUD10_mrdem_dtm_90m.tif",
+   "columns": 107,
+   "rows": 146,
+   "valid_share": 1.0,
+   "elevation_min_m": 272.1,
+   "elevation_max_m": 443.2
+  },
+  {
+   "fire_id": "2023_SUD17",
+   "filename": "2023_SUD17_mrdem_dtm_90m.tif",
+   "columns": 158,
+   "rows": 213,
+   "valid_share": 1.0,
+   "elevation_min_m": 344.0,
+   "elevation_max_m": 514.4
+  },
+  {
+   "fire_id": "2023_SUD19",
+   "filename": "2023_SUD19_mrdem_dtm_90m.tif",
+   "columns": 96,
+   "rows": 102,
+   "valid_share": 1.0,
+   "elevation_min_m": 371.2,
+   "elevation_max_m": 509.3
+  },
+  {
+   "fire_id": "2023_THU40",
+   "filename": "2023_THU40_mrdem_dtm_90m.tif",
+   "columns": 92,
+   "rows": 78,
+   "valid_share": 1.0,
+   "elevation_min_m": 401.1,
+   "elevation_max_m": 508.6
+  },
+  {
+   "fire_id": "2023_TIM7",
+   "filename": "2023_TIM7_mrdem_dtm_90m.tif",
+   "columns": 83,
+   "rows": 91,
+   "valid_share": 1.0,
+   "elevation_min_m": 353.9,
+   "elevation_max_m": 463.5
+  },
+  {
+   "fire_id": "2023_WAW2",
+   "filename": "2023_WAW2_mrdem_dtm_90m.tif",
+   "columns": 93,
+   "rows": 77,
+   "valid_share": 1.0,
+   "elevation_min_m": 354.4,
+   "elevation_max_m": 510.9
+  },
+  {
+   "fire_id": "2023_WAW3",
+   "filename": "2023_WAW3_mrdem_dtm_90m.tif",
+   "columns": 182,
+   "rows": 238,
+   "valid_share": 1.0,
+   "elevation_min_m": 390.6,
+   "elevation_max_m": 618.5
+  },
+  {
+   "fire_id": "2024_COC11",
+   "filename": "2024_COC11_mrdem_dtm_90m.tif",
+   "columns": 139,
+   "rows": 165,
+   "valid_share": 1.0,
+   "elevation_min_m": 35.8,
+   "elevation_max_m": 81.8
+  },
+  {
+   "fire_id": "2024_COC15",
+   "filename": "2024_COC15_mrdem_dtm_90m.tif",
+   "columns": 128,
+   "rows": 99,
+   "valid_share": 1.0,
+   "elevation_min_m": 57.1,
+   "elevation_max_m": 82.1
+  },
+  {
+   "fire_id": "2024_COC16",
+   "filename": "2024_COC16_mrdem_dtm_90m.tif",
+   "columns": 90,
+   "rows": 121,
+   "valid_share": 1.0,
+   "elevation_min_m": 20.8,
+   "elevation_max_m": 43.3
+  },
+  {
+   "fire_id": "2024_COC17",
+   "filename": "2024_COC17_mrdem_dtm_90m.tif",
+   "columns": 78,
+   "rows": 93,
+   "valid_share": 1.0,
+   "elevation_min_m": 21.0,
+   "elevation_max_m": 38.3
+  },
+  {
+   "fire_id": "2024_COC18",
+   "filename": "2024_COC18_mrdem_dtm_90m.tif",
+   "columns": 75,
+   "rows": 82,
+   "valid_share": 1.0,
+   "elevation_min_m": 99.7,
+   "elevation_max_m": 124.3
+  },
+  {
+   "fire_id": "2024_COC19",
+   "filename": "2024_COC19_mrdem_dtm_90m.tif",
+   "columns": 161,
+   "rows": 202,
+   "valid_share": 1.0,
+   "elevation_min_m": 88.8,
+   "elevation_max_m": 125.0
+  },
+  {
+   "fire_id": "2024_COC20",
+   "filename": "2024_COC20_mrdem_dtm_90m.tif",
+   "columns": 82,
+   "rows": 85,
+   "valid_share": 1.0,
+   "elevation_min_m": 131.9,
+   "elevation_max_m": 152.2
+  },
+  {
+   "fire_id": "2024_COC23",
+   "filename": "2024_COC23_mrdem_dtm_90m.tif",
+   "columns": 86,
+   "rows": 101,
+   "valid_share": 1.0,
+   "elevation_min_m": 23.2,
+   "elevation_max_m": 40.5
+  },
+  {
+   "fire_id": "2024_COC25",
+   "filename": "2024_COC25_mrdem_dtm_90m.tif",
+   "columns": 100,
+   "rows": 105,
+   "valid_share": 1.0,
+   "elevation_min_m": 139.9,
+   "elevation_max_m": 176.6
+  },
+  {
+   "fire_id": "2024_COC28",
+   "filename": "2024_COC28_mrdem_dtm_90m.tif",
+   "columns": 82,
+   "rows": 82,
+   "valid_share": 1.0,
+   "elevation_min_m": 168.3,
+   "elevation_max_m": 189.3
+  },
+  {
+   "fire_id": "2024_COC35",
+   "filename": "2024_COC35_mrdem_dtm_90m.tif",
+   "columns": 75,
+   "rows": 85,
+   "valid_share": 1.0,
+   "elevation_min_m": 229.5,
+   "elevation_max_m": 266.6
+  },
+  {
+   "fire_id": "2024_COC39",
+   "filename": "2024_COC39_mrdem_dtm_90m.tif",
+   "columns": 101,
+   "rows": 156,
+   "valid_share": 1.0,
+   "elevation_min_m": 41.6,
+   "elevation_max_m": 158.0
+  },
+  {
+   "fire_id": "2024_COC40",
+   "filename": "2024_COC40_mrdem_dtm_90m.tif",
+   "columns": 98,
+   "rows": 97,
+   "valid_share": 1.0,
+   "elevation_min_m": 55.6,
+   "elevation_max_m": 81.3
+  },
+  {
+   "fire_id": "2024_COC41",
+   "filename": "2024_COC41_mrdem_dtm_90m.tif",
+   "columns": 91,
+   "rows": 93,
+   "valid_share": 1.0,
+   "elevation_min_m": 89.7,
+   "elevation_max_m": 115.3
+  },
+  {
+   "fire_id": "2024_COC42",
+   "filename": "2024_COC42_mrdem_dtm_90m.tif",
+   "columns": 116,
+   "rows": 186,
+   "valid_share": 1.0,
+   "elevation_min_m": 10.7,
+   "elevation_max_m": 51.2
+  },
+  {
+   "fire_id": "2024_COC45",
+   "filename": "2024_COC45_mrdem_dtm_90m.tif",
+   "columns": 133,
+   "rows": 110,
+   "valid_share": 1.0,
+   "elevation_min_m": 88.0,
+   "elevation_max_m": 117.4
+  },
+  {
+   "fire_id": "2024_COC9",
+   "filename": "2024_COC9_mrdem_dtm_90m.tif",
+   "columns": 190,
+   "rows": 298,
+   "valid_share": 1.0,
+   "elevation_min_m": 222.9,
+   "elevation_max_m": 286.1
+  },
+  {
+   "fire_id": "2024_HEA11",
+   "filename": "2024_HEA11_mrdem_dtm_90m.tif",
+   "columns": 78,
+   "rows": 77,
+   "valid_share": 1.0,
+   "elevation_min_m": 295.9,
+   "elevation_max_m": 378.4
+  },
+  {
+   "fire_id": "2024_KLK5",
+   "filename": "2024_KLK5_mrdem_dtm_90m.tif",
+   "columns": 104,
+   "rows": 126,
+   "valid_share": 1.0,
+   "elevation_min_m": 361.0,
+   "elevation_max_m": 594.5
+  },
+  {
+   "fire_id": "2024_NIP17",
+   "filename": "2024_NIP17_mrdem_dtm_90m.tif",
+   "columns": 77,
+   "rows": 83,
+   "valid_share": 1.0,
+   "elevation_min_m": 215.0,
+   "elevation_max_m": 238.3
+  },
+  {
+   "fire_id": "2024_NIP26",
+   "filename": "2024_NIP26_mrdem_dtm_90m.tif",
+   "columns": 88,
+   "rows": 88,
+   "valid_share": 1.0,
+   "elevation_min_m": 171.1,
+   "elevation_max_m": 190.2
+  },
+  {
+   "fire_id": "2024_NIP27",
+   "filename": "2024_NIP27_mrdem_dtm_90m.tif",
+   "columns": 209,
+   "rows": 420,
+   "valid_share": 1.0,
+   "elevation_min_m": 209.6,
+   "elevation_max_m": 265.1
+  },
+  {
+   "fire_id": "2024_NIP32",
+   "filename": "2024_NIP32_mrdem_dtm_90m.tif",
+   "columns": 92,
+   "rows": 104,
+   "valid_share": 1.0,
+   "elevation_min_m": 177.7,
+   "elevation_max_m": 202.5
+  },
+  {
+   "fire_id": "2024_NIP36",
+   "filename": "2024_NIP36_mrdem_dtm_90m.tif",
+   "columns": 77,
+   "rows": 84,
+   "valid_share": 1.0,
+   "elevation_min_m": 180.8,
+   "elevation_max_m": 213.0
+  },
+  {
+   "fire_id": "2024_NIP7",
+   "filename": "2024_NIP7_mrdem_dtm_90m.tif",
+   "columns": 92,
+   "rows": 96,
+   "valid_share": 1.0,
+   "elevation_min_m": 275.5,
+   "elevation_max_m": 346.7
+  },
+  {
+   "fire_id": "2024_RED11",
+   "filename": "2024_RED11_mrdem_dtm_90m.tif",
+   "columns": 92,
+   "rows": 87,
+   "valid_share": 1.0,
+   "elevation_min_m": 270.8,
+   "elevation_max_m": 336.6
+  },
+  {
+   "fire_id": "2024_RED14",
+   "filename": "2024_RED14_mrdem_dtm_90m.tif",
+   "columns": 291,
+   "rows": 279,
+   "valid_share": 1.0,
+   "elevation_min_m": 231.1,
+   "elevation_max_m": 324.7
+  },
+  {
+   "fire_id": "2024_RED27",
+   "filename": "2024_RED27_mrdem_dtm_90m.tif",
+   "columns": 120,
+   "rows": 145,
+   "valid_share": 1.0,
+   "elevation_min_m": 294.1,
+   "elevation_max_m": 352.2
+  },
+  {
+   "fire_id": "2024_RED32",
+   "filename": "2024_RED32_mrdem_dtm_90m.tif",
+   "columns": 111,
+   "rows": 125,
+   "valid_share": 1.0,
+   "elevation_min_m": 281.9,
+   "elevation_max_m": 350.2
+  },
+  {
+   "fire_id": "2024_SLK12",
+   "filename": "2024_SLK12_mrdem_dtm_90m.tif",
+   "columns": 133,
+   "rows": 128,
+   "valid_share": 1.0,
+   "elevation_min_m": 288.1,
+   "elevation_max_m": 333.9
+  },
+  {
+   "fire_id": "2024_SLK14",
+   "filename": "2024_SLK14_mrdem_dtm_90m.tif",
+   "columns": 113,
+   "rows": 126,
+   "valid_share": 1.0,
+   "elevation_min_m": 283.1,
+   "elevation_max_m": 327.8
+  },
+  {
+   "fire_id": "2024_SLK15",
+   "filename": "2024_SLK15_mrdem_dtm_90m.tif",
+   "columns": 127,
+   "rows": 156,
+   "valid_share": 1.0,
+   "elevation_min_m": 205.3,
+   "elevation_max_m": 238.1
+  },
+  {
+   "fire_id": "2024_SLK16",
+   "filename": "2024_SLK16_mrdem_dtm_90m.tif",
+   "columns": 179,
+   "rows": 230,
+   "valid_share": 1.0,
+   "elevation_min_m": 125.3,
+   "elevation_max_m": 166.2
+  },
+  {
+   "fire_id": "2024_SLK19",
+   "filename": "2024_SLK19_mrdem_dtm_90m.tif",
+   "columns": 197,
+   "rows": 180,
+   "valid_share": 1.0,
+   "elevation_min_m": 353.0,
+   "elevation_max_m": 450.3
+  },
+  {
+   "fire_id": "2024_SLK20",
+   "filename": "2024_SLK20_mrdem_dtm_90m.tif",
+   "columns": 118,
+   "rows": 171,
+   "valid_share": 1.0,
+   "elevation_min_m": 222.2,
+   "elevation_max_m": 275.3
+  },
+  {
+   "fire_id": "2024_SLK21",
+   "filename": "2024_SLK21_mrdem_dtm_90m.tif",
+   "columns": 113,
+   "rows": 122,
+   "valid_share": 1.0,
+   "elevation_min_m": 195.8,
+   "elevation_max_m": 228.8
+  },
+  {
+   "fire_id": "2024_SLK22",
+   "filename": "2024_SLK22_mrdem_dtm_90m.tif",
+   "columns": 245,
+   "rows": 266,
+   "valid_share": 1.0,
+   "elevation_min_m": 212.3,
+   "elevation_max_m": 265.8
+  },
+  {
+   "fire_id": "2024_SLK23",
+   "filename": "2024_SLK23_mrdem_dtm_90m.tif",
+   "columns": 95,
+   "rows": 105,
+   "valid_share": 1.0,
+   "elevation_min_m": 217.9,
+   "elevation_max_m": 251.0
+  },
+  {
+   "fire_id": "2024_SLK24",
+   "filename": "2024_SLK24_mrdem_dtm_90m.tif",
+   "columns": 94,
+   "rows": 102,
+   "valid_share": 1.0,
+   "elevation_min_m": 240.6,
+   "elevation_max_m": 281.7
+  },
+  {
+   "fire_id": "2024_SLK27",
+   "filename": "2024_SLK27_mrdem_dtm_90m.tif",
+   "columns": 122,
+   "rows": 154,
+   "valid_share": 1.0,
+   "elevation_min_m": 213.6,
+   "elevation_max_m": 278.7
+  },
+  {
+   "fire_id": "2024_SLK28",
+   "filename": "2024_SLK28_mrdem_dtm_90m.tif",
+   "columns": 112,
+   "rows": 122,
+   "valid_share": 1.0,
+   "elevation_min_m": 290.6,
+   "elevation_max_m": 322.0
+  },
+  {
+   "fire_id": "2024_SLK29",
+   "filename": "2024_SLK29_mrdem_dtm_90m.tif",
+   "columns": 79,
+   "rows": 78,
+   "valid_share": 1.0,
+   "elevation_min_m": 242.5,
+   "elevation_max_m": 281.4
+  },
+  {
+   "fire_id": "2024_SLK30",
+   "filename": "2024_SLK30_mrdem_dtm_90m.tif",
+   "columns": 120,
+   "rows": 106,
+   "valid_share": 1.0,
+   "elevation_min_m": 240.5,
+   "elevation_max_m": 279.1
+  },
+  {
+   "fire_id": "2024_SLK34",
+   "filename": "2024_SLK34_mrdem_dtm_90m.tif",
+   "columns": 181,
+   "rows": 313,
+   "valid_share": 1.0,
+   "elevation_min_m": 173.0,
+   "elevation_max_m": 228.0
+  },
+  {
+   "fire_id": "2024_SLK36",
+   "filename": "2024_SLK36_mrdem_dtm_90m.tif",
+   "columns": 78,
+   "rows": 81,
+   "valid_share": 1.0,
+   "elevation_min_m": 286.9,
+   "elevation_max_m": 345.1
+  },
+  {
+   "fire_id": "2024_SLK6",
+   "filename": "2024_SLK6_mrdem_dtm_90m.tif",
+   "columns": 86,
+   "rows": 78,
+   "valid_share": 1.0,
+   "elevation_min_m": 366.1,
+   "elevation_max_m": 417.4
+  },
+  {
+   "fire_id": "2024_THU21",
+   "filename": "2024_THU21_mrdem_dtm_90m.tif",
+   "columns": 84,
+   "rows": 77,
+   "valid_share": 1.0,
+   "elevation_min_m": 429.5,
+   "elevation_max_m": 529.3
+  },
+  {
+   "fire_id": "2024_THU24",
+   "filename": "2024_THU24_mrdem_dtm_90m.tif",
+   "columns": 78,
+   "rows": 83,
+   "valid_share": 1.0,
+   "elevation_min_m": 286.1,
+   "elevation_max_m": 535.8
+  }
+ ]
+}
