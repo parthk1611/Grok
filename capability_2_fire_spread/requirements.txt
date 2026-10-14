@@ -6,4 +6,5 @@ scipy
 shapely
 pyproj
 Pillow
-rasterio  # only for download_spread_terrain_windows.py and build_spread_terrain_summary.py (windowed reads of the MRDEM cloud-optimised GeoTIFF)
+matplotlib  # only for eda_fire_spread.py
+rasterio  # for download_spread_terrain_windows.py and build_spread_terrain_summary.py (windowed reads of the MRDEM cloud-optimised GeoTIFF), and for loading a fire's grids into the simulator

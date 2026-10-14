@@ -4,8 +4,12 @@ data/raw/fire_disturbance/*.geojson
 data/raw/firms/*.csv.gz
 data/raw/era5_openmeteo/fires/
 data/raw/fuel_terrain/windows/
+data/raw/basemap/*.png
 
 # Intermediate tables are rebuilt by the build_* scripts; their audits are tracked.
 data/interim/*.csv
 data/interim/*.csv.gz
 data/interim/*.geojson
+
+# The viewer page already contains this data; export_spread_viewer_data.py rebuilds both.
+viewer/spread_viewer_data.js
