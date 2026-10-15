@@ -13,3 +13,9 @@ data/interim/*.geojson
 
 # The viewer page already contains this data; export_spread_viewer_data.py rebuilds both.
 viewer/spread_viewer_data.js
+
+# Local editor and tool settings; not part of the project.
+CLAUDE.md
+CLAUDE.local.md
+.claude/
+.vscode/
