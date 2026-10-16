@@ -14,6 +14,12 @@ data/raw/ontario_fire_region/*.geojson
 data/processed/*daily_ignition_labels*.csv.gz
 data/processed/*daily_ignition_features*.csv.gz
 data/processed/*daily_ignition_features*_audit.json
+data/processed/*daily_ignition_features*.csv
+
+# EDA samples can be regenerated; commit reports, figures and aggregate tables.
+docs/eda/*sample*.csv.gz
+docs/eda/positive_cell_days.csv.gz
+docs/eda/.ipynb_checkpoints/
 
 # Temporary and resumable elevation API response material.
 data/raw/cdem/*.json

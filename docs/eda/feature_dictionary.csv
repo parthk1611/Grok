@@ -1,0 +1,37 @@
+feature,group,meaning,why_include,missing_pct
+calendar_day_of_year,Calendar / solar,Day number within year,Tests seasonal timing; compare with cyclic encodings during training.,0.0
+calendar_doy_sin,Calendar / solar,Sine of annual day angle,"Paired with cosine, represents a repeating annual cycle without an end-of-year jump.",0.0
+calendar_doy_cos,Calendar / solar,Cosine of annual day angle,Completes the cyclic seasonal representation; neither component should be interpreted alone.,0.0
+calendar_is_weekend,Calendar / solar,Saturday/Sunday flag,Tests a possible human-activity pattern; usefulness has not been established.,0.0
+calendar_day_length_hours,Calendar / solar,Astronomical daylight hours,Provides latitude-and-date solar context; not a direct fuel-moisture observation.,0.0
+terrain_elevation_mean_m,Static terrain,Mean sampled ground elevation (m),Tests differences associated with static topographic context.,0.010338054378166
+terrain_slope_deg,Static terrain,Fitted terrain slope (degrees),Describes local ground inclination; relevance to ignition must be evaluated.,0.4962266101519694
+terrain_aspect_sin,Static terrain,Sine of terrain aspect,"Together with cosine, encodes slope orientation without the 0/360-degree discontinuity.",0.4962266101519694
+terrain_aspect_cos,Static terrain,Cosine of terrain aspect,Completes the orientation pair; does not substitute for a vegetation or fuel map.,0.4962266101519694
+terrain_ruggedness_m,Static terrain,Variability among sampled elevations (m),"Describes local topographic variation, rather than vegetation, access or fire spread.",0.010338054378166
+cwfis_temp_c,Prior-day weather,Prior-day noon air temperature (C),Tests atmospheric warmth as a candidate signal of ignition conditions.,52.48200953797887
+cwfis_rh_pct,Prior-day weather,Prior-day relative humidity (%),Tests atmospheric dryness; not a direct measure of fuel moisture.,52.48200953797887
+cwfis_wind_speed_kmh,Prior-day weather,Prior-day wind speed (km/h),Describes wind conditions; direction and future hourly winds are absent.,52.48200953797887
+cwfis_precip_mm,Prior-day weather,Prior-day precipitation (mm),Represents recent rain; zero rain and missing rain must remain distinct.,52.48200953797887
+cwfis_precip_7d_mm,Prior-day weather,Total rain over seven completed prior dates (mm),Captures recent wet/dry conditions over a longer window; blank unless all seven observations exist.,62.61084192215895
+cwfis_ffmc,FWI components,Fine Fuel Moisture Code,Describes dryness of litter and fine surface fuels relevant to ignition.,52.48200953797887
+cwfis_dmc,FWI components,Duff Moisture Code,Describes moisture in moderately deep organic layers; adds a longer moisture-memory signal.,52.48200953797887
+cwfis_dc,FWI components,Drought Code,Describes deep organic-layer moisture and seasonal drought.,52.48200953797887
+cwfis_isi,FWI components,Initial Spread Index,"Combines fine-fuel dryness and wind; tests associated conditions, not a spread target.",52.48200953797887
+cwfis_bui,FWI components,Buildup Index,Combines DMC/DC to represent fuel available for combustion.,52.48200953797887
+cwfis_fwi,FWI components,Fire Weather Index,Combines ISI/BUI to rate potential fire intensity; not an ignition probability.,52.48200953797887
+cwfis_dsr,FWI components,Daily Severity Rating,A transformation of FWI related to suppression difficulty; likely redundant with FWI.,52.48200953797887
+fire_history_same_cell_30d,Past ignition history,Earlier same-cell ignition records in 30d,Tests recent recorded activity; all dates precede the issue day.,0.0
+fire_history_neighborhood_30d,Past ignition history,Earlier ignition records in the 3x3-cell neighbourhood in 30d,Adds nearby recent context; neighbourhood size is about 30x30 km away from boundary clipping.,0.0
+fire_history_same_cell_365d,Past ignition history,Earlier same-cell records in 365d,Tests longer-term recurrence in the available archive; early-2010 history is left-censored.,0.0
+fire_history_neighborhood_365d,Past ignition history,Earlier neighbourhood records in 365d,Adds broader annual recurrence context without using future records.,0.0
+fire_history_days_since_same_cell,Past ignition history,Days since an earlier observed same-cell ignition,"Captures recency; blank means no earlier observed event in the available 2010+ history, not zero days.",77.10610889117625
+terrain_sample_count,Coverage / quality,Number of valid terrain samples (0-9),Makes terrain reliability visible.,0.0
+terrain_coverage_fraction,Coverage / quality,Terrain sample count / 9,Expresses terrain coverage; exactly redundant with its count.,0.0
+cwfis_station_count,Coverage / quality,Usable selected weather stations (0-4),Identifies strength of available weather support.,0.0
+cwfis_nearest_station_km,Coverage / quality,Distance to nearest usable selected station (km),Shows how far the weather estimate is extrapolated from a station.,52.48200953797887
+cwfis_observation_coverage_fraction,Coverage / quality,Usable station count / 4,Expresses station coverage; exactly redundant with station count.,0.0
+cwfis_imputed_station_fraction,Coverage / quality,Fraction of selected source records marked interpolated/imputed,"Preserves source processing; all observed v1 values are zero, so test redundancy with the missingness flag.",52.48200953797887
+cwfis_calcstatus_nonzero_fraction,Coverage / quality,Fraction with a nonzero source calculation-status flag,Preserves calculation states; all observed v1 values are zero. Nonzero is not automatically invalid in other sources.,52.48200953797887
+cwfis_missing,Coverage / quality,No usable selected prior-day weather station (0/1),Distinguishes unavailable weather from real physical zeroes.,0.0
+cwfis_precip_7d_coverage_days,Coverage / quality,Usable days in seven-day rain window (0-7),Explains why rain totals are missing and distinguishes partial coverage.,0.0

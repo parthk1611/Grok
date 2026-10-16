@@ -1,0 +1,10 @@
+feature_a,feature_b,pearson_r,pairwise_sample_rows
+cwfis_station_count,cwfis_observation_coverage_fraction,1.0,100000
+terrain_sample_count,terrain_coverage_fraction,0.9999999999997723,100000
+calendar_doy_cos,calendar_day_length_hours,-0.9722953112831599,100000
+cwfis_dmc,cwfis_bui,0.9687398207447266,47601
+calendar_day_of_year,calendar_doy_sin,-0.9626012036091885,100000
+cwfis_fwi,cwfis_dsr,0.9355752200246746,47601
+cwfis_isi,cwfis_fwi,0.9161433734899045,47601
+cwfis_missing,cwfis_precip_7d_coverage_days,-0.9133763652137825,100000
+terrain_slope_deg,terrain_ruggedness_m,0.902108210712249,99518
