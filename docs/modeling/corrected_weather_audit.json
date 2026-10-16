@@ -1,0 +1,188 @@
+{
+  "cache_version": "ignition-v1-weather-asof-global-date-v2",
+  "features": [
+    "calendar_day_of_year",
+    "calendar_doy_sin",
+    "calendar_doy_cos",
+    "calendar_is_weekend",
+    "calendar_day_length_hours",
+    "terrain_elevation_mean_m",
+    "terrain_slope_deg",
+    "terrain_aspect_sin",
+    "terrain_aspect_cos",
+    "terrain_ruggedness_m",
+    "terrain_sample_count",
+    "terrain_coverage_fraction",
+    "cwfis_station_count",
+    "cwfis_nearest_station_km",
+    "cwfis_observation_coverage_fraction",
+    "cwfis_imputed_station_fraction",
+    "cwfis_calcstatus_nonzero_fraction",
+    "cwfis_missing",
+    "cwfis_temp_c",
+    "cwfis_rh_pct",
+    "cwfis_wind_speed_kmh",
+    "cwfis_precip_mm",
+    "cwfis_ffmc",
+    "cwfis_dmc",
+    "cwfis_dc",
+    "cwfis_isi",
+    "cwfis_bui",
+    "cwfis_fwi",
+    "cwfis_dsr",
+    "cwfis_precip_7d_mm",
+    "cwfis_precip_7d_coverage_days",
+    "fire_history_same_cell_30d",
+    "fire_history_neighborhood_30d",
+    "fire_history_same_cell_365d",
+    "fire_history_neighborhood_365d",
+    "fire_history_days_since_same_cell"
+  ],
+  "rows": 17798320,
+  "original_panel_sha256": "8791c96e460e6294791bbbf1ad0d6aad68e31a98be28dbcc6060463f94ccfc9d",
+  "weather_source_audit": {
+    "source_sha256": "67e706160316e2b1e496bc3b316d17d5c1623954f29231d5cb71e618f0329246",
+    "source_rows": 4159936,
+    "retained_raw_rows": 1038321,
+    "unique_date_station_records": 1038321,
+    "duplicate_records": 0,
+    "duplicate_conflicting_fwi_records": 0,
+    "backward_date_transitions": 2183,
+    "backward_date_examples": [
+      [
+        "2015-08-01",
+        "2015-03-08"
+      ],
+      [
+        "2015-08-01",
+        "2015-03-11"
+      ],
+      [
+        "2015-08-01",
+        "2015-03-12"
+      ],
+      [
+        "2015-08-01",
+        "2015-03-12"
+      ],
+      [
+        "2015-08-01",
+        "2015-03-14"
+      ],
+      [
+        "2015-08-02",
+        "2015-03-14"
+      ],
+      [
+        "2015-08-03",
+        "2015-03-15"
+      ],
+      [
+        "2015-08-03",
+        "2015-03-16"
+      ]
+    ],
+    "stations": 817,
+    "record_resolution": "First record per date/key; replace only when existing FWI is null and later FWI is valid",
+    "availability": "Retrospective archive; per-record historical publication time unknown",
+    "station_rule": "nearest min(4,eligible_count) after first_seen<=observation_date; never future stations"
+  },
+  "changed_cell_values": {
+    "cwfis_station_count": 14024726,
+    "cwfis_nearest_station_km": 8083685,
+    "cwfis_observation_coverage_fraction": 14024726,
+    "cwfis_imputed_station_fraction": 8064924,
+    "cwfis_calcstatus_nonzero_fraction": 8064924,
+    "cwfis_missing": 8064924,
+    "cwfis_temp_c": 13965873,
+    "cwfis_rh_pct": 13960168,
+    "cwfis_wind_speed_kmh": 13863605,
+    "cwfis_precip_mm": 12516615,
+    "cwfis_ffmc": 14007057,
+    "cwfis_dmc": 13999190,
+    "cwfis_dc": 14019982,
+    "cwfis_isi": 13734576,
+    "cwfis_bui": 14005877,
+    "cwfis_fwi": 13682027,
+    "cwfis_dsr": 12632295,
+    "cwfis_precip_7d_mm": 13913330,
+    "cwfis_precip_7d_coverage_days": 10008789
+  },
+  "annual": {
+    "2010": {
+      "rows": 1779832,
+      "positives": 661,
+      "weather_missing": 38280,
+      "rain_7d_missing": 88904
+    },
+    "2011": {
+      "rows": 1779832,
+      "positives": 1245,
+      "weather_missing": 83577,
+      "rain_7d_missing": 203303
+    },
+    "2012": {
+      "rows": 1779832,
+      "positives": 1407,
+      "weather_missing": 104805,
+      "rain_7d_missing": 186154
+    },
+    "2013": {
+      "rows": 1779832,
+      "positives": 527,
+      "weather_missing": 155235,
+      "rain_7d_missing": 256348
+    },
+    "2014": {
+      "rows": 1779832,
+      "positives": 293,
+      "weather_missing": 116250,
+      "rain_7d_missing": 212954
+    },
+    "2015": {
+      "rows": 1779832,
+      "positives": 584,
+      "weather_missing": 70224,
+      "rain_7d_missing": 175538
+    },
+    "2016": {
+      "rows": 1779832,
+      "positives": 573,
+      "weather_missing": 86545,
+      "rain_7d_missing": 150858
+    },
+    "2017": {
+      "rows": 1779832,
+      "positives": 736,
+      "weather_missing": 183774,
+      "rain_7d_missing": 279056
+    },
+    "2018": {
+      "rows": 1779832,
+      "positives": 1250,
+      "weather_missing": 284374,
+      "rain_7d_missing": 380383
+    },
+    "2019": {
+      "rows": 1779832,
+      "positives": 509,
+      "weather_missing": 152928,
+      "rain_7d_missing": 238471
+    }
+  },
+  "scope": "Retrospective hindcast on frozen v1 grid; edge-cell universe uses study-period events; historical availability unverified",
+  "numeric_storage": "float64 C-order memory mapped; all original rows and labels retained",
+  "learned_preprocessing": "none; learned model transformations fit later within each training fold",
+  "corrected_value_checks": {
+    "status": "PASS",
+    "rows_checked": 17798320,
+    "verification": "independent post-build cache audit",
+    "infinities": 0,
+    "range_violations": 0,
+    "station_missing_consistency_violations": 0,
+    "rain_coverage_consistency_violations": 0,
+    "grid_duplicates": 0,
+    "rows_preserved": true,
+    "labels_preserved": true
+  }
+}
