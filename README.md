@@ -20,3 +20,10 @@ See [the ignition EDA](docs/eda/README.md) for full-panel counts and missingness
 feature explanations, figures, the notebook, and commands to reproduce the
 analysis. Its 36 recommended source predictors are recorded in
 `data/metadata/ignition_feature_selection_v1.json`.
+build commands.
+
+The second AI capability, wind-driven fire spread, has its own folder:
+[`capability_2_fire_spread/`](capability_2_fire_spread/README.md). It holds a
+separate dataset of 752 Ontario fires from 2012–2025 with their growth rebuilt
+from satellite passes, hourly wind and fire-weather codes, fuel and terrain.
+It is a replay set for the spread simulator and is never an ignition input.

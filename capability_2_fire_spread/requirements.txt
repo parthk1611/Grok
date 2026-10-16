@@ -1,0 +1,10 @@
+# Fire-spread dataset build (capability_2_fire_spread/scripts).
+# The ignition scripts in the repository root need none of these except shapely.
+numpy
+pandas
+scipy
+shapely
+pyproj
+Pillow
+matplotlib  # only for eda_fire_spread.py
+rasterio  # for download_spread_terrain_windows.py and build_spread_terrain_summary.py (windowed reads of the MRDEM cloud-optimised GeoTIFF), and for loading a fire's grids into the simulator
