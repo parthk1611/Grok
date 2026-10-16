@@ -1,0 +1,250 @@
+{
+  "version": 1,
+  "status": "boundaries_frozen_counts_verified_original_panel_and_corrected_cache",
+  "date_contract": {
+    "column": "ignition_date",
+    "timezone": "America/Toronto",
+    "season": "May 1 through October 31 inclusive",
+    "partition_unit": "complete local date; all grid cells stay together",
+    "issue_time": "00:00 local on ignition_date",
+    "label_window": "[local midnight on ignition_date, local midnight on next date)"
+  },
+  "protocol_basis": {
+    "requirements": [
+      "AGENTS.md",
+      "ABOUT.md#training-guidance",
+      "docs/model_selection.md"
+    ],
+    "year_boundaries": "agreed modeling plan; repository requires chronology but specifies no fixed split years",
+    "assignment": "date only; no labels, predictors, random splitting, or fitted transformations"
+  },
+  "partition_codes": {
+    "development": 0,
+    "calibration": 1,
+    "threshold": 2,
+    "test": 3
+  },
+  "partitions": {
+    "development": {
+      "start": "2010-05-01",
+      "end": "2016-10-31",
+      "dates": 1288,
+      "rows": 12458824,
+      "positives": 5290,
+      "negatives": 12453534,
+      "prevalence": 0.00042459866196039046,
+      "adequate_positive_count": true
+    },
+    "calibration": {
+      "start": "2017-05-01",
+      "end": "2017-10-31",
+      "dates": 184,
+      "rows": 1779832,
+      "positives": 736,
+      "negatives": 1779096,
+      "prevalence": 0.00041352217512664115,
+      "adequate_positive_count": true
+    },
+    "threshold": {
+      "start": "2018-05-01",
+      "end": "2018-10-31",
+      "dates": 184,
+      "rows": 1779832,
+      "positives": 1250,
+      "negatives": 1778582,
+      "prevalence": 0.0007023134767775835,
+      "adequate_positive_count": true
+    },
+    "test": {
+      "start": "2019-05-01",
+      "end": "2019-10-31",
+      "dates": 184,
+      "rows": 1779832,
+      "positives": 509,
+      "negatives": 1779323,
+      "prevalence": 0.000285982047743832,
+      "adequate_positive_count": true
+    }
+  },
+  "development_folds": [
+    {
+      "name": "validate_2012",
+      "training": {
+        "start": "2010-05-01",
+        "end": "2011-10-31",
+        "dates": 368,
+        "rows": 3559664,
+        "positives": 1906,
+        "negatives": 3557758,
+        "prevalence": 0.0005354437946952297,
+        "adequate_positive_count": true
+      },
+      "validation": {
+        "start": "2012-05-01",
+        "end": "2012-10-31",
+        "dates": 184,
+        "rows": 1779832,
+        "positives": 1407,
+        "negatives": 1778425,
+        "prevalence": 0.000790524049460848,
+        "adequate_positive_count": true
+      }
+    },
+    {
+      "name": "validate_2013",
+      "training": {
+        "start": "2010-05-01",
+        "end": "2012-10-31",
+        "dates": 552,
+        "rows": 5339496,
+        "positives": 3313,
+        "negatives": 5336183,
+        "prevalence": 0.0006204705462837691,
+        "adequate_positive_count": true
+      },
+      "validation": {
+        "start": "2013-05-01",
+        "end": "2013-10-31",
+        "dates": 184,
+        "rows": 1779832,
+        "positives": 527,
+        "negatives": 1779305,
+        "prevalence": 0.0002960953618094292,
+        "adequate_positive_count": true
+      }
+    },
+    {
+      "name": "validate_2014",
+      "training": {
+        "start": "2010-05-01",
+        "end": "2013-10-31",
+        "dates": 736,
+        "rows": 7119328,
+        "positives": 3840,
+        "negatives": 7115488,
+        "prevalence": 0.0005393767501651841,
+        "adequate_positive_count": true
+      },
+      "validation": {
+        "start": "2014-05-01",
+        "end": "2014-10-31",
+        "dates": 184,
+        "rows": 1779832,
+        "positives": 293,
+        "negatives": 1779539,
+        "prevalence": 0.00016462227895666558,
+        "adequate_positive_count": true
+      }
+    },
+    {
+      "name": "validate_2015",
+      "training": {
+        "start": "2010-05-01",
+        "end": "2014-10-31",
+        "dates": 920,
+        "rows": 8899160,
+        "positives": 4133,
+        "negatives": 8895027,
+        "prevalence": 0.0004644258559234804,
+        "adequate_positive_count": true
+      },
+      "validation": {
+        "start": "2015-05-01",
+        "end": "2015-10-31",
+        "dates": 184,
+        "rows": 1779832,
+        "positives": 584,
+        "negatives": 1779248,
+        "prevalence": 0.000328120856350487,
+        "adequate_positive_count": true
+      }
+    },
+    {
+      "name": "validate_2016",
+      "training": {
+        "start": "2010-05-01",
+        "end": "2015-10-31",
+        "dates": 1104,
+        "rows": 10678992,
+        "positives": 4717,
+        "negatives": 10674275,
+        "prevalence": 0.00044170835599464817,
+        "adequate_positive_count": true
+      },
+      "validation": {
+        "start": "2016-05-01",
+        "end": "2016-10-31",
+        "dates": 184,
+        "rows": 1779832,
+        "positives": 573,
+        "negatives": 1779259,
+        "prevalence": 0.0003219404977548443,
+        "adequate_positive_count": true
+      }
+    }
+  ],
+  "positive_count_screen": {
+    "minimum": 30,
+    "meaning": "Heuristic warning screen only; does not establish statistical precision or independent samples. Date-dependent uncertainty must be assessed separately."
+  },
+  "purge": {
+    "gap_days": 0,
+    "reason": "One-day labels on different dates do not overlap. Seven-day precipitation and 30/365-day history look strictly backwards; overlapping input histories do not create overlapping future labels. Entire-year validation starts after the preceding fire season. Reassess if label horizon or feature timing changes."
+  },
+  "final_test": {
+    "partition": "test",
+    "locked": true,
+    "selection_access": "No use for feature/preprocessing/model/weighting/calibration/threshold selection. Evaluate only after the complete development protocol is frozen."
+  },
+  "provenance": {
+    "aggregate_file": "docs/eda/daily_summary.csv",
+    "aggregate_sha256": "13c47c30359b97f9580d849ae4e680b9dffcdfdcb4487d22fcf8571eb85f60f3",
+    "aggregate_scope": "Initial exact counts from the cached full-panel EDA were reconciled against the fresh original-panel full scan and corrected-cache audit. Split dates, row counts, positive counts, negatives, and prevalence remain unchanged.",
+    "source_panel_sha256": "8791c96e460e6294791bbbf1ad0d6aad68e31a98be28dbcc6060463f94ccfc9d",
+    "new_validator_confirmation": "PASS",
+    "created_local_date": "2026-10-09",
+    "validation_evidence": {
+      "original_panel": {
+        "report_file": "docs/modeling/data_quality_report.json",
+        "report_sha256": "6aac1e63de66acb799069af93836a6a8a98c747fef62dca8e9ca0a0324a1274d",
+        "status": "PASS",
+        "full_scan_completed": true,
+        "source_sha256": "8791c96e460e6294791bbbf1ad0d6aad68e31a98be28dbcc6060463f94ccfc9d",
+        "validation_checks": 277,
+        "nonzero_violation_counts": 0
+      },
+      "corrected_cache": {
+        "report_file": "docs/modeling/corrected_weather_audit.json",
+        "report_sha256": "7398bb6817cc254d8c570c578ab651c3dc2d9dc56a68837a5cb845926570eb62",
+        "cache_version": "ignition-v1-weather-asof-global-date-v2",
+        "status": "PASS",
+        "rows_checked": 17798320,
+        "rows_preserved": true,
+        "labels_preserved": true,
+        "original_panel_sha256": "8791c96e460e6294791bbbf1ad0d6aad68e31a98be28dbcc6060463f94ccfc9d",
+        "weather_source_sha256": "67e706160316e2b1e496bc3b316d17d5c1623954f29231d5cb71e618f0329246"
+      },
+      "count_reconciliation": {
+        "status": "PASS",
+        "annual_records_checked": 10,
+        "partition_and_fold_records_checked": 15,
+        "rows": 17798320,
+        "positives": 7785,
+        "negatives": 17790535,
+        "dates": 1840,
+        "boundaries_folds_and_counts_changed": false
+      },
+      "reconciled_at_utc": "2026-10-09T17:53:32.403530+00:00"
+    }
+  },
+  "totals": {
+    "start": "2010-05-01",
+    "end": "2019-10-31",
+    "dates": 1840,
+    "rows": 17798320,
+    "positives": 7785,
+    "negatives": 17790535,
+    "prevalence": 0.000437400833337079,
+    "adequate_positive_count": true
+  }
+}

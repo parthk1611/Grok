@@ -1,0 +1,999 @@
+{
+  "status": "PASS",
+  "created_at_utc": "2026-10-09T04:41:03.102779+00:00",
+  "full_scan_completed": true,
+  "source": {
+    "filename": "ontario_fire_region_10km_daily_ignition_features_v1.csv",
+    "bytes": 6542580992,
+    "sha256": "8791c96e460e6294791bbbf1ad0d6aad68e31a98be28dbcc6060463f94ccfc9d",
+    "pinned_checksum_applicable": true,
+    "matches_pinned_eda_sha256": true
+  },
+  "schema": {
+    "columns": [
+      "grid_id",
+      "ignition_date",
+      "ignition",
+      "ignition_count",
+      "large_fire_200ha",
+      "feature_set_version",
+      "issue_time_utc",
+      "calendar_day_of_year",
+      "calendar_doy_sin",
+      "calendar_doy_cos",
+      "calendar_is_weekend",
+      "calendar_day_length_hours",
+      "terrain_elevation_mean_m",
+      "terrain_slope_deg",
+      "terrain_aspect_sin",
+      "terrain_aspect_cos",
+      "terrain_ruggedness_m",
+      "terrain_sample_count",
+      "terrain_coverage_fraction",
+      "terrain_source_id",
+      "terrain_source_vintage_end_year",
+      "cwfis_source_id",
+      "cwfis_observation_date",
+      "cwfis_station_count",
+      "cwfis_nearest_station_km",
+      "cwfis_observation_coverage_fraction",
+      "cwfis_imputed_station_fraction",
+      "cwfis_calcstatus_nonzero_fraction",
+      "cwfis_missing",
+      "cwfis_temp_c",
+      "cwfis_rh_pct",
+      "cwfis_wind_speed_kmh",
+      "cwfis_precip_mm",
+      "cwfis_ffmc",
+      "cwfis_dmc",
+      "cwfis_dc",
+      "cwfis_isi",
+      "cwfis_bui",
+      "cwfis_fwi",
+      "cwfis_dsr",
+      "cwfis_precip_7d_mm",
+      "cwfis_precip_7d_coverage_days",
+      "fire_history_source_id",
+      "fire_history_same_cell_30d",
+      "fire_history_neighborhood_30d",
+      "fire_history_same_cell_365d",
+      "fire_history_neighborhood_365d",
+      "fire_history_days_since_same_cell"
+    ],
+    "predictors": [
+      "calendar_day_of_year",
+      "calendar_doy_sin",
+      "calendar_doy_cos",
+      "calendar_is_weekend",
+      "calendar_day_length_hours",
+      "terrain_elevation_mean_m",
+      "terrain_slope_deg",
+      "terrain_aspect_sin",
+      "terrain_aspect_cos",
+      "terrain_ruggedness_m",
+      "terrain_sample_count",
+      "terrain_coverage_fraction",
+      "cwfis_station_count",
+      "cwfis_nearest_station_km",
+      "cwfis_observation_coverage_fraction",
+      "cwfis_imputed_station_fraction",
+      "cwfis_calcstatus_nonzero_fraction",
+      "cwfis_missing",
+      "cwfis_temp_c",
+      "cwfis_rh_pct",
+      "cwfis_wind_speed_kmh",
+      "cwfis_precip_mm",
+      "cwfis_ffmc",
+      "cwfis_dmc",
+      "cwfis_dc",
+      "cwfis_isi",
+      "cwfis_bui",
+      "cwfis_fwi",
+      "cwfis_dsr",
+      "cwfis_precip_7d_mm",
+      "cwfis_precip_7d_coverage_days",
+      "fire_history_same_cell_30d",
+      "fire_history_neighborhood_30d",
+      "fire_history_same_cell_365d",
+      "fire_history_neighborhood_365d",
+      "fire_history_days_since_same_cell"
+    ],
+    "predictor_count": 36,
+    "target": "ignition",
+    "excluded_labels": [
+      "ignition_count",
+      "large_fire_200ha"
+    ],
+    "metadata_excluded_from_predictors": [
+      "cwfis_observation_date",
+      "cwfis_source_id",
+      "feature_set_version",
+      "fire_history_source_id",
+      "grid_id",
+      "ignition_date",
+      "issue_time_utc",
+      "terrain_source_id",
+      "terrain_source_vintage_end_year"
+    ],
+    "numeric_columns": [
+      "ignition",
+      "ignition_count",
+      "large_fire_200ha",
+      "calendar_day_of_year",
+      "calendar_doy_sin",
+      "calendar_doy_cos",
+      "calendar_is_weekend",
+      "calendar_day_length_hours",
+      "terrain_elevation_mean_m",
+      "terrain_slope_deg",
+      "terrain_aspect_sin",
+      "terrain_aspect_cos",
+      "terrain_ruggedness_m",
+      "terrain_sample_count",
+      "terrain_coverage_fraction",
+      "cwfis_station_count",
+      "cwfis_nearest_station_km",
+      "cwfis_observation_coverage_fraction",
+      "cwfis_imputed_station_fraction",
+      "cwfis_calcstatus_nonzero_fraction",
+      "cwfis_missing",
+      "cwfis_temp_c",
+      "cwfis_rh_pct",
+      "cwfis_wind_speed_kmh",
+      "cwfis_precip_mm",
+      "cwfis_ffmc",
+      "cwfis_dmc",
+      "cwfis_dc",
+      "cwfis_isi",
+      "cwfis_bui",
+      "cwfis_fwi",
+      "cwfis_dsr",
+      "cwfis_precip_7d_mm",
+      "cwfis_precip_7d_coverage_days",
+      "fire_history_same_cell_30d",
+      "fire_history_neighborhood_30d",
+      "fire_history_same_cell_365d",
+      "fire_history_neighborhood_365d",
+      "fire_history_days_since_same_cell",
+      "terrain_source_vintage_end_year"
+    ],
+    "missing_tokens": [
+      "",
+      "N/A",
+      "NA",
+      "NULL",
+      "NaN",
+      "nan",
+      "null"
+    ]
+  },
+  "totals": {
+    "rows": 17798320,
+    "expected_rows": 17798320,
+    "grid_cells": 9673,
+    "fire_season_dates": 1840,
+    "positive_cell_days": 7785,
+    "negative_cell_days": 17790535,
+    "event_records": 8109,
+    "large_fire_positive_cell_days": 318,
+    "ignition_prevalence_pct": 0.0437400833337079,
+    "weather_label_counts": {
+      "ignition=0,cwfis_missing=0": 8453073,
+      "ignition=0,cwfis_missing=1": 9337462,
+      "ignition=1,cwfis_missing=0": 4331,
+      "ignition=1,cwfis_missing=1": 3454
+    }
+  },
+  "annual": [
+    {
+      "year": 2010,
+      "rows": 1779832,
+      "positive_cell_days": 661,
+      "event_records": 700,
+      "large_fire_positive_cell_days": 13,
+      "weather_missing_rows": 482517,
+      "positive_weather_missing_rows": 110,
+      "rain_7d_missing_rows": 536694,
+      "history_censored_rows": 1709665,
+      "terrain_elevation_missing_rows": 184,
+      "terrain_slope_missing_rows": 8832,
+      "ignition_prevalence_pct": 0.037138336651998616,
+      "weather_missing_pct": 27.11025534994314
+    },
+    {
+      "year": 2011,
+      "rows": 1779832,
+      "positive_cell_days": 1245,
+      "event_records": 1298,
+      "large_fire_positive_cell_days": 70,
+      "weather_missing_rows": 555552,
+      "positive_weather_missing_rows": 318,
+      "rain_7d_missing_rows": 663609,
+      "history_censored_rows": 1602331,
+      "terrain_elevation_missing_rows": 184,
+      "terrain_slope_missing_rows": 8832,
+      "ignition_prevalence_pct": 0.06995042228704731,
+      "weather_missing_pct": 31.213732532059204
+    },
+    {
+      "year": 2012,
+      "rows": 1779832,
+      "positive_cell_days": 1407,
+      "event_records": 1466,
+      "large_fire_positive_cell_days": 50,
+      "weather_missing_rows": 653789,
+      "positive_weather_missing_rows": 336,
+      "rain_7d_missing_rows": 721554,
+      "history_censored_rows": 1456567,
+      "terrain_elevation_missing_rows": 184,
+      "terrain_slope_missing_rows": 8832,
+      "ignition_prevalence_pct": 0.0790524049460848,
+      "weather_missing_pct": 36.73318605351516
+    },
+    {
+      "year": 2013,
+      "rows": 1779832,
+      "positive_cell_days": 527,
+      "event_records": 561,
+      "large_fire_positive_cell_days": 27,
+      "weather_missing_rows": 654991,
+      "positive_weather_missing_rows": 168,
+      "rain_7d_missing_rows": 728274,
+      "history_censored_rows": 1378835,
+      "terrain_elevation_missing_rows": 184,
+      "terrain_slope_missing_rows": 8832,
+      "ignition_prevalence_pct": 0.02960953618094292,
+      "weather_missing_pct": 36.800720517442095
+    },
+    {
+      "year": 2014,
+      "rows": 1779832,
+      "positive_cell_days": 293,
+      "event_records": 300,
+      "large_fire_positive_cell_days": 4,
+      "weather_missing_rows": 518114,
+      "positive_weather_missing_rows": 64,
+      "rain_7d_missing_rows": 622198,
+      "history_censored_rows": 1353829,
+      "terrain_elevation_missing_rows": 184,
+      "terrain_slope_missing_rows": 8832,
+      "ignition_prevalence_pct": 0.016462227895666558,
+      "weather_missing_pct": 29.110275576571272
+    },
+    {
+      "year": 2015,
+      "rows": 1779832,
+      "positive_cell_days": 584,
+      "event_records": 604,
+      "large_fire_positive_cell_days": 22,
+      "weather_missing_rows": 1779816,
+      "positive_weather_missing_rows": 584,
+      "rain_7d_missing_rows": 1779832,
+      "history_censored_rows": 1325567,
+      "terrain_elevation_missing_rows": 184,
+      "terrain_slope_missing_rows": 8832,
+      "ignition_prevalence_pct": 0.0328120856350487,
+      "weather_missing_pct": 99.99910103874973
+    },
+    {
+      "year": 2016,
+      "rows": 1779832,
+      "positive_cell_days": 573,
+      "event_records": 601,
+      "large_fire_positive_cell_days": 9,
+      "weather_missing_rows": 1753712,
+      "positive_weather_missing_rows": 561,
+      "rain_7d_missing_rows": 1779832,
+      "history_censored_rows": 1294810,
+      "terrain_elevation_missing_rows": 184,
+      "terrain_slope_missing_rows": 8832,
+      "ignition_prevalence_pct": 0.03219404977548443,
+      "weather_missing_pct": 98.53244575892556
+    },
+    {
+      "year": 2017,
+      "rows": 1779832,
+      "positive_cell_days": 736,
+      "event_records": 753,
+      "large_fire_positive_cell_days": 40,
+      "weather_missing_rows": 1297588,
+      "positive_weather_missing_rows": 496,
+      "rain_7d_missing_rows": 1722246,
+      "history_censored_rows": 1257565,
+      "terrain_elevation_missing_rows": 184,
+      "terrain_slope_missing_rows": 8832,
+      "ignition_prevalence_pct": 0.041352217512664116,
+      "weather_missing_pct": 72.90508317638968
+    },
+    {
+      "year": 2018,
+      "rows": 1779832,
+      "positive_cell_days": 1250,
+      "event_records": 1307,
+      "large_fire_positive_cell_days": 63,
+      "weather_missing_rows": 1199346,
+      "positive_weather_missing_rows": 764,
+      "rain_7d_missing_rows": 1769369,
+      "history_censored_rows": 1191572,
+      "terrain_elevation_missing_rows": 184,
+      "terrain_slope_missing_rows": 8832,
+      "ignition_prevalence_pct": 0.07023134767775835,
+      "weather_missing_pct": 67.38534872954301
+    },
+    {
+      "year": 2019,
+      "rows": 1779832,
+      "positive_cell_days": 509,
+      "event_records": 519,
+      "large_fire_positive_cell_days": 20,
+      "weather_missing_rows": 445491,
+      "positive_weather_missing_rows": 53,
+      "rain_7d_missing_rows": 820070,
+      "history_censored_rows": 1152851,
+      "terrain_elevation_missing_rows": 184,
+      "terrain_slope_missing_rows": 8832,
+      "ignition_prevalence_pct": 0.0285982047743832,
+      "weather_missing_pct": 25.029946646649798
+    }
+  ],
+  "missingness": {
+    "grid_id": {
+      "rows": 0,
+      "pct": 0.0
+    },
+    "ignition_date": {
+      "rows": 0,
+      "pct": 0.0
+    },
+    "ignition": {
+      "rows": 0,
+      "pct": 0.0
+    },
+    "ignition_count": {
+      "rows": 0,
+      "pct": 0.0
+    },
+    "large_fire_200ha": {
+      "rows": 0,
+      "pct": 0.0
+    },
+    "feature_set_version": {
+      "rows": 0,
+      "pct": 0.0
+    },
+    "issue_time_utc": {
+      "rows": 0,
+      "pct": 0.0
+    },
+    "calendar_day_of_year": {
+      "rows": 0,
+      "pct": 0.0
+    },
+    "calendar_doy_sin": {
+      "rows": 0,
+      "pct": 0.0
+    },
+    "calendar_doy_cos": {
+      "rows": 0,
+      "pct": 0.0
+    },
+    "calendar_is_weekend": {
+      "rows": 0,
+      "pct": 0.0
+    },
+    "calendar_day_length_hours": {
+      "rows": 0,
+      "pct": 0.0
+    },
+    "terrain_elevation_mean_m": {
+      "rows": 1840,
+      "pct": 0.010338054378166029
+    },
+    "terrain_slope_deg": {
+      "rows": 88320,
+      "pct": 0.4962266101519694
+    },
+    "terrain_aspect_sin": {
+      "rows": 88320,
+      "pct": 0.4962266101519694
+    },
+    "terrain_aspect_cos": {
+      "rows": 88320,
+      "pct": 0.4962266101519694
+    },
+    "terrain_ruggedness_m": {
+      "rows": 1840,
+      "pct": 0.010338054378166029
+    },
+    "terrain_sample_count": {
+      "rows": 0,
+      "pct": 0.0
+    },
+    "terrain_coverage_fraction": {
+      "rows": 0,
+      "pct": 0.0
+    },
+    "terrain_source_id": {
+      "rows": 0,
+      "pct": 0.0
+    },
+    "terrain_source_vintage_end_year": {
+      "rows": 0,
+      "pct": 0.0
+    },
+    "cwfis_source_id": {
+      "rows": 0,
+      "pct": 0.0
+    },
+    "cwfis_observation_date": {
+      "rows": 0,
+      "pct": 0.0
+    },
+    "cwfis_station_count": {
+      "rows": 0,
+      "pct": 0.0
+    },
+    "cwfis_nearest_station_km": {
+      "rows": 9340916,
+      "pct": 52.48200953797887
+    },
+    "cwfis_observation_coverage_fraction": {
+      "rows": 0,
+      "pct": 0.0
+    },
+    "cwfis_imputed_station_fraction": {
+      "rows": 9340916,
+      "pct": 52.48200953797887
+    },
+    "cwfis_calcstatus_nonzero_fraction": {
+      "rows": 9340916,
+      "pct": 52.48200953797887
+    },
+    "cwfis_missing": {
+      "rows": 0,
+      "pct": 0.0
+    },
+    "cwfis_temp_c": {
+      "rows": 9340916,
+      "pct": 52.48200953797887
+    },
+    "cwfis_rh_pct": {
+      "rows": 9340916,
+      "pct": 52.48200953797887
+    },
+    "cwfis_wind_speed_kmh": {
+      "rows": 9340916,
+      "pct": 52.48200953797887
+    },
+    "cwfis_precip_mm": {
+      "rows": 9340916,
+      "pct": 52.48200953797887
+    },
+    "cwfis_ffmc": {
+      "rows": 9340916,
+      "pct": 52.48200953797887
+    },
+    "cwfis_dmc": {
+      "rows": 9340916,
+      "pct": 52.48200953797887
+    },
+    "cwfis_dc": {
+      "rows": 9340916,
+      "pct": 52.48200953797887
+    },
+    "cwfis_isi": {
+      "rows": 9340916,
+      "pct": 52.48200953797887
+    },
+    "cwfis_bui": {
+      "rows": 9340916,
+      "pct": 52.48200953797887
+    },
+    "cwfis_fwi": {
+      "rows": 9340916,
+      "pct": 52.48200953797887
+    },
+    "cwfis_dsr": {
+      "rows": 9340916,
+      "pct": 52.48200953797887
+    },
+    "cwfis_precip_7d_mm": {
+      "rows": 11143678,
+      "pct": 62.61084192215895
+    },
+    "cwfis_precip_7d_coverage_days": {
+      "rows": 0,
+      "pct": 0.0
+    },
+    "fire_history_source_id": {
+      "rows": 0,
+      "pct": 0.0
+    },
+    "fire_history_same_cell_30d": {
+      "rows": 0,
+      "pct": 0.0
+    },
+    "fire_history_neighborhood_30d": {
+      "rows": 0,
+      "pct": 0.0
+    },
+    "fire_history_same_cell_365d": {
+      "rows": 0,
+      "pct": 0.0
+    },
+    "fire_history_neighborhood_365d": {
+      "rows": 0,
+      "pct": 0.0
+    },
+    "fire_history_days_since_same_cell": {
+      "rows": 13723592,
+      "pct": 77.10610889117625
+    }
+  },
+  "numeric_ranges_float32": {
+    "ignition": [
+      0.0,
+      1.0
+    ],
+    "ignition_count": [
+      0.0,
+      6.0
+    ],
+    "large_fire_200ha": [
+      0.0,
+      1.0
+    ],
+    "calendar_day_of_year": [
+      121.0,
+      305.0
+    ],
+    "calendar_doy_sin": [
+      -0.9999909996986389,
+      0.8717060089111328
+    ],
+    "calendar_doy_cos": [
+      -1.0,
+      0.5
+    ],
+    "calendar_is_weekend": [
+      0.0,
+      1.0
+    ],
+    "calendar_day_length_hours": [
+      8.72352123260498,
+      17.535776138305664
+    ],
+    "terrain_elevation_mean_m": [
+      0.8305559754371643,
+      540.4444580078125
+    ],
+    "terrain_slope_deg": [
+      0.0,
+      2.2334330081939697
+    ],
+    "terrain_aspect_sin": [
+      -1.0,
+      1.0
+    ],
+    "terrain_aspect_cos": [
+      -1.0,
+      1.0
+    ],
+    "terrain_ruggedness_m": [
+      0.0,
+      112.73841857910156
+    ],
+    "terrain_sample_count": [
+      0.0,
+      9.0
+    ],
+    "terrain_coverage_fraction": [
+      0.0,
+      1.0
+    ],
+    "cwfis_station_count": [
+      0.0,
+      4.0
+    ],
+    "cwfis_nearest_station_km": [
+      0.47772499918937683,
+      303.6004943847656
+    ],
+    "cwfis_observation_coverage_fraction": [
+      0.0,
+      1.0
+    ],
+    "cwfis_imputed_station_fraction": [
+      1.0,
+      1.0
+    ],
+    "cwfis_calcstatus_nonzero_fraction": [
+      1.0,
+      1.0
+    ],
+    "cwfis_missing": [
+      0.0,
+      1.0
+    ],
+    "cwfis_temp_c": [
+      -5.599999904632568,
+      34.7218132019043
+    ],
+    "cwfis_rh_pct": [
+      12.0,
+      100.0
+    ],
+    "cwfis_wind_speed_kmh": [
+      0.0,
+      111.0999984741211
+    ],
+    "cwfis_precip_mm": [
+      0.0,
+      587.010009765625
+    ],
+    "cwfis_ffmc": [
+      0.0,
+      100.0
+    ],
+    "cwfis_dmc": [
+      0.0,
+      192.60000610351562
+    ],
+    "cwfis_dc": [
+      0.30000001192092896,
+      697.5999755859375
+    ],
+    "cwfis_isi": [
+      0.0,
+      160.6999969482422
+    ],
+    "cwfis_bui": [
+      0.0,
+      226.5
+    ],
+    "cwfis_fwi": [
+      0.0,
+      101.71014404296875
+    ],
+    "cwfis_dsr": [
+      0.0,
+      98.85132598876953
+    ],
+    "cwfis_precip_7d_mm": [
+      0.0,
+      614.2271728515625
+    ],
+    "cwfis_precip_7d_coverage_days": [
+      0.0,
+      7.0
+    ],
+    "fire_history_same_cell_30d": [
+      0.0,
+      16.0
+    ],
+    "fire_history_neighborhood_30d": [
+      0.0,
+      23.0
+    ],
+    "fire_history_same_cell_365d": [
+      0.0,
+      20.0
+    ],
+    "fire_history_neighborhood_365d": [
+      0.0,
+      36.0
+    ],
+    "fire_history_days_since_same_cell": [
+      1.0,
+      3470.0
+    ],
+    "terrain_source_vintage_end_year": [
+      2011.0,
+      2011.0
+    ]
+  },
+  "validation_violation_counts": {
+    "calendar_cycle_mismatch_rows:calendar_doy_cos": 0,
+    "calendar_cycle_mismatch_rows:calendar_doy_sin": 0,
+    "cells_with_incorrect_date_count": 0,
+    "daily_weather_null_pattern_mismatch_rows:cwfis_bui": 0,
+    "daily_weather_null_pattern_mismatch_rows:cwfis_calcstatus_nonzero_fraction": 0,
+    "daily_weather_null_pattern_mismatch_rows:cwfis_dc": 0,
+    "daily_weather_null_pattern_mismatch_rows:cwfis_dmc": 0,
+    "daily_weather_null_pattern_mismatch_rows:cwfis_dsr": 0,
+    "daily_weather_null_pattern_mismatch_rows:cwfis_ffmc": 0,
+    "daily_weather_null_pattern_mismatch_rows:cwfis_fwi": 0,
+    "daily_weather_null_pattern_mismatch_rows:cwfis_imputed_station_fraction": 0,
+    "daily_weather_null_pattern_mismatch_rows:cwfis_isi": 0,
+    "daily_weather_null_pattern_mismatch_rows:cwfis_nearest_station_km": 0,
+    "daily_weather_null_pattern_mismatch_rows:cwfis_precip_mm": 0,
+    "daily_weather_null_pattern_mismatch_rows:cwfis_rh_pct": 0,
+    "daily_weather_null_pattern_mismatch_rows:cwfis_temp_c": 0,
+    "daily_weather_null_pattern_mismatch_rows:cwfis_wind_speed_kmh": 0,
+    "date_outside_expected_fire_seasons_rows": 0,
+    "dates_with_incorrect_cell_count": 0,
+    "day_length_formula_mismatch_rows": 0,
+    "day_of_year_mismatch_rows": 0,
+    "days_since_nonpositive_observed_rows": 0,
+    "duplicate_key_excess_rows": 0,
+    "expected_keys_missing": 0,
+    "float32_overflow_cells:calendar_day_length_hours": 0,
+    "float32_overflow_cells:calendar_day_of_year": 0,
+    "float32_overflow_cells:calendar_doy_cos": 0,
+    "float32_overflow_cells:calendar_doy_sin": 0,
+    "float32_overflow_cells:calendar_is_weekend": 0,
+    "float32_overflow_cells:cwfis_bui": 0,
+    "float32_overflow_cells:cwfis_calcstatus_nonzero_fraction": 0,
+    "float32_overflow_cells:cwfis_dc": 0,
+    "float32_overflow_cells:cwfis_dmc": 0,
+    "float32_overflow_cells:cwfis_dsr": 0,
+    "float32_overflow_cells:cwfis_ffmc": 0,
+    "float32_overflow_cells:cwfis_fwi": 0,
+    "float32_overflow_cells:cwfis_imputed_station_fraction": 0,
+    "float32_overflow_cells:cwfis_isi": 0,
+    "float32_overflow_cells:cwfis_missing": 0,
+    "float32_overflow_cells:cwfis_nearest_station_km": 0,
+    "float32_overflow_cells:cwfis_observation_coverage_fraction": 0,
+    "float32_overflow_cells:cwfis_precip_7d_coverage_days": 0,
+    "float32_overflow_cells:cwfis_precip_7d_mm": 0,
+    "float32_overflow_cells:cwfis_precip_mm": 0,
+    "float32_overflow_cells:cwfis_rh_pct": 0,
+    "float32_overflow_cells:cwfis_station_count": 0,
+    "float32_overflow_cells:cwfis_temp_c": 0,
+    "float32_overflow_cells:cwfis_wind_speed_kmh": 0,
+    "float32_overflow_cells:fire_history_days_since_same_cell": 0,
+    "float32_overflow_cells:fire_history_neighborhood_30d": 0,
+    "float32_overflow_cells:fire_history_neighborhood_365d": 0,
+    "float32_overflow_cells:fire_history_same_cell_30d": 0,
+    "float32_overflow_cells:fire_history_same_cell_365d": 0,
+    "float32_overflow_cells:ignition": 0,
+    "float32_overflow_cells:ignition_count": 0,
+    "float32_overflow_cells:large_fire_200ha": 0,
+    "float32_overflow_cells:terrain_aspect_cos": 0,
+    "float32_overflow_cells:terrain_aspect_sin": 0,
+    "float32_overflow_cells:terrain_coverage_fraction": 0,
+    "float32_overflow_cells:terrain_elevation_mean_m": 0,
+    "float32_overflow_cells:terrain_ruggedness_m": 0,
+    "float32_overflow_cells:terrain_sample_count": 0,
+    "float32_overflow_cells:terrain_slope_deg": 0,
+    "float32_overflow_cells:terrain_source_vintage_end_year": 0,
+    "history_30d_exceeds_365d_rows:neighborhood": 0,
+    "history_30d_exceeds_365d_rows:same_cell": 0,
+    "history_days_since_pre2010_rows": 0,
+    "history_days_since_window_mismatch_rows:30d": 0,
+    "history_days_since_window_mismatch_rows:365d": 0,
+    "ignition_count_label_mismatch_rows": 0,
+    "integer_outside_exact_float32_cells:calendar_day_of_year": 0,
+    "integer_outside_exact_float32_cells:calendar_is_weekend": 0,
+    "integer_outside_exact_float32_cells:cwfis_missing": 0,
+    "integer_outside_exact_float32_cells:cwfis_precip_7d_coverage_days": 0,
+    "integer_outside_exact_float32_cells:cwfis_station_count": 0,
+    "integer_outside_exact_float32_cells:fire_history_days_since_same_cell": 0,
+    "integer_outside_exact_float32_cells:fire_history_neighborhood_30d": 0,
+    "integer_outside_exact_float32_cells:fire_history_neighborhood_365d": 0,
+    "integer_outside_exact_float32_cells:fire_history_same_cell_30d": 0,
+    "integer_outside_exact_float32_cells:fire_history_same_cell_365d": 0,
+    "integer_outside_exact_float32_cells:ignition": 0,
+    "integer_outside_exact_float32_cells:ignition_count": 0,
+    "integer_outside_exact_float32_cells:large_fire_200ha": 0,
+    "integer_outside_exact_float32_cells:terrain_sample_count": 0,
+    "integer_outside_exact_float32_cells:terrain_source_vintage_end_year": 0,
+    "large_fire_without_ignition_rows": 0,
+    "local_midnight_issue_time_mismatch_rows": 0,
+    "metadata_value_mismatch_rows:cwfis_source_id": 0,
+    "metadata_value_mismatch_rows:feature_set_version": 0,
+    "metadata_value_mismatch_rows:fire_history_source_id": 0,
+    "metadata_value_mismatch_rows:terrain_source_id": 0,
+    "metadata_value_mismatch_rows:terrain_source_vintage_end_year": 0,
+    "negative_rows:cwfis_bui": 0,
+    "negative_rows:cwfis_dc": 0,
+    "negative_rows:cwfis_dmc": 0,
+    "negative_rows:cwfis_dsr": 0,
+    "negative_rows:cwfis_fwi": 0,
+    "negative_rows:cwfis_isi": 0,
+    "negative_rows:cwfis_nearest_station_km": 0,
+    "negative_rows:cwfis_precip_7d_mm": 0,
+    "negative_rows:cwfis_precip_mm": 0,
+    "negative_rows:cwfis_wind_speed_kmh": 0,
+    "negative_rows:fire_history_days_since_same_cell": 0,
+    "negative_rows:fire_history_neighborhood_30d": 0,
+    "negative_rows:fire_history_neighborhood_365d": 0,
+    "negative_rows:fire_history_same_cell_30d": 0,
+    "negative_rows:fire_history_same_cell_365d": 0,
+    "negative_rows:ignition_count": 0,
+    "negative_rows:terrain_ruggedness_m": 0,
+    "nonbinary_rows:calendar_is_weekend": 0,
+    "nonbinary_rows:cwfis_missing": 0,
+    "nonbinary_rows:ignition": 0,
+    "nonbinary_rows:large_fire_200ha": 0,
+    "noninteger_cells:calendar_day_of_year": 0,
+    "noninteger_cells:calendar_is_weekend": 0,
+    "noninteger_cells:cwfis_missing": 0,
+    "noninteger_cells:cwfis_precip_7d_coverage_days": 0,
+    "noninteger_cells:cwfis_station_count": 0,
+    "noninteger_cells:fire_history_days_since_same_cell": 0,
+    "noninteger_cells:fire_history_neighborhood_30d": 0,
+    "noninteger_cells:fire_history_neighborhood_365d": 0,
+    "noninteger_cells:fire_history_same_cell_30d": 0,
+    "noninteger_cells:fire_history_same_cell_365d": 0,
+    "noninteger_cells:ignition": 0,
+    "noninteger_cells:ignition_count": 0,
+    "noninteger_cells:large_fire_200ha": 0,
+    "noninteger_cells:terrain_sample_count": 0,
+    "noninteger_cells:terrain_source_vintage_end_year": 0,
+    "numeric_conversion_failure_cells:calendar_day_length_hours": 0,
+    "numeric_conversion_failure_cells:calendar_day_of_year": 0,
+    "numeric_conversion_failure_cells:calendar_doy_cos": 0,
+    "numeric_conversion_failure_cells:calendar_doy_sin": 0,
+    "numeric_conversion_failure_cells:calendar_is_weekend": 0,
+    "numeric_conversion_failure_cells:cwfis_bui": 0,
+    "numeric_conversion_failure_cells:cwfis_calcstatus_nonzero_fraction": 0,
+    "numeric_conversion_failure_cells:cwfis_dc": 0,
+    "numeric_conversion_failure_cells:cwfis_dmc": 0,
+    "numeric_conversion_failure_cells:cwfis_dsr": 0,
+    "numeric_conversion_failure_cells:cwfis_ffmc": 0,
+    "numeric_conversion_failure_cells:cwfis_fwi": 0,
+    "numeric_conversion_failure_cells:cwfis_imputed_station_fraction": 0,
+    "numeric_conversion_failure_cells:cwfis_isi": 0,
+    "numeric_conversion_failure_cells:cwfis_missing": 0,
+    "numeric_conversion_failure_cells:cwfis_nearest_station_km": 0,
+    "numeric_conversion_failure_cells:cwfis_observation_coverage_fraction": 0,
+    "numeric_conversion_failure_cells:cwfis_precip_7d_coverage_days": 0,
+    "numeric_conversion_failure_cells:cwfis_precip_7d_mm": 0,
+    "numeric_conversion_failure_cells:cwfis_precip_mm": 0,
+    "numeric_conversion_failure_cells:cwfis_rh_pct": 0,
+    "numeric_conversion_failure_cells:cwfis_station_count": 0,
+    "numeric_conversion_failure_cells:cwfis_temp_c": 0,
+    "numeric_conversion_failure_cells:cwfis_wind_speed_kmh": 0,
+    "numeric_conversion_failure_cells:fire_history_days_since_same_cell": 0,
+    "numeric_conversion_failure_cells:fire_history_neighborhood_30d": 0,
+    "numeric_conversion_failure_cells:fire_history_neighborhood_365d": 0,
+    "numeric_conversion_failure_cells:fire_history_same_cell_30d": 0,
+    "numeric_conversion_failure_cells:fire_history_same_cell_365d": 0,
+    "numeric_conversion_failure_cells:ignition": 0,
+    "numeric_conversion_failure_cells:ignition_count": 0,
+    "numeric_conversion_failure_cells:large_fire_200ha": 0,
+    "numeric_conversion_failure_cells:terrain_aspect_cos": 0,
+    "numeric_conversion_failure_cells:terrain_aspect_sin": 0,
+    "numeric_conversion_failure_cells:terrain_coverage_fraction": 0,
+    "numeric_conversion_failure_cells:terrain_elevation_mean_m": 0,
+    "numeric_conversion_failure_cells:terrain_ruggedness_m": 0,
+    "numeric_conversion_failure_cells:terrain_sample_count": 0,
+    "numeric_conversion_failure_cells:terrain_slope_deg": 0,
+    "numeric_conversion_failure_cells:terrain_source_vintage_end_year": 0,
+    "numeric_infinite_cells:calendar_day_length_hours": 0,
+    "numeric_infinite_cells:calendar_day_of_year": 0,
+    "numeric_infinite_cells:calendar_doy_cos": 0,
+    "numeric_infinite_cells:calendar_doy_sin": 0,
+    "numeric_infinite_cells:calendar_is_weekend": 0,
+    "numeric_infinite_cells:cwfis_bui": 0,
+    "numeric_infinite_cells:cwfis_calcstatus_nonzero_fraction": 0,
+    "numeric_infinite_cells:cwfis_dc": 0,
+    "numeric_infinite_cells:cwfis_dmc": 0,
+    "numeric_infinite_cells:cwfis_dsr": 0,
+    "numeric_infinite_cells:cwfis_ffmc": 0,
+    "numeric_infinite_cells:cwfis_fwi": 0,
+    "numeric_infinite_cells:cwfis_imputed_station_fraction": 0,
+    "numeric_infinite_cells:cwfis_isi": 0,
+    "numeric_infinite_cells:cwfis_missing": 0,
+    "numeric_infinite_cells:cwfis_nearest_station_km": 0,
+    "numeric_infinite_cells:cwfis_observation_coverage_fraction": 0,
+    "numeric_infinite_cells:cwfis_precip_7d_coverage_days": 0,
+    "numeric_infinite_cells:cwfis_precip_7d_mm": 0,
+    "numeric_infinite_cells:cwfis_precip_mm": 0,
+    "numeric_infinite_cells:cwfis_rh_pct": 0,
+    "numeric_infinite_cells:cwfis_station_count": 0,
+    "numeric_infinite_cells:cwfis_temp_c": 0,
+    "numeric_infinite_cells:cwfis_wind_speed_kmh": 0,
+    "numeric_infinite_cells:fire_history_days_since_same_cell": 0,
+    "numeric_infinite_cells:fire_history_neighborhood_30d": 0,
+    "numeric_infinite_cells:fire_history_neighborhood_365d": 0,
+    "numeric_infinite_cells:fire_history_same_cell_30d": 0,
+    "numeric_infinite_cells:fire_history_same_cell_365d": 0,
+    "numeric_infinite_cells:ignition": 0,
+    "numeric_infinite_cells:ignition_count": 0,
+    "numeric_infinite_cells:large_fire_200ha": 0,
+    "numeric_infinite_cells:terrain_aspect_cos": 0,
+    "numeric_infinite_cells:terrain_aspect_sin": 0,
+    "numeric_infinite_cells:terrain_coverage_fraction": 0,
+    "numeric_infinite_cells:terrain_elevation_mean_m": 0,
+    "numeric_infinite_cells:terrain_ruggedness_m": 0,
+    "numeric_infinite_cells:terrain_sample_count": 0,
+    "numeric_infinite_cells:terrain_slope_deg": 0,
+    "numeric_infinite_cells:terrain_source_vintage_end_year": 0,
+    "outside_documented_range_rows:calendar_day_length_hours": 0,
+    "outside_documented_range_rows:calendar_day_of_year": 0,
+    "outside_documented_range_rows:calendar_doy_cos": 0,
+    "outside_documented_range_rows:calendar_doy_sin": 0,
+    "outside_documented_range_rows:cwfis_calcstatus_nonzero_fraction": 0,
+    "outside_documented_range_rows:cwfis_ffmc": 0,
+    "outside_documented_range_rows:cwfis_imputed_station_fraction": 0,
+    "outside_documented_range_rows:cwfis_observation_coverage_fraction": 0,
+    "outside_documented_range_rows:cwfis_precip_7d_coverage_days": 0,
+    "outside_documented_range_rows:cwfis_rh_pct": 0,
+    "outside_documented_range_rows:cwfis_station_count": 0,
+    "outside_documented_range_rows:terrain_aspect_cos": 0,
+    "outside_documented_range_rows:terrain_aspect_sin": 0,
+    "outside_documented_range_rows:terrain_coverage_fraction": 0,
+    "outside_documented_range_rows:terrain_sample_count": 0,
+    "outside_documented_range_rows:terrain_slope_deg": 0,
+    "pinned_source_sha256_mismatch": 0,
+    "prior_day_observation_date_mismatch_rows": 0,
+    "rain_7d_null_coverage_mismatch_rows": 0,
+    "reference_grid_cell_count_mismatch": 0,
+    "required_null_cells:calendar_day_length_hours": 0,
+    "required_null_cells:calendar_day_of_year": 0,
+    "required_null_cells:calendar_doy_cos": 0,
+    "required_null_cells:calendar_doy_sin": 0,
+    "required_null_cells:calendar_is_weekend": 0,
+    "required_null_cells:cwfis_missing": 0,
+    "required_null_cells:cwfis_observation_coverage_fraction": 0,
+    "required_null_cells:cwfis_observation_date": 0,
+    "required_null_cells:cwfis_precip_7d_coverage_days": 0,
+    "required_null_cells:cwfis_source_id": 0,
+    "required_null_cells:cwfis_station_count": 0,
+    "required_null_cells:feature_set_version": 0,
+    "required_null_cells:fire_history_neighborhood_30d": 0,
+    "required_null_cells:fire_history_neighborhood_365d": 0,
+    "required_null_cells:fire_history_same_cell_30d": 0,
+    "required_null_cells:fire_history_same_cell_365d": 0,
+    "required_null_cells:fire_history_source_id": 0,
+    "required_null_cells:grid_id": 0,
+    "required_null_cells:ignition": 0,
+    "required_null_cells:ignition_count": 0,
+    "required_null_cells:ignition_date": 0,
+    "required_null_cells:issue_time_utc": 0,
+    "required_null_cells:large_fire_200ha": 0,
+    "required_null_cells:terrain_coverage_fraction": 0,
+    "required_null_cells:terrain_sample_count": 0,
+    "required_null_cells:terrain_source_id": 0,
+    "required_null_cells:terrain_source_vintage_end_year": 0,
+    "row_count_mismatch": 0,
+    "same_cell_history_exceeds_neighborhood_rows:30d": 0,
+    "same_cell_history_exceeds_neighborhood_rows:365d": 0,
+    "source_column_order_mismatch": 0,
+    "station_coverage_fraction_mismatch_rows": 0,
+    "terrain_aspect_unit_circle_mismatch_rows": 0,
+    "terrain_changes_within_cell_rows:terrain_aspect_cos": 0,
+    "terrain_changes_within_cell_rows:terrain_aspect_sin": 0,
+    "terrain_changes_within_cell_rows:terrain_coverage_fraction": 0,
+    "terrain_changes_within_cell_rows:terrain_elevation_mean_m": 0,
+    "terrain_changes_within_cell_rows:terrain_ruggedness_m": 0,
+    "terrain_changes_within_cell_rows:terrain_sample_count": 0,
+    "terrain_changes_within_cell_rows:terrain_slope_deg": 0,
+    "terrain_coverage_fraction_mismatch_rows": 0,
+    "terrain_null_coverage_mismatch_rows:terrain_aspect_cos": 0,
+    "terrain_null_coverage_mismatch_rows:terrain_aspect_sin": 0,
+    "terrain_null_coverage_mismatch_rows:terrain_elevation_mean_m": 0,
+    "terrain_null_coverage_mismatch_rows:terrain_ruggedness_m": 0,
+    "terrain_null_coverage_mismatch_rows:terrain_slope_deg": 0,
+    "unknown_grid_id_rows": 0,
+    "weather_missing_station_count_mismatch_rows": 0,
+    "weekend_flag_mismatch_rows": 0
+  },
+  "memory": {
+    "chunk_rows": 50000,
+    "maximum_raw_string_chunk_bytes": 137044393,
+    "key_bitmap_bytes": 17798320,
+    "numeric_chunk_float32_bytes_upper_bound": 8000000,
+    "available_physical_bytes_before": 2208780288,
+    "available_physical_bytes_after": 1736953856,
+    "observed_process_peak_working_set_bytes": 261898240,
+    "full_predictor_float32_bytes": 2562958080,
+    "full_predictor_float64_bytes": 5125916160
+  },
+  "library_versions": {
+    "python": "3.12.14",
+    "pandas": "3.0.1",
+    "numpy": "2.3.5"
+  },
+  "scan_seconds": 479.69,
+  "audit_limits": [
+    "Checks validate the downloaded panel and internal contracts; NFDB labels/history, raw station selection, and precipitation sums are not independently rebuilt.",
+    "Archives lack per-record historical available_at timestamps. This is a retrospective hindcast, not an operational forecast replay.",
+    "The station candidate set and study-period grid universe may introduce selection effects; full source-level sensitivity analysis remains outstanding.",
+    "Numeric ranges are reported after float32 conversion; token conversion, infinities, integer validity and overflow were checked at original float64 precision first. Continuous-value float32 rounding is expected.",
+    "No rows are deleted, no imputation/scaling or model fitting is performed; invalid data cause FAIL. Source parsing/schema exceptions terminate the CLI with a nonzero exit.",
+    "Peak working set covers this process only, including imports/parser/transient arrays. Model matrix estimates exclude copies, missingness indicators, transformed arrays and fitting workspace."
+  ]
+}

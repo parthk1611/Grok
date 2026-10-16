@@ -26,3 +26,6 @@ data/raw/cdem/*.json
 data/raw/cdem/*.log
 
 __pycache__/
+.venv-modeling/
+artifacts/ignition_modeling/
+data/interim/ignition_modeling_cache/
