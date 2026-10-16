@@ -1,5 +1,5 @@
 {
-  "status": "Recommended source columns; models not yet trained",
+  "status": "Approved 36 source predictors; trained models use separately versioned corrected weather cache (docs/modeling/feature_manifest.json)",
   "target": "ignition",
   "predictors": [
     "calendar_day_of_year",
