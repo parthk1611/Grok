@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "cache_version": "ignition-v1-weather-asof-global-date-v2",
+  "original_panel_sha256": "8791c96e460e6294791bbbf1ad0d6aad68e31a98be28dbcc6060463f94ccfc9d",
+  "original_matrix": "BLOCK: future-station candidate selection and unsorted source joins",
+  "corrected_matrix": "PASS: all original rows preserved, as-of candidate geometry and global date indexing independently verified",
+  "evidence": {
+    "original_full_validation": "17798320 rows;277 checks;zero violations;checksum matches",
+    "corrected_full_validation": "17798320 rows;zero numeric/physical/quality/null/grid/label violations",
+    "rain_reconstruction": "1780 dates independently recomputed; first6 May dates require April source not present in panel",
+    "raw_station_joins": "12 independent cell/date joins across2010,2015,2016,2019 match within1e-6",
+    "history_reconstruction": "107750 unique cases including every positive;zero mismatches",
+    "integration_tests": "28 existing/independent tests passed before production fitting",
+    "splits": "whole-date forward folds;2017 calibration;2018 thresholds;2019 locked test"
+  },
+  "scope": "Retrospective hindcast conditional on frozen v1 grid, which uses study-period events for edge cells",
+  "remaining_provenance_limits": "Historical publication/revision availability unknown; static terrain approximation; no operational forecast claim",
+  "coordinator_decision": "No unresolved predictor-date leakage remains under this documented scope; production fitting authorized"
+}
