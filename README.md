@@ -11,16 +11,18 @@ ignition-history features without changing that panel's row universe.
 
 See [the ignition feature documentation](docs/ignition_features.md) for source
 provenance, leakage boundaries, deferred feature families, and reproducible
-build commands. This repository does not build a fire-spread dataset.
+build commands. This branch's work focuses on the ignition panel.
 
-See [the planned model comparison](docs/model_selection.md) for the ignition
-baselines, candidate classifier, and evaluation boundaries.
+See [the completed model comparison](docs/modeling/final_report.md) for the
+logistic regression and histogram gradient boosting results, independent
+verification, threshold tradeoffs and reproduction commands. The modelling
+cache corrects v1 weather station selection and source-date joins; the original
+v1 EDA below describes the uncorrected download.
 
 See [the ignition EDA](docs/eda/README.md) for full-panel counts and missingness,
 feature explanations, figures, the notebook, and commands to reproduce the
 analysis. Its 36 recommended source predictors are recorded in
 `data/metadata/ignition_feature_selection_v1.json`.
-build commands.
 
 The second AI capability, wind-driven fire spread, has its own folder:
 [`capability_2_fire_spread/`](capability_2_fire_spread/README.md). It holds a

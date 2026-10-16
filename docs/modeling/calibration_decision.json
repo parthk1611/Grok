@@ -1,0 +1,399 @@
+{
+  "fit_year": 2017,
+  "decision_year": 2018,
+  "raw": {
+    "n_samples": 1779832,
+    "n_positive": 1250,
+    "n_negative": 1778582,
+    "prevalence": 0.0007023134767775835,
+    "average_precision": 0.012249156847753224,
+    "ap_prevalence_ratio": 17.441153064520254,
+    "roc_auc": 0.8882491449930338,
+    "brier_score": 0.0006986728073589843,
+    "log_loss": 0.004956974270103422,
+    "reliability_bins": [
+      {
+        "lower": 0.0,
+        "upper": 0.1,
+        "upper_inclusive": false,
+        "n_samples": 1779794,
+        "n_positive": 1238,
+        "mean_probability": 0.0006396661819508787,
+        "observed_prevalence": 0.000695586118393477
+      },
+      {
+        "lower": 0.1,
+        "upper": 0.2,
+        "upper_inclusive": false,
+        "n_samples": 36,
+        "n_positive": 11,
+        "mean_probability": 0.1366338101357317,
+        "observed_prevalence": 0.3055555555555556
+      },
+      {
+        "lower": 0.2,
+        "upper": 0.3,
+        "upper_inclusive": false,
+        "n_samples": 2,
+        "n_positive": 1,
+        "mean_probability": 0.2048628153487074,
+        "observed_prevalence": 0.5
+      },
+      {
+        "lower": 0.3,
+        "upper": 0.4,
+        "upper_inclusive": false,
+        "n_samples": 0,
+        "n_positive": 0,
+        "mean_probability": null,
+        "observed_prevalence": null
+      },
+      {
+        "lower": 0.4,
+        "upper": 0.5,
+        "upper_inclusive": false,
+        "n_samples": 0,
+        "n_positive": 0,
+        "mean_probability": null,
+        "observed_prevalence": null
+      },
+      {
+        "lower": 0.5,
+        "upper": 0.6,
+        "upper_inclusive": false,
+        "n_samples": 0,
+        "n_positive": 0,
+        "mean_probability": null,
+        "observed_prevalence": null
+      },
+      {
+        "lower": 0.6,
+        "upper": 0.7,
+        "upper_inclusive": false,
+        "n_samples": 0,
+        "n_positive": 0,
+        "mean_probability": null,
+        "observed_prevalence": null
+      },
+      {
+        "lower": 0.7,
+        "upper": 0.8,
+        "upper_inclusive": false,
+        "n_samples": 0,
+        "n_positive": 0,
+        "mean_probability": null,
+        "observed_prevalence": null
+      },
+      {
+        "lower": 0.8,
+        "upper": 0.9,
+        "upper_inclusive": false,
+        "n_samples": 0,
+        "n_positive": 0,
+        "mean_probability": null,
+        "observed_prevalence": null
+      },
+      {
+        "lower": 0.9,
+        "upper": 1.0,
+        "upper_inclusive": true,
+        "n_samples": 0,
+        "n_positive": 0,
+        "mean_probability": null,
+        "observed_prevalence": null
+      }
+    ],
+    "quantile_reliability_bins": [
+      {
+        "bin": 1,
+        "min_probability": 1.966383681560349e-05,
+        "max_probability": 2.8000886824329123e-05,
+        "n_samples": 177981,
+        "n_positive": 1,
+        "mean_probability": 2.3470696431170898e-05,
+        "observed_prevalence": 5.618577263865244e-06
+      },
+      {
+        "bin": 2,
+        "min_probability": 2.8002578525893804e-05,
+        "max_probability": 3.7222163320233365e-05,
+        "n_samples": 177987,
+        "n_positive": 1,
+        "mean_probability": 3.277062077585329e-05,
+        "observed_prevalence": 5.618387859787512e-06
+      },
+      {
+        "bin": 3,
+        "min_probability": 3.722356076824719e-05,
+        "max_probability": 5.067047376202407e-05,
+        "n_samples": 177990,
+        "n_positive": 5,
+        "mean_probability": 4.3634164397635685e-05,
+        "observed_prevalence": 2.8091465812686105e-05
+      },
+      {
+        "bin": 4,
+        "min_probability": 5.067195694891982e-05,
+        "max_probability": 7.133447148983812e-05,
+        "n_samples": 177989,
+        "n_positive": 5,
+        "mean_probability": 6.039719092928264e-05,
+        "observed_prevalence": 2.8091623639663124e-05
+      },
+      {
+        "bin": 5,
+        "min_probability": 7.133522601092653e-05,
+        "max_probability": 0.00011191517574009067,
+        "n_samples": 177968,
+        "n_positive": 11,
+        "mean_probability": 8.735400055059168e-05,
+        "observed_prevalence": 6.180886451496899e-05
+      },
+      {
+        "bin": 6,
+        "min_probability": 0.00011191518449789731,
+        "max_probability": 0.0002312303515250384,
+        "n_samples": 177984,
+        "n_positive": 33,
+        "mean_probability": 0.00016290371785983133,
+        "observed_prevalence": 0.0001854099244875944
+      },
+      {
+        "bin": 7,
+        "min_probability": 0.00023123193240155338,
+        "max_probability": 0.0004417199895986126,
+        "n_samples": 177983,
+        "n_positive": 60,
+        "mean_probability": 0.0003291690883136381,
+        "observed_prevalence": 0.0003371108476652265
+      },
+      {
+        "bin": 8,
+        "min_probability": 0.00044172703892574186,
+        "max_probability": 0.0007862176753704425,
+        "n_samples": 177984,
+        "n_positive": 120,
+        "mean_probability": 0.000593492383493661,
+        "observed_prevalence": 0.000674217907227616
+      },
+      {
+        "bin": 9,
+        "min_probability": 0.0007862185459888639,
+        "max_probability": 0.0015202318765026636,
+        "n_samples": 177983,
+        "n_positive": 238,
+        "mean_probability": 0.001104306831131036,
+        "observed_prevalence": 0.0013372063624053983
+      },
+      {
+        "bin": 10,
+        "min_probability": 0.001520231908502205,
+        "max_probability": 0.20616097514191487,
+        "n_samples": 177983,
+        "n_positive": 776,
+        "mean_probability": 0.003988971122814322,
+        "observed_prevalence": 0.0043599669631369286
+      }
+    ],
+    "n_dates": null
+  },
+  "sigmoid": {
+    "n_samples": 1779832,
+    "n_positive": 1250,
+    "n_negative": 1778582,
+    "prevalence": 0.0007023134767775835,
+    "average_precision": 0.012249156847753224,
+    "ap_prevalence_ratio": 17.441153064520254,
+    "roc_auc": 0.8882491449930338,
+    "brier_score": 0.000699278787600324,
+    "log_loss": 0.004961170972688346,
+    "reliability_bins": [
+      {
+        "lower": 0.0,
+        "upper": 0.1,
+        "upper_inclusive": false,
+        "n_samples": 1779773,
+        "n_positive": 1238,
+        "mean_probability": 0.0007979689874459946,
+        "observed_prevalence": 0.0006955943257932332
+      },
+      {
+        "lower": 0.1,
+        "upper": 0.2,
+        "upper_inclusive": false,
+        "n_samples": 52,
+        "n_positive": 10,
+        "mean_probability": 0.13861228960860011,
+        "observed_prevalence": 0.19230769230769232
+      },
+      {
+        "lower": 0.2,
+        "upper": 0.3,
+        "upper_inclusive": false,
+        "n_samples": 7,
+        "n_positive": 2,
+        "mean_probability": 0.22803179499115514,
+        "observed_prevalence": 0.2857142857142857
+      },
+      {
+        "lower": 0.3,
+        "upper": 0.4,
+        "upper_inclusive": false,
+        "n_samples": 0,
+        "n_positive": 0,
+        "mean_probability": null,
+        "observed_prevalence": null
+      },
+      {
+        "lower": 0.4,
+        "upper": 0.5,
+        "upper_inclusive": false,
+        "n_samples": 0,
+        "n_positive": 0,
+        "mean_probability": null,
+        "observed_prevalence": null
+      },
+      {
+        "lower": 0.5,
+        "upper": 0.6,
+        "upper_inclusive": false,
+        "n_samples": 0,
+        "n_positive": 0,
+        "mean_probability": null,
+        "observed_prevalence": null
+      },
+      {
+        "lower": 0.6,
+        "upper": 0.7,
+        "upper_inclusive": false,
+        "n_samples": 0,
+        "n_positive": 0,
+        "mean_probability": null,
+        "observed_prevalence": null
+      },
+      {
+        "lower": 0.7,
+        "upper": 0.8,
+        "upper_inclusive": false,
+        "n_samples": 0,
+        "n_positive": 0,
+        "mean_probability": null,
+        "observed_prevalence": null
+      },
+      {
+        "lower": 0.8,
+        "upper": 0.9,
+        "upper_inclusive": false,
+        "n_samples": 0,
+        "n_positive": 0,
+        "mean_probability": null,
+        "observed_prevalence": null
+      },
+      {
+        "lower": 0.9,
+        "upper": 1.0,
+        "upper_inclusive": true,
+        "n_samples": 0,
+        "n_positive": 0,
+        "mean_probability": null,
+        "observed_prevalence": null
+      }
+    ],
+    "quantile_reliability_bins": [
+      {
+        "bin": 1,
+        "min_probability": 2.4278819623442084e-05,
+        "max_probability": 3.4607127271767746e-05,
+        "n_samples": 177981,
+        "n_positive": 1,
+        "mean_probability": 2.8994129904222508e-05,
+        "observed_prevalence": 5.618577263865244e-06
+      },
+      {
+        "bin": 2,
+        "min_probability": 3.46092240115205e-05,
+        "max_probability": 4.604102874031269e-05,
+        "n_samples": 177987,
+        "n_positive": 1,
+        "mean_probability": 4.052058199664211e-05,
+        "observed_prevalence": 5.618387859787512e-06
+      },
+      {
+        "bin": 3,
+        "min_probability": 4.604276216552345e-05,
+        "max_probability": 6.273022606380273e-05,
+        "n_samples": 177990,
+        "n_positive": 5,
+        "mean_probability": 5.399704003309288e-05,
+        "observed_prevalence": 2.8091465812686105e-05
+      },
+      {
+        "bin": 4,
+        "min_probability": 6.273206743944488e-05,
+        "max_probability": 8.83975922947349e-05,
+        "n_samples": 177989,
+        "n_positive": 5,
+        "mean_probability": 7.481007548293259e-05,
+        "observed_prevalence": 2.8091623639663124e-05
+      },
+      {
+        "bin": 5,
+        "min_probability": 8.839852993189908e-05,
+        "max_probability": 0.0001388610314615948,
+        "n_samples": 177968,
+        "n_positive": 11,
+        "mean_probability": 0.00010831352986388994,
+        "observed_prevalence": 6.180886451496899e-05
+      },
+      {
+        "bin": 6,
+        "min_probability": 0.0001388610423585435,
+        "max_probability": 0.000287486456264766,
+        "n_samples": 177984,
+        "n_positive": 33,
+        "mean_probability": 0.00020235194348804553,
+        "observed_prevalence": 0.0001854099244875944
+      },
+      {
+        "bin": 7,
+        "min_probability": 0.00028748842721614253,
+        "max_probability": 0.0005501667507297258,
+        "n_samples": 177983,
+        "n_positive": 60,
+        "mean_probability": 0.0004096716676574116,
+        "observed_prevalence": 0.0003371108476652265
+      },
+      {
+        "bin": 8,
+        "min_probability": 0.0005501755546821327,
+        "max_probability": 0.000980760924508495,
+        "n_samples": 177984,
+        "n_positive": 120,
+        "mean_probability": 0.000739818428595009,
+        "observed_prevalence": 0.000674217907227616
+      },
+      {
+        "bin": 9,
+        "min_probability": 0.0009807620134222566,
+        "max_probability": 0.0018996023791519629,
+        "n_samples": 177983,
+        "n_positive": 238,
+        "mean_probability": 0.0013788336359664055,
+        "observed_prevalence": 0.0013372063624053983
+      },
+      {
+        "bin": 10,
+        "min_probability": 0.001899602419235074,
+        "max_probability": 0.24777994563967556,
+        "n_samples": 177983,
+        "n_positive": 776,
+        "mean_probability": 0.004991587636644167,
+        "observed_prevalence": 0.0043599669631369286
+      }
+    ],
+    "n_dates": null
+  },
+  "coefficient": 1.0028358394699612,
+  "used": false,
+  "rule": "Use sigmoid only if monotone increasing and lower 2018 log loss"
+}

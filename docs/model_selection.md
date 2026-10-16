@@ -1,8 +1,11 @@
-# Planned model comparison
+# Ignition model comparison
 
-Status: research plan recorded on 2026-10-05; models have not yet been trained
-or compared. The target is `ignition` for each Ontario Fire Region 10 km
-cell/day in the 2010–2019 fire-season panel.
+Status: implemented, trained and independently verified on 2026-10-09.
+See [the executed comparison](modeling/final_report.md) and
+[verification evidence](modeling/verification_report.md). The original research
+plan below defines the comparison for each Ontario Fire Region 10 km cell/day
+in the 2010–2019 fire-season panel. Modelling uses a separately versioned cache
+that corrects the original weather station selection and source-date joins.
 
 | Approach | Role | Reason for inclusion |
 | --- | --- | --- |
@@ -30,6 +33,6 @@ hindcast comparison; archive timing does not establish operational availability.
 ## Separate fire-spread research
 
 Cell2Fire with Canadian FBP is a candidate for future fire-spread research.
-It is outside this ignition comparison. The repository does not yet contain
-the incident-conditioned progression dataset needed to evaluate spread;
-final perimeters and final size must not become ignition predictors.
+It is outside this ignition comparison. Final perimeters and final size must
+not become ignition predictors; spread requires its own incident-conditioned
+progression dataset and evaluation.

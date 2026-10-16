@@ -1,0 +1,54 @@
+{
+  "status": "complete",
+  "implemented": [
+    "full validation",
+    "past-only weather correction",
+    "frozen chronological splits",
+    "fold-local preprocessing",
+    "incremental logistic regression",
+    "histogram gradient boosting",
+    "calibration decision",
+    "threshold tradeoffs",
+    "reproducible orchestration and report publishing"
+  ],
+  "executed": [
+    "17,798,320-row original audit",
+    "17,798,320-row corrected cache build and independent audit",
+    "chronological smoke and model reload",
+    "40 development candidate fits across five folds",
+    "both final base-model fits on2010-2016",
+    "2017 sigmoid calibration fit and2018 rejection decision",
+    "single frozen2019 evaluation",
+    "report and plot publication"
+  ],
+  "verified": [
+    "277 original-data checks passed",
+    "29 integration and fixture tests passed",
+    "all40 development prediction checkpoints independently matched",
+    "final model/config/cache/source/schema fingerprints matched",
+    "512 fixed test reload predictions matched saved scores",
+    "all8 thresholds independently recomputed from2018 scores"
+  ],
+  "selected_model": "unweighted HistGradientBoostingClassifier,40iterations",
+  "final_test_average_precision": 0.007274601011646913,
+  "final_test_roc_auc": 0.8891953135479144,
+  "operating_threshold": "not selected; frozen tradeoff table supplied",
+  "roles": {
+    "1 coordinator": "complete",
+    "2 data integrity": "verified",
+    "3 leakage/provenance": "corrected-cache PASS; operational replay excluded",
+    "4 chronological splits": "verified",
+    "5 logistic preprocessing": "verified",
+    "6 logistic regression": "trained and verified",
+    "7 histogram gradient boosting": "trained and verified",
+    "8 evaluation": "executed and independently verified",
+    "9 independent verification": "FINAL PASS"
+  },
+  "remaining_limits": [
+    "retrospective availability and frozen-grid selection bias",
+    "high false-alert burden",
+    "bounded logistic optimization without convergence proof",
+    "spatial validation and date-dependent uncertainty not executed"
+  ],
+  "primary_report": "docs/modeling/final_report.md"
+}

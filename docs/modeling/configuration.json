@@ -1,0 +1,158 @@
+{
+  "seed": 385,
+  "python": "3.12.14",
+  "packages": {
+    "numpy": "2.3.5",
+    "pandas": "3.0.1",
+    "scipy": "1.16.2",
+    "scikit-learn": "1.7.2",
+    "joblib": "1.5.2",
+    "threadpoolctl": "3.6.0",
+    "psutil": "7.1.0",
+    "matplotlib": "3.11.2"
+  },
+  "cache_version": "ignition-v1-weather-asof-global-date-v2",
+  "features": [
+    "calendar_day_of_year",
+    "calendar_doy_sin",
+    "calendar_doy_cos",
+    "calendar_is_weekend",
+    "calendar_day_length_hours",
+    "terrain_elevation_mean_m",
+    "terrain_slope_deg",
+    "terrain_aspect_sin",
+    "terrain_aspect_cos",
+    "terrain_ruggedness_m",
+    "terrain_sample_count",
+    "terrain_coverage_fraction",
+    "cwfis_station_count",
+    "cwfis_nearest_station_km",
+    "cwfis_observation_coverage_fraction",
+    "cwfis_imputed_station_fraction",
+    "cwfis_calcstatus_nonzero_fraction",
+    "cwfis_missing",
+    "cwfis_temp_c",
+    "cwfis_rh_pct",
+    "cwfis_wind_speed_kmh",
+    "cwfis_precip_mm",
+    "cwfis_ffmc",
+    "cwfis_dmc",
+    "cwfis_dc",
+    "cwfis_isi",
+    "cwfis_bui",
+    "cwfis_fwi",
+    "cwfis_dsr",
+    "cwfis_precip_7d_mm",
+    "cwfis_precip_7d_coverage_days",
+    "fire_history_same_cell_30d",
+    "fire_history_neighborhood_30d",
+    "fire_history_same_cell_365d",
+    "fire_history_neighborhood_365d",
+    "fire_history_days_since_same_cell"
+  ],
+  "original_panel_sha256": "8791c96e460e6294791bbbf1ad0d6aad68e31a98be28dbcc6060463f94ccfc9d",
+  "cache_manifest_sha256": "da3a4cd206bb9129ae4186caaf6f6d151434eefd0dabb7c406aa5615e5db16ec",
+  "fold_years": [
+    [
+      2010,
+      2011,
+      2012
+    ],
+    [
+      2010,
+      2012,
+      2013
+    ],
+    [
+      2010,
+      2013,
+      2014
+    ],
+    [
+      2010,
+      2014,
+      2015
+    ],
+    [
+      2010,
+      2015,
+      2016
+    ]
+  ],
+  "logistic_candidates": [
+    {
+      "alpha": 0.0001,
+      "class_weight": null,
+      "epochs": 3,
+      "batch_size": 50000
+    },
+    {
+      "alpha": 0.0001,
+      "class_weight": "balanced",
+      "epochs": 3,
+      "batch_size": 50000
+    },
+    {
+      "alpha": 0.001,
+      "class_weight": null,
+      "epochs": 3,
+      "batch_size": 50000
+    },
+    {
+      "alpha": 0.001,
+      "class_weight": "balanced",
+      "epochs": 3,
+      "batch_size": 50000
+    }
+  ],
+  "hgb_candidates": [
+    {
+      "max_iter": 20,
+      "class_weight": null,
+      "learning_rate": 0.1,
+      "max_leaf_nodes": 15,
+      "min_samples_leaf": 100,
+      "l2_regularization": 1.0
+    },
+    {
+      "max_iter": 20,
+      "class_weight": "balanced",
+      "learning_rate": 0.1,
+      "max_leaf_nodes": 15,
+      "min_samples_leaf": 100,
+      "l2_regularization": 1.0
+    },
+    {
+      "max_iter": 40,
+      "class_weight": null,
+      "learning_rate": 0.1,
+      "max_leaf_nodes": 15,
+      "min_samples_leaf": 100,
+      "l2_regularization": 1.0
+    },
+    {
+      "max_iter": 40,
+      "class_weight": "balanced",
+      "learning_rate": 0.1,
+      "max_leaf_nodes": 15,
+      "min_samples_leaf": 100,
+      "l2_regularization": 1.0
+    }
+  ],
+  "resampling": false,
+  "threads": 2,
+  "source_code_sha256": {
+    "contract.py": "a0d10323bc9155a9504956afb2bf497703522dd0ad110e06fce56a5dfc56bfa7",
+    "data.py": "46a0db6df03ac3457e44bd27b789e5b9252ef97e92982e78cddd3ef29367ef58",
+    "evaluation.py": "bd2ab19d8acca9f807ee35a6fbc55f052cd15903d3918c1174b4d66fd80f0880",
+    "histogram.py": "665c433e9447814b4250ebdf4f00557341f910d5751159802ae1d68640bc080b",
+    "logistic.py": "0cab1f8abb998b3295d96a0216a4a4ffbc261aa24af414530cc49009016a653c",
+    "preprocessing.py": "53d27d8a2518ad1baba079d32cf79dce6aece01fe93a9c4de6c6035f9e0e05ab",
+    "report.py": "7979838e700318b1e3b8c76ef9169befc44000a1c49a39d5f29a3b3c69a95e87",
+    "run.py": "85df55c7a1cb0b72941cd0e71c61ed069adc35813578296e64f78c2878904949",
+    "splits.py": "696a35593b2dca24e4c9974731185136ba69d72cd12f8941e203f4d3fae0af21",
+    "validation.py": "01c1806cd37d288d824b56434084a0eed20f5091284a69dfc677a1726dee0d15",
+    "weather.py": "95cc7a4349793e8b5cf0ccd3a19ed4011498d824ad7287677ec8cc171686b1f4",
+    "__init__.py": "9abaf8d2507e2706150b8577e9affd8b5d7ca6875ce4e72c0b3cdff2efef5a38"
+  }
+}
