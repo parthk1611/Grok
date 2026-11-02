@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/parthk1611/COMP-385/contracts/live_weather_record.schema.json",
-  "title": "Live weather record (contract v0.1.0)",
+  "title": "Live weather record (contract v0.2.0)",
   "description": "One weather value set at one location and valid time, either an observation or a forecast hour. Units follow capability_2_fire_spread hourly weather columns. ATLAS confirms the real MSC source layers; `source` is free text until then. Secrets/API keys never appear in a record.",
   "type": "object",
   "additionalProperties": false,

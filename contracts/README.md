@@ -7,7 +7,7 @@ request in the team chat with the diff, the reason, and the affected lanes;
 bump `contract_version` below when it is approved. Nobody edits these files in
 a feature branch without that approval.
 
-`contract_version`: **0.1.0** (draft until Team Lead sign-off)
+`contract_version`: **0.2.0** (draft until Team Lead sign-off)
 
 | File | Purpose | Producer -> consumer |
 | --- | --- | --- |
@@ -54,3 +54,12 @@ rather than breaking `python -m unittest discover -s tests`.
   unvalidated by BLAZE/BEACON.
 - `p10/p50/p90` band semantics (burn-probability contours) are defined here;
   BLAZE must confirm the Monte Carlo can produce them.
+
+## Changelog
+
+- **0.2.0** (2026-11-02, Team Lead approved after T0.4 reviews from EMBER, RELAY, BEACON, BLAZE):
+  - Both outputs: required `mode` (`retrospective | hindcast | forecast_like | forecast`), `stale_level`, `age_minutes`; `stale_flag` must agree with `stale_level`.
+  - Ignition: optional `calibration`, `feature_set_version`.
+  - Spread: required `validated_horizons_h`, `uncertainty_status`, `grid_resolution_m`, `perturbation`, `inputs.fuel_source`; optional hourly `inputs.weather_series`; scalar wind is the value at `start_time`; every (horizon, band) feature is always present and an empty band is an empty MultiPolygon with `area_ha: 0`.
+  - cache_fallback.md: two-age staleness (fetch health and data age); per-source data-age thresholds TBD.
+- **0.1.0**: initial handoff contracts.

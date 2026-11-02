@@ -4,5 +4,8 @@
   "probability": 0.0004,
   "model_version": "example-not-a-real-model",
   "data_timestamp": "2026-07-14T20:00:00Z",
-  "stale_flag": false
+  "stale_flag": false,
+  "mode": "retrospective",
+  "stale_level": "fresh",
+  "age_minutes": 0
 }

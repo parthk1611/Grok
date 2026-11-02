@@ -1,4 +1,4 @@
-# Grid and time specification (contract v0.1.0)
+# Grid and time specification (contract v0.2.0)
 
 Everything below is taken from the existing ignition panel unless marked
 **NEW**. Sources: `scripts/build_cpa_daily_ignition_labels.py`
