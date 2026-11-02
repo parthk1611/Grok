@@ -22,7 +22,7 @@ PAIRS = {
     "spread_output": ("spread_output.schema.json", "spread_output.example.json",
                       ["bad_spread_horizon.json"]),
     "live_weather_record": ("live_weather_record.schema.json", "live_weather_record.example.json",
-                            ["bad_weather_stale_level.json"]),
+                            ["bad_weather_stale_level.json", "bad_weather_forecast_no_run_time.json"]),
 }
 
 
