@@ -21,7 +21,8 @@
     "bui": 60.0,
     "fuel_type": null,
     "stale_flag": false,
-    "stale_reason": null
+    "stale_reason": null,
+    "fuel_source": "example-not-a-real-fuel-grid"
   },
   "validated_horizons_h": [
     6
@@ -361,5 +362,24 @@
         "validated": true
       }
     }
-  ]
+  ],
+  "mode": "hindcast",
+  "stale_level": "fresh",
+  "age_minutes": 0,
+  "uncertainty_status": "estimated",
+  "grid_resolution_m": 90,
+  "perturbation": {
+    "parameters": [
+      {
+        "name": "wind_speed_kmh",
+        "distribution": "normal",
+        "sigma": 0
+      },
+      {
+        "name": "ros_scale",
+        "distribution": "fixed",
+        "value": 0.8
+      }
+    ]
+  }
 }

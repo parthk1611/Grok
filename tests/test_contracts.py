@@ -70,6 +70,33 @@ class ContractTests(unittest.TestCase):
         cell = load(EXAMPLES / "ignition_output.example.json")["cell_id"]
         self.assertIn(cell + ",", grid)
 
+    def test_v020_fields_required(self):
+        ign = load(CONTRACTS / "ignition_output.schema.json")
+        for f in ("mode", "stale_level", "age_minutes"):
+            self.assertIn(f, ign["required"])
+        spr = load(CONTRACTS / "spread_output.schema.json")
+        for f in ("mode", "stale_level", "age_minutes", "validated_horizons_h", "uncertainty_status",
+                  "grid_resolution_m", "perturbation"):
+            self.assertIn(f, spr["required"])
+        self.assertIn("fuel_source", spr["properties"]["inputs"]["required"])
+
+    def test_stale_flag_must_match_stale_level(self):
+        v = Draft202012Validator(load(CONTRACTS / "ignition_output.schema.json"))
+        rec = load(EXAMPLES / "ignition_output.example.json")
+        rec.update(stale_level="stale", stale_flag=False)
+        self.assertFalse(v.is_valid(rec))
+        rec.update(stale_flag=True)
+        self.assertTrue(v.is_valid(rec))
+
+    def test_empty_band_is_allowed(self):
+        v = Draft202012Validator(load(CONTRACTS / "spread_output.schema.json"))
+        out = load(EXAMPLES / "spread_output.example.json")
+        for f in out["features"]:
+            if f["properties"]["horizon_h"] == 1 and f["properties"]["band"] == "p90":
+                f["geometry"] = {"type": "MultiPolygon", "coordinates": []}
+                f["properties"]["area_ha"] = 0
+        v.validate(out)
+
 
 if __name__ == "__main__":
     unittest.main()

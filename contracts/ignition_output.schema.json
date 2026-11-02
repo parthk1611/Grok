@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/parthk1611/COMP-385/contracts/ignition_output.schema.json",
-  "title": "Ignition probability record (contract v0.1.0)",
+  "title": "Ignition probability record (contract v0.2.0)",
   "description": "One record per grid cell per local day. The API returns an array of these records. Probability is the model's estimated chance of at least one ignition in that 10 km cell on that local America/Toronto day; it is not a precision. See grid_spec.md.",
   "type": "object",
   "additionalProperties": false,
@@ -12,7 +12,10 @@
     "model_version",
     "data_timestamp",
     "stale_flag",
-    "disclaimer"
+    "disclaimer",
+    "mode",
+    "stale_level",
+    "age_minutes"
   ],
   "properties": {
     "cell_id": {
@@ -71,6 +74,67 @@
       "format": "date-time",
       "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$",
       "description": "Optional UTC time this record was produced"
+    },
+    "mode": {
+      "enum": [
+        "retrospective",
+        "hindcast",
+        "forecast_like",
+        "forecast"
+      ],
+      "description": "retrospective = scored on past data; hindcast = replay with observed weather (labelled); forecast_like = replay using only forecast inputs available at start; forecast = live"
+    },
+    "stale_level": {
+      "enum": [
+        "fresh",
+        "stale",
+        "expired"
+      ],
+      "description": "Worse of fetch health (from retrieved_at) and data age (from valid_time/source_run_time); see cache_fallback.md. stale_flag must be true iff stale_level != fresh"
+    },
+    "age_minutes": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Age in minutes of the oldest input that sets stale_level, at generation time"
+    },
+    "calibration": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Optional calibration method applied to probability, e.g. isotonic-2017, platt-2017, or none"
+    },
+    "feature_set_version": {
+      "type": "string",
+      "description": "Optional feature-set version, e.g. ignition-feature-v1.0.0"
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "stale_level": {
+            "const": "fresh"
+          }
+        },
+        "required": [
+          "stale_level"
+        ]
+      },
+      "then": {
+        "properties": {
+          "stale_flag": {
+            "const": false
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "stale_flag": {
+            "const": true
+          }
+        }
+      }
+    }
+  ]
 }

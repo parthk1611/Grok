@@ -1,4 +1,4 @@
-# Cache and stale-data fallback rule (contract v0.1.0)
+# Cache and stale-data fallback rule (contract v0.2.0)
 
 Owner: RELAY. Consumers: EMBER, BLAZE, BEACON. **Thresholds below are proposed
 defaults, pending Team Lead approval and ATLAS confirmation of how often the
@@ -51,3 +51,12 @@ feed becomes `expired`. Alert thresholds are subject to Team Lead approval.
 Which MSC endpoint/layers to use (ATLAS), cache storage technology, and
 authentication. Keys and tokens live in environment variables or a secrets
 store, never in the repo or in a payload.
+
+## v0.2.0: two ages
+
+Staleness is judged on two separate ages, and `stale_level` reports the worse of the two.
+
+1. **Fetch health**, measured from `retrieved_at`: fresh ≤ 30 min, stale ≤ 6 h, expired beyond that (unchanged proposal).
+2. **Data age**, measured from `valid_time` (observations) or `source_run_time` (model runs such as HRDPS), with per-source thresholds. HRDPS publishes every 6 h and the CWFIS station feed was seen at about 11 h old, so one threshold cannot fit every source. Per-source numbers are **placeholders (TBD)** until RELAY's 24 h update-cadence measurement is reviewed by Team Lead.
+
+`ignition_output` and `spread_output` carry `stale_level` (`fresh | stale | expired`) and `age_minutes`. `stale_flag` is kept for compatibility and must be true exactly when `stale_level` is not `fresh`. An expired spread input requires a UI confirmation step before a run. The 503 error body is defined in `contracts/openapi.yaml` (RELAY draft, pending Team Lead approval).

@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/parthk1611/COMP-385/contracts/spread_output.schema.json",
-  "title": "Spread simulation output (contract v0.1.0)",
-  "description": "GeoJSON FeatureCollection (RFC 7946, EPSG:4326 lon/lat). Each perimeter feature is one horizon (1, 3 or 6 h) and one burn-probability band: p90 = area burned in at least 90% of Monte Carlo runs (inner, most certain), p50 = at least 50% (median extent), p10 = at least 10% (outer, widest). Band nesting must hold: p90 inside p50 inside p10 for each horizon, and areas grow with horizon.",
+  "title": "Spread simulation output (contract v0.2.0)",
+  "description": "GeoJSON FeatureCollection (RFC 7946, EPSG:4326 lon/lat). Each perimeter feature is one horizon (1, 3 or 6 h) and one burn-probability band: p90 = area burned in at least 90% of Monte Carlo runs (inner, most certain), p50 = at least 50% (median extent), p10 = at least 10% (outer, widest). Band nesting must hold: p90 inside p50 inside p10 for each horizon, and areas grow with horizon. Every (horizon, band) feature is always present; an empty band has geometry MultiPolygon with coordinates [] and area_ha 0.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -13,7 +13,14 @@
     "ignition_point",
     "inputs",
     "n_runs",
-    "disclaimer"
+    "disclaimer",
+    "mode",
+    "stale_level",
+    "age_minutes",
+    "validated_horizons_h",
+    "uncertainty_status",
+    "grid_resolution_m",
+    "perturbation"
   ],
   "properties": {
     "type": {
@@ -72,7 +79,8 @@
         "weather_valid_time",
         "wind_speed_kmh",
         "wind_direction_deg",
-        "stale_flag"
+        "stale_flag",
+        "fuel_source"
       ],
       "properties": {
         "weather_source": {
@@ -93,13 +101,13 @@
         "wind_speed_kmh": {
           "type": "number",
           "minimum": 0,
-          "description": "10 m wind speed, km/h"
+          "description": "10 m wind speed, km/h at start_time"
         },
         "wind_direction_deg": {
           "type": "number",
           "minimum": 0,
           "maximum": 360,
-          "description": "Degrees the wind blows FROM"
+          "description": "Degrees the wind blows FROM at start_time"
         },
         "temp_c": {
           "type": [
@@ -152,6 +160,60 @@
             "string",
             "null"
           ]
+        },
+        "fuel_source": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Fuel grid source and vintage, e.g. FBP-2014b or SCANFI-2020"
+        },
+        "weather_series": {
+          "type": "array",
+          "description": "Optional hourly weather used over the horizon (needed for runs longer than 1 h to be reproducible)",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "valid_time",
+              "wind_speed_kmh",
+              "wind_direction_deg"
+            ],
+            "properties": {
+              "valid_time": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$"
+              },
+              "wind_speed_kmh": {
+                "type": "number",
+                "minimum": 0
+              },
+              "wind_direction_deg": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 360
+              },
+              "temp_c": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "rh_pct": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "minimum": 0,
+                "maximum": 100
+              },
+              "ffmc": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              }
+            }
+          }
         }
       }
     },
@@ -164,7 +226,8 @@
           6
         ]
       },
-      "description": "Horizons that have been validated against observed growth. The replay dataset has satellite passes >= 6 h apart, so 1 and 3 h are unvalidated unless a source for them is added; consumers must label unvalidated horizons"
+      "description": "Horizons that have been validated against observed growth. The replay dataset has satellite passes >= 6 h apart, so 1 and 3 h are unvalidated unless a source for them is added; consumers must label unvalidated horizons",
+      "uniqueItems": true
     },
     "disclaimer": {
       "const": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders."
@@ -200,7 +263,8 @@
               "coordinates": {
                 "type": "array"
               }
-            }
+            },
+            "description": "Polygon or MultiPolygon; an empty band is MultiPolygon with coordinates [] and area_ha 0"
           },
           "properties": {
             "type": "object",
@@ -258,6 +322,124 @@
           }
         }
       }
+    },
+    "mode": {
+      "enum": [
+        "retrospective",
+        "hindcast",
+        "forecast_like",
+        "forecast"
+      ],
+      "description": "retrospective = scored on past data; hindcast = replay with observed weather (labelled); forecast_like = replay using only forecast inputs available at start; forecast = live"
+    },
+    "stale_level": {
+      "enum": [
+        "fresh",
+        "stale",
+        "expired"
+      ],
+      "description": "Worse of fetch health (from retrieved_at) and data age (from valid_time/source_run_time); see cache_fallback.md. stale_flag must be true iff stale_level != fresh"
+    },
+    "age_minutes": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Age in minutes of the oldest input that sets stale_level, at generation time"
+    },
+    "uncertainty_status": {
+      "enum": [
+        "estimated",
+        "not_estimated"
+      ],
+      "description": "not_estimated when n_runs == 1 or inputs were not perturbed; consumers must not present bands as uncertainty then"
+    },
+    "grid_resolution_m": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "description": "Simulation grid cell size in metres (EPSG:3978), currently 90"
+    },
+    "perturbation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "parameters"
+      ],
+      "description": "Which inputs were perturbed across Monte Carlo runs and how; with seed and n_runs this reproduces the run",
+      "properties": {
+        "parameters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "distribution"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "e.g. wind_speed_kmh, wind_direction_deg, ffmc, ros_scale"
+              },
+              "distribution": {
+                "enum": [
+                  "normal",
+                  "uniform",
+                  "fixed"
+                ]
+              },
+              "sigma": {
+                "type": "number",
+                "minimum": 0
+              },
+              "low": {
+                "type": "number"
+              },
+              "high": {
+                "type": "number"
+              },
+              "value": {
+                "type": "number",
+                "description": "For fixed parameters such as ros_scale"
+              }
+            }
+          }
+        }
+      }
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "stale_level": {
+            "const": "fresh"
+          }
+        },
+        "required": [
+          "stale_level"
+        ]
+      },
+      "then": {
+        "properties": {
+          "inputs": {
+            "properties": {
+              "stale_flag": {
+                "const": false
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "inputs": {
+            "properties": {
+              "stale_flag": {
+                "const": true
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
 }

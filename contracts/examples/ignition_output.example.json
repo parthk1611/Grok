@@ -6,5 +6,8 @@
   "data_timestamp": "2026-07-14T20:00:00Z",
   "stale_flag": false,
   "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-  "grid_version": "ofr10km-v1"
+  "grid_version": "ofr10km-v1",
+  "mode": "retrospective",
+  "stale_level": "fresh",
+  "age_minutes": 0
 }
