@@ -1,0 +1,365 @@
+{
+  "type": "FeatureCollection",
+  "run_timestamp": "2026-07-15T16:00:00Z",
+  "model_version": "example-not-a-real-model",
+  "n_runs": 100,
+  "seed": 385,
+  "ignition_point": {
+    "longitude": -90.0,
+    "latitude": 50.0
+  },
+  "start_time": "2026-07-15T16:00:00Z",
+  "inputs": {
+    "weather_source": "example-placeholder",
+    "weather_valid_time": "2026-07-15T16:00:00Z",
+    "wind_speed_kmh": 15.0,
+    "wind_direction_deg": 270,
+    "temp_c": 22.0,
+    "rh_pct": 35,
+    "precip_mm": 0.0,
+    "ffmc": 88.0,
+    "bui": 60.0,
+    "fuel_type": null,
+    "stale_flag": false,
+    "stale_reason": null
+  },
+  "validated_horizons_h": [
+    6
+  ],
+  "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -90.0,
+              50.0
+            ],
+            [
+              -89.986,
+              50.0
+            ],
+            [
+              -89.986,
+              50.014
+            ],
+            [
+              -90.0,
+              50.014
+            ],
+            [
+              -90.0,
+              50.0
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "horizon_h": 1,
+        "band": "p10",
+        "burn_probability_level": 0.1,
+        "area_ha": 140.0,
+        "validated": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -90.0,
+              50.0
+            ],
+            [
+              -89.99,
+              50.0
+            ],
+            [
+              -89.99,
+              50.01
+            ],
+            [
+              -90.0,
+              50.01
+            ],
+            [
+              -90.0,
+              50.0
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "horizon_h": 1,
+        "band": "p50",
+        "burn_probability_level": 0.5,
+        "area_ha": 100.0,
+        "validated": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -90.0,
+              50.0
+            ],
+            [
+              -89.994,
+              50.0
+            ],
+            [
+              -89.994,
+              50.006
+            ],
+            [
+              -90.0,
+              50.006
+            ],
+            [
+              -90.0,
+              50.0
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "horizon_h": 1,
+        "band": "p90",
+        "burn_probability_level": 0.9,
+        "area_ha": 60.0,
+        "validated": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -90.0,
+              50.0
+            ],
+            [
+              -89.958,
+              50.0
+            ],
+            [
+              -89.958,
+              50.042
+            ],
+            [
+              -90.0,
+              50.042
+            ],
+            [
+              -90.0,
+              50.0
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "horizon_h": 3,
+        "band": "p10",
+        "burn_probability_level": 0.1,
+        "area_ha": 420.0,
+        "validated": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -90.0,
+              50.0
+            ],
+            [
+              -89.97,
+              50.0
+            ],
+            [
+              -89.97,
+              50.03
+            ],
+            [
+              -90.0,
+              50.03
+            ],
+            [
+              -90.0,
+              50.0
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "horizon_h": 3,
+        "band": "p50",
+        "burn_probability_level": 0.5,
+        "area_ha": 300.0,
+        "validated": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -90.0,
+              50.0
+            ],
+            [
+              -89.982,
+              50.0
+            ],
+            [
+              -89.982,
+              50.018
+            ],
+            [
+              -90.0,
+              50.018
+            ],
+            [
+              -90.0,
+              50.0
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "horizon_h": 3,
+        "band": "p90",
+        "burn_probability_level": 0.9,
+        "area_ha": 180.0,
+        "validated": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -90.0,
+              50.0
+            ],
+            [
+              -89.916,
+              50.0
+            ],
+            [
+              -89.916,
+              50.084
+            ],
+            [
+              -90.0,
+              50.084
+            ],
+            [
+              -90.0,
+              50.0
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "horizon_h": 6,
+        "band": "p10",
+        "burn_probability_level": 0.1,
+        "area_ha": 840.0,
+        "validated": true
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -90.0,
+              50.0
+            ],
+            [
+              -89.94,
+              50.0
+            ],
+            [
+              -89.94,
+              50.06
+            ],
+            [
+              -90.0,
+              50.06
+            ],
+            [
+              -90.0,
+              50.0
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "horizon_h": 6,
+        "band": "p50",
+        "burn_probability_level": 0.5,
+        "area_ha": 600.0,
+        "validated": true
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -90.0,
+              50.0
+            ],
+            [
+              -89.964,
+              50.0
+            ],
+            [
+              -89.964,
+              50.036
+            ],
+            [
+              -90.0,
+              50.036
+            ],
+            [
+              -90.0,
+              50.0
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "horizon_h": 6,
+        "band": "p90",
+        "burn_probability_level": 0.9,
+        "area_ha": 360.0,
+        "validated": true
+      }
+    }
+  ]
+}
