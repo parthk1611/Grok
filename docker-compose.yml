@@ -1,0 +1,32 @@
+# Local hosting (Team Lead decision: Docker Compose on our box, free sources only).
+#   docker compose up --build        # API on http://127.0.0.1:8000  (mock mode)
+# No secrets here; configuration comes from .env (copy .env.example) or the defaults below.
+services:
+  api:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    image: comp385-backend:dev
+    environment:
+      RELAY_DATA_MODE: ${RELAY_DATA_MODE:-mock}
+      RELAY_MOCK_SCENARIO: ${RELAY_MOCK_SCENARIO:-fresh}
+      RELAY_LOG_LEVEL: ${RELAY_LOG_LEVEL:-INFO}
+      RELAY_SPREAD_TIMEOUT_S: ${RELAY_SPREAD_TIMEOUT_S:-60}
+      RELAY_CORS_ORIGINS: ${RELAY_CORS_ORIGINS:-}
+    ports:
+      - "127.0.0.1:${RELAY_PORT:-8000}:8000"   # published on loopback only
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    restart: unless-stopped
+
+  # PLACEHOLDER (T2.7, not built): 15-minute ingest scheduler that polls HRDPS / CWFIS / swob, validates
+  # with backend/app/timestamps.py, writes the cache atomically (backend/app/atomic_io.py) and records
+  # per-source status for /api/v1/ingestion/status. Shares a cache volume with `api`.
+  # scheduler:
+  #   build: {context: ., dockerfile: backend/Dockerfile}
+  #   command: ["python", "-m", "backend.scheduler"]     # module does not exist yet
+  #   volumes: ["relay-cache:/data/cache"]
+  #   restart: unless-stopped
+# volumes:
+#   relay-cache:
