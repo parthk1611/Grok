@@ -1,0 +1,352 @@
+# DRAFT for Team Lead review (RELAY, task T1.8 / openapi). Not an approved contract.
+# contract_version: 0.2.0-draft  (the JSON Schemas referenced below are contracts v0.2.0, unchanged)
+# Where this draft needs a contract change, it says so under "x-change-requests" at the end; nothing
+# under contracts/ other than this new file has been edited.
+openapi: 3.1.0
+info:
+  title: COMP-385 Ontario wildfire decision-support API
+  version: 0.2.0-draft
+  summary: Research-estimate ignition risk, point-start spread cones, live weather and ingestion status.
+  description: |
+    **Research estimate for decision support only. It does not replace official fire alerts,
+    warnings or evacuation orders.**
+
+    * Ignition and spread responses are research estimates computed from the latest data available.
+      They carry `mode`, `model_version`, `stale_level`, `age_minutes` and `stale_flag`
+      (true exactly when `stale_level` is not `fresh`; the schemas enforce it).
+    * Data degrades per `cache_fallback.md` (v0.2.0 two-age model: fetch health from `retrieved_at`,
+      data age from `valid_time`/`source_run_time` with per-source thresholds; `stale_level` is the worse
+      of the two): fresh -> stale -> expired still serve the last cached data with the staleness stated;
+      **HTTP 503 is returned only when no cached data exists at all** (or the provider/payload fails
+      closed). Weather values are never invented or defaulted.
+    * While the backend runs on the MockProvider every response carries `X-Mock-Data: true` and
+      `X-Data-Mode: mock`, and payloads keep `model_version: example-not-a-real-model`.
+    * Timestamps are ISO 8601 UTC with `Z`; dates are local America/Toronto calendar dates
+      (`grid_spec.md`). Every response carries `X-Request-ID` (an inbound `X-Request-ID` matching
+      `[A-Za-z0-9._-]{8,64}` is echoed, otherwise one is generated).
+  license:
+    name: Course project (COMP-385)
+    identifier: LicenseRef-COMP-385
+servers:
+  - url: http://127.0.0.1:8000
+    description: Local Docker Compose / uvicorn (loopback by default)
+tags:
+  - name: ignition
+  - name: spread
+  - name: weather
+  - name: ops
+paths:
+  /healthz:
+    get:
+      tags: [ops]
+      operationId: getHealth
+      summary: Liveness probe (does not check upstream feeds; see /api/v1/ingestion/status)
+      responses:
+        "200":
+          description: Service is up.
+          headers: &commonHeaders
+            X-Request-ID: {$ref: "#/components/headers/XRequestID"}
+            X-Data-Mode: {$ref: "#/components/headers/XDataMode"}
+            X-Mock-Data: {$ref: "#/components/headers/XMockData"}
+          content:
+            application/json:
+              schema: {$ref: "#/components/schemas/Health"}
+  /api/v1/ignition:
+    get:
+      tags: [ignition]
+      operationId: listIgnition
+      summary: Per-cell ignition probability for one local date
+      description: |
+        Returns an array of `ignition_output` records (one per cell, as the contract defines).
+        `top_k` limits the response to the k highest-probability cells (by `rank_in_day` when present).
+        `stale_level`, `age_minutes`, `stale_flag` and `stale_reason` on each record state staleness;
+        the same level is in `X-Stale-Level`.
+      parameters:
+        - name: date
+          in: query
+          required: true
+          description: Local America/Toronto calendar date.
+          schema: {type: string, pattern: '^\d{4}-\d{2}-\d{2}$', examples: ["2026-07-15"]}
+        - name: top_k
+          in: query
+          required: false
+          schema: {type: integer, minimum: 1, maximum: 10000}
+      responses:
+        "200":
+          description: Ignition records for the date.
+          headers: &dataHeaders
+            X-Request-ID: {$ref: "#/components/headers/XRequestID"}
+            X-Data-Mode: {$ref: "#/components/headers/XDataMode"}
+            X-Mock-Data: {$ref: "#/components/headers/XMockData"}
+            X-Stale-Level: {$ref: "#/components/headers/XStaleLevel"}
+            X-Data-Timestamp: {$ref: "#/components/headers/XDataTimestamp"}
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {$ref: "./ignition_output.schema.json"}
+        "400": {$ref: "#/components/responses/BadRequest"}
+        "404": {$ref: "#/components/responses/NotFound"}
+        "503": {$ref: "#/components/responses/Unavailable"}
+  /api/v1/ignition/{cell_id}:
+    get:
+      tags: [ignition]
+      operationId: getIgnitionCell
+      summary: Ignition probability for one cell and local date
+      parameters:
+        - name: cell_id
+          in: path
+          required: true
+          schema: {type: string, pattern: '^ofr10km_-?[0-9]+_-?[0-9]+$', examples: ["ofr10km_-10000_100000"]}
+        - name: date
+          in: query
+          required: true
+          schema: {type: string, pattern: '^\d{4}-\d{2}-\d{2}$'}
+      responses:
+        "200":
+          description: One ignition record.
+          headers: *dataHeaders
+          content:
+            application/json:
+              schema: {$ref: "./ignition_output.schema.json"}
+        "400": {$ref: "#/components/responses/BadRequest"}
+        "404": {$ref: "#/components/responses/NotFound"}
+        "503": {$ref: "#/components/responses/Unavailable"}
+  /api/v1/spread:
+    post:
+      tags: [spread]
+      operationId: runSpread
+      summary: Point-start fire-spread run (1/3/6 h, p10/p50/p90 burn-probability contours)
+      description: |
+        Returns a `spread_output` FeatureCollection. Top-level `stale_level` / `age_minutes` and
+        `inputs.stale_flag` state input staleness; an `expired` input needs a UI confirmation before a
+        run. 1 h and 3 h horizons are unvalidated (see `validated_horizons_h`); clients must label them;
+        when `uncertainty_status` is `not_estimated` the bands are not uncertainty.
+
+        **Synchronous with a 60 s limit** (`RELAY_SPREAD_TIMEOUT_S`; BLAZE measured about 4 s for 200
+        synthetic runs). Over the limit: 504 `spread_timeout`, nothing served. The 200 body is the bare
+        contract object so an asynchronous mode can be added later without changing it:
+        `x-future-async`: `POST` with `Prefer: respond-async` would return 202 `{job_id, status_url}`
+        and `GET /api/v1/spread/jobs/{job_id}` would return the same `spread_output` once done. Not implemented.
+        The point must be inside the coarse Ontario box (lon -95.5..-74.0, lat 41.5..57.0), else 400
+        `out_of_domain`. The mock provider moves the example polygon to the requested point and echoes
+        `start_time`, `n_runs`, `seed`; it does not simulate anything.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: "#/components/schemas/SpreadRequest"}
+            example: {longitude: -85.0, latitude: 50.0, start_time: "2026-07-15T16:00:00Z", n_runs: 100, seed: 385}
+      responses:
+        "200":
+          description: Spread contours.
+          headers: *dataHeaders
+          content:
+            application/json:
+              schema: {$ref: "./spread_output.schema.json"}
+        "400": {$ref: "#/components/responses/BadRequest"}
+        "503": {$ref: "#/components/responses/Unavailable"}
+        "504": {$ref: "#/components/responses/Timeout"}
+  /api/v1/weather/latest:
+    get:
+      tags: [weather]
+      operationId: getLatestWeather
+      summary: Latest cached weather record for a point or a cell
+      description: Provide either `cell_id`, or both `lat` and `lon` (not a mix).
+      parameters:
+        - name: lat
+          in: query
+          schema: {type: number, minimum: -90, maximum: 90}
+        - name: lon
+          in: query
+          schema: {type: number, minimum: -180, maximum: 180}
+        - name: cell_id
+          in: query
+          schema: {type: string, pattern: '^ofr10km_-?[0-9]+_-?[0-9]+$'}
+      responses:
+        "200":
+          description: Weather record with `stale_level`, `age_minutes` and `from_cache`.
+          headers: *dataHeaders
+          content:
+            application/json:
+              schema: {$ref: "./live_weather_record.schema.json"}
+        "400": {$ref: "#/components/responses/BadRequest"}
+        "503": {$ref: "#/components/responses/Unavailable"}
+  /api/v1/ingestion/status:
+    get:
+      tags: [ops]
+      operationId: getIngestionStatus
+      summary: Per-source ingestion and cache status
+      description: "Always 200, including when a source has never succeeded (stale_level no_cache)."
+      responses:
+        "200":
+          description: Status per upstream source.
+          headers: *commonHeaders
+          content:
+            application/json:
+              schema: {$ref: "#/components/schemas/IngestionStatus"}
+components:
+  headers:
+    XRequestID:
+      description: Request correlation ID (echoed or generated).
+      schema: {type: string, pattern: '^[A-Za-z0-9._-]{8,64}$'}
+    XDataMode:
+      description: "`mock` while served by the MockProvider; `live` when served by the LiveProvider."
+      schema: {enum: [mock, live]}
+    XMockData:
+      description: "`true` when the payload is mock/example data, not a model result or real weather."
+      schema: {enum: ["true", "false"]}
+    XStaleLevel:
+      description: Worst staleness of the inputs behind this response (cache_fallback.md).
+      schema: {enum: [fresh, stale, expired]}
+    XDataTimestamp:
+      description: Newest input time actually used (UTC, Z). Never the serving time.
+      schema: {type: string, format: date-time}
+  responses:
+    BadRequest:
+      description: Invalid or unknown parameter, malformed body, point outside the domain.
+      content:
+        application/json:
+          schema: {$ref: "#/components/schemas/ErrorResponse"}
+    NotFound:
+      description: No data for that cell/date (or unknown route).
+      content:
+        application/json:
+          schema: {$ref: "#/components/schemas/ErrorResponse"}
+    Timeout:
+      description: "The synchronous spread run exceeded its time limit (reason spread_timeout). Nothing is served."
+      content:
+        application/json:
+          schema: {$ref: "#/components/schemas/ErrorResponse"}
+    Unavailable:
+      description: |
+        No cached data exists at all (`reason: no_cached_data`, `last_cache_time: null`), the provider
+        failed (`provider_unavailable`) or produced a contract-invalid payload (`invalid_provider_payload`).
+        Fail closed: no probability or weather value is guessed. Body always carries `error`, `reason`,
+        `last_cache_time` (nullable) and the exact disclaimer.
+      content:
+        application/json:
+          schema: {$ref: "#/components/schemas/ErrorResponse"}
+          example:
+            status: 503
+            error: No cached data exists yet; no successful ingestion has completed.
+            reason: no_cached_data
+            last_cache_time: null
+            request_id: 0123456789abcdef0123456789abcdef
+            disclaimer: Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.
+  schemas:
+    Health:
+      type: object
+      additionalProperties: false
+      required: [status, mode, mock, contract_version, api_version, time]
+      properties:
+        status: {const: ok}
+        mode: {enum: [mock, live]}
+        mock: {type: boolean}
+        contract_version: {type: string}
+        api_version: {type: string}
+        time: {type: string, format: date-time, pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$'}
+    SpreadRequest:
+      type: object
+      additionalProperties: false
+      required: [longitude, latitude, start_time]
+      properties:
+        longitude: {type: number, minimum: -180, maximum: 180}
+        latitude: {type: number, minimum: -90, maximum: 90}
+        start_time:
+          type: string
+          format: date-time
+          pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$'
+          description: UTC with Z. Rejected if before 2000-01-01 or more than 48 h after the server clock.
+        n_runs: {type: integer, minimum: 1, maximum: 1000, description: "Monte Carlo ensemble size (server default if omitted)"}
+        seed: {type: integer, minimum: 0, maximum: 2147483647}
+    ErrorResponse:
+      type: object
+      additionalProperties: false
+      required: [status, error, reason, last_cache_time, request_id, disclaimer]
+      properties:
+        status: {type: integer, enum: [400, 404, 405, 500, 503, 504]}
+        error: {type: string, description: "Human-readable message; never contains secrets or internals."}
+        reason:
+          type: string
+          description: Machine-readable cause.
+          examples: [invalid_request, out_of_domain, not_found, route_not_found, method_not_allowed,
+                     no_cached_data, provider_unavailable, invalid_provider_payload, spread_timeout, internal_error]
+        last_cache_time:
+          type: [string, "null"]
+          format: date-time
+          description: UTC time of the newest data ever cached for this request; null when nothing was ever cached (and for 400/404).
+        request_id: {type: string}
+        disclaimer:
+          const: Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.
+        details: {type: array, items: {type: object}}
+    IngestionStatus:
+      type: object
+      additionalProperties: false
+      required: [sources, cache_policy, generated_at]
+      properties:
+        mock: {type: boolean, description: "Present and true while on the MockProvider."}
+        note: {type: string}
+        generated_at: {type: string, format: date-time, pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$'}
+        cache_policy:
+          type: object
+          description: "Thresholds in force (cache_fallback.md). proposal is true until Team Lead approves."
+          required: [proposal, poll_interval_minutes, fresh_max_minutes, stale_max_minutes, fetch_timeout_seconds]
+          properties:
+            proposal: {type: boolean}
+            data_age_thresholds_tbd: {type: boolean, description: "True until Team Lead sets per-source data-age thresholds from the 24 h cadence measurement."}
+            data_age:
+              type: object
+              description: Per-source data-age thresholds in minutes (placeholders while data_age_thresholds_tbd).
+              additionalProperties:
+                type: object
+                required: [fresh_max_minutes, stale_max_minutes]
+                properties:
+                  fresh_max_minutes: {type: number}
+                  stale_max_minutes: {type: number}
+            poll_interval_minutes: {type: number}
+            fresh_max_minutes: {type: number}
+            stale_max_minutes: {type: number}
+            fetch_timeout_seconds: {type: number}
+        sources:
+          type: array
+          items: {$ref: "#/components/schemas/SourceStatus"}
+    SourceStatus:
+      type: object
+      additionalProperties: false
+      required: [source, last_success_retrieved_at, last_source_time, last_error, stale_level, consecutive_failures]
+      properties:
+        source: {type: string, description: "e.g. hrdps_geomet_wms, cwfis_firewx_stns_current, msc_swob_realtime"}
+        last_success_retrieved_at:
+          type: [string, "null"]
+          format: date-time
+          description: When our pipeline last fetched this source successfully (null = never).
+        last_source_time:
+          type: [string, "null"]
+          format: date-time
+          description: The upstream's own time for that data (after the plausibility check); null = never.
+        last_error: {type: [string, "null"], description: "Last failure text, secret-free; null if the last poll succeeded."}
+        stale_level: {enum: [fresh, stale, expired, no_cache]}
+        consecutive_failures: {type: integer, minimum: 0}
+# ---------------------------------------------------------------------------------------------
+# Proposed contract change requests (NOT applied; need Team Lead approval). Mirrored in the RELAY report.
+# (v0.2.0 already adopted: stale_level/age_minutes/mode on outputs, two-age staleness, uncertainty_status, empty bands.)
+x-change-requests:
+  - id: CR-2
+    target: "new contracts/error.schema.json and ingestion_status.schema.json"
+    change: "Promote ErrorResponse and IngestionStatus above to standalone JSON Schemas so every lane validates against one file (they are inline in this draft)."
+  - id: CR-3
+    target: "ignition_output.schema.json / grid_spec.md"
+    change: "Decide whether the list response needs an envelope (data_timestamp, stale_level, mock flag once per response instead of per record). Draft keeps the contract's bare array."
+  - id: CR-4
+    target: "all payload schemas"
+    change: "Add an optional `mock` boolean, or require model_version to start with example- for mock data, so mock-ness is machine-checkable in the body. Schemas are additionalProperties:false, so today it is only the X-Mock-Data / X-Data-Mode headers."
+  - id: CR-5
+    target: "live_weather_record.schema.json"
+    change: "age_minutes is described as now-retrieved_at or now-valid_time. Under the v0.2.0 two-age model pin it to the age of the input that sets stale_level, and add fetch_age_minutes / data_age_minutes (optional) so the UI can show both."
+  - id: CR-6
+    target: "ignition_output.schema.json, spread_output.schema.json, cache_fallback.md"
+    change: "Both outputs take one stale_level but are built from several feeds (HRDPS, CWFIS, swob). State that stale_level is the worst across all feeds used, and add an optional stale_sources array [{source, stale_level, age_minutes}] so the cause is machine-readable."
+  - id: CR-7
+    target: "openapi.yaml status codes"
+    change: "Spread timeout returns 504 spread_timeout (not 503), keeping 503 for no cached data / fail-closed, as decided. Confirm."
