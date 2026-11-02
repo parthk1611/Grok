@@ -68,7 +68,7 @@ function IgnitionBody({ records }: { records: IgnitionRecord[] }) {
         k="staleness"
         v={
           <>
-            <LevelChip assessment={a} /> age {formatAge(a.ageMinutes)} · stale_flag {String(rec.stale_flag)} · mode {a.mode}
+            <LevelChip assessment={a} /> data age {formatAge(a.ageMinutes)} · stale_flag {String(rec.stale_flag)} · mode {a.mode}
           </>
         }
       />
@@ -135,15 +135,23 @@ function WeatherBody({ rec }: { rec: WeatherRecord }) {
       <KV k="kind" v={rec.kind} />
       <KV k="location" v={`${rec.latitude.toFixed(3)}°N, ${rec.longitude.toFixed(3)}°E`} />
       <TimeStamp iso={rec.valid_time} label="valid_time" />
+      {rec.source_run_time && <TimeStamp iso={rec.source_run_time} label="source_run_time" />}
+      {rec.kind === 'forecast' && <KV k="forecast lead" v={rec.forecast_lead_h == null ? <span className="missing">not provided</span> : `${rec.forecast_lead_h} h`} />}
       <TimeStamp iso={rec.retrieved_at} label="retrieved_at" />
       <KV
         k="staleness"
         v={
           <>
-            <LevelChip assessment={a} /> age {formatAge(rec.age_minutes)} · {a.mode}
+            <LevelChip assessment={a} /> {a.mode}
           </>
         }
       />
+      <KV k="data age" v={`${formatAge(rec.age_minutes)} (${a.ageBasis})`} />
+      <KV
+        k="fetch age"
+        v={rec.fetch_age_minutes === undefined ? <span className="missing">not provided</span> : `${formatAge(rec.fetch_age_minutes)} (now - retrieved_at)${a.fetchLevel ? `, ${a.fetchLevel}` : ''}`}
+      />
+      <KV k="declared stale_level" v={`${rec.stale_level} (worse of the two ages)`} />
       <KV k="wind" v={<>{fmtNum(rec.wind_speed_kmh, ' km/h')} from {fmtNum(rec.wind_direction_deg, '°', 0)}</>} />
       <KV k="temp" v={fmtNum(rec.temp_c, ' °C')} />
       <KV k="RH" v={fmtNum(rec.rh_pct, ' %', 0)} />

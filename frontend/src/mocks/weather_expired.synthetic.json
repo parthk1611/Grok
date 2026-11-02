@@ -16,5 +16,6 @@
   "precip_period_h": 1,
   "age_minutes": 480,
   "stale_level": "expired",
-  "from_cache": true
+  "from_cache": true,
+  "fetch_age_minutes": 400
 }

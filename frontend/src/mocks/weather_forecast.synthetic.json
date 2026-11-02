@@ -1,0 +1,23 @@
+{
+  "record_id": "synthetic-forecast",
+  "source": "synthetic-forecast-placeholder",
+  "kind": "forecast",
+  "latitude": 50.0,
+  "longitude": -90.0,
+  "valid_time": "2026-07-15T16:30:00Z",
+  "retrieved_at": "2026-07-15T16:05:00Z",
+  "temp_c": 22.0,
+  "rh_pct": 35,
+  "wind_speed_kmh": 15.0,
+  "wind_direction_deg": 270,
+  "wind_u_kmh": 15.0,
+  "wind_v_kmh": 0.0,
+  "precip_mm": 0.0,
+  "precip_period_h": 1,
+  "age_minutes": 330,
+  "stale_level": "fresh",
+  "from_cache": false,
+  "source_run_time": "2026-07-15T10:30:00Z",
+  "forecast_lead_h": 6,
+  "fetch_age_minutes": 5
+}

@@ -12,21 +12,22 @@ import ignitionSparse from './ignition_sparse.synthetic.json';
 import weatherStale from './weather_stale.synthetic.json';
 import weatherExpired from './weather_expired.synthetic.json';
 import weatherSparse from './weather_sparse.synthetic.json';
+import weatherForecast from './weather_forecast.synthetic.json';
 import spreadSparse from './spread_sparse.synthetic.json';
 import { torontoDate } from '../lib/time';
 import type { LonLat } from '../geo/cell';
-import type { IgnitionRecord, SpreadOutput, StaleLevel } from '../types';
+import type { IgnitionRecord, SpreadOutput, StaleLevel, WeatherRecord } from '../types';
 
 export const SCENARIOS = ['fresh', 'stale', 'expired', 'invalid', 'sparse', 'rich'] as const;
 export type Scenario = (typeof SCENARIOS)[number];
 
 export const SCENARIO_HELP: Record<Scenario, string> = {
-  fresh: 'Valid examples; ignition = retrospective, spread = hindcast; inputs ~10 min old',
+  fresh: 'Valid examples; ignition = retrospective, spread = hindcast; inputs ~10 min old (weather has no fetch_age_minutes)',
   stale: 'stale_level stale (+ stale_flag true), inputs ~2 h old',
   expired: 'stale_level expired (+ stale_flag true), inputs ~8 h old; spread needs confirmation',
   invalid: 'contracts/examples/bad_* payloads: must render explicit error states',
   sparse: 'Minimal: mode forecast, null values, no optional fields, spread n_runs=1 (uncertainty not estimated), validated_horizons_h empty, one empty band',
-  rich: 'Everything optional present: calibration, feature_set_version, rank, weather_series, forecast_like spread, empty 1 h p90 band',
+  rich: 'Everything optional present: calibration, feature_set_version, rank, weather_series, forecast_like spread, empty 1 h p90 band, forecast weather record (source_run_time, fetch age)',
 };
 
 const MIN = 60_000;
@@ -67,11 +68,26 @@ export function mockIgnition(scenario: Scenario, now: Date): unknown {
 export function mockWeather(scenario: Scenario, now: Date, point: LonLat | null): unknown {
   if (scenario === 'invalid') return clone(badWeatherLevel);
   const base =
-    scenario === 'stale' ? weatherStale : scenario === 'expired' ? weatherExpired : scenario === 'sparse' ? weatherSparse : weatherExample;
-  const rec = clone(base) as typeof weatherExample;
-  const retrieved = now.getTime() - rec.age_minutes * MIN;
-  rec.retrieved_at = iso(retrieved);
-  rec.valid_time = iso(retrieved - 5 * MIN);
+    scenario === 'stale'
+      ? weatherStale
+      : scenario === 'expired'
+        ? weatherExpired
+        : scenario === 'sparse'
+          ? weatherSparse
+          : scenario === 'rich'
+            ? weatherForecast
+            : weatherExample;
+  const rec = clone(base) as unknown as WeatherRecord;
+  // v0.2.1: age_minutes = DATA age (valid_time for observations, source_run_time for forecasts);
+  // fetch_age_minutes (optional) = fetch health (retrieved_at).
+  const anchor = now.getTime() - rec.age_minutes * MIN;
+  if (rec.kind === 'forecast') {
+    rec.source_run_time = iso(anchor);
+    rec.valid_time = iso(anchor + (rec.forecast_lead_h ?? 0) * 60 * MIN);
+  } else {
+    rec.valid_time = iso(anchor);
+  }
+  rec.retrieved_at = iso(rec.fetch_age_minutes !== undefined ? now.getTime() - rec.fetch_age_minutes * MIN : anchor + 5 * MIN);
   if (point) {
     rec.longitude = Number(point[0].toFixed(5));
     rec.latitude = Number(point[1].toFixed(5));

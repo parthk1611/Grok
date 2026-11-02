@@ -44,7 +44,8 @@ export function StaleBanner({ assessment, subject }: { assessment: StalenessAsse
       <strong>{expired ? 'EXPIRED DATA' : 'STALE DATA'}</strong> - {subject}{' '}
       {expired ? 'is expired and must not be treated as current.' : 'is older than expected; cached or late inputs were used.'}
       <div className="banner-detail">
-        Age at generation: {formatAge(assessment.ageMinutes)} (from {assessment.ageBasis}) · mode: {assessment.mode}
+        Data age: {formatAge(assessment.ageMinutes)} (from {assessment.ageBasis}) · fetch age:{' '}
+        {assessment.fetchAgeMinutes === undefined ? 'not provided' : formatAge(assessment.fetchAgeMinutes)} · mode: {assessment.mode}
         {assessment.reasons.length > 0 && (
           <ul>
             {assessment.reasons.map((r) => (
@@ -53,8 +54,8 @@ export function StaleBanner({ assessment, subject }: { assessment: StalenessAsse
           </ul>
         )}
         <span className="muted">
-          Thresholds ({STALENESS_THRESHOLDS.status}, cache_fallback.md): fresh ≤ {STALENESS_THRESHOLDS.freshMaxMinutes} min, stale ≤{' '}
-          {STALENESS_THRESHOLDS.staleMaxMinutes / 60} h, expired beyond.
+          Fetch-health thresholds ({STALENESS_THRESHOLDS.status}, cache_fallback.md): fresh ≤ {STALENESS_THRESHOLDS.freshMaxMinutes} min, stale ≤{' '}
+          {STALENESS_THRESHOLDS.staleMaxMinutes / 60} h, expired beyond. Per-source data-age limits: TBD.
         </span>
       </div>
     </div>

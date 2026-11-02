@@ -116,7 +116,10 @@ export interface WeatherRecord {
   wind_v_kmh?: number | null;
   precip_mm: number | null;
   precip_period_h?: number | null;
+  /** v0.2.1: DATA age (now - valid_time for observations, now - source_run_time for forecasts). */
   age_minutes: number;
+  /** v0.2.1: optional fetch health (now - retrieved_at). */
+  fetch_age_minutes?: number;
   stale_level: StaleLevel;
   from_cache: boolean;
   quality_flags?: string[];

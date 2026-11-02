@@ -7,7 +7,7 @@
 > observation, or a forecast. The UI says so with a persistent MOCK banner and a MOCK badge on every panel.
 > This is a research-estimate UI; it does not replace official fire alerts or evacuation orders.
 
-Vite + React + TypeScript + MapLibre GL JS. Built against **contract v0.2.0** (`/contracts`, read-only
+Vite + React + TypeScript + MapLibre GL JS. Built against **contract v0.2.1** (`/contracts`, read-only
 for this lane).
 
 ## Run
@@ -46,13 +46,16 @@ npm run lint      # tsc --noEmit
 - **Timestamps** in UTC and America/Toronto (DST-aware via `Intl`), `model_version`, and the payload's
   exact disclaimer string (falling back to the contract constant) on every output; the disclaimer is also
   in a persistent footer.
-- **Staleness**: `stale_level` / `age_minutes` / `stale_flag` / `stale_reason` drive a stale (amber) or
-  expired (red, distinct) banner. For safety the level shown is the *worse* of the declared `stale_level`
-  and the level recomputed from `age_minutes` with the thresholds in `src/config.ts`
-  (30 min / 6 h from `contracts/cache_fallback.md`, **proposed**; per-source data-age thresholds are still
-  TBD in the contract). A disagreement is noted in the banner. When the weather for a spread run is
-  expired (or could not be validated) the user must confirm before the run, and the result is marked
-  DEGRADED.
+- **Staleness** (two ages, contract v0.2.1): `stale_level` is the worse of *fetch health* (now - `retrieved_at`;
+  weather `fetch_age_minutes`, optional) and *data age* (`age_minutes`: now - `valid_time` for observations, now -
+  `source_run_time` for forecasts). The weather panel and the stale/expired banners show **both ages**
+  (fetch age says "not provided" when absent), plus `source_run_time` and lead for forecasts. `stale_level` /
+  `stale_flag` / `stale_reason` drive a stale (amber) or expired (red, distinct) banner. The declared
+  `stale_level` is the baseline; because per-source data-age limits are still TBD in the contract, generic limits
+  are **not** applied to the data age (a note is shown if it exceeds them). Fetch age, when present, is
+  cross-checked against the proposed 30 min / 6 h fetch-health limits in `src/config.ts` (**proposed**) and the
+  worse level is shown if it disagrees. When the weather for a spread run is expired (or could not be
+  validated) the user must confirm before the run, and the result is marked DEGRADED.
 - **Invalid payloads** never render silently: every payload is validated with Ajv (draft 2020-12 +
   ajv-formats) against the schemas imported read-only from `../contracts`, and a failure shows an explicit
   error state listing the schema errors.
@@ -87,7 +90,8 @@ src/components/ map, panels, banners, footer, dev toggle, confirm dialog
 ## Notes / limitations
 
 - No real HTTP adapter yet: endpoints are defined by RELAY's `contracts/openapi.yaml` (pending approval).
-- Contract schemas use `if/then/else` branches without `type: object`, so Ajv `strictTypes` is switched
-  off in `src/lib/contract.ts` (schemas are not modified).
+- Contract schemas use `if/then/else` branches without `type: object` (and `required` for properties declared
+  outside the branch), so Ajv `strictTypes` and `strictRequired` are switched off in `src/lib/contract.ts`
+  (schemas are not modified).
 - The maplibre-gl v6 worker is bundled explicitly (`?worker&url`) because the default relative worker
   path breaks under Vite's asset bundling.
