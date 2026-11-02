@@ -17,7 +17,9 @@ export const DISCLAIMER: string = (
 
 export const MOCK_MODEL_VERSION = 'example-not-a-real-model';
 
-const ajv = new Ajv2020({ allErrors: true, strict: true, allowUnionTypes: true });
+// strictTypes is off because contract v0.2.0's stale_flag if/then/else branches use `properties`
+// without `type: object` (we must not edit the schemas). Unknown keywords/formats still throw.
+const ajv = new Ajv2020({ allErrors: true, strict: true, strictTypes: false });
 addFormats(ajv);
 
 const validateIgnitionFn = ajv.compile<IgnitionRecord>(ignitionSchema);

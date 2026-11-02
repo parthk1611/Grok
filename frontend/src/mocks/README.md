@@ -17,14 +17,19 @@ weather observation, or a forecast.
 | File | Purpose |
 | --- | --- |
 | `ignition_extra_cells.synthetic.json` | 30 more cells (5x5 block around the example cell + 6 scattered) so the risk layer has something to draw |
-| `ignition_sparse.synthetic.json` | Minimal record: only required fields, `stale_reason: null` |
+| `ignition_sparse.synthetic.json` | Minimal record: only required fields, `mode: forecast`, `stale_reason: null` |
 | `weather_stale.synthetic.json` | `stale_level: stale`, from cache, 120 min |
 | `weather_expired.synthetic.json` | `stale_level: expired`, from cache, 480 min |
 | `weather_sparse.synthetic.json` | Every measured value `null` |
-| `spread_sparse.synthetic.json` | No `validated_horizons_h`, null `head_direction_deg` and inputs, only 1 h and 6 h horizons |
+| `spread_sparse.synthetic.json` | Contract v0.2.0 edge cases: `n_runs: 1`, `uncertainty_status: not_estimated`, empty `validated_horizons_h`, empty `perturbation`, null `head_direction_deg` and inputs, an empty p10 band at 1 h (empty MultiPolygon, `area_ha: 0`), only 1 h and 6 h horizons |
+
+Scenarios (dev toggle): `fresh`, `stale`, `expired`, `invalid` (the `bad_*` examples), `sparse`
+(the files above) and `rich` (optional fields filled in code: ignition `calibration`,
+`feature_set_version`, `rank_in_day`, spread `weather_series`, `mode: forecast_like`; the
+values are labelled `synthetic-*`).
 
 The base fixtures are the unmodified `contracts/examples/*.example.json`
-files, imported directly. At runtime `fixtures.ts` re-bases the **timestamps**
+files, imported directly. At runtime `fixtures.ts` re-bases the **timestamps and `age_minutes` / `stale_level` / `stale_flag`**
 (relative to the browser clock) so that "fresh", "stale" and "expired" are true
 relative to now; the spread polygons are rigidly translated to the clicked
 point (this is not a simulation). All outputs are re-validated against the

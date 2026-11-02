@@ -2,7 +2,7 @@
   "type": "FeatureCollection",
   "run_timestamp": "2026-07-15T16:00:00Z",
   "model_version": "example-not-a-real-model",
-  "n_runs": 100,
+  "n_runs": 1,
   "ignition_point": {
     "longitude": -90.0,
     "latitude": 50.0
@@ -20,44 +20,23 @@
     "bui": null,
     "fuel_type": null,
     "stale_flag": false,
-    "stale_reason": null
+    "stale_reason": null,
+    "fuel_source": "example-not-a-real-fuel-grid"
   },
+  "validated_horizons_h": [],
   "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
   "features": [
     {
       "type": "Feature",
       "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              -90.0,
-              50.0
-            ],
-            [
-              -89.986,
-              50.0
-            ],
-            [
-              -89.986,
-              50.014
-            ],
-            [
-              -90.0,
-              50.014
-            ],
-            [
-              -90.0,
-              50.0
-            ]
-          ]
-        ]
+        "type": "MultiPolygon",
+        "coordinates": []
       },
       "properties": {
         "horizon_h": 1,
         "band": "p10",
         "burn_probability_level": 0.1,
-        "area_ha": 140.0,
+        "area_ha": 0,
         "head_direction_deg": null
       }
     },
@@ -246,5 +225,13 @@
         "head_direction_deg": null
       }
     }
-  ]
+  ],
+  "mode": "forecast",
+  "stale_level": "fresh",
+  "age_minutes": 0,
+  "uncertainty_status": "not_estimated",
+  "grid_resolution_m": 90,
+  "perturbation": {
+    "parameters": []
+  }
 }

@@ -7,7 +7,10 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   },
   {
     "cell_id": "ofr10km_-10000_110000",
@@ -17,7 +20,10 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   },
   {
     "cell_id": "ofr10km_-10000_120000",
@@ -27,7 +33,10 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   },
   {
     "cell_id": "ofr10km_-10000_130000",
@@ -37,7 +46,10 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   },
   {
     "cell_id": "ofr10km_0_90000",
@@ -47,7 +59,10 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   },
   {
     "cell_id": "ofr10km_0_100000",
@@ -57,7 +72,10 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   },
   {
     "cell_id": "ofr10km_0_110000",
@@ -67,7 +85,10 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   },
   {
     "cell_id": "ofr10km_0_120000",
@@ -77,7 +98,10 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   },
   {
     "cell_id": "ofr10km_0_130000",
@@ -87,7 +111,10 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   },
   {
     "cell_id": "ofr10km_10000_90000",
@@ -97,7 +124,10 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   },
   {
     "cell_id": "ofr10km_10000_100000",
@@ -107,7 +137,10 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   },
   {
     "cell_id": "ofr10km_10000_110000",
@@ -117,7 +150,10 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   },
   {
     "cell_id": "ofr10km_10000_120000",
@@ -127,7 +163,10 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   },
   {
     "cell_id": "ofr10km_10000_130000",
@@ -137,7 +176,10 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   },
   {
     "cell_id": "ofr10km_20000_90000",
@@ -147,7 +189,10 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   },
   {
     "cell_id": "ofr10km_20000_100000",
@@ -157,7 +202,10 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   },
   {
     "cell_id": "ofr10km_20000_110000",
@@ -167,7 +215,10 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   },
   {
     "cell_id": "ofr10km_20000_120000",
@@ -177,7 +228,10 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   },
   {
     "cell_id": "ofr10km_20000_130000",
@@ -187,7 +241,10 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   },
   {
     "cell_id": "ofr10km_30000_90000",
@@ -197,7 +254,10 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   },
   {
     "cell_id": "ofr10km_30000_100000",
@@ -207,7 +267,10 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   },
   {
     "cell_id": "ofr10km_30000_110000",
@@ -217,7 +280,10 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   },
   {
     "cell_id": "ofr10km_30000_120000",
@@ -227,7 +293,10 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   },
   {
     "cell_id": "ofr10km_30000_130000",
@@ -237,7 +306,10 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   },
   {
     "cell_id": "ofr10km_160000_310000",
@@ -247,7 +319,10 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   },
   {
     "cell_id": "ofr10km_950000_-210000",
@@ -257,7 +332,10 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   },
   {
     "cell_id": "ofr10km_110000_190000",
@@ -267,7 +345,10 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   },
   {
     "cell_id": "ofr10km_380000_430000",
@@ -277,7 +358,10 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   },
   {
     "cell_id": "ofr10km_1390000_-240000",
@@ -287,7 +371,10 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   },
   {
     "cell_id": "ofr10km_800000_450000",
@@ -297,6 +384,9 @@
     "data_timestamp": "2026-07-14T20:00:00Z",
     "stale_flag": false,
     "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
-    "grid_version": "ofr10km-v1"
+    "grid_version": "ofr10km-v1",
+    "mode": "retrospective",
+    "stale_level": "fresh",
+    "age_minutes": 0
   }
 ]

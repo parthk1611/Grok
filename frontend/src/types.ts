@@ -4,6 +4,8 @@
 import type { Feature, Polygon, MultiPolygon } from 'geojson';
 
 export type StaleLevel = 'fresh' | 'stale' | 'expired';
+export type OutputMode = 'retrospective' | 'hindcast' | 'forecast_like' | 'forecast';
+export type UncertaintyStatus = 'estimated' | 'not_estimated';
 
 export interface IgnitionRecord {
   cell_id: string;
@@ -13,7 +15,12 @@ export interface IgnitionRecord {
   data_timestamp: string;
   stale_flag: boolean;
   disclaimer: string;
+  mode: OutputMode;
+  stale_level: StaleLevel;
+  age_minutes: number;
   stale_reason?: string | null;
+  calibration?: string | null;
+  feature_set_version?: string;
   rank_in_day?: number;
   grid_version?: string;
   generated_at?: string;
@@ -45,6 +52,26 @@ export interface SpreadInputs {
   fuel_type?: string | null;
   stale_flag: boolean;
   stale_reason?: string | null;
+  fuel_source: string;
+  weather_series?: WeatherSeriesEntry[];
+}
+
+export interface WeatherSeriesEntry {
+  valid_time: string;
+  wind_speed_kmh: number;
+  wind_direction_deg: number;
+  temp_c?: number | null;
+  rh_pct?: number | null;
+  ffmc?: number | null;
+}
+
+export interface PerturbationParameter {
+  name: string;
+  distribution: 'normal' | 'uniform' | 'fixed';
+  sigma?: number;
+  low?: number;
+  high?: number;
+  value?: number;
 }
 
 export interface SpreadOutput {
@@ -57,8 +84,14 @@ export interface SpreadOutput {
   ignition_point: { longitude: number; latitude: number };
   start_time?: string;
   inputs: SpreadInputs;
-  validated_horizons_h?: Array<1 | 3 | 6>;
+  validated_horizons_h: Array<1 | 3 | 6>;
   disclaimer: string;
+  mode: OutputMode;
+  stale_level: StaleLevel;
+  age_minutes: number;
+  uncertainty_status: UncertaintyStatus;
+  grid_resolution_m: number;
+  perturbation: { parameters: PerturbationParameter[] };
 }
 
 export interface WeatherRecord {
