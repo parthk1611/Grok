@@ -1,0 +1,15 @@
+# Test/CI pins for the RELAY backend: runtime pins plus the packages the tests need.
+-r requirements.txt
+certifi==2026.10.23
+httpcore==1.0.9
+httpx==0.28.1
+jsonschema-path==0.5.0
+lazy-object-proxy==1.13.0
+openapi-schema-validator==0.9.0
+openapi-spec-validator==0.9.0
+pathable==0.6.0
+pydantic-settings==2.16.2
+python-dotenv==1.2.4
+PyYAML==6.0.3
+rfc3339-validator==0.1.4
+six==1.17.0
