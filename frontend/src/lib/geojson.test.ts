@@ -1,0 +1,30 @@
+import { describe, expect, it } from 'vitest';
+import { ignitionPointGeoJSON, ignitionToGeoJSON, spreadHorizonGeoJSON } from './geojson';
+import ignitionExample from '../../../contracts/examples/ignition_output.example.json';
+import spreadExample from '../../../contracts/examples/spread_output.example.json';
+import type { IgnitionRecord, SpreadOutput } from '../types';
+
+describe('geojson builders', () => {
+  it('ignition cells become closed polygons and report the max probability', () => {
+    const recs = [ignitionExample, { ...ignitionExample, cell_id: 'ofr10km_0_100000', probability: 0.0009 }] as IgnitionRecord[];
+    const { fc, skipped, maxProbability } = ignitionToGeoJSON(recs);
+    expect(skipped).toBe(0);
+    expect(fc.features).toHaveLength(2);
+    expect(fc.features[0].geometry.coordinates[0]).toHaveLength(5);
+    expect(maxProbability).toBe(0.0009);
+  });
+  it('counts (does not hide) unparseable cell ids', () => {
+    const { fc, skipped } = ignitionToGeoJSON([{ ...ignitionExample, cell_id: 'nonsense' }] as IgnitionRecord[]);
+    expect(fc.features).toHaveLength(0);
+    expect(skipped).toBe(1);
+  });
+  it('spread horizon filter returns 3 bands ordered p10, p50, p90', () => {
+    const fc = spreadHorizonGeoJSON(spreadExample as unknown as SpreadOutput, 3);
+    expect(fc.features.map((f) => (f.properties as { band: string }).band)).toEqual(['p10', 'p50', 'p90']);
+    expect(spreadHorizonGeoJSON(null, 3).features).toHaveLength(0);
+  });
+  it('ignition point feature', () => {
+    const fc = ignitionPointGeoJSON(spreadExample as unknown as SpreadOutput);
+    expect(fc.features[0].geometry).toEqual({ type: 'Point', coordinates: [-90, 50] });
+  });
+});
