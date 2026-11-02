@@ -1,0 +1,10 @@
+{
+  "cell_id": "ofr10km_-10000_100000",
+  "date": "2026-07-15",
+  "probability": 0.0004,
+  "model_version": "example-not-a-real-model",
+  "data_timestamp": "2026-07-14T20:00:00Z",
+  "stale_flag": false,
+  "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
+  "grid_version": "ofr10km-v1"
+}

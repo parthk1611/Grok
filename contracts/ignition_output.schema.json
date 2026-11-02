@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/parthk1611/COMP-385/contracts/ignition_output.schema.json",
+  "title": "Ignition probability record (contract v0.1.0)",
+  "description": "One record per grid cell per local day. The API returns an array of these records. Probability is the model's estimated chance of at least one ignition in that 10 km cell on that local America/Toronto day; it is not a precision. See grid_spec.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "cell_id",
+    "date",
+    "probability",
+    "model_version",
+    "data_timestamp",
+    "stale_flag",
+    "disclaimer"
+  ],
+  "properties": {
+    "cell_id": {
+      "type": "string",
+      "pattern": "^ofr10km_-?[0-9]+_-?[0-9]+$",
+      "description": "ofr10km_{x0}_{y0}, EPSG:3978 SW corner in metres"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "Local America/Toronto calendar date the probability applies to"
+    },
+    "probability": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "P(>=1 ignition in cell on date). Base rate in the 2019 test is about 0.000286, so values are small"
+    },
+    "model_version": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Model identifier and version, e.g. a model family plus feature/cache version"
+    },
+    "data_timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$",
+      "description": "UTC time of the newest input observation or forecast used for this record"
+    },
+    "stale_flag": {
+      "type": "boolean",
+      "description": "True when any input is older than the thresholds in cache_fallback.md and cached data was used"
+    },
+    "disclaimer": {
+      "const": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders."
+    },
+    "stale_reason": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Optional human-readable reason when stale_flag is true"
+    },
+    "rank_in_day": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Optional rank of this cell among all cells on the date (1 = highest probability); supports top-k reporting"
+    },
+    "grid_version": {
+      "type": "string",
+      "description": "Optional grid version from grid_spec.md, e.g. ofr10km-v1"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$",
+      "description": "Optional UTC time this record was produced"
+    }
+  }
+}

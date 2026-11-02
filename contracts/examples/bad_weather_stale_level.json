@@ -1,0 +1,20 @@
+{
+  "record_id": "example-placeholder-2026-07-15T16:00Z",
+  "source": "example-placeholder",
+  "kind": "observation",
+  "latitude": 50.0,
+  "longitude": -90.0,
+  "valid_time": "2026-07-15T16:00:00Z",
+  "retrieved_at": "2026-07-15T16:05:00Z",
+  "temp_c": 22.0,
+  "rh_pct": 35,
+  "wind_speed_kmh": 15.0,
+  "wind_direction_deg": 270,
+  "wind_u_kmh": 15.0,
+  "wind_v_kmh": 0.0,
+  "precip_mm": 0.0,
+  "precip_period_h": 1,
+  "age_minutes": 10,
+  "stale_level": "old",
+  "from_cache": false
+}

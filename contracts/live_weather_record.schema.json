@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/parthk1611/COMP-385/contracts/live_weather_record.schema.json",
+  "title": "Live weather record (contract v0.1.0)",
+  "description": "One weather value set at one location and valid time, either an observation or a forecast hour. Units follow capability_2_fire_spread hourly weather columns. ATLAS confirms the real MSC source layers; `source` is free text until then. Secrets/API keys never appear in a record.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_id",
+    "source",
+    "kind",
+    "latitude",
+    "longitude",
+    "valid_time",
+    "retrieved_at",
+    "temp_c",
+    "rh_pct",
+    "wind_speed_kmh",
+    "wind_direction_deg",
+    "precip_mm",
+    "age_minutes",
+    "stale_level",
+    "from_cache"
+  ],
+  "properties": {
+    "record_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable ID: source + location key + valid_time"
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Provider and product, e.g. the MSC dataset or layer name"
+    },
+    "source_layer": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "kind": {
+      "enum": [
+        "observation",
+        "forecast"
+      ]
+    },
+    "source_run_time": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$",
+      "description": "Forecast model run time (forecasts only)"
+    },
+    "forecast_lead_h": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "latitude": {
+      "type": "number",
+      "minimum": -90,
+      "maximum": 90
+    },
+    "longitude": {
+      "type": "number",
+      "minimum": -180,
+      "maximum": 180
+    },
+    "station_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "cell_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^ofr10km_-?[0-9]+_-?[0-9]+$"
+    },
+    "valid_time": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$",
+      "description": "Time the values describe"
+    },
+    "retrieved_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$",
+      "description": "Time our pipeline fetched it"
+    },
+    "temp_c": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "rh_pct": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 100
+    },
+    "wind_speed_kmh": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "description": "10 m wind"
+    },
+    "wind_direction_deg": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 360,
+      "description": "Degrees the wind blows FROM"
+    },
+    "wind_gust_kmh": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "wind_u_kmh": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "description": "East component"
+    },
+    "wind_v_kmh": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "description": "North component"
+    },
+    "precip_mm": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "description": "Precipitation accumulated over precip_period_h"
+    },
+    "precip_period_h": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "exclusiveMinimum": 0
+    },
+    "age_minutes": {
+      "type": "number",
+      "minimum": 0,
+      "description": "now - retrieved_at at serving time for cached rows, or now - valid_time for observations; the rule is defined in cache_fallback.md"
+    },
+    "stale_level": {
+      "enum": [
+        "fresh",
+        "stale",
+        "expired"
+      ],
+      "description": "Per cache_fallback.md thresholds"
+    },
+    "from_cache": {
+      "type": "boolean",
+      "description": "True when this record was served from the cache because the live fetch failed or was late"
+    },
+    "quality_flags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Optional source quality or missing-value notes"
+    }
+  }
+}

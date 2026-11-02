@@ -1,0 +1,68 @@
+{
+  "type": "FeatureCollection",
+  "run_timestamp": "2026-07-15T16:00:00Z",
+  "model_version": "example-not-a-real-model",
+  "n_runs": 100,
+  "seed": 385,
+  "ignition_point": {
+    "longitude": -90.0,
+    "latitude": 50.0
+  },
+  "start_time": "2026-07-15T16:00:00Z",
+  "inputs": {
+    "weather_source": "example-placeholder",
+    "weather_valid_time": "2026-07-15T16:00:00Z",
+    "wind_speed_kmh": 15.0,
+    "wind_direction_deg": 270,
+    "temp_c": 22.0,
+    "rh_pct": 35,
+    "precip_mm": 0.0,
+    "ffmc": 88.0,
+    "bui": 60.0,
+    "fuel_type": null,
+    "stale_flag": false,
+    "stale_reason": null
+  },
+  "validated_horizons_h": [
+    6
+  ],
+  "disclaimer": "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -90,
+              50
+            ],
+            [
+              -89.99,
+              50
+            ],
+            [
+              -89.99,
+              50.01
+            ],
+            [
+              -90,
+              50.01
+            ],
+            [
+              -90,
+              50
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "horizon_h": 2,
+        "band": "p50",
+        "burn_probability_level": 0.5,
+        "area_ha": 1
+      }
+    }
+  ]
+}
