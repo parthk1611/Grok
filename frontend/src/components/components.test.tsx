@@ -59,6 +59,27 @@ describe('staleness banners', () => {
     expect(screen.getByTestId('expired-banner')).toBeInTheDocument();
     expect(screen.getByTestId('weather-panel')).toHaveTextContent('from cache');
   });
+  it('weather panel shows data age and fetch age (v0.2.1) when both are present', () => {
+    const rec = mockWeather('stale', NOW, null) as WeatherRecord;
+    render(<WeatherPanel state={{ ok: true, data: rec }} isMock />);
+    const p = screen.getByTestId('weather-panel');
+    expect(p).toHaveTextContent('data age');
+    expect(p).toHaveTextContent('2.0 h');
+    expect(p).toHaveTextContent('fetch age');
+    expect(p).toHaveTextContent('45 min');
+    expect(screen.getByTestId('stale-banner')).toHaveTextContent('fetch age: 45 min');
+  });
+  it('fetch age absent is stated as not provided', () => {
+    const rec = mockWeather('fresh', NOW, null) as WeatherRecord;
+    render(<WeatherPanel state={{ ok: true, data: rec }} isMock />);
+    expect(within(screen.getByTestId('weather-panel')).getByText('not provided')).toBeInTheDocument();
+  });
+  it('forecast weather shows source_run_time and lead', () => {
+    const rec = mockWeather('rich', NOW, null) as WeatherRecord;
+    render(<WeatherPanel state={{ ok: true, data: rec }} isMock />);
+    expect(screen.getByTestId('ts-source_run_time')).toHaveTextContent('(Toronto)');
+    expect(screen.getByTestId('weather-panel')).toHaveTextContent('6 h');
+  });
   it('weather nulls are shown as missing, not as 0', () => {
     const rec = mockWeather('sparse', NOW, null) as WeatherRecord;
     render(<WeatherPanel state={{ ok: true, data: rec }} isMock />);

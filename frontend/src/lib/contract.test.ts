@@ -14,6 +14,7 @@ import badIgnitionProbability from '../../../contracts/examples/bad_ignition_pro
 import badIgnitionNoDisclaimer from '../../../contracts/examples/bad_ignition_no_disclaimer.json';
 import badSpreadHorizon from '../../../contracts/examples/bad_spread_horizon.json';
 import badWeatherLevel from '../../../contracts/examples/bad_weather_stale_level.json';
+import badWeatherForecastNoRunTime from '../../../contracts/examples/bad_weather_forecast_no_run_time.json';
 
 describe('contract validation with Ajv (draft 2020-12)', () => {
   it('good contracts/examples pass', () => {
@@ -28,6 +29,7 @@ describe('contract validation with Ajv (draft 2020-12)', () => {
       ['bad_ignition_no_disclaimer', validateIgnitionRecord(badIgnitionNoDisclaimer), /disclaimer/],
       ['bad_spread_horizon', validateSpreadOutput(badSpreadHorizon) as never, /horizon_h/],
       ['bad_weather_stale_level', validateWeatherRecord(badWeatherLevel) as never, /stale_level/],
+      ['bad_weather_forecast_no_run_time', validateWeatherRecord(badWeatherForecastNoRunTime) as never, /source_run_time/],
     ];
     for (const [name, res, re] of cases) {
       expect(res.valid, name).toBe(false);
@@ -95,6 +97,18 @@ describe('contract validation with Ajv (draft 2020-12)', () => {
       sp.features[0].geometry = { type: 'MultiPolygon', coordinates: [] };
       sp.features[0].properties.area_ha = 0;
       expect(validateSpreadOutput(sp).valid).toBe(true);
+    });
+  });
+
+  describe('v0.2.1 weather rules', () => {
+    it('a forecast needs source_run_time; an observation does not', () => {
+      expect(validateWeatherRecord({ ...weatherExample, kind: 'forecast' }).valid).toBe(false);
+      expect(validateWeatherRecord({ ...weatherExample, kind: 'forecast', source_run_time: '2026-07-15T10:30:00Z' }).valid).toBe(true);
+      expect(validateWeatherRecord(weatherExample).valid).toBe(true);
+    });
+    it('fetch_age_minutes is optional, non-negative', () => {
+      expect(validateWeatherRecord({ ...weatherExample, fetch_age_minutes: 5 }).valid).toBe(true);
+      expect(validateWeatherRecord({ ...weatherExample, fetch_age_minutes: -1 }).valid).toBe(false);
     });
   });
 });

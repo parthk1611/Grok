@@ -8,7 +8,7 @@ import spreadSchema from '../../../contracts/spread_output.schema.json';
 import weatherSchema from '../../../contracts/live_weather_record.schema.json';
 import type { IgnitionRecord, SpreadOutput, WeatherRecord } from '../types';
 
-export const CONTRACT_VERSION = '0.2.0';
+export const CONTRACT_VERSION = '0.2.1';
 
 /** Fallback disclaimer constant, read from the schema's `const` (not retyped here). */
 export const DISCLAIMER: string = (
@@ -17,9 +17,10 @@ export const DISCLAIMER: string = (
 
 export const MOCK_MODEL_VERSION = 'example-not-a-real-model';
 
-// strictTypes is off because contract v0.2.0's stale_flag if/then/else branches use `properties`
-// without `type: object` (we must not edit the schemas). Unknown keywords/formats still throw.
-const ajv = new Ajv2020({ allErrors: true, strict: true, strictTypes: false });
+// strictTypes / strictRequired are off because the contract's if/then/else branches use `properties`
+// without `type: object` and `required` for properties declared outside the branch (we must not edit
+// the schemas). Unknown keywords and formats still throw.
+const ajv = new Ajv2020({ allErrors: true, strict: true, strictTypes: false, strictRequired: false });
 addFormats(ajv);
 
 const validateIgnitionFn = ajv.compile<IgnitionRecord>(ignitionSchema);

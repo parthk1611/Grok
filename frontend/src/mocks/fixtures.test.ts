@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { SCENARIOS, mockIgnition, mockSpread, mockWeather } from './fixtures';
-import type { IgnitionRecord, SpreadOutput } from '../types';
+import type { IgnitionRecord, SpreadOutput, WeatherRecord } from '../types';
 import { MOCK_MODEL_VERSION, validateIgnitionArray, validateSpreadOutput, validateWeatherRecord } from '../lib/contract';
 import { assessIgnition, assessSpread, assessWeather } from '../lib/staleness';
 import ignitionExtra from './ignition_extra_cells.synthetic.json';
@@ -8,6 +8,7 @@ import ignitionSparse from './ignition_sparse.synthetic.json';
 import weatherStale from './weather_stale.synthetic.json';
 import weatherExpired from './weather_expired.synthetic.json';
 import weatherSparse from './weather_sparse.synthetic.json';
+import weatherForecast from './weather_forecast.synthetic.json';
 import spreadSparse from './spread_sparse.synthetic.json';
 
 const NOW = new Date('2026-11-02T20:00:00Z');
@@ -17,7 +18,7 @@ describe('synthetic fixtures validate against the contract schemas', () => {
   it('static synthetic files', () => {
     expect(validateIgnitionArray(ignitionExtra).valid).toBe(true);
     expect(validateIgnitionArray(ignitionSparse).valid).toBe(true);
-    for (const w of [weatherStale, weatherExpired, weatherSparse]) expect(validateWeatherRecord(w).valid).toBe(true);
+    for (const w of [weatherStale, weatherExpired, weatherSparse, weatherForecast]) expect(validateWeatherRecord(w).valid).toBe(true);
     expect(validateSpreadOutput(spreadSparse).valid).toBe(true);
   });
   it('all synthetic outputs use model_version example-not-a-real-model', () => {
@@ -51,6 +52,22 @@ describe('scenario levels are consistent with their label', () => {
       expect(assessSpread(sp).level, `spread ${s}`).toBe(s);
       expect(assessSpread(sp).levelMismatch).toBe(false);
     }
+  });
+  it('weather fixtures: stale/expired carry fetch_age_minutes; rich is a forecast with source_run_time; fresh/sparse have none', () => {
+    const w = (sc: Parameters<typeof mockWeather>[0]) => mockWeather(sc, NOW, null) as WeatherRecord;
+    expect(w('stale').fetch_age_minutes).toBe(45);
+    expect(w('expired').fetch_age_minutes).toBe(400);
+    expect(w('fresh').fetch_age_minutes).toBeUndefined();
+    expect(w('sparse').fetch_age_minutes).toBeUndefined();
+    const f = w('rich');
+    expect(f.kind).toBe('forecast');
+    expect(new Date(f.source_run_time!).getTime()).toBe(NOW.getTime() - 330 * 60_000);
+    expect(f.forecast_lead_h).toBe(6);
+  });
+  it('rebased weather times: observation valid_time = now - age_minutes, retrieved_at = now - fetch_age', () => {
+    const w = mockWeather('stale', NOW, null) as WeatherRecord;
+    expect(new Date(w.valid_time).getTime()).toBe(NOW.getTime() - 120 * 60_000);
+    expect(new Date(w.retrieved_at).getTime()).toBe(NOW.getTime() - 45 * 60_000);
   });
   it('stale_flag always agrees with stale_level (schema rule)', () => {
     for (const s of SCENARIOS.filter((x) => x !== 'invalid')) {

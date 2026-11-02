@@ -18,8 +18,9 @@ weather observation, or a forecast.
 | --- | --- |
 | `ignition_extra_cells.synthetic.json` | 30 more cells (5x5 block around the example cell + 6 scattered) so the risk layer has something to draw |
 | `ignition_sparse.synthetic.json` | Minimal record: only required fields, `mode: forecast`, `stale_reason: null` |
-| `weather_stale.synthetic.json` | `stale_level: stale`, from cache, 120 min |
-| `weather_expired.synthetic.json` | `stale_level: expired`, from cache, 480 min |
+| `weather_stale.synthetic.json` | `stale_level: stale`, from cache, data age 120 min, fetch age 45 min |
+| `weather_expired.synthetic.json` | `stale_level: expired`, from cache, data age 480 min, fetch age 400 min |
+| `weather_forecast.synthetic.json` | `kind: forecast` with `source_run_time`, lead 6 h, data age 330 min declared fresh, fetch age 5 min |
 | `weather_sparse.synthetic.json` | Every measured value `null` |
 | `spread_sparse.synthetic.json` | Contract v0.2.0 edge cases: `n_runs: 1`, `uncertainty_status: not_estimated`, empty `validated_horizons_h`, empty `perturbation`, null `head_direction_deg` and inputs, an empty p10 band at 1 h (empty MultiPolygon, `area_ha: 0`), only 1 h and 6 h horizons |
 

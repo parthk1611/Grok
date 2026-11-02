@@ -46,10 +46,10 @@ describe('assessIgnition / assessSpread (v0.2.0: stale_level + age_minutes + mod
   it('declared expired stays expired even if age_minutes is small', () => {
     expect(assessIgnition({ stale_level: 'expired', age_minutes: 5, stale_flag: true, mode: 'forecast' }).level).toBe('expired');
   });
-  it('never shows fresher than age_minutes says (worse of declared and recomputed), and notes the disagreement', () => {
+  it('data age beyond the generic limits does NOT change the declared level (per-source limits are TBD) but is noted', () => {
     const a = assessIgnition({ stale_level: 'fresh', age_minutes: 500, stale_flag: false, mode: 'forecast' });
-    expect(a.level).toBe('expired');
-    expect(a.levelMismatch).toBe(true);
+    expect(a.level).toBe('fresh');
+    expect(a.dataAgeExceedsGenericLimits).toBe(true);
     expect(a.reasons.join(' ')).toContain('TBD');
   });
   it('spread reads stale_flag / stale_reason from inputs', () => {
@@ -59,24 +59,41 @@ describe('assessIgnition / assessSpread (v0.2.0: stale_level + age_minutes + mod
     expect(a.reasons.join(' ')).toContain('wx cached');
     expect(a.mode).toBe('hindcast');
   });
-  it('unknown age is treated as expired', () => {
-    expect(assessSpread({ stale_level: 'fresh', age_minutes: NaN, mode: 'hindcast', inputs: { stale_flag: false } }).level).toBe('expired');
+  it('NaN data age is flagged as exceeding limits', () => {
+    expect(assessSpread({ stale_level: 'expired', age_minutes: NaN, mode: 'hindcast', inputs: { stale_flag: true } }).level).toBe('expired');
   });
 });
 
-describe('assessWeather (stale_level declared in the contract)', () => {
-  it('honours a consistent declared level', () => {
-    const a = assessWeather({ stale_level: 'stale', age_minutes: 120, from_cache: true, kind: 'observation' });
+describe('assessWeather (v0.2.1: age_minutes = data age, fetch_age_minutes = fetch health)', () => {
+  const base = { from_cache: true, kind: 'observation' } as const;
+  it('honours a consistent declared level and reports both ages', () => {
+    const a = assessWeather({ ...base, stale_level: 'stale', age_minutes: 120, fetch_age_minutes: 45 });
     expect(a.level).toBe('stale');
+    expect(a.ageMinutes).toBe(120);
+    expect(a.fetchAgeMinutes).toBe(45);
+    expect(a.fetchLevel).toBe('stale');
     expect(a.levelMismatch).toBe(false);
     expect(a.mode).toBe('observation, from cache');
   });
-  it('shows the worse level when declared and recomputed disagree', () => {
-    const a = assessWeather({ stale_level: 'fresh', age_minutes: 500, from_cache: false, kind: 'forecast' });
+  it('fetch age absent: undefined, no cross-check', () => {
+    const a = assessWeather({ ...base, stale_level: 'fresh', age_minutes: 10 });
+    expect(a.fetchAgeMinutes).toBeUndefined();
+    expect(a.fetchLevel).toBeUndefined();
+    expect(a.level).toBe('fresh');
+  });
+  it('unhealthy fetch raises the displayed level above a (wrongly) fresher declared one', () => {
+    const a = assessWeather({ ...base, stale_level: 'fresh', age_minutes: 10, fetch_age_minutes: 500 });
     expect(a.level).toBe('expired');
     expect(a.levelMismatch).toBe(true);
+    expect(a.reasons.join(' ')).toContain('fetch age');
   });
-  it('declared expired stays expired even with a small age', () => {
-    expect(assessWeather({ stale_level: 'expired', age_minutes: 5, from_cache: true, kind: 'observation' }).level).toBe('expired');
+  it('declared expired stays expired even with small ages', () => {
+    expect(assessWeather({ ...base, stale_level: 'expired', age_minutes: 5, fetch_age_minutes: 5 }).level).toBe('expired');
+  });
+  it('a 5.5 h old forecast run declared fresh stays fresh (HRDPS-style; data-age limit is per source)', () => {
+    const a = assessWeather({ from_cache: false, kind: 'forecast', stale_level: 'fresh', age_minutes: 330, fetch_age_minutes: 5 });
+    expect(a.level).toBe('fresh');
+    expect(a.ageBasis).toContain('source_run_time');
+    expect(a.dataAgeExceedsGenericLimits).toBe(true);
   });
 });
