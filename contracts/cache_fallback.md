@@ -1,4 +1,4 @@
-# Cache and stale-data fallback rule (contract v0.2.0)
+# Cache and stale-data fallback rule (contract v0.2.1)
 
 Owner: RELAY. Consumers: EMBER, BLAZE, BEACON. **Thresholds below are proposed
 defaults, pending Team Lead approval and ATLAS confirmation of how often the
@@ -13,21 +13,23 @@ real MSC sources update.** Nothing here has been measured against a live feed ye
   returns malformed data, or fails schema validation against
   `live_weather_record.schema.json`. A failed fetch never overwrites a good cache entry.
 
-## Age and levels
+## Age and levels (two ages)
 
-`age_minutes` = serving time minus `retrieved_at` for the cached record
-(and, for observations, also check serving time minus `valid_time`).
+Staleness is judged on two separate ages. `stale_level` reports the **worse** of the two.
 
-| `stale_level` | Condition (proposed) | Behaviour |
-| --- | --- | --- |
-| `fresh` | age <= 30 min (two missed polls) | Normal. `stale_flag = false` |
-| `stale` | 30 min < age <= 6 h | Serve the cached record. `stale_flag = true`. UI shows a visible staleness warning with the age and the data time |
-| `expired` | age > 6 h | Serve the last cached record only with `stale_flag = true` and an "expired" banner. Spread runs are labelled degraded; the UI makes the user confirm, or enter wind and moisture by hand, before running. Never show it as current |
-| (no cache at all) | feed never succeeded | Return an explicit error (HTTP 503 with reason). Do not invent or default weather values |
+1. **Fetch health** = serving time minus `retrieved_at`. Tells us whether our polling works.
+2. **Data age** = serving time minus `valid_time` (observations) or minus `source_run_time` (forecasts such as HRDPS). Tells us how old the information itself is. This is what `age_minutes` reports; fetch health goes in `fetch_age_minutes`.
 
-Forecast records use the same levels, measured against `retrieved_at`, plus:
-a forecast whose `valid_time` is already in the past is treated as an
-observation substitute and flagged `stale` at least.
+| `stale_level` | Fetch health (proposed) | Data age (per source) | Behaviour |
+| --- | --- | --- | --- |
+| `fresh` | <= 30 min (two missed polls) | <= source fresh limit | Normal. `stale_flag = false` |
+| `stale` | 30 min to 6 h | <= source stale limit | Serve the cached record. `stale_flag = true`. UI shows a visible staleness warning with the age and the data time |
+| `expired` | > 6 h | > source stale limit | Serve the last cached record only with `stale_flag = true` and an "expired" banner. Spread runs are labelled degraded; the UI makes the user confirm, or enter wind and moisture by hand, before running. Never show it as current |
+| (no cache at all) | feed never succeeded | n/a | Return an explicit error (HTTP 503 with reason). Do not invent or default weather values |
+
+Per-source data-age limits are **TBD** until RELAY's and ATLAS's measured update cadence and publication lag are reviewed by Team Lead. Constraint already fixed: a model source's fresh limit must be at least its run cycle plus its measured publication lag (for HRDPS, more than 6 h; a sample showed the newest run already 5.5 h old at 23:31Z), so a healthy feed never reads as permanently stale.
+
+A forecast hour whose `valid_time` is already in the past may be used as an observation substitute but is flagged at least `stale`.
 
 ## Mapping to output contracts
 
@@ -52,11 +54,6 @@ Which MSC endpoint/layers to use (ATLAS), cache storage technology, and
 authentication. Keys and tokens live in environment variables or a secrets
 store, never in the repo or in a payload.
 
-## v0.2.0: two ages
+## Output fields
 
-Staleness is judged on two separate ages, and `stale_level` reports the worse of the two.
-
-1. **Fetch health**, measured from `retrieved_at`: fresh ≤ 30 min, stale ≤ 6 h, expired beyond that (unchanged proposal).
-2. **Data age**, measured from `valid_time` (observations) or `source_run_time` (model runs such as HRDPS), with per-source thresholds. HRDPS publishes every 6 h and the CWFIS station feed was seen at about 11 h old, so one threshold cannot fit every source. Per-source numbers are **placeholders (TBD)** until RELAY's 24 h update-cadence measurement is reviewed by Team Lead.
-
-`ignition_output` and `spread_output` carry `stale_level` (`fresh | stale | expired`) and `age_minutes`. `stale_flag` is kept for compatibility and must be true exactly when `stale_level` is not `fresh`. An expired spread input requires a UI confirmation step before a run. The 503 error body is defined in `contracts/openapi.yaml` (RELAY draft, pending Team Lead approval).
+`ignition_output` and `spread_output` carry `stale_level` (`fresh | stale | expired`) and `age_minutes` (filled by the API cache layer). `stale_flag` is kept for compatibility and must be true exactly when `stale_level` is not `fresh`. An expired spread input requires a UI confirmation step before a run. The 503 error body will be defined in the API spec once RELAY's draft is approved by Team Lead.

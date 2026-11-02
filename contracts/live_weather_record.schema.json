@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/parthk1611/COMP-385/contracts/live_weather_record.schema.json",
-  "title": "Live weather record (contract v0.2.0)",
+  "title": "Live weather record (contract v0.2.1)",
   "description": "One weather value set at one location and valid time, either an observation or a forecast hour. Units follow capability_2_fire_spread hourly weather columns. ATLAS confirms the real MSC source layers; `source` is free text until then. Secrets/API keys never appear in a record.",
   "type": "object",
   "additionalProperties": false,
@@ -49,7 +49,7 @@
       "type": "string",
       "format": "date-time",
       "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$",
-      "description": "Forecast model run time (forecasts only)"
+      "description": "Forecast model run time; required when kind = forecast"
     },
     "forecast_lead_h": {
       "type": [
@@ -85,7 +85,7 @@
       "type": "string",
       "format": "date-time",
       "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$",
-      "description": "Time the values describe"
+      "description": "Time the values describe; for precip_mm it is the END of the accumulation interval of length precip_period_h"
     },
     "retrieved_at": {
       "type": "string",
@@ -113,7 +113,7 @@
         "null"
       ],
       "minimum": 0,
-      "description": "10 m wind"
+      "description": "10 m wind, km/h. Sources in m/s (e.g. GeoMet HRDPS) are converted at ingest: km/h = m/s x 3.6"
     },
     "wind_direction_deg": {
       "type": [
@@ -129,21 +129,22 @@
         "number",
         "null"
       ],
-      "minimum": 0
+      "minimum": 0,
+      "description": " (km/h; converted from m/s at ingest, x 3.6)"
     },
     "wind_u_kmh": {
       "type": [
         "number",
         "null"
       ],
-      "description": "East component"
+      "description": "East component (km/h; converted from m/s at ingest, x 3.6)"
     },
     "wind_v_kmh": {
       "type": [
         "number",
         "null"
       ],
-      "description": "North component"
+      "description": "North component (km/h; converted from m/s at ingest, x 3.6)"
     },
     "precip_mm": {
       "type": [
@@ -163,7 +164,7 @@
     "age_minutes": {
       "type": "number",
       "minimum": 0,
-      "description": "now - retrieved_at at serving time for cached rows, or now - valid_time for observations; the rule is defined in cache_fallback.md"
+      "description": "Data age in minutes at serving time: now - source_run_time for forecasts, now - valid_time for observations. Fetch health is reported separately in fetch_age_minutes. See cache_fallback.md"
     },
     "stale_level": {
       "enum": [
@@ -183,6 +184,30 @@
         "type": "string"
       },
       "description": "Optional source quality or missing-value notes"
+    },
+    "fetch_age_minutes": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Optional: now - retrieved_at at serving time (fetch health)"
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "forecast"
+          }
+        },
+        "required": [
+          "kind"
+        ]
+      },
+      "then": {
+        "required": [
+          "source_run_time"
+        ]
+      }
+    }
+  ]
 }

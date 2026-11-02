@@ -7,7 +7,7 @@ request in the team chat with the diff, the reason, and the affected lanes;
 bump `contract_version` below when it is approved. Nobody edits these files in
 a feature branch without that approval.
 
-`contract_version`: **0.2.0** (draft until Team Lead sign-off)
+`contract_version`: **0.2.1** (draft until Team Lead sign-off)
 
 | File | Purpose | Producer -> consumer |
 | --- | --- | --- |
@@ -56,6 +56,8 @@ rather than breaking `python -m unittest discover -s tests`.
   BLAZE must confirm the Monte Carlo can produce them.
 
 ## Changelog
+
+- **0.2.1** (2026-11-02, Team Lead, from ATLAS T0.4 review): live_weather_record requires `source_run_time` when `kind=forecast`; `age_minutes` is data age, optional `fetch_age_minutes` is fetch health; wind converted m/s to km/h (x 3.6) at ingest; `valid_time` is the end of the precip interval. cache_fallback.md rewritten around the two-age model; per-source fresh limit must exceed run cycle plus publication lag; API-spec reference removed until approved.
 
 - **0.2.0** (2026-11-02, Team Lead approved after T0.4 reviews from EMBER, RELAY, BEACON, BLAZE):
   - Both outputs: required `mode` (`retrospective | hindcast | forecast_like | forecast`), `stale_level`, `age_minutes`; `stale_flag` must agree with `stale_level`.
