@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { SCENARIOS, mockIgnition, mockSpread, mockWeather } from './fixtures';
+import type { IgnitionRecord, SpreadOutput } from '../types';
 import { MOCK_MODEL_VERSION, validateIgnitionArray, validateSpreadOutput, validateWeatherRecord } from '../lib/contract';
-import { assessOutput, assessWeather } from '../lib/staleness';
+import { assessIgnition, assessSpread, assessWeather } from '../lib/staleness';
 import ignitionExtra from './ignition_extra_cells.synthetic.json';
 import ignitionSparse from './ignition_sparse.synthetic.json';
 import weatherStale from './weather_stale.synthetic.json';
@@ -36,21 +37,50 @@ describe('synthetic fixtures validate against the contract schemas', () => {
   });
 });
 
-describe('scenario timestamps are consistent with their label', () => {
-  it('fresh is fresh, stale is stale, expired is expired (ignition, weather, spread)', () => {
+describe('scenario levels are consistent with their label', () => {
+  it('fresh/stale/expired produce that level for ignition, weather and spread, with no mismatch note', () => {
     for (const s of ['fresh', 'stale', 'expired'] as const) {
-      const ign = mockIgnition(s, NOW) as Array<{ data_timestamp: string; stale_flag: boolean; stale_reason?: string }>;
-      const a = assessOutput({ stale_flag: ign[0].stale_flag, stale_reason: ign[0].stale_reason, timestamp: ign[0].data_timestamp, ageBasis: 'data_timestamp', now: NOW });
-      expect(a.level).toBe(s);
+      const ign = mockIgnition(s, NOW) as IgnitionRecord[];
+      const a = assessIgnition(ign[0]);
+      expect(a.level, `ignition ${s}`).toBe(s);
+      expect(a.levelMismatch).toBe(false);
       const wx = mockWeather(s, NOW, null) as Parameters<typeof assessWeather>[0];
       expect(assessWeather(wx).level).toBe(s);
       expect(assessWeather(wx).levelMismatch).toBe(false);
-      const sp = mockSpread(s, NOW, POINT) as { inputs: { weather_valid_time: string; stale_flag: boolean } };
-      expect(assessOutput({ stale_flag: sp.inputs.stale_flag, timestamp: sp.inputs.weather_valid_time, ageBasis: 'weather_valid_time', now: NOW }).level).toBe(s);
+      const sp = mockSpread(s, NOW, POINT) as SpreadOutput;
+      expect(assessSpread(sp).level, `spread ${s}`).toBe(s);
+      expect(assessSpread(sp).levelMismatch).toBe(false);
     }
   });
+  it('stale_flag always agrees with stale_level (schema rule)', () => {
+    for (const s of SCENARIOS.filter((x) => x !== 'invalid')) {
+      for (const r of mockIgnition(s, NOW) as IgnitionRecord[]) expect(r.stale_flag).toBe(r.stale_level !== 'fresh');
+      const sp = mockSpread(s, NOW, POINT) as SpreadOutput;
+      expect(sp.inputs.stale_flag).toBe(sp.stale_level !== 'fresh');
+    }
+  });
+  it('modes: fresh = retrospective/hindcast, sparse = forecast, rich spread = forecast_like', () => {
+    expect((mockIgnition('fresh', NOW) as IgnitionRecord[])[0].mode).toBe('retrospective');
+    expect((mockSpread('fresh', NOW, POINT) as SpreadOutput).mode).toBe('hindcast');
+    expect((mockIgnition('sparse', NOW) as IgnitionRecord[])[0].mode).toBe('forecast');
+    expect((mockSpread('rich', NOW, POINT) as SpreadOutput).mode).toBe('forecast_like');
+  });
+  it('sparse spread: not_estimated, single run, no validated horizons, an empty band present', () => {
+    const sp = mockSpread('sparse', NOW, POINT) as SpreadOutput;
+    expect(sp.uncertainty_status).toBe('not_estimated');
+    expect(sp.n_runs).toBe(1);
+    expect(sp.validated_horizons_h).toEqual([]);
+    expect(sp.features.some((f) => f.properties.area_ha === 0 && f.geometry.type === 'MultiPolygon')).toBe(true);
+  });
+  it('rich scenario carries the optional fields', () => {
+    const ign = (mockIgnition('rich', NOW) as IgnitionRecord[])[0];
+    expect(ign.calibration).toBeTruthy();
+    expect(ign.feature_set_version).toBeTruthy();
+    expect(ign.rank_in_day).toBe(1);
+    expect((mockSpread('rich', NOW, POINT) as SpreadOutput).inputs.weather_series).toHaveLength(7);
+  });
   it('mock spread is translated to the clicked point and stays a closed ring', () => {
-    const sp = mockSpread('fresh', NOW, POINT) as { ignition_point: { longitude: number; latitude: number }; features: Array<{ geometry: { coordinates: number[][][] } }> };
+    const sp = mockSpread('fresh', NOW, POINT) as unknown as { ignition_point: { longitude: number; latitude: number }; features: Array<{ geometry: { coordinates: number[][][] } }> };
     expect(sp.ignition_point).toEqual({ longitude: -85.5, latitude: 49.2 });
     const ring = sp.features[0].geometry.coordinates[0];
     expect(ring[0]).toEqual(ring[ring.length - 1]);

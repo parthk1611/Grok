@@ -1,5 +1,8 @@
 import type { SpreadOutput, SpreadFeature } from '../types';
 
+/** v0.2.0 makes validated_horizons_h required; helpers stay defensive (absent => all unvalidated). */
+export type HorizonSource = { validated_horizons_h?: ReadonlyArray<number> | null };
+
 export const HORIZONS = [1, 3, 6] as const;
 export type Horizon = (typeof HORIZONS)[number];
 export const BANDS = ['p10', 'p50', 'p90'] as const;
@@ -9,14 +12,20 @@ export const BANDS = ['p10', 'p50', 'p90'] as const;
  * If the field is absent, ALL horizons are treated as unvalidated.
  * (Per-feature `validated` is informational and is not used here.)
  */
-export function isHorizonValidated(out: Pick<SpreadOutput, 'validated_horizons_h'>, horizon: number): boolean {
-  return Array.isArray(out.validated_horizons_h) && (out.validated_horizons_h as number[]).includes(horizon);
+export function isHorizonValidated(out: HorizonSource, horizon: number): boolean {
+  return Array.isArray(out.validated_horizons_h) && out.validated_horizons_h.includes(horizon);
 }
 
-export function horizonLabel(out: Pick<SpreadOutput, 'validated_horizons_h'>, horizon: number): string {
+export function horizonLabel(out: HorizonSource, horizon: number): string {
   return `${horizon} h${isHorizonValidated(out, horizon) ? '' : ' (unvalidated)'}`;
 }
 
 export function featuresForHorizon(out: SpreadOutput, horizon: number): SpreadFeature[] {
   return out.features.filter((f) => f.properties.horizon_h === horizon);
+}
+
+/** An empty band (v0.2.0): MultiPolygon with no coordinates / area 0. */
+export function isEmptyBand(f: SpreadFeature): boolean {
+  const c = f.geometry.coordinates as unknown[];
+  return f.properties.area_ha === 0 || !Array.isArray(c) || c.length === 0;
 }

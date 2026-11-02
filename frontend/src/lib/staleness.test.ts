@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { assessOutput, assessWeather, classifyAge, maxLevel } from './staleness';
+import { assessIgnition, assessSpread, assessWeather, classifyAge, maxLevel } from './staleness';
 import { STALENESS_THRESHOLDS } from '../config';
 
 describe('classifyAge (proposed thresholds 30 min / 6 h from cache_fallback.md)', () => {
@@ -26,32 +26,41 @@ describe('classifyAge (proposed thresholds 30 min / 6 h from cache_fallback.md)'
   });
 });
 
-describe('assessOutput (ignition / spread: no stale_level in the contract)', () => {
-  const now = new Date('2026-07-15T16:00:00Z');
-  it('fresh when flag false and input is recent; mode is unknown', () => {
-    const a = assessOutput({ stale_flag: false, timestamp: '2026-07-15T15:50:00Z', ageBasis: 'data_timestamp', now });
+describe('assessIgnition / assessSpread (v0.2.0: stale_level + age_minutes + mode in the payload)', () => {
+  it('fresh payload: fresh, no reasons, mode passed through', () => {
+    const a = assessIgnition({ stale_level: 'fresh', age_minutes: 10, stale_flag: false, mode: 'retrospective' });
     expect(a.level).toBe('fresh');
-    expect(a.mode).toBe('unknown');
-    expect(a.ageMinutes).toBe(10);
+    expect(a.mode).toBe('retrospective');
     expect(a.reasons).toEqual([]);
+    expect(a.levelMismatch).toBe(false);
   });
-  it('stale_flag true forces at least stale even if the timestamp looks fresh', () => {
-    const a = assessOutput({ stale_flag: true, stale_reason: 'feed late', timestamp: '2026-07-15T15:55:00Z', ageBasis: 'data_timestamp', now });
+  it('declared stale with a reason is shown as stale and cites the reason', () => {
+    const a = assessIgnition({ stale_level: 'stale', age_minutes: 120, stale_flag: true, stale_reason: 'feed late', mode: 'forecast' });
     expect(a.level).toBe('stale');
-    expect(a.reasons[0]).toContain('feed late');
+    expect(a.reasons.join(' ')).toContain('feed late');
   });
   it('flag true without a reason says so', () => {
-    const a = assessOutput({ stale_flag: true, stale_reason: null, timestamp: '2026-07-15T15:55:00Z', ageBasis: 'data_timestamp', now });
+    const a = assessIgnition({ stale_level: 'stale', age_minutes: 60, stale_flag: true, stale_reason: null, mode: 'forecast' });
     expect(a.reasons[0]).toContain('no stale_reason given');
   });
-  it('old input becomes expired even when flag is false', () => {
-    const a = assessOutput({ stale_flag: false, timestamp: '2026-07-15T08:00:00Z', ageBasis: 'weather_valid_time', now });
-    expect(a.level).toBe('expired');
-    expect(a.reasons[0]).toContain('weather_valid_time');
+  it('declared expired stays expired even if age_minutes is small', () => {
+    expect(assessIgnition({ stale_level: 'expired', age_minutes: 5, stale_flag: true, mode: 'forecast' }).level).toBe('expired');
   });
-  it('unparseable timestamp is expired', () => {
-    const a = assessOutput({ stale_flag: false, timestamp: 'nope', ageBasis: 'data_timestamp', now });
+  it('never shows fresher than age_minutes says (worse of declared and recomputed), and notes the disagreement', () => {
+    const a = assessIgnition({ stale_level: 'fresh', age_minutes: 500, stale_flag: false, mode: 'forecast' });
     expect(a.level).toBe('expired');
+    expect(a.levelMismatch).toBe(true);
+    expect(a.reasons.join(' ')).toContain('TBD');
+  });
+  it('spread reads stale_flag / stale_reason from inputs', () => {
+    const a = assessSpread({ stale_level: 'stale', age_minutes: 90, mode: 'hindcast', inputs: { stale_flag: true, stale_reason: 'wx cached' } });
+    expect(a.level).toBe('stale');
+    expect(a.stale_flag).toBe(true);
+    expect(a.reasons.join(' ')).toContain('wx cached');
+    expect(a.mode).toBe('hindcast');
+  });
+  it('unknown age is treated as expired', () => {
+    expect(assessSpread({ stale_level: 'fresh', age_minutes: NaN, mode: 'hindcast', inputs: { stale_flag: false } }).level).toBe('expired');
   });
 });
 

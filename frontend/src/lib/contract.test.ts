@@ -55,4 +55,46 @@ describe('contract validation with Ajv (draft 2020-12)', () => {
     if (!mixed.valid) expect(mixed.errors[0]).toMatch(/^\[1\]/);
     expect(validateIgnitionArray([ignitionExample]).valid).toBe(true);
   });
+
+  describe('v0.2.0 rules', () => {
+    const wrongFlag = { ...ignitionExample, stale_level: 'stale' as const, stale_flag: false };
+    it('requires mode, stale_level and age_minutes on ignition', () => {
+      for (const k of ['mode', 'stale_level', 'age_minutes'] as const) {
+        const r: Record<string, unknown> = { ...ignitionExample };
+        delete r[k];
+        expect(validateIgnitionRecord(r).valid, k).toBe(false);
+      }
+    });
+    it('rejects an unknown mode', () => {
+      expect(validateIgnitionRecord({ ...ignitionExample, mode: 'live' }).valid).toBe(false);
+    });
+    it('stale_flag must agree with stale_level (ignition and spread)', () => {
+      expect(validateIgnitionRecord(wrongFlag).valid).toBe(false);
+      expect(validateIgnitionRecord({ ...ignitionExample, stale_level: 'expired', stale_flag: true }).valid).toBe(true);
+      const sp = JSON.parse(JSON.stringify(spreadExample));
+      sp.stale_level = 'stale';
+      expect(validateSpreadOutput(sp).valid).toBe(false);
+      sp.inputs.stale_flag = true;
+      expect(validateSpreadOutput(sp).valid).toBe(true);
+    });
+    it('optional calibration / feature_set_version are accepted', () => {
+      expect(validateIgnitionRecord({ ...ignitionExample, calibration: null, feature_set_version: 'x' }).valid).toBe(true);
+    });
+    it('spread requires validated_horizons_h, uncertainty_status, perturbation, fuel_source, grid_resolution_m', () => {
+      for (const k of ['validated_horizons_h', 'uncertainty_status', 'perturbation', 'grid_resolution_m', 'mode']) {
+        const sp: Record<string, unknown> = JSON.parse(JSON.stringify(spreadExample));
+        delete sp[k];
+        expect(validateSpreadOutput(sp).valid, k).toBe(false);
+      }
+      const sp = JSON.parse(JSON.stringify(spreadExample));
+      delete sp.inputs.fuel_source;
+      expect(validateSpreadOutput(sp).valid).toBe(false);
+    });
+    it('an empty band (MultiPolygon [], area 0) is valid', () => {
+      const sp = JSON.parse(JSON.stringify(spreadExample));
+      sp.features[0].geometry = { type: 'MultiPolygon', coordinates: [] };
+      sp.features[0].properties.area_ha = 0;
+      expect(validateSpreadOutput(sp).valid).toBe(true);
+    });
+  });
 });
