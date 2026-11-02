@@ -44,7 +44,7 @@ export function StaleBanner({ assessment, subject }: { assessment: StalenessAsse
       <strong>{expired ? 'EXPIRED DATA' : 'STALE DATA'}</strong> - {subject}{' '}
       {expired ? 'is expired and must not be treated as current.' : 'is older than expected; cached or late inputs were used.'}
       <div className="banner-detail">
-        Age: {formatAge(assessment.ageMinutes)} (from {assessment.ageBasis}) · mode: {assessment.mode}
+        Age at generation: {formatAge(assessment.ageMinutes)} (from {assessment.ageBasis}) · mode: {assessment.mode}
         {assessment.reasons.length > 0 && (
           <ul>
             {assessment.reasons.map((r) => (

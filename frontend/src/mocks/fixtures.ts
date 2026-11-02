@@ -26,7 +26,7 @@ export const SCENARIO_HELP: Record<Scenario, string> = {
   expired: 'stale_level expired (+ stale_flag true), inputs ~8 h old; spread needs confirmation',
   invalid: 'contracts/examples/bad_* payloads: must render explicit error states',
   sparse: 'Minimal: mode forecast, null values, no optional fields, spread n_runs=1 (uncertainty not estimated), validated_horizons_h empty, one empty band',
-  rich: 'Everything optional present: calibration, feature_set_version, rank, weather_series, forecast_like spread',
+  rich: 'Everything optional present: calibration, feature_set_version, rank, weather_series, forecast_like spread, empty 1 h p90 band',
 };
 
 const MIN = 60_000;
@@ -105,6 +105,13 @@ export function mockSpread(scenario: Scenario, now: Date, point: LonLat): unknow
   base.inputs.stale_reason = scenario === 'sparse' ? null : stale ? `MOCK: synthetic weather is ${age} min old (made-up age for UI testing)` : null;
   if (scenario === 'rich') {
     base.mode = 'forecast_like';
+    // empty inner band: nothing reached >= 90% of runs at 1 h (empty MultiPolygon, area 0, still present)
+    for (const f of base.features) {
+      if (f.properties.horizon_h === 1 && f.properties.band === 'p90') {
+        f.geometry = { type: 'MultiPolygon', coordinates: [] };
+        f.properties.area_ha = 0;
+      }
+    }
     const t0 = now.getTime();
     base.inputs.weather_series = Array.from({ length: 7 }, (_, h) => ({
       valid_time: iso(t0 + h * 60 * MIN),

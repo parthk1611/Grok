@@ -10,7 +10,7 @@ const repoRoot = path.resolve(import.meta.dirname, '..');
 export default defineConfig({
   plugins: [react()],
   server: { fs: { allow: [repoRoot] } },
-  build: { chunkSizeWarningLimit: 1500 },
+  build: { chunkSizeWarningLimit: 2000 },
   test: {
     environment: 'node',
     globals: true,

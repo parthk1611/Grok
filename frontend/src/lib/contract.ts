@@ -8,7 +8,7 @@ import spreadSchema from '../../../contracts/spread_output.schema.json';
 import weatherSchema from '../../../contracts/live_weather_record.schema.json';
 import type { IgnitionRecord, SpreadOutput, WeatherRecord } from '../types';
 
-export const CONTRACT_VERSION = '0.1.0';
+export const CONTRACT_VERSION = '0.2.0';
 
 /** Fallback disclaimer constant, read from the schema's `const` (not retyped here). */
 export const DISCLAIMER: string = (

@@ -27,4 +27,18 @@ describe('geojson builders', () => {
     const fc = ignitionPointGeoJSON(spreadExample as unknown as SpreadOutput);
     expect(fc.features[0].geometry).toEqual({ type: 'Point', coordinates: [-90, 50] });
   });
+  it('not_estimated: no p10/p50/p90 bands are drawn, only one neutral single_run footprint', () => {
+    const out = { ...(spreadExample as unknown as SpreadOutput), uncertainty_status: 'not_estimated' as const, n_runs: 1 };
+    const fc = spreadHorizonGeoJSON(out, 6);
+    expect(fc.features).toHaveLength(1);
+    expect((fc.features[0].properties as { band: string }).band).toBe('single_run');
+    expect(fc.features.some((f) => ['p10', 'p50', 'p90'].includes((f.properties as { band: string }).band))).toBe(false);
+  });
+  it('empty bands are not drawn', () => {
+    const out = JSON.parse(JSON.stringify(spreadExample)) as SpreadOutput;
+    out.features[0].geometry = { type: 'MultiPolygon', coordinates: [] };
+    out.features[0].properties.area_ha = 0;
+    const fc = spreadHorizonGeoJSON(out, 1);
+    expect(fc.features.map((f) => (f.properties as { band: string }).band)).toEqual(['p50', 'p90']);
+  });
 });
