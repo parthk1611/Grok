@@ -1,0 +1,8 @@
+# Exact pins for ATLAS data-lane alignment helpers (scripts/data_sources) and their tests.
+# scripts/data_sources/alignment.py is stdlib-only except lonlat_to_grid_id(), which needs pyproj.
+# tzdata guarantees America/Toronto rules on systems without a system zoneinfo database.
+# Existing model/EDA requirements stay in requirements-modeling.txt / requirements-eda.txt.
+# Alignment code is deterministic (no randomness), so no SEED is defined here; the project
+# seed for model code remains SEED = 385 in scripts/ignition_modeling/contract.py.
+pyproj==3.8.0
+tzdata==2026.6
