@@ -17,6 +17,12 @@ import { spreadConfirmationReasons } from './lib/gate';
 import { ignitionPointGeoJSON, ignitionToGeoJSON, spreadHorizonGeoJSON } from './lib/geojson';
 import type { Horizon } from './lib/horizons';
 
+/** A mutable value read by non-React code (the mock adapter), outside React state. */
+function createValueStore<T>(initial: T) {
+  let value = initial;
+  return { get: () => value, set: (v: T) => void (value = v) };
+}
+
 function initialScenario(): DevScenario {
   const q = new URLSearchParams(window.location.search).get('scenario');
   return (DEV_SCENARIOS as readonly string[]).includes(q ?? '') ? (q as DevScenario) : 'fresh';
@@ -44,12 +50,16 @@ const API_CONFIG = readApiConfig();
 export default function App({ makeClient }: AppProps = {}) {
   const [scenario, setScenario] = useState<DevScenario>(initialScenario);
   const [ignitionDate, setIgnitionDate] = useState<RequestedDate>(initialDate);
-  const scenarioRef = useRef(scenario);
-  scenarioRef.current = scenario;
-  const client = useMemo(
-    () => (makeClient ?? ((g: () => DevScenario) => createConfiguredClient(API_CONFIG, g)))(() => scenarioRef.current),
-    [],
-  );
+  // Built once per mount (lazy state initializer). The mock adapter reads the DEV scenario from a small store
+  // that is synced in an effect declared before the loading effect, so it is current when that effect runs.
+  const [{ client, scenarioStore }] = useState(() => {
+    const store = createValueStore(scenario);
+    const make = makeClient ?? ((g: () => DevScenario) => createConfiguredClient(API_CONFIG, g));
+    return { client: make(store.get), scenarioStore: store };
+  });
+  useEffect(() => {
+    scenarioStore.set(scenario);
+  }, [scenarioStore, scenario]);
   
   const [ignition, setIgnition] = useState<Loaded<IgnitionResult> | null>(null);
   const [weather, setWeather] = useState<Loaded<WeatherRecord> | null>(null);
@@ -63,15 +73,29 @@ export default function App({ makeClient }: AppProps = {}) {
   const [showBasemap, setShowBasemap] = useState(!BASEMAP_DISABLED_BY_CONFIG);
   const generation = useRef(0); // invalidates in-flight requests when the fixture changes
 
-  // (re)load ignition whenever the fixture changes; clear everything derived from the old fixture
-  useEffect(() => {
-    const gen = ++generation.current;
+  // Clear everything derived from the old fixture/date. Called from the handlers that change them (not from an
+  // effect, so there is no cascading render); the loading effect below then fetches the new map.
+  const resetDerived = useCallback(() => {
+    generation.current += 1; // invalidates in-flight requests
     setIgnition(null);
     setWeather(null);
     setRun(null);
     setPending(null);
     setSpreadLoading(false);
     setSelectedCellId(null);
+  }, []);
+  const changeScenario = useCallback((s: DevScenario) => {
+    resetDerived();
+    setScenario(s);
+  }, [resetDerived]);
+  const changeDate = useCallback((d: RequestedDate) => {
+    resetDerived();
+    setIgnitionDate(d);
+  }, [resetDerived]);
+
+  // (re)load ignition whenever the fixture or the date changes
+  useEffect(() => {
+    const gen = ++generation.current;
     void client.loadIgnition(ignitionDate).then((r) => {
       if (gen === generation.current) setIgnition(r);
     });
@@ -146,7 +170,7 @@ export default function App({ makeClient }: AppProps = {}) {
             <input
               type="checkbox"
               checked={ignitionDate === 'latest'}
-              onChange={(e) => setIgnitionDate(e.target.checked ? 'latest' : torontoDate(new Date()))}
+              onChange={(e) => changeDate(e.target.checked ? 'latest' : torontoDate(new Date()))}
               data-testid="date-latest"
             />{' '}
             latest map
@@ -156,11 +180,11 @@ export default function App({ makeClient }: AppProps = {}) {
             aria-label="Ignition map date (America/Toronto)"
             value={ignitionDate === 'latest' ? '' : ignitionDate}
             disabled={ignitionDate === 'latest'}
-            onChange={(e) => e.target.value && setIgnitionDate(e.target.value)}
+            onChange={(e) => e.target.value && changeDate(e.target.value)}
             data-testid="date-input"
           />
         </div>
-        {client.adapter.isMock && <DevToggle scenario={scenario} onChange={setScenario} />}
+        {client.adapter.isMock && <DevToggle scenario={scenario} onChange={changeScenario} />}
       </header>
       {isMock ? <MockBanner /> : <div className="banner banner-warn" data-testid="live-banner">Responses report X-Mock-Data: false. Check model_version on every panel before trusting a value.</div>}
       {!makeClient && API_CONFIG.configError && <div className="banner banner-warn" data-testid="config-error">{API_CONFIG.configError}</div>}

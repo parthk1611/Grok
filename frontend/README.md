@@ -21,7 +21,7 @@ npm run dev       # http://localhost:5173
 npm run build     # type-check + production build into dist/
 npm run preview   # serve dist/ at http://localhost:4173
 npm test          # vitest (unit + component tests)
-npm run lint      # tsc --noEmit
+npm run lint      # tsc --noEmit, then ESLint (flat config: typescript-eslint + react-hooks, eslint.config.js)
 npm run smoke:relay  # optional, needs a running RELAY server (see below)
 ```
 

@@ -28,15 +28,18 @@ async function toAdapterResponse(res: Response): Promise<AdapterResponse> {
     headers[k.toLowerCase()] = v;
   });
   const text = await res.text();
-  let body: unknown = text;
-  if (text.length > 0) {
-    try {
-      body = JSON.parse(text);
-    } catch {
-      body = text; // non-JSON body: the client reports it as an off-model error/payload
-    }
-  } else body = null;
-  return { status: res.status, body, headers };
+  return { status: res.status, body: parseBody(text), headers };
+}
+
+/** JSON if it parses; otherwise the raw text (the client reports it as an off-model payload); null when empty. */
+function parseBody(text: string): unknown {
+  if (text.length === 0) return null;
+  try {
+    return JSON.parse(text);
+  } catch {
+    return text;
+  }
+
 }
 
 export function createRelayAdapter(opts: RelayAdapterOptions): ApiAdapter {
