@@ -64,7 +64,7 @@ Pinned environment and tests (run from the repository root, Python 3.13 tested):
 python3 -m venv .venv-spread
 .venv-spread/bin/pip install -r capability_2_fire_spread/requirements-lock.txt
 cd capability_2_fire_spread
-../.venv-spread/bin/python -m unittest tests.test_fire_spread_simulator tests.test_spread_point_api -v
+../.venv-spread/bin/python -m unittest discover -s tests -v
 cd .. && .venv-spread/bin/python -m unittest tests.test_contracts -v
 ```
 
