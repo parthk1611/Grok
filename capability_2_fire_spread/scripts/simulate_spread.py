@@ -37,6 +37,25 @@ MOVES = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1), (
 MAX_SLOPE = 0.7
 
 
+def _crossed_cells(dr: int, dc: int) -> list[tuple[int, int]]:
+    """Offsets of the cells (besides the start and end cell) that a move passes through.
+
+    A (+-1, +-2) or (+-2, +-1) move crosses the boundary between two cells halfway along, so it passes
+    through both of them.  Single steps, straight or diagonal, pass through none.
+    """
+    sign = lambda value: (value > 0) - (value < 0)  # noqa: E731
+    if abs(dc) == 2:
+        return [(0, sign(dc)), (dr, sign(dc))]
+    if abs(dr) == 2:
+        return [(sign(dr), 0), (sign(dr), dc)]
+    return []
+
+
+# A move is blocked when any cell it passes through is water or non-fuel; otherwise a one-cell river or
+# road could be stepped over by a knight move.
+MOVE_CROSSED = [_crossed_cells(dr, dc) for dr, dc in MOVES]
+
+
 @dataclass
 class Settings:
     """The simulator's adjustable settings."""
@@ -258,6 +277,8 @@ def simulate(
             target_fuel = fuel_flat[neighbour]
             if target_fuel < 0:
                 continue
+            if any(fuel_flat[(row + cr) * columns + column + cc] < 0 for cr, cc in MOVE_CROSSED[move]):  # cells between two grid cells are on the grid
+                continue  # the move would step over water or non-fuel
             rate_here, rate_there = source_rates[move], table[target_fuel][move]
             if rate_here <= 0 or rate_there <= 0:
                 continue

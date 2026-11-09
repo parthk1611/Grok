@@ -1,0 +1,20 @@
+# Pinned lane environment for the fire-spread simulator, point-start API and their tests (T1.6).
+# Generated with: .venv-spread/bin/pip freeze  (Python 3.13.5, Linux x86_64). Rebuild: see capability_2_fire_spread/README.md.
+affine==3.0.1
+attrs==26.1.0
+certifi==2026.10.23
+click==8.5.0
+jsonschema==4.26.0
+jsonschema-specifications==2025.9.1
+numpy==2.5.4
+pandas==3.1.0
+pillow==13.0.0
+pyparsing==3.3.3
+pyproj==3.8.0
+python-dateutil==4.0.0
+rasterio==1.5.2
+referencing==0.37.0
+rpds-py==2026.9.1
+scipy==1.18.1
+shapely==2.2.0
+tzdata==2026.6
