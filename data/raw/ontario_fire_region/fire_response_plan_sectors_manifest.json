@@ -3,9 +3,23 @@
   "source_url": "https://ws.gisetl.lrc.gov.on.ca/fmedatadownload/Packages/FIRERESP.zip",
   "selection": "RES_SECTOR != 'OFR' (Outside Fire Region)",
   "license": "Open Government Licence \u2013 Ontario",
-  "downloaded_at_utc": "2026-10-02T17:52:46.890282+00:00",
+  "downloaded_at_utc": "2026-11-09T21:50:55.265093+00:00",
   "archive_filename": "FIRERESP.zip",
-  "archive_sha256": "1368d14e5faa3503ce4c8d2de20da553e9dffcc74e1309e24378e711ffa8f4a9",
-  "geojson_sha256": "37efcdb2054ba98d884938a90fdae6309bc4f0f8d2c7f6fab4da0d12a9522263",
-  "feature_count": 15
+  "archive_sha256": "b0a551e3b1cf49dcbde4bbbc366e044f70e4c461b0bb1002c521b90f89e7934c",
+  "geojson_sha256": "9186051004130c5cc464adeb8cb5566b3fe42463b6bc33d58e0d08e06815be5f",
+  "feature_count": 15,
+  "archive_format": "file_geodatabase",
+  "gdb_layer": "FIRE_RESPONSE_SECTOR",
+  "source_revision_note": "Upstream FIRERESP.zip changed from an Esri Shapefile (archive sha256 1368d14e5faa3503ce4c8d2de20da553e9dffcc74e1309e24378e711ffa8f4a9, fields RES_SECTOR/BASE_RESP/GEO_UPD_DT/EFF_DATE) to a File Geodatabase (Non_Sensitive.gdb, layer FIRE_RESPONSE_SECTOR, fields RESPONSE_SECTOR/BASE_RESPONSIBLE/GEOMETRY_UPDATE_DATETIME/EFFECTIVE_DATETIME).",
+  "previous_revisions": [
+    {
+      "archive_format": "shapefile",
+      "archive_sha256": "1368d14e5faa3503ce4c8d2de20da553e9dffcc74e1309e24378e711ffa8f4a9",
+      "geojson_sha256": "37efcdb2054ba98d884938a90fdae6309bc4f0f8d2c7f6fab4da0d12a9522263",
+      "feature_count": 15,
+      "downloaded_at_utc": "2026-10-02T17:52:46.890282+00:00",
+      "status": "superseded upstream; archive no longer available at source_url"
+    }
+  ],
+  "grid_equivalence": "10 km grid rebuilt from this revision is byte-identical to the tracked grid (sha256 b22741d83b64c2b78c19fbf182848566644a23fad4aeef3301ff25ef7c6c3f35)"
 }
