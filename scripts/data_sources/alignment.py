@@ -227,10 +227,13 @@ def _as_date(value: Any) -> date:
 
 
 # ------------------------------------------------- two-age staleness (cache_fallback)
-# contracts/cache_fallback.md v0.2.0 judges staleness on two ages and reports the worse:
+# contracts/cache_fallback.md v0.2.1 judges staleness on two ages; stale_level is the worse of them:
 #   1. fetch health  = serving time - retrieved_at   (fresh <= 30 min, stale <= 6 h, else expired)
+#                      reported as the optional ``fetch_age_minutes``
 #   2. data age      = serving time - valid_time (observations) or source_run_time (model runs),
-#                      with PER-SOURCE thresholds that are still TBD in the contract.
+#                      with PER-SOURCE thresholds that are still TBD in the contract; reported as
+#                      ``age_minutes``.
+# A model source's fresh limit must be at least its run cycle plus its measured publication lag.
 # The fetch thresholds below are the contract's *proposed* defaults.  Data-age thresholds have no
 # default on purpose: callers must pass them until Team Lead fixes the numbers.
 # TODO(contracts/v0): replace with the approved per-source data-age thresholds when published.
@@ -269,8 +272,8 @@ def staleness(
 
     Data age uses ``source_run_time`` for forecasts (required) and ``valid_time`` for
     observations.  A forecast whose ``valid_time`` has already passed is at least ``stale``
-    (cache_fallback.md).  ``age_minutes`` is the age of whichever component set the final
-    level (data age on a tie), and both ages are returned for logging.
+    (cache_fallback.md).  Following contract v0.2.1, ``age_minutes`` is always the *data* age
+    and ``fetch_age_minutes`` is the fetch-health age; ``stale_level`` is the worse of the two levels.
     """
     if kind not in ("observation", "forecast"):
         raise ValueError("kind must be 'observation' or 'forecast'")
@@ -286,16 +289,23 @@ def staleness(
     level = max(fetch_level, data_level, key=STALE_LEVELS.index)
     if kind == "forecast" and to_utc(valid_time_utc) < to_utc(now_utc) and level == "fresh":
         level = "stale"  # past forecast hour is an observation substitute
-    age = fetch_age if STALE_LEVELS.index(fetch_level) > STALE_LEVELS.index(data_level) else data_age
     return {
         "stale_level": level,
         "stale_flag": level != "fresh",  # contract: true exactly when stale_level != fresh
-        "age_minutes": age,
-        "fetch_age_minutes": fetch_age,
-        "data_age_minutes": data_age,
+        "age_minutes": data_age,          # v0.2.1: data age
+        "fetch_age_minutes": fetch_age,   # v0.2.1: optional fetch health
         "fetch_level": fetch_level,
         "data_level": data_level,
     }
+
+
+# ------------------------------------------------------------------------- units
+MS_TO_KMH = 3.6  # contract v0.2.1: wind from m/s sources (GeoMet HRDPS) is converted at ingest
+
+
+def ms_to_kmh(value: float | None) -> float | None:
+    """m/s to km/h (x 3.6); ``None`` stays ``None`` (missing is not zero)."""
+    return None if value is None else value * MS_TO_KMH
 
 
 # ------------------------------------------------------------------------ ECCC
@@ -350,6 +360,37 @@ def eccc_daily_available_by_issue(lst_date: date, target_date: date, station_zon
     observations up to the issue instant must be aggregated instead.
     """
     return eccc_lst_day_window_utc(lst_date, station_zone)[1] <= issue_time_utc(target_date)
+
+
+def civil_day_hour_instants(day: date) -> list[datetime]:
+    """The UTC start instants of every civil-time hour of a local day (23, 24 or 25 of them)."""
+    start, end = label_window_utc(day)
+    count = int((end - start).total_seconds() // 3600)
+    return [start + timedelta(hours=i) for i in range(count)]
+
+
+def rebuild_daily_total_from_hourly(
+    hourly: Mapping[datetime, float | None],
+    day: date,
+    target_date: date,
+) -> float | None:
+    """Daily total for civil ``day`` rebuilt from hourly values; the t-1 gate for daily inputs.
+
+    ``hourly`` maps the UTC *interval-end* instant of each hourly value to the value.  Every
+    required hour must be present and non-null, otherwise the total is ``None`` (never a partial
+    sum or a zero).  Raises ``LeakageError`` if the day is not at least one day before
+    ``target_date`` or any needed interval ends after the target issue time.
+    """
+    assert_t_minus_1_cutoff(day, target_date)
+    total = 0.0
+    for start in civil_day_hour_instants(day):
+        end = start + timedelta(hours=1)
+        assert_available_before_issue(end, target_date)
+        value = hourly.get(end)
+        if value is None:
+            return None
+        total += value
+    return total
 
 
 def eccc_hourly_utc(properties: Mapping[str, Any], station_zone: str = LOCAL_TZ_NAME) -> datetime:

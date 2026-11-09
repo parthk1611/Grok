@@ -1,6 +1,14 @@
-# CWFIS weather gap and historical wind: options (no option chosen)
+# CWFIS weather gap and historical wind: options and decision
 
-Status: ATLAS options paper for Team Lead, 2026-11-02. It lists tradeoffs and picks nothing.
+Status: ATLAS options paper, 2026-11-02. The tradeoffs below were written without picking an option; the Team Lead decision is recorded in the next section.
+
+## Decision (Team Lead, 2026-11-02)
+
+- **(b) the CWFIS archive is the primary weather/FWI source.** Gaps stay missing and carry a missingness flag (as in the existing `cwfis_missing` and coverage fields). No imputation is added later; this is also what `AGENTS.md` already requires.
+- **(a) ECCC stations are a gap-fill candidate only after the ECCC licence is confirmed.** The API collection metadata states no licence (measured below), so nothing is adopted yet.
+- **(c) ERA5 is not adopted.**
+- Gate kept: daily inputs for target day t are rebuilt from hourly values that end by local midnight (`rebuild_daily_total_from_hourly` and its tests in `tests/test_source_alignment.py`); an ECCC LST daily record for t-1 is rejected in summer.
+
 Every number below was either read from a committed repo audit (marked **repo audit**) or measured on 2026-11-02
 from the box (marked **measured**). Anything else is marked **not measured**. The measurement scripts ran in
 scratch space and are not committed; the method is stated beside each result so it can be repeated.
@@ -148,6 +156,6 @@ Tradeoffs:
 | Licence | not verified | OGL-Canada (tree-wide) | CC-BY 4.0 (Open-Meteo free tier non-commercial) |
 | Live HRDPS parity | observation vs forecast gap | station FWI not in live feed | resolution/bias gap, unmeasured |
 
-No option is recommended here. Open questions for Team Lead: whether a hybrid (b) for FWI plus (c) for wind is acceptable, whether
+The table is the pre-decision comparison; ATLAS recommended nothing in it. Open questions that remain after the decision: whether a hybrid (b) for FWI plus (c) for wind is acceptable, whether
 2017-2018's residual gap needs its own diagnosis, and whether the contract's per-cell time zone item (north-west Ontario on Central time)
 affects the LST noon definition for stations west of 90 W.

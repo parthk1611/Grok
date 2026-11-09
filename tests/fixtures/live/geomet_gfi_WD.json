@@ -1,0 +1,27 @@
+{
+
+  "type": "FeatureCollection",
+  "layer": "HRDPS.CONTINENTAL_WD",
+  "features": [
+    
+    {
+      "type": "Feature",
+      "id": "HRDPS.CONTINENTAL_WD(-89.260384,48.38596)",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+            -89.2604,48.3860
+        ]
+      },
+      "properties": {
+        "value": 81.800003,
+        "class": "60 - 90 (degree)",
+        "title_en": "HRDPS.CONTINENTAL - Wind direction at 10m above surface [°]",
+        "title_fr": "HRDPS.CONTINENTAL - Direction du vent à 10m au dessus de la surface [°]",
+        "time": "2026-11-02T23:00:00Z",
+        "dim_reference_time": "2026-11-02T18:00:00Z"
+      }
+    }
+  ]
+
+}

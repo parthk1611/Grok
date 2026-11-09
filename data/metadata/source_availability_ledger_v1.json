@@ -1,9 +1,9 @@
 {
-  "ledger_version": "1.0.0-draft",
-  "status": "pending Team Lead sign-off",
+  "ledger_version": "1.1.0",
+  "status": "selection rule approved by Team Lead (2026-11-02); crosswalk and other open items still pending",
   "prepared_by": "ATLAS (data lane)",
   "prepared_on": "2026-11-02",
-  "contracts_note": "contracts/v0.2.0 on this branch's base has no availability ledger, so this file is new (data/metadata/). No contract file was edited. Team Lead may move it under contracts/ if approved.",
+  "contracts_note": "Ledger lives under data/metadata/ (contracts have no availability ledger). No contract file was edited from this branch. Branch contracts content is v0.2.1 from commit 629600d (live_weather_record source_run_time / age_minutes / wind x3.6 / valid_time precip end; cache_fallback two-age rewrite). Team Lead may move this ledger under contracts/ if approved.",
   "time_contract": {
     "timezone": "America/Toronto",
     "issue_time": "00:00 local on the target date (DST aware)",
@@ -22,11 +22,11 @@
       "server_last_modified_not_vintage": "2026-01-28",
       "licence": "Open Government Licence - Canada, per https://cwfis.cfs.nrcan.gc.ca/downloads/licence.txt (tree-wide CWFIS downloads licence; applies to this archive by location, not confirmed in its own metadata)",
       "retrieval": "HEAD request only on 2026-11-02; archive NOT downloaded",
-      "year_selection_rule": "fire_year <= 2014 -> use this layer",
+      "year_selection_rule": "fire_year <= 2014 -> use this layer (Team Lead approved)",
       "hindcast_or_operational": "hindcast",
       "operational_eligible": false,
       "availability_notes": "The layer was published long after the 2012-2014 fires; it is a retrospective stand-in, not the map that existed on each fire's date. Its burn-scar step cites NFDB 2016, so for 2012-2014 fires the burn scar of the fire itself may already be masked; this needs a leakage check on the fuel inside each fire perimeter before use.",
-      "status": "pending Team Lead sign-off"
+      "status": "rule approved by Team Lead 2026-11-02; leakage check on fuel inside perimeters still open"
     },
     {
       "entry_id": "fuel_scanfi_v2_epoch",
@@ -35,27 +35,52 @@
       "file_pattern": "SCANFI_att_<attribute>_<YYYY>_v2_20260119.tif (attributes include closure, height, biomass, nfiLandcover; SCANFI_spsCC_<species>_<YYYY>_v2_20260119.tif for species crown closure)",
       "catalogue_url": "https://open.canada.ca/data/en/dataset/07653869-f303-46c2-a04e-9ab479b73cbf",
       "vintage": "SCANFI v2, 5-year epochs 1985-2025, published 2026-01-01 (catalogue date_published); file date stamp 20260119",
-      "vintage_basis": "Catalogue notes say 5-year intervals 1985-2025. Measured with HEAD requests on 2026-11-02: closure files for 2015, 2020 and 2025 exist (about 4.05, 4.11 and 4.20 GB each); the 2016 file returns 404. Other epochs were not individually checked.",
+      "vintage_basis": "Catalogue notes say 5-year intervals 1985-2025. Measured with HEAD requests on 2026-11-02: closure files for 2005, 2010, 2015, 2020 and 2025 exist (about 3.96, 4.00, 4.05, 4.11 and 4.20 GB each); 2016 returns 404. The epochs the rule needs (2010, 2015, 2020) were all confirmed present; other epochs were not individually checked.",
       "resolution_m": 30,
       "crs": "NAD83 Canada Lambert (README proj4: lcc lat_1=49 lat_2=77 lon_0=-95), i.e. the EPSG:3978 definition",
       "licence": "Open Government Licence - Canada (catalogue)",
       "retrieval": "HEAD requests only; rasters NOT downloaded",
-      "year_selection_rule": "fire_year >= 2015 -> epoch = 5 * floor(fire_year / 5), the latest epoch at or before the fire year: 2015-2019 -> 2015, 2020-2024 -> 2020, 2025 -> 2025",
-      "rule_interpretation": "'latest SCANFI vintage at or before the fire year' was read as the latest 5-year epoch map. SCANFI v1 has only a 2020 map and v3 is annual fractional land cover (no forest height, species or biomass), so neither fits this rule for 2015-2019 with the same attributes.",
+      "year_selection_rule": "epoch = latest SCANFI v2 epoch STRICTLY BEFORE the fire or target year = 5 * floor((year - 1) / 5): 2015 -> 2010, 2016-2020 -> 2015, 2021-2025 -> 2020, 2026 -> 2025. Fires up to 2014 use FBP 2014b instead.",
+      "rule_interpretation": "Team Lead decision 2026-11-02: strictly before, for ALL lanes, so a fire's own burn scar or same-year disturbance cannot enter the fuel/vegetation layer (a 2020 fire uses the 2015 epoch, a 2025 fire the 2020 epoch). Supersedes the earlier 'at or before' draft. SCANFI v1 has only a 2020 map and v3 is annual fractional land cover without forest height/species/biomass, so neither is used for this rule.",
       "hindcast_or_operational": "hindcast",
       "operational_eligible": false,
-      "availability_notes": "All SCANFI v2 maps were published in 2026, so every historical use is retrospective. SCANFI is a land-cover/forest-attribute product, not an FBP fuel-type raster; a SCANFI-to-FBP crosswalk is still needed and is not defined in this ledger. For a fire in an epoch year (2020, 2025) the same-year map can contain that fire's own disturbance; Team Lead to decide whether to use the strictly earlier epoch for those years.",
-      "status": "pending Team Lead sign-off"
+      "availability_notes": "All SCANFI v2 maps were published in 2026, so every historical use is retrospective. SCANFI is a land-cover/forest-attribute product, not an FBP fuel-type raster; the crosswalk is a TODO below. Strictly-before epochs are up to 5 years old for the target year, so fuel change in between (harvest, regrowth, fires in the gap) is not captured; that is an accepted bias of the rule, not measured.",
+      "status": "rule approved by Team Lead 2026-11-02; crosswalk TODO open"
     }
   ],
   "selection_rule_summary": {
-    "fire_year_le_2014": "fuel_fbp_2014b",
-    "fire_year_ge_2015": "fuel_scanfi_v2_epoch with epoch = 5 * floor(fire_year / 5)",
-    "approved_in_principle_by": "Team Lead (message relayed 2026-11-02); this ledger entry awaits sign-off"
+    "fire_or_target_year_le_2014": "fuel_fbp_2014b",
+    "fire_or_target_year_ge_2015": "fuel_scanfi_v2_epoch with epoch = 5 * floor((year - 1) / 5)",
+    "examples": {
+      "2015": 2010,
+      "2016": 2015,
+      "2020": 2015,
+      "2021": 2020,
+      "2025": 2020
+    },
+    "applies_to": "all lanes (spread, ignition if fuels are ever added, case studies)",
+    "approved_by": "Team Lead",
+    "approved_on": "2026-11-02"
   },
   "open_questions": [
-    "Resolution mismatch: FBP 2014b is 250 m, SCANFI is 30 m, the spread simulator grid is 90 m.",
-    "Which SCANFI-to-FBP crosswalk to use for 2015+ fires.",
-    "Strictly earlier epoch for fires in 2020 and 2025 to avoid same-year disturbance in the fuel map?"
-  ]
+    "Resolution mismatch: FBP 2014b is 250 m, SCANFI is 30 m, the spread simulator grid is 90 m (handled by the crosswalk TODO for SCANFI; FBP 2014b needs its own resampling rule).",
+    "Leakage check of FBP 2014b burn-scar masking for 2012-2014 fires."
+  ],
+  "lane_leak_notes": {
+    "spread": "Strictly-before rule applies; the existing capability_2 build used the 2024 FBP map for every fire, which leaks future fuel into 2012-2023 fires and is superseded by this rule once the crosswalk exists.",
+    "ignition": "No fuel layer is in the v1 panel (AGENTS.md defers fuels and land cover). If added, the same strictly-before rule applies. Terrain (CDEM, 2011 vintage, static ground elevation) has no comparable same-year leak.",
+    "fbp_2014b": "Its metadata cites NFDB 2016 for burn scars, so fires in 2012-2014 could already be masked in it; the check on fuel inside fire perimeters is still open (see entry)."
+  },
+  "todo": [
+    {
+      "id": "TODO-crosswalk-v1",
+      "title": "Versioned SCANFI-to-FBP crosswalk table, resampled onto BLAZE's 90 m grid with mode/nearest",
+      "detail": "Define a versioned lookup from SCANFI v2 attributes (nfiLandcover, species crown closure, closure, height) to FBP fuel type codes, resample categorical output to the 90 m EPSG:3978 spread grid with mode (or nearest) resampling, record the table version and checksum. BLAZE peer-reviews it.",
+      "owner": "ATLAS (build), BLAZE (peer review)",
+      "status": "not started; do not build yet (Team Lead 2026-11-02)"
+    }
+  ],
+  "contracts_base_commit": "629600d",
+  "updated_on": "2026-11-09",
+  "t1_1_note": "Live MSC endpoints and Datamart GRIB2 publication lag are documented in docs/data/t1_1_live_endpoints.md with fixtures under tests/fixtures/live/ and scripts/data_sources/measure_live_cadence.py."
 }

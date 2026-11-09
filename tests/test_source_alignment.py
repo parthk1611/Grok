@@ -197,7 +197,7 @@ class EcccTimeTest(unittest.TestCase):
 
 
 class TwoAgeStalenessTest(unittest.TestCase):
-    """cache_fallback.md v0.2.0: fetch health from retrieved_at, data age from valid_time/source_run_time."""
+    """cache_fallback.md v0.2.1: fetch health from retrieved_at, data age from valid_time/source_run_time."""
 
     NOW = utc(2026, 11, 2, 23, 30)
     THRESHOLDS = dict(data_age_fresh_max_minutes=360.0, data_age_stale_max_minutes=720.0)  # test values, not policy
@@ -220,12 +220,14 @@ class TwoAgeStalenessTest(unittest.TestCase):
         self.assertEqual(result["data_level"], "stale")
         self.assertEqual(result["stale_level"], "stale")
         self.assertTrue(result["stale_flag"])
-        self.assertEqual(result["age_minutes"], result["data_age_minutes"])
+        self.assertEqual(result["age_minutes"], 330)          # v0.2.1: data age
+        self.assertLess(result["fetch_age_minutes"], 30)      # fetch health reported separately
 
     def test_worse_of_the_two_ages_wins(self):
         result = self.call(retrieved_at_utc=self.NOW - timedelta(hours=7))
         self.assertEqual((result["fetch_level"], result["stale_level"]), ("expired", "expired"))
-        self.assertEqual(result["age_minutes"], result["fetch_age_minutes"])
+        self.assertEqual(result["fetch_age_minutes"], 420)
+        self.assertEqual(result["age_minutes"], 60)           # data age stays the data age
 
     def test_all_fresh(self):
         result = self.call()
@@ -236,7 +238,7 @@ class TwoAgeStalenessTest(unittest.TestCase):
         with self.assertRaises(A.AlignmentError):
             self.call(source_run_time_utc=None)
         obs = self.call(kind="observation", valid_time_utc=self.NOW - timedelta(hours=11), source_run_time_utc=None)
-        self.assertEqual(obs["data_age_minutes"], 660)
+        self.assertEqual(obs["age_minutes"], 660)
         self.assertEqual(obs["stale_level"], "stale")
 
     def test_past_forecast_hour_is_at_least_stale(self):
@@ -253,6 +255,56 @@ class TwoAgeStalenessTest(unittest.TestCase):
         with self.assertRaises(TypeError):
             A.staleness(now_utc=self.NOW, kind="observation", retrieved_at_utc=self.NOW,
                         valid_time_utc=self.NOW, source_run_time_utc=None)
+
+
+class HourlyRebuildGateTest(unittest.TestCase):
+    """Gate: daily inputs for target t must be rebuilt from hourly values that end by local midnight."""
+
+    def hourly_for(self, day, value=1.0, skip=None):
+        data = {}
+        for i, start in enumerate(A.civil_day_hour_instants(day)):
+            if i != skip:
+                data[start + timedelta(hours=1)] = value
+        return data
+
+    def test_civil_day_hours_are_23_24_25_on_dst_days(self):
+        self.assertEqual(len(A.civil_day_hour_instants(date(2019, 3, 10))), 23)
+        self.assertEqual(len(A.civil_day_hour_instants(date(2019, 7, 1))), 24)
+        self.assertEqual(len(A.civil_day_hour_instants(date(2019, 11, 3))), 25)
+
+    def test_summer_t_minus_1_is_rebuilt_from_hourly_values_ending_at_issue(self):
+        day, target = date(2019, 7, 1), date(2019, 7, 2)
+        data = self.hourly_for(day)
+        self.assertEqual(A.rebuild_daily_total_from_hourly(data, day, target), 24.0)
+        # The same record taken as an ECCC LST daily summary is NOT safe in summer ...
+        self.assertFalse(A.eccc_daily_available_by_issue(day, target))
+        # ... and the last hour used ends exactly at the issue instant.
+        self.assertEqual(max(data), A.issue_time_utc(target))
+
+    def test_dst_days_sum_23_and_25_hours(self):
+        self.assertEqual(A.rebuild_daily_total_from_hourly(self.hourly_for(date(2019, 3, 10)), date(2019, 3, 10), date(2019, 3, 11)), 23.0)
+        self.assertEqual(A.rebuild_daily_total_from_hourly(self.hourly_for(date(2019, 11, 3)), date(2019, 11, 3), date(2019, 11, 4)), 25.0)
+
+    def test_missing_hour_gives_none_not_a_partial_sum_or_zero(self):
+        day, target = date(2019, 7, 1), date(2019, 7, 2)
+        self.assertIsNone(A.rebuild_daily_total_from_hourly(self.hourly_for(day, skip=5), day, target))
+        data = self.hourly_for(day)
+        data[sorted(data)[3]] = None
+        self.assertIsNone(A.rebuild_daily_total_from_hourly(data, day, target))
+
+    def test_same_day_or_future_day_is_rejected(self):
+        target = date(2019, 7, 2)
+        for day in (target, date(2019, 7, 3)):
+            with self.assertRaises(A.LeakageError):
+                A.rebuild_daily_total_from_hourly(self.hourly_for(day), day, target)
+
+
+class UnitsTest(unittest.TestCase):
+    def test_wind_ms_to_kmh(self):
+        self.assertAlmostEqual(A.ms_to_kmh(10.0), 36.0)
+        self.assertAlmostEqual(A.ms_to_kmh(3.3199999), 11.95199964)  # measured GeoMet HRDPS sample value
+        self.assertIsNone(A.ms_to_kmh(None))
+        self.assertEqual(A.ms_to_kmh(0.0), 0.0)
 
 
 class GridJoinTest(unittest.TestCase):

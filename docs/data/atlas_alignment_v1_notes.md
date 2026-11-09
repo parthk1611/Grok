@@ -1,6 +1,6 @@
 # ATLAS alignment v1: branch notes
 
-Branch `data/atlas-alignment-v1`, based on `contracts/v0` at v0.2.0 (commit `8af8713`). Local only; not pushed
+Branch `data/atlas-alignment-v1`, contracts content at v0.2.1 (commit `629600d` on the branch history; earlier alignment commit was based on v0.2.0 `8af8713`). Local only; not pushed
 (GitHub auth for this repo is blocked until the owner sets it up), no PR opened.
 
 ## Scope
@@ -96,8 +96,19 @@ Run with `/workspace/venv-model` (requirements-modeling.txt pins plus `requireme
 `python -m unittest discover -s tests -v` ran 89 tests, all OK (10 contract tests, 3 ignition feature panel, 26 ignition modeling, and the
 50 new tests). `capability_2_fire_spread/tests` was not runnable: it needs `shapely` (not installed; unpinned in its requirements) and data that is not in the clone.
 
+## T1.1 (2026-11-09)
+
+Delivered on this branch (local commit; not pushed):
+
+- `docs/data/t1_1_live_endpoints.md` — GeoMet HRDPS GFI layers + Datamart GRIB2, ~2-day GeoMet window, 6-hourly runs, field mapping, wind ×3.6
+- `tests/fixtures/live/` + `manifest.json` — real captured responses (2026-11-02)
+- `scripts/data_sources/measure_live_cadence.py` — Datamart GRIB2 publication lag only; reads RELAY `feed_cadence.jsonl` if present
+- Ledger `1.1.0`: project-wide fuel rule (FBP 2014b for year <=2014; else latest SCANFI 5-yr epoch **strictly before** fire year), SCANFI→FBP crosswalk TODO, `contracts_base_commit` `629600d`
+
+Datamart WIND lead-001 publication lag measured 2026-11-09: 177–183 min (mean 179.5). Fixture 18Z on 2026-11-02: 178 min.
+
 ## Not done / follow-ups
 
 - Not pushed, no PR. Needs GitHub write auth from the repository owner; then push the branch once and open a draft PR to `contracts/v0` or `main` per Team Lead.
 - Measurement scripts for the options doc are in scratch space, not committed.
-- T1.1 to T1.5 not started.
+- T1.1 done (see above). T1.2–T1.5 not started.
