@@ -68,7 +68,7 @@ function IgnitionBody({ result, warnings }: { result: IgnitionResult; warnings?:
           <strong>{dates.banner}.</strong> These are the latest earlier records; each keeps its own date.
         </div>
       )}
-      <StaleBanner assessment={a} subject="Ignition inputs" />
+      <StaleBanner assessment={a} subject="Ignition inputs" sources={envelope?.stale_sources} />
       <ContractWarnings warnings={warnings} />
       <KV k="cells" v={records.length} />
       <KV k="map date (Toronto day)" v={<span data-testid="ignition-shown-date">{dates.shownDates.join(', ')}</span>} mono />

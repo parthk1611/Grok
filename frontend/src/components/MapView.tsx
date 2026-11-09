@@ -62,7 +62,7 @@ export function MapView(p: MapViewProps) {
       style: buildStyle(),
       center: MAP_DEFAULTS.center,
       zoom: MAP_DEFAULTS.zoom,
-      attributionControl: { compact: true },
+      attributionControl: { compact: false }, // always-visible attribution (OSM tile policy)
     });
     mapRef.current = map;
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');

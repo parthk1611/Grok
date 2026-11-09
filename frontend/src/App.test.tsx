@@ -178,3 +178,24 @@ describe('manual form limits note (ruling 4)', () => {
     expect(screen.getByTestId('manual-form')).toHaveTextContent('0-101 is the real FWI scale');
   });
 });
+
+describe('footer in the app (nit 3)', () => {
+  const withHeader = (h: 'true' | 'false') => () => {
+    const base = createMockAdapter({ getScenario: () => 'fresh', latencyMs: 0 });
+    const set = async (p: Promise<import('./api/client').AdapterResponse>) => {
+      const r = await p;
+      return { ...r, headers: { ...(r.headers ?? {}), 'x-mock-data': h } };
+    };
+    return createApiClient({ name: 'test http', isMock: false, getIgnition: (q) => set(base.getIgnition(q)), getWeather: (p) => set(base.getWeather(p)), runSpread: (b) => set(base.runSpread(b)) });
+  };
+  it('MOCK DATA while responses say mock', async () => {
+    render(<App makeClient={withHeader('true')} />);
+    await screen.findByTestId('ignition-shown-date');
+    expect(screen.getByTestId('footer-data-label')).toHaveTextContent('MOCK DATA');
+  });
+  it('not MOCK DATA when every response says X-Mock-Data: false', async () => {
+    render(<App makeClient={withHeader('false')} />);
+    await screen.findByTestId('ignition-shown-date');
+    expect(screen.getByTestId('footer')).not.toHaveTextContent('MOCK DATA');
+  });
+});

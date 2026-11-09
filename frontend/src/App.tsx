@@ -6,6 +6,7 @@ import { DEV_SCENARIOS, type DevScenario } from './mocks/fixtures';
 import type { ApiErrorInfo, Loaded, WeatherOverride, WeatherRecord } from './types';
 import type { RequestedDate } from './lib/ignitionDate';
 import { torontoDate } from './lib/time';
+import { decideMock } from './lib/mockDecision';
 import { MockBanner } from './components/Banners';
 import { DevToggle } from './components/DevToggle';
 import { Footer } from './components/Footer';
@@ -122,8 +123,7 @@ export default function App({ makeClient }: AppProps = {}) {
   const selected = ignition?.ok ? (ignition.data.records.find((r) => r.cell_id === selectedCellId) ?? null) : null;
   // MOCK whenever the adapter is a mock, OR until at least one response explicitly says it is not mock and
   // none says it is (envelope `mock` / X-Mock-Data). Fail safe: unknown => MOCK.
-  const metas = [ignition?.meta, weather?.meta, run?.result.meta].filter((m) => m !== undefined);
-  const isMock = client.adapter.isMock || metas.length === 0 || metas.some((m) => m.mock !== false);
+  const isMock = decideMock(client.adapter.isMock, [ignition?.meta, weather?.meta, run?.result.meta]);
 
   return (
     <div className="app">
@@ -195,7 +195,7 @@ export default function App({ makeClient }: AppProps = {}) {
           <SpreadPanel run={run} loading={spreadLoading} horizon={horizon} onHorizon={setHorizon} isMock={isMock} />
         </aside>
       </main>
-      <Footer />
+      <Footer isMock={isMock} />
       {pending && (
         <DegradedRunDialog
           reasons={pending.reasons}

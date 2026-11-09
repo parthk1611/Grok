@@ -3,6 +3,7 @@ import { formatAge, formatToronto, formatUtc } from '../lib/time';
 import { isKnownReason, reasonMessage } from '../lib/apiError';
 import { MANUAL_STALE_REASON } from '../lib/manual';
 import type { ApiErrorInfo } from '../types';
+import type { StaleSource } from '../lib/envelope';
 import type { StalenessAssessment } from '../lib/staleness';
 
 /** Persistent page-level banner: all data in this build is MOCK. */
@@ -35,7 +36,7 @@ export function UnvalidatedBadge({ label = 'unvalidated' }: { label?: string }) 
  * Staleness banner. Fresh: no banner (a small chip is rendered by the panel instead).
  * Stale: amber. Expired: distinct red banner, never presented as current.
  */
-export function StaleBanner({ assessment, subject }: { assessment: StalenessAssessment; subject: string }) {
+export function StaleBanner({ assessment, subject, sources }: { assessment: StalenessAssessment; subject: string; sources?: StaleSource[] }) {
   if (assessment.level === 'fresh') return null;
   const expired = assessment.level === 'expired';
   return (
@@ -55,6 +56,19 @@ export function StaleBanner({ assessment, subject }: { assessment: StalenessAsse
               <li key={r}>{r}</li>
             ))}
           </ul>
+        )}
+        {sources && sources.length > 0 && (
+          <div data-testid="stale-sources">
+            Per-feed staleness (stale_sources, provisional v0.3.0):
+            <ul>
+              {sources.map((src) => (
+                <li key={src.source} data-testid={`stale-source-${src.source}`}>
+                  <code>{src.source}</code>: {src.stale_level}, data age {formatAge(src.age_minutes)}
+                  {src.fetch_age_minutes !== undefined ? `, fetch age ${formatAge(src.fetch_age_minutes)}` : ''}
+                </li>
+              ))}
+            </ul>
+          </div>
         )}
         <span className="muted">
           Fetch-health thresholds ({STALENESS_THRESHOLDS.status}, cache_fallback.md): fresh ≤ {STALENESS_THRESHOLDS.freshMaxMinutes} min, stale ≤{' '}

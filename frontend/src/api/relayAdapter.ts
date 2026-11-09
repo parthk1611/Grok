@@ -5,6 +5,16 @@ import type { AdapterResponse, ApiAdapter } from './client';
 import type { LonLat } from '../geo/cell';
 import type { SpreadRequestBody } from '../types';
 
+/** Thrown when the client-side abort fires; the client turns it into a specific "timed out" message. */
+export class RequestTimeoutError extends Error {
+  readonly timeoutMs: number;
+  constructor(timeoutMs: number) {
+    super(`request timed out after ${Math.round(timeoutMs / 1000)} s`);
+    this.name = 'RequestTimeoutError';
+    this.timeoutMs = timeoutMs;
+  }
+}
+
 export interface RelayAdapterOptions {
   baseUrl: string;
   fetchImpl?: typeof fetch;
@@ -39,6 +49,9 @@ export function createRelayAdapter(opts: RelayAdapterOptions): ApiAdapter {
     try {
       const res = await f(`${base}${path}`, { ...init, signal: ctl.signal, headers: { Accept: 'application/json', ...(init?.headers ?? {}) } });
       return await toAdapterResponse(res);
+    } catch (e) {
+      if (ctl.signal.aborted) throw new RequestTimeoutError(timeoutMs);
+      throw e;
     } finally {
       clearTimeout(t);
     }
