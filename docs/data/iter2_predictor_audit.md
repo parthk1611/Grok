@@ -27,7 +27,7 @@ Sources: [NFDB polygons](https://cwfis.cfs.nrcan.gc.ca/downloads/nfdb/fire_poly/
 [RNF 2009 Ontario](https://open.canada.ca/data/en/dataset/084b8d63-88e2-4de4-b744-32f82b68bf34); [NRN](https://open.canada.ca/data/en/dataset/3d282116-e556-400c-9306-ca1a3cada77f) (Ontario GPKG HEAD 200, 507,430,394 bytes);
 [2011 Census dissemination](https://www12.statcan.gc.ca/census-recensement/2011/ref/overview-apercu/pop10-eng.cfm); [2016 Census dissemination](https://www12.statcan.gc.ca/census-recensement/2016/ref/98-304/chap11-eng.cfm);
 [MSC lightning readme](https://eccc-msc.github.io/open-data/msc-data/lightning/readme_lightning_en/); [MSC FAQ (CLDN purchase, archive retrieval)](https://eccc-msc.github.io/open-data/faq/readme_en/);
-[GOES GLM L2 at NCEI](https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.ncdc%3AC01527); [GLM 55 deg N limit (NOAA VLab)](https://vlab.noaa.gov/web/towr-s/glm).
+[GOES ABI/GLM at NCEI](https://www.ncei.noaa.gov/products/goes-terrestrial-weather-abi-glm). The ~55 deg N GLM limit and the 2018-02-13 first-file date come from my earlier search notes and are **unverified** against a primary page.
 The StatCan RNF zip URLs returned HTTP 403 to a HEAD request from my computer, which looks like a bot block; their availability is from the portal listing only.
 
 ## Notes per candidate
