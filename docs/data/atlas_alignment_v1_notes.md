@@ -86,14 +86,13 @@ sign-off (the contract files were not edited from this branch).
 
 Rule recorded in `data/metadata/source_availability_ledger_v1.json`: fire year <= 2014 uses `National_FBP_Fueltypes_version2014b.zip`
 (250 m, built from the 2011 land cover; its metadata cites NFDB 2016 for burn scars); fire year >= 2015 uses the SCANFI v2 5-year epoch
-`5 * floor(year / 5)` (2015-2019 -> 2015, 2020-2024 -> 2020, 2025 -> 2025). HEAD requests confirmed SCANFI v2 closure files for 2015, 2020 and
-2025 exist and 2016 does not. Open points listed in the ledger: SCANFI is not an FBP fuel-type raster (crosswalk needed), same-year map for
-2020 and 2025 fires may contain the fire's own disturbance, and 250 m / 30 m / 90 m resolutions differ. Both entries are flagged hindcast, not operational.
+strictly before the fire year, `5 * floor((year - 1) / 5)` (2015 -> 2010, 2016-2020 -> 2015, 2021-2025 -> 2020; superseded the earlier same-year rule, see the ledger). HEAD requests confirmed SCANFI v2 closure files for 2015, 2020 and
+2025 exist and 2016 does not. Open points listed in the ledger: SCANFI is not an FBP fuel-type raster (crosswalk needed), and 250 m / 30 m / 90 m resolutions differ. Both entries are flagged hindcast, not operational.
 
 ## Test results
 
 Run with `/workspace/venv-model` (requirements-modeling.txt pins plus `requirements-data.txt` and `jsonschema==4.26.0`):
-`python -m unittest discover -s tests -v` ran 89 tests, all OK (10 contract tests, 3 ignition feature panel, 26 ignition modeling, and the
+`python -m unittest discover -s tests -v` ran 89 tests at `f5a0d4f`, all OK (98 at `9d065cf` after T1.1, 100 after the #2 review fixes) (10 contract tests, 3 ignition feature panel, 26 ignition modeling, and the
 50 new tests). `capability_2_fire_spread/tests` was not runnable: it needs `shapely` (not installed; unpinned in its requirements) and data that is not in the clone.
 
 ## T1.1 (2026-11-09)

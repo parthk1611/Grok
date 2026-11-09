@@ -152,7 +152,8 @@ def assert_t_minus_1_cutoff(observation_date: date, target_date: date) -> None:
 def assert_available_before_issue(available_at_utc: datetime, target_date: date) -> None:
     """Require an observation's availability instant to be <= the issue instant.
 
-    ``available_at_utc`` for an interval observation is the interval *end*.
+    ``available_at_utc`` for an interval observation is the interval *end*, so an
+    interval ending exactly at issue is allowed.  Compare ``assert_no_future_rows``.
     """
     available = to_utc(available_at_utc)
     issue = issue_time_utc(target_date)
@@ -195,9 +196,18 @@ def assert_no_future_rows(
     timestamp_key: str,
     target_date: date,
     *,
+    timestamp_marks: str = "start",
     max_reported: int = 5,
 ) -> int:
-    """Every row's UTC ``timestamp_key`` must be before the target day's local midnight."""
+    """Every row's UTC ``timestamp_key`` must not reach past the issue instant.
+
+    ``timestamp_marks`` says what the row timestamp is: ``"start"`` (default) for an
+    interval start or an instantaneous observation, which must be strictly before
+    issue; ``"end"`` for an interval end (as in ``assert_available_before_issue``),
+    which may equal issue.
+    """
+    if timestamp_marks not in ("start", "end"):
+        raise ValueError(f"timestamp_marks must be 'start' or 'end', not {timestamp_marks!r}")
     issue = issue_time_utc(target_date)
     offenders: list[str] = []
     count = 0
@@ -205,7 +215,7 @@ def assert_no_future_rows(
         count += 1
         stamp = row[timestamp_key]
         stamp = parse_utc(stamp) if isinstance(stamp, str) else to_utc(stamp)
-        if stamp >= issue:
+        if stamp > issue or (stamp == issue and timestamp_marks == "start"):
             offenders.append(f"row {index}: {format_utc_z(stamp)}")
     if offenders:
         raise LeakageError(
@@ -403,7 +413,9 @@ def eccc_hourly_utc(properties: Mapping[str, Any], station_zone: str = LOCAL_TZ_
     utc_text = properties.get("UTC_DATE")
     if utc_text:
         # UTC_DATE has no suffix in the API; it is UTC by definition of the field.
-        value = datetime.fromisoformat(str(utc_text).replace("Z", "")).replace(tzinfo=UTC)
+        parsed = datetime.fromisoformat(str(utc_text).replace("Z", "+00:00"))
+        # A naive value is UTC by definition; an explicit offset is converted, never overwritten.
+        value = parsed.replace(tzinfo=UTC) if parsed.tzinfo is None else parsed.astimezone(UTC)
         if local:
             derived = eccc_lst_to_utc(parse_eccc_lst(str(local)), station_zone)
             if derived != value:

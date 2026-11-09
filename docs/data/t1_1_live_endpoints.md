@@ -57,7 +57,7 @@ Common query shape (fixture URLs in `manifest.json`):
 | `geomet_gfi_PR.json` | `HRDPS.CONTINENTAL_PR` | mm (run accumulation) | 9.9367199 | prefer DIAG for hourly; if used, set `precip_period_h` to hours since `source_run_time` |
 | `geomet_gfi_DIAG_PR_PT1H.json` | `HRDPS.CONTINENTAL.DIAG_PR_PT1H` | mm (1-hour) | 3.2193375 | `precip_mm` with `precip_period_h=1`; `valid_time` = property `time` (interval end) |
 | `geomet_gfi_WSPD_explicit_time.json` | same WSPD | m/s | 4.52 at `time=2026-11-03T00:00:00Z`, `dim_reference_time=2026-11-02T18:00:00Z` | shows explicit TIME + DIM_REFERENCE_TIME work |
-| `geomet_gfi_WSPD_time_out_of_range.json` | WSPD, TIME beyond extent | — | XML ServiceException (HTTP 200) | failure fixture |
+| `geomet_gfi_WSPD_time_out_of_range.xml` | WSPD, TIME beyond extent | — | XML ServiceException (HTTP 200) | failure fixture |
 | `geomet_gfi_bad_layer.xml` | unknown layer | — | XML ServiceException (HTTP 200) | failure fixture |
 
 Every successful GFI feature carries:
@@ -101,7 +101,7 @@ Variables needed for the live weather record (lead hours as required):
 ### Publication lag (Datamart only) — measured
 
 Script: `scripts/data_sources/measure_live_cadence.py`  
-Method: Apache `Last-modified` on lead **001** files minus run time in the filename (minute resolution). Does **not** start a second GeoMet/CWFIS/SWOB poller; if `/workspace/relay-evidence/feed_cadence.jsonl` exists it is read for context only.
+Method: Apache index `Last modified` column (Datamart listing times are UTC) on lead **001** files minus run time in the filename (minute resolution). Does **not** start a second GeoMet/CWFIS/SWOB poller; if `/workspace/relay-evidence/feed_cadence.jsonl` exists it is read for context only.
 
 **2026-11-02 fixture (18Z only):** WIND `…PT001H.grib2` mtime 20:58Z → lag **178 min**.
 
@@ -117,7 +117,7 @@ Method: Apache `Last-modified` on lead **001** files minus run time in the filen
 Summary: min **177**, max **183**, mean **179.5** minutes (~**3.0 h**).  
 Earliest any GRIB2 in those lead-001 dirs: **173–180 min** after run time.
 
-Implication for `cache_fallback.md` (already noted there): a healthy HRDPS data-age "fresh" limit must exceed **run cycle (6 h) + publication lag (~3 h)** — i.e. more than ~9 h if measured from `source_run_time` at the end of a cycle — so a just-published run is not stuck in `stale`. Exact per-source thresholds remain TBD for Team Lead.
+Implication for `cache_fallback.md` (already noted there): a healthy HRDPS data-age "fresh" limit must exceed **run cycle (6 h) + publication lag (~3 h)** — i.e. more than ~9 h if measured from `source_run_time` at the end of a cycle — so a just-published run is not stuck in `stale`. Team Lead ruling (provisional, locks in contracts v0.3.0 after RELAY's 24 h probe): HRDPS data age fresh <= 600 min, stale 600-720 min, expired > 720 min.
 
 RELAY's `feed_cadence.jsonl` (38 lines, 2026-11-02 → 2026-11-08) records GeoMet `latest_run_age_min` only. Its minimum ages when a new `reference_time` first appears in the sparse sample are often **~255–300+ min**; that is an **upper bound** on GeoMet appearance lag under 15‑minute polling gaps, not a Datamart publish time. ATLAS does not re-poll those feeds.
 
@@ -125,7 +125,7 @@ RELAY's `feed_cadence.jsonl` (38 lines, 2026-11-02 → 2026-11-08) records GeoMe
 
 | Fixture | Endpoint | Role | Notes from capture |
 | --- | --- | --- | --- |
-| `cwfis_wfs_firewx_stns_current_ON.json` | CWFIS GeoServer WFS `public:firewx_stns_current` (`prov='ON'`) | Station weather / FWI-side | Geometry EPSG:3978; `rep_date` noon Z; `ws` already km/h-like station wind in the sample (`ws: 48.1` with name ARGENTIA in the count=1 fixture) |
+| `cwfis_wfs_firewx_stns_current_ON.json` | CWFIS GeoServer WFS `public:firewx_stns_current` (`prov='ON'`) | Station weather / FWI-side | Geometry EPSG:3978; `rep_date` noon Z; `ws` unit **unverified**: the WFS DescribeFeatureType gives only `xsd:float` with no unit, and the one sample (`ws: 48.1`, ARGENTIA NL) cannot settle it; ingest must not assume km/h until CWFIS metadata confirms the unit |
 | `cwfis_wfs_firewx_stns_current_count1.json` | same, `count=1` | schema sample | HTTP 200 |
 | `swob_realtime_item_ON_bbox.json` | `api.weather.gc.ca/collections/swob-realtime/items` | Minute surface obs | Geraldton Airport sample; `date_tm-value` UTC; air temp / RH / wind fields present with unit suffixes |
 
@@ -137,7 +137,7 @@ All under `tests/fixtures/live/`. Checksums, URLs, timestamps, HTTP status, and 
 
 ## 5. Blockers / open items for T1.2
 
-1. Per-source data-age fresh/stale **thresholds** still TBD in `cache_fallback.md` (needs Team Lead after this lag evidence).
+1. HRDPS data-age thresholds are provisional at 600 / 720 min (Team Lead), to be locked in v0.3.0 after RELAY's 24 h probe. RELAY's probe has seen a GeoMet run age of 578.9 min and GeoMet publishing ~43 min after Datamart, so the 177-183 min Datamart lag here is a lower bound for the live GeoMet path.
 2. GeoMet `HRDPS.CONTINENTAL_PR` is **run-total accumulation**, not hourly — prefer `DIAG_PR_PT1H` (or Datamart `APCP-Accum1h`) for `precip_period_h=1`.
 3. ECCC `swob-realtime` / climate API **licence** not confirmed → not adopted as primary.
 4. SCANFI→FBP fuel crosswalk is a separate ledger TODO (`TODO-crosswalk-v1`); not required for live weather.
@@ -149,4 +149,13 @@ All under `tests/fixtures/live/`. Checksums, URLs, timestamps, HTTP status, and 
 python scripts/data_sources/measure_live_cadence.py
 # optional: --json-out /tmp/datamart_lag.json
 # reads /workspace/relay-evidence/feed_cadence.jsonl when present
+```
+
+## Running the tests
+
+The full suite (100 tests at this commit) needs all three requirement files; with only `requirements-data.txt` you get 73 tests plus a numpy import error.
+
+```
+pip install -r requirements-data.txt -r requirements-modeling.txt -r contracts/requirements-contracts.txt
+python -m unittest discover -s tests -v
 ```

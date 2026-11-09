@@ -149,6 +149,14 @@ class CutoffTest(unittest.TestCase):
             with self.assertRaises(A.LeakageError):
                 A.assert_no_future_rows(ok + [{"t": stamp}], "t", self.TARGET)
 
+    def test_interval_end_rows_may_equal_issue(self):
+        issue = A.issue_time_utc(self.TARGET)
+        self.assertEqual(A.assert_no_future_rows([{"t": issue}], "t", self.TARGET, timestamp_marks="end"), 1)
+        with self.assertRaises(A.LeakageError):
+            A.assert_no_future_rows([{"t": issue + timedelta(seconds=1)}], "t", self.TARGET, timestamp_marks="end")
+        with self.assertRaises(ValueError):
+            A.assert_no_future_rows([{"t": issue}], "t", self.TARGET, timestamp_marks="middle")
+
     def test_naive_row_timestamps_are_rejected(self):
         with self.assertRaises(A.AlignmentError):
             A.assert_no_future_rows([{"t": datetime(2019, 7, 14)}], "t", self.TARGET)
@@ -182,6 +190,10 @@ class EcccTimeTest(unittest.TestCase):
         self.assertEqual(A.eccc_hourly_utc({"LOCAL_DATE": "2019-07-01 00:00:00"}), utc(2019, 7, 1, 5))
         with self.assertRaises(A.AlignmentError):
             A.eccc_hourly_utc({})
+
+    def test_api_utc_date_with_offset_is_converted_not_overwritten(self):
+        self.assertEqual(A.eccc_hourly_utc({"UTC_DATE": "2019-07-01T05:00:00Z"}), utc(2019, 7, 1, 5))
+        self.assertEqual(A.eccc_hourly_utc({"UTC_DATE": "2019-07-01T01:00:00-04:00"}), utc(2019, 7, 1, 5))
 
     def test_lst_climate_day_window_is_always_24_hours(self):
         for lst_day in (date(2019, 3, 10), date(2019, 11, 3), date(2019, 7, 1)):
