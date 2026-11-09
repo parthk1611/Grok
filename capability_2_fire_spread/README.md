@@ -68,6 +68,28 @@ cd capability_2_fire_spread
 cd .. && .venv-spread/bin/python -m unittest tests.test_contracts -v
 ```
 
-`tests/test_spread_point_api.py` uses made-up grids only (no dataset or rasterio needed). Two tests are
-marked `expectedFailure` because they document simulator artefacts: a one-cell-wide river does not stop
-the fire, and a diagonal wind burns about 11% more area than an axis-aligned one.
+`tests/test_spread_point_api.py` uses made-up grids only (no dataset needed). Two tests are
+marked `expectedFailure` because they document simulator artefacts: fire still squeezes through a
+one-cell *diagonal* wall (the one-cell straight wall leak was fixed), and a diagonal wind burns about
+11% more area at 6 h than an axis-aligned one (31% more at 1 h).
+
+## Monte Carlo burn-probability bands (T1.7)
+
+`scripts/spread_montecarlo.py` runs `run_point` many times with perturbed wind speed, wind direction,
+FFMC and `ros_scale` (base 0.8) and writes the p10/p50/p90 contours for 1, 3 and 6 h as a GeoJSON
+FeatureCollection that validates against `contracts/spread_output.schema.json` (v0.2.x). The default
+perturbation sizes are **provisional, not calibrated** (calibration is T2.5). Method, measured band
+areas, runtime and the wind-azimuth grid bias are in `docs/spread_montecarlo.md`.
+
+Demo on a made-up grid (uniform spruce, constant 20 km/h west wind; NOT real data), from `capability_2_fire_spread`:
+
+```bash
+../.venv-spread/bin/python scripts/spread_montecarlo.py --n-runs 100 --seed 385 --out /tmp/spread_mc.json
+../.venv-spread/bin/python scripts/spread_montecarlo.py --benchmark 20 --size 301 --n-runs 100   # wall-clock p50/p95
+../.venv-spread/bin/python scripts/spread_direction_bias.py                                      # azimuth bias tables
+```
+
+From Python: `run_monte_carlo(case, start_utc, seed=..., mode=..., weather_source=..., fuel_source=..., ignition_xy=... | lonlat=...)`
+returns a `MonteCarloResult` whose `.geojson` is the payload (`to_json` gives canonical text; the same seed gives the
+same bytes apart from `run_timestamp`). `mode`, `stale_level`/`age_minutes` and the source labels describe the inputs,
+so the caller must supply them.
