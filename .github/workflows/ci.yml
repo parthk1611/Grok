@@ -1,0 +1,67 @@
+# T0.6 CI: unit tests (existing + contract + backend) and an offline secret scan.
+# Draft by RELAY; merges need peer review + Team Lead sign-off. No secrets are used by this workflow.
+name: ci
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: |
+            requirements-modeling.txt
+            backend/requirements-dev.txt
+            contracts/requirements-contracts.txt
+      - name: Install pinned requirements
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-modeling.txt -r contracts/requirements-contracts.txt -r backend/requirements-dev.txt
+      - name: Existing tests + contract tests (tests/)
+        run: python -m unittest discover -s tests -v
+      - name: Backend tests (backend/tests/)
+        run: python -m unittest discover -s backend/tests -t . -v
+      - name: Validate contracts/openapi.yaml
+        run: python -c "from openapi_spec_validator import validate_url; import pathlib; validate_url(pathlib.Path('contracts/openapi.yaml').resolve().as_uri()); print('openapi ok')"
+
+  secret-scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # scan history, not just the tip
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Offline secret scan (working tree + history; scripts/secret_scan.py)
+        run: ./scripts/secret_scan.sh --history
+
+  docker-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build backend image
+        run: docker build -f backend/Dockerfile -t comp385-backend:ci .
+      - name: Smoke test (mock mode)
+        run: |
+          docker run -d --name api -p 127.0.0.1:8000:8000 comp385-backend:ci
+          for i in $(seq 1 20); do curl -fsS http://127.0.0.1:8000/healthz && break || sleep 1; done
+          curl -fsS "http://127.0.0.1:8000/api/v1/ingestion/status" > /dev/null
+          docker rm -f api
