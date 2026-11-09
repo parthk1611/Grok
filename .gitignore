@@ -29,3 +29,4 @@ __pycache__/
 .venv-modeling/
 artifacts/ignition_modeling/
 data/interim/ignition_modeling_cache/
+.venv-spread/
