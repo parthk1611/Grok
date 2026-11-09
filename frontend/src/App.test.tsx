@@ -129,3 +129,40 @@ describe('ignition date (ruling 2)', () => {
     expect(screen.getByTestId('ignition-panel')).toHaveTextContent(/mock-/);
   });
 });
+
+describe('MOCK labelling with a non-mock adapter', () => {
+  const nonMock = (mockHeader: 'true' | 'false' | null) => () => {
+    const base = createMockAdapter({ getScenario: () => 'fresh', latencyMs: 0 });
+    const strip = async (p: Promise<import('./api/client').AdapterResponse>) => {
+      const r = await p;
+      const headers = { ...(r.headers ?? {}) };
+      delete headers['x-mock-data'];
+      if (mockHeader) headers['x-mock-data'] = mockHeader;
+      return { ...r, headers };
+    };
+    return createApiClient({
+      name: 'test http',
+      isMock: false,
+      getIgnition: (q) => strip(base.getIgnition(q)),
+      getWeather: (p) => strip(base.getWeather(p)),
+      runSpread: (b) => strip(base.runSpread(b)),
+    });
+  };
+  it('keeps the MOCK banner while the server says X-Mock-Data: true', async () => {
+    render(<App makeClient={nonMock('true')} />);
+    await screen.findByTestId('ignition-shown-date');
+    expect(screen.getByTestId('mock-banner')).toBeInTheDocument();
+    expect(screen.queryByTestId('dev-toggle')).toBeNull(); // scenarios are server-side for HTTP adapters
+  });
+  it('keeps the MOCK banner when the server does not say (fail safe)', async () => {
+    render(<App makeClient={nonMock(null)} />);
+    await screen.findByTestId('ignition-shown-date');
+    expect(screen.getByTestId('mock-banner')).toBeInTheDocument();
+  });
+  it('drops the MOCK banner only when responses say X-Mock-Data: false', async () => {
+    render(<App makeClient={nonMock('false')} />);
+    await screen.findByTestId('ignition-shown-date');
+    expect(screen.queryByTestId('mock-banner')).toBeNull();
+    expect(screen.getByTestId('live-banner')).toBeInTheDocument();
+  });
+});
