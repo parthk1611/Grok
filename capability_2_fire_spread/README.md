@@ -47,3 +47,27 @@ python scripts/build_spread_master.py
 python scripts/validate_spread_master.py
 python -m unittest discover -s tests -v
 ```
+
+## Point-start API and simulator tests (T1.6)
+
+`scripts/spread_api.py` wraps `simulate_spread.simulate` for a fire that starts at one
+point: `run_point(case, start_utc, ignition_xy=(x, y) | lonlat=(lon, lat), horizons=(1, 3, 6), settings=None, weather_override=None, seed=None)`
+returns the arrival-time grid, a nested burned mask and the area in hectares for each horizon.
+It reads the fuel map as mapped (never the burn-scar grid repaired with the final perimeter),
+forces `repair_burn_scar=False`, ignores the observed arrival cells, and raises if the weather does
+not cover the run. `seed` is recorded but nothing is perturbed yet (Monte Carlo is T1.7).
+Note: `Settings().ros_scale` defaults to 1.0; pass the tuned value explicitly if you want it.
+
+Pinned environment and tests (run from the repository root, Python 3.13 tested):
+
+```bash
+python3 -m venv .venv-spread
+.venv-spread/bin/pip install -r capability_2_fire_spread/requirements-lock.txt
+cd capability_2_fire_spread
+../.venv-spread/bin/python -m unittest tests.test_fire_spread_simulator tests.test_spread_point_api -v
+cd .. && .venv-spread/bin/python -m unittest tests.test_contracts -v
+```
+
+`tests/test_spread_point_api.py` uses made-up grids only (no dataset or rasterio needed). Two tests are
+marked `expectedFailure` because they document simulator artefacts: a one-cell-wide river does not stop
+the fire, and a diagonal wind burns about 11% more area than an axis-aligned one.
