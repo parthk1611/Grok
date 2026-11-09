@@ -16,19 +16,32 @@ import weatherForecast from './weather_forecast.synthetic.json';
 import spreadSparse from './spread_sparse.synthetic.json';
 import { torontoDate } from '../lib/time';
 import type { LonLat } from '../geo/cell';
-import type { IgnitionRecord, SpreadOutput, StaleLevel, WeatherRecord } from '../types';
+import type { IgnitionRecord, SpreadOutput, StaleLevel, WeatherOverride, WeatherRecord } from '../types';
+import { MANUAL_STALE_REASON, MANUAL_WEATHER_SOURCE } from '../lib/manual';
 
-export const SCENARIOS = ['fresh', 'stale', 'expired', 'invalid', 'sparse', 'rich'] as const;
+/** Payload scenarios: each one has fixture payloads for ignition, weather and spread. */
+export const SCENARIOS = ['fresh', 'stale', 'expired', 'invalid', 'sparse', 'rich', 'stale_day'] as const;
 export type Scenario = (typeof SCENARIOS)[number];
+/** Server-behaviour-only scenarios (no payloads; the mock server answers with errors). */
+export const SERVER_SCENARIOS = ['no_cache'] as const;
+export type ServerScenario = (typeof SERVER_SCENARIOS)[number];
+/** Everything the DEV toggle offers. */
+export const DEV_SCENARIOS = [...SCENARIOS, ...SERVER_SCENARIOS] as const;
+export type DevScenario = (typeof DEV_SCENARIOS)[number];
 
-export const SCENARIO_HELP: Record<Scenario, string> = {
+export const SCENARIO_HELP: Record<DevScenario, string> = {
   fresh: 'Valid examples; ignition = retrospective, spread = hindcast; inputs ~10 min old (weather has no fetch_age_minutes)',
   stale: 'stale_level stale (+ stale_flag true), inputs ~2 h old',
   expired: 'stale_level expired (+ stale_flag true), inputs ~8 h old; spread needs confirmation',
   invalid: 'contracts/examples/bad_* payloads: must render explicit error states',
   sparse: 'Minimal: mode forecast, null values, no optional fields, spread n_runs=1 (uncertainty not estimated), validated_horizons_h empty, one empty band',
   rich: 'Everything optional present: calibration, feature_set_version, rank, weather_series, forecast_like spread, empty 1 h p90 band, forecast weather record (source_run_time, fetch age)',
+  stale_day: "Today's ignition map is not produced yet: the mock serves yesterday's map (records keep yesterday's date, stale_flag true); earlier dates 404",
+  no_cache: 'Nothing was ever cached: the mock server answers 503 no_cached_data (last_cache_time null) for ignition, weather and spread',
 };
+
+/** Synthetic stale reason for the stale-day ignition map (made-up wording, MOCK). */
+export const STALE_DAY_REASON = "MOCK: requested day's map is not available; serving the latest earlier map";
 
 const MIN = 60_000;
 const iso = (ms: number) => new Date(ms).toISOString().replace(/\.\d{3}Z$/, 'Z');
@@ -40,27 +53,51 @@ const LEVEL: Record<Exclude<Scenario, 'invalid'>, { level: StaleLevel; age: numb
   expired: { level: 'expired', age: 480 },
   sparse: { level: 'fresh', age: 10 },
   rich: { level: 'fresh', age: 10 },
+  // weather / spread are fresh in stale_day; only the ignition map is a day old (see mockIgnition)
+  stale_day: { level: 'fresh', age: 10 },
 };
 
-export function mockIgnition(scenario: Scenario, now: Date): unknown {
+const DAY = 24 * 60;
+/** Date of the newest ignition map the mock holds (America/Toronto day). */
+export function mockLatestMapDate(scenario: Scenario, now: Date): string {
+  return torontoDate(scenario === 'stale_day' ? new Date(now.getTime() - DAY * MIN) : now);
+}
+
+/**
+ * MOCK ignition map. `mapDate` (default: the newest map the mock holds) is the records' own `date`.
+ * `substituteFor`: the requested day when the mock is serving an EARLIER map in its place; the records then
+ * keep their own date and carry stale_flag true (Team Lead ruling, 2026-11-09).
+ */
+export function mockIgnition(scenario: Scenario, now: Date, mapDate?: string, substituteFor?: string): unknown {
   if (scenario === 'invalid') return [clone(ignitionExample), clone(badIgnitionProbability), clone(badIgnitionNoDisclaimer)];
-  const { level, age } = LEVEL[scenario];
+  const date = mapDate ?? mockLatestMapDate(scenario, now);
+  let { level, age } = LEVEL[scenario];
+  let reason: string | null | undefined;
+  if (scenario === 'stale_day') {
+    // a day-old map: data age about a day (synthetic), declared stale
+    level = 'stale';
+    age = DAY + 120;
+    reason = STALE_DAY_REASON;
+  }
+  if (substituteFor && substituteFor !== date && level === 'fresh') {
+    level = 'stale';
+    reason = STALE_DAY_REASON;
+  }
   const stale = level !== 'fresh';
+  if (reason === undefined) {
+    reason = scenario === 'sparse' ? null : stale ? `MOCK: synthetic input feed is ${age} min old (made-up age for UI testing)` : undefined;
+  }
   const base = scenario === 'sparse' ? ignitionSparse : [ignitionExample, ...ignitionExtra];
   return (clone(base) as IgnitionRecord[])
     .sort((a, b) => b.probability - a.probability)
     .map((r, i) => ({
       ...r,
-      date: torontoDate(now),
+      date,
       data_timestamp: iso(now.getTime() - age * MIN),
       stale_level: level,
       age_minutes: age,
       stale_flag: stale,
-      ...(scenario === 'sparse'
-        ? { stale_reason: null }
-        : stale
-          ? { stale_reason: `MOCK: synthetic input feed is ${age} min old (made-up age for UI testing)` }
-          : {}),
+      ...(reason !== undefined ? { stale_reason: reason } : {}),
       ...(scenario === 'rich' ? { calibration: 'synthetic-calibration-label', feature_set_version: 'synthetic-feature-set-v0', rank_in_day: i + 1 } : {}),
     }));
 }
@@ -104,7 +141,7 @@ function translate(coords: unknown, dLon: number, dLat: number): unknown {
 }
 
 /** MOCK spread run: the example output rigidly translated to the clicked point. NOT a simulation. */
-export function mockSpread(scenario: Scenario, now: Date, point: LonLat): unknown {
+export function mockSpread(scenario: Scenario, now: Date, point: LonLat, override?: WeatherOverride): unknown {
   if (scenario === 'invalid') return clone(badSpreadHorizon);
   const base = clone(scenario === 'sparse' ? spreadSparse : spreadExample) as unknown as SpreadOutput;
   const { level, age } = LEVEL[scenario];
@@ -137,6 +174,20 @@ export function mockSpread(scenario: Scenario, now: Date, point: LonLat): unknow
       rh_pct: null,
       ffmc: null,
     }));
+  }
+  if (override) {
+    // Manual inputs (Team Lead ruling): echoed into inputs, weather_source "manual", never fresh.
+    base.inputs.weather_source = MANUAL_WEATHER_SOURCE;
+    base.inputs.weather_valid_time = iso(now.getTime());
+    delete base.inputs.weather_data_timestamp;
+    delete base.inputs.weather_series;
+    base.inputs.wind_speed_kmh = override.wind_speed_kmh;
+    base.inputs.wind_direction_deg = override.wind_direction_deg;
+    for (const k of ['ffmc', 'bui', 'temp_c', 'rh_pct', 'precip_mm'] as const) base.inputs[k] = override[k] ?? null;
+    base.stale_level = 'stale';
+    base.age_minutes = 0;
+    base.inputs.stale_flag = true;
+    base.inputs.stale_reason = MANUAL_STALE_REASON;
   }
   for (const f of base.features) {
     (f.geometry as { coordinates: unknown }).coordinates = translate(f.geometry.coordinates, dLon, dLat);
