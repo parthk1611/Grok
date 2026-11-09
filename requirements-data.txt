@@ -1,8 +1,16 @@
-# Exact pins for ATLAS data-lane alignment helpers (scripts/data_sources) and their tests.
-# scripts/data_sources/alignment.py is stdlib-only except lonlat_to_grid_id(), which needs pyproj.
-# tzdata guarantees America/Toronto rules on systems without a system zoneinfo database.
-# Existing model/EDA requirements stay in requirements-modeling.txt / requirements-eda.txt.
-# Alignment code is deterministic (no randomness), so no SEED is defined here; the project
-# seed for model code remains SEED = 385 in scripts/ignition_modeling/contract.py.
+# Data-lane pins (ATLAS). Union of the T1.0 FIRERESP pins (main) and the alignment-helper pins (this branch).
+# pyogrio: read the File Geodatabase FIRERESP.zip (scripts/download_ontario_fire_region.py).
+#   Verified with Python 3.13.5, GDAL 3.12.4 (bundled in pyogrio wheel).
+# shapely: grid build (scripts/build_cpa_daily_ignition_labels.py).
+# pyproj: lonlat_to_grid_id() in scripts/data_sources/alignment.py (otherwise stdlib-only).
+# tzdata: guarantees America/Toronto rules on systems without a system zoneinfo database.
+# Model/EDA requirements stay in requirements-modeling.txt / requirements-eda.txt; the full test
+# suite needs this file plus requirements-modeling.txt and contracts/requirements-contracts.txt.
+# Alignment code is deterministic; the project seed for model code is SEED = 385 in
+# scripts/ignition_modeling/contract.py.
+numpy==2.5.4
+pandas==3.1.0
+pyogrio==0.13.0
 pyproj==3.8.0
+shapely==2.2.0
 tzdata==2026.6

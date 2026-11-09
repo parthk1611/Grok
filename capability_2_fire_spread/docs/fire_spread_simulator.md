@@ -17,7 +17,9 @@ neighbours. The time to cross to a neighbour comes from:
 
 Each cell's arrival time is the earliest time fire can reach it by any path
 (shortest travel time over sixteen neighbours), so fire goes around lakes and
-runs ahead through faster fuels. Water and non-fuel never burn.
+runs ahead through faster fuels. Water and non-fuel never burn, and a move
+is blocked when any cell it passes through is water or non-fuel (the
+knight-shaped moves otherwise stepped over a one-cell river or road).
 
 Inputs per fire are the dataset's 90 m fuel and elevation windows and its
 hourly weather. The fuel map is the 2024 edition, which shows regrowth or
@@ -89,6 +91,11 @@ stretch of perimeter, with no wind, fuel or terrain.
   at the fire front.
 - Fuel is the 2024 map with a repair inside the perimeter, not the fuel on the
   day of the fire.
+- A move between two cells that touch only at a corner still squeezes through
+  a one-cell diagonal wall (diagonal moves are not blocked by two diagonal water
+  cells); see `test_a_diagonal_one_cell_wall_blocks_the_fire`.
+- The scores above were measured before the knight-move barrier fix and have
+  not been re-run (the per-fire rasters are not in the repository).
 - No crown-fire transition, spotting or suppression. Repeated runs for
   confidence bands are not built yet.
 

@@ -1,0 +1,23 @@
+{
+  "record_id": "synthetic-sparse",
+  "source": "example-placeholder",
+  "kind": "observation",
+  "latitude": 50.0,
+  "longitude": -90.0,
+  "valid_time": "2026-07-15T16:00:00Z",
+  "retrieved_at": "2026-07-15T16:05:00Z",
+  "temp_c": null,
+  "rh_pct": null,
+  "wind_speed_kmh": null,
+  "wind_direction_deg": null,
+  "wind_u_kmh": null,
+  "wind_v_kmh": null,
+  "precip_mm": null,
+  "precip_period_h": null,
+  "age_minutes": 10,
+  "stale_level": "fresh",
+  "from_cache": false,
+  "quality_flags": [
+    "synthetic: all values missing"
+  ]
+}
