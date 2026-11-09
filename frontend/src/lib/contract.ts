@@ -20,7 +20,8 @@ export const MOCK_MODEL_VERSION = 'example-not-a-real-model';
 // strictTypes / strictRequired are off because the contract's if/then/else branches use `properties`
 // without `type: object` and `required` for properties declared outside the branch (we must not edit
 // the schemas). Unknown keywords and formats still throw.
-const ajv = new Ajv2020({ allErrors: true, strict: true, strictTypes: false, strictRequired: false });
+export const AJV_OPTIONS = { allErrors: true, strict: true, strictTypes: false, strictRequired: false } as const;
+const ajv = new Ajv2020(AJV_OPTIONS);
 addFormats(ajv);
 
 const validateIgnitionFn = ajv.compile<IgnitionRecord>(ignitionSchema);

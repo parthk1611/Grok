@@ -3,6 +3,7 @@ import type { IgnitionRecord, Loaded, SpreadOutput, WeatherRecord } from '../typ
 import { MOCK_MODEL_VERSION } from '../lib/contract';
 import { assessIgnition, assessSpread, assessWeather, maxLevel, type StalenessAssessment } from '../lib/staleness';
 import { BANDS, HORIZONS, horizonLabel, isEmptyBand, isHorizonValidated, type Horizon } from '../lib/horizons';
+import { singleRunFootprint } from '../lib/geojson';
 import { formatAge, formatToronto, formatUtc } from '../lib/time';
 import { BAND_COLORS, formatProbability, RAMP } from '../lib/colors';
 import { cellIdToCentre, parseCellId } from '../geo/cell';
@@ -216,8 +217,8 @@ function SpreadBody({ out, degradedConfirmed, horizon, onHorizon }: { out: Sprea
       )}
       {!estimated && (
         <div className="banner banner-uncertainty" data-testid="uncertainty-not-estimated">
-          <strong>Uncertainty not estimated.</strong> This run has no usable ensemble (n_runs = {out.n_runs}), so p10 / p50 / p90 are not shown as bands. The map draws a
-          single-run footprint only.
+          <strong>Uncertainty not estimated.</strong> uncertainty_status is not_estimated (n_runs = {out.n_runs}), so no p10 / p50 / p90 bands are shown. The map
+          draws the p50 feature once as a single-run footprint; p10 and p90 are ignored.
         </div>
       )}
       <div className="horizon-toggle" role="group" aria-label="Horizon">
@@ -267,9 +268,10 @@ function SpreadBody({ out, degradedConfirmed, horizon, onHorizon }: { out: Sprea
         </table>
       ) : (
         <p className="small" data-testid="single-run-summary">
-          Single-run footprint area:{' '}
+          single-run footprint area:{' '}
           {(() => {
-            const f = rows.find((r) => r.properties.band === 'p50') ?? rows[0];
+            const f = singleRunFootprint(out, horizon);
+            if (!f) return <em data-testid="single-run-missing">p50 feature missing from payload</em>;
             return isEmptyBand(f) ? <em>no area reached</em> : `${f.properties.area_ha} ha`;
           })()}
         </p>
