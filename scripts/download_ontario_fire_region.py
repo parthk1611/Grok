@@ -19,6 +19,8 @@ OUTPUT = DESTINATION / "fire_response_plan_sectors.geojson"
 MANIFEST = DESTINATION / "fire_response_plan_sectors_manifest.json"
 ARCHIVE = DESTINATION / "FIRERESP.zip"
 ARCHIVE_URL = "https://ws.gisetl.lrc.gov.on.ca/fmedatadownload/Packages/FIRERESP.zip"
+TRACKED_GRID = PROJECT_ROOT / "data/interim/ontario_fire_region_10km_grid.csv"
+EVENTS = PROJECT_ROOT / "data/interim/ontario_nfdb_ignitions_2010_2019.csv"
 
 
 GDB_LAYER = "FIRE_RESPONSE_SECTOR"
@@ -87,6 +89,46 @@ def read_geodatabase_sectors(archive_path: Path) -> list[tuple[dict[str, str], l
     return result
 
 
+def compute_grid_equivalence(boundary_path: Path) -> dict:
+    """Rebuild the 10 km grid from boundary + NFDB events and compare to tracked grid.
+
+    Uses local inputs only (no extra network). Skips with a reason if events or
+    the tracked grid CSV are missing.
+    """
+    from build_cpa_daily_ignition_labels import rebuild_grid_csv_bytes
+
+    checked_at = datetime.now(UTC).isoformat()
+    if not EVENTS.exists():
+        return {
+            "status": "skipped",
+            "reason": f"event input missing: {EVENTS.relative_to(PROJECT_ROOT)}",
+            "checked_at_utc": checked_at,
+        }
+    if not TRACKED_GRID.exists():
+        return {
+            "status": "skipped",
+            "reason": f"tracked grid missing: {TRACKED_GRID.relative_to(PROJECT_ROOT)}",
+            "checked_at_utc": checked_at,
+        }
+    rebuilt_bytes, rebuilt_cells = rebuild_grid_csv_bytes(boundary_path, EVENTS)
+    tracked_bytes = TRACKED_GRID.read_bytes()
+    rebuilt_sha = sha256(rebuilt_bytes)
+    tracked_sha = sha256(tracked_bytes)
+    tracked_cells = len(tracked_bytes.decode("utf-8").splitlines()) - 1
+    return {
+        "status": "checked",
+        "checked_at_utc": checked_at,
+        "rebuilt_sha256": rebuilt_sha,
+        "rebuilt_cell_count": rebuilt_cells,
+        "tracked_grid": str(TRACKED_GRID.relative_to(PROJECT_ROOT)),
+        "tracked_sha256": tracked_sha,
+        "tracked_cell_count": tracked_cells,
+        "byte_identical": rebuilt_bytes == tracked_bytes,
+        "event_input": str(EVENTS.relative_to(PROJECT_ROOT)),
+        "event_input_sha256": sha256(EVENTS.read_bytes()),
+    }
+
+
 def main() -> None:
     DESTINATION.mkdir(parents=True, exist_ok=True)
     request = urllib.request.Request(ARCHIVE_URL, headers={"User-Agent": "ai-capstone/0.1"})
@@ -151,7 +193,7 @@ def main() -> None:
                         "gdb_layer": GDB_LAYER,
                         "source_revision_note": SOURCE_REVISION_NOTE,
                         "previous_revisions": PREVIOUS_REVISIONS,
-                        "grid_equivalence": "10 km grid rebuilt from this revision is byte-identical to the tracked grid (sha256 b22741d83b64c2b78c19fbf182848566644a23fad4aeef3301ff25ef7c6c3f35)",
+                        "grid_equivalence": compute_grid_equivalence(OUTPUT),
                     }
                     if not legacy
                     else {}

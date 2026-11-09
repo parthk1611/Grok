@@ -21,5 +21,16 @@
       "status": "superseded upstream; archive no longer available at source_url"
     }
   ],
-  "grid_equivalence": "10 km grid rebuilt from this revision is byte-identical to the tracked grid (sha256 b22741d83b64c2b78c19fbf182848566644a23fad4aeef3301ff25ef7c6c3f35)"
+  "grid_equivalence": {
+    "status": "checked",
+    "checked_at_utc": "2026-11-09T22:01:53.411346+00:00",
+    "rebuilt_sha256": "b22741d83b64c2b78c19fbf182848566644a23fad4aeef3301ff25ef7c6c3f35",
+    "rebuilt_cell_count": 9673,
+    "tracked_grid": "data/interim/ontario_fire_region_10km_grid.csv",
+    "tracked_sha256": "b22741d83b64c2b78c19fbf182848566644a23fad4aeef3301ff25ef7c6c3f35",
+    "tracked_cell_count": 9673,
+    "byte_identical": true,
+    "event_input": "data/interim/ontario_nfdb_ignitions_2010_2019.csv",
+    "event_input_sha256": "550fe4f7463ca73148dccc140302fca9faaf6803c98fa1edd925c2d42d8fe55c"
+  }
 }

@@ -93,9 +93,9 @@ def unproject(x: float, y: float) -> tuple[float, float]:
     return longitude, math.degrees(phi)
 
 
-def load_study_area():
+def load_study_area(boundary_path: Path | None = None):
     """Return a prepared EPSG:3978 union of Ontario Fire Region sectors."""
-    boundary = json.loads(BOUNDARY.read_text(encoding="utf-8"))
+    boundary = json.loads((boundary_path or BOUNDARY).read_text(encoding="utf-8"))
     if boundary.get("type") != "FeatureCollection":
         raise ValueError("Study boundary must be a GeoJSON FeatureCollection.")
 
@@ -160,11 +160,12 @@ def fire_season_dates() -> list[date]:
 
 def load_events(
     study_area,
+    events_path: Path | None = None,
 ) -> tuple[list[dict[str, str]], dict[tuple[str, str], list[dict[str, str]]], Counter[str]]:
     selected: list[dict[str, str]] = []
     labels: dict[tuple[str, str], list[dict[str, str]]] = defaultdict(list)
     audit: Counter[str] = Counter()
-    with EVENTS.open(encoding="utf-8", newline="") as source:
+    with (events_path or EVENTS).open(encoding="utf-8", newline="") as source:
         for event in csv.DictReader(source):
             audit["input_events"] += 1
             event_date = date.fromisoformat(event["ignition_date"])
@@ -198,6 +199,38 @@ def build_grid(
         longitude, latitude = unproject(centre_x, centre_y)
         cells.append((identifier, x0, y0, longitude, latitude))
     return sorted(cells)
+
+def rebuild_grid_csv_bytes(
+    boundary_path: Path | None = None,
+    events_path: Path | None = None,
+) -> tuple[bytes, int]:
+    """Rebuild the tracked 10 km grid CSV in memory (no labels write).
+
+    Cell inclusion matches main(): Fire Region centroid coverage, plus any cell
+    that contains a selected NFDB ignition. Returns (csv_bytes, cell_count).
+    """
+    import io
+
+    study_area = load_study_area(boundary_path)
+    selected_events, _, _ = load_events(study_area, events_path)
+    cells = build_grid(study_area, {event["grid_id"] for event in selected_events})
+    buffer = io.StringIO(newline="")
+    writer = csv.DictWriter(
+        buffer,
+        fieldnames=["grid_id", "grid_x_m", "grid_y_m", "centroid_longitude", "centroid_latitude"],
+    )
+    writer.writeheader()
+    for identifier, x0, y0, longitude, latitude in cells:
+        writer.writerow(
+            {
+                "grid_id": identifier,
+                "grid_x_m": x0,
+                "grid_y_m": y0,
+                "centroid_longitude": f"{longitude:.6f}",
+                "centroid_latitude": f"{latitude:.6f}",
+            }
+        )
+    return buffer.getvalue().encode("utf-8"), len(cells)
 
 
 def main() -> None:
