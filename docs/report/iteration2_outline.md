@@ -17,7 +17,15 @@ research-estimate disclaimer in the contract schemas.
 - Owner: Team Lead (BEACON drafts). Source: `README.md`, `AGENTS.md`, `contracts/README.md`.
 
 ## 2. Changes since iteration #1 (professor feedback)
-- Feedback items, each mapped to the section that answers it. `[TBD: Team Lead feedback list]`
+- Feedback themes (our paraphrase), each mapped to the section that answers it:
+  - Weakest areas in iteration #1 were model development, ethics and validation: sections 3, 4, 8.
+  - No executive summary, conclusions, recommendations or week-completion claims at this stage: the structure of this report.
+  - Express alert budgets as cells flagged per day and false-alert burden, and do not present a calibrated or mapped probability as actionable: sections 5, 7.
+  - Stronger geographic testing, with several held-out regions and years kept as intact spatial blocks and resampling by fire, region or time block rather than by day: section 4.
+  - Audit dated, issue-time-valid predictors (fuel/vegetation, lightning, human access) against the baselines before adding model complexity, and check stability across years, regions and negative-sampling seeds: sections 3, 5.
+  - Assess geographic and data-coverage fairness and community impacts: section 8.
+  - Keep iteration #1 results frozen and run new experiments under a new evaluation design: sections 2, 4, 10.
+- Iteration #1 weaknesses that motivate E2 are cited from the frozen iteration #1 results (run ID TBD), not re-measured. `[TBD: Team Lead confirm which frozen figures to cite]`
 - Iteration #1 results stay frozen and are cited as "frozen iteration #1 results (run ID TBD)", with no figures re-quoted.
 - What E2 changes relative to the iteration #1 protocol: the split design, uncertainty estimation and operational budgets. Gaps already listed under "Limits" in `docs/modeling/final_report.md` are named here, without numbers.
 - Owner: Team Lead. Source: feedback notes, `docs/modeling/evaluation_protocol.md`.
@@ -47,6 +55,7 @@ research-estimate disclaimer in the contract schemas.
 - A Rothermel-based Monte Carlo produces burn-probability bands at 1/3/6 h. The method and provisional input sigmas follow `spread_montecarlo.md`.
 - Single run (`n_runs`=1): the unperturbed base footprint with `uncertainty_status` `not_estimated` (the dashboard draws p50 only).
 - Replay metrics, all placeholders: IoU, area error, direction error and perimeter distance. `[TBD: BLAZE replay run <id>]`
+- Replay scope for iteration #2: T2.5 replay covers fires up to 2014 only, because fuel data for 2015+ fires is missing and no 2024 fallback is used. The SCANFI crosswalk follows the predictor audit (no ETA).
 - Known limits: EPSG:3978 area/perimeter scale error, grid wind-azimuth bias, and the contract gaps listed by BLAZE.
 - Owner: BLAZE. Source: `capability_2_fire_spread/docs/*`, `scripts/run_spread_replay.py`.
 
@@ -83,7 +92,7 @@ research-estimate disclaimer in the contract schemas.
 - Retrospective hindcast. The edge-cell selection of the frozen grid uses study-period events. Archive publication/revision times are unknown.
 - Label bias from uneven detection and reporting; censored history start.
 - E2-specific threats: block leakage across borders, seed sensitivity, and budget choice. `[TBD: EMBER E2 run <id>]`
-- Spread: provisional sigmas, gaps in fuel crosswalk and resolution, and replay-target quality.
+- Spread: replay limited to fires up to 2014 (no fuel for 2015+), provisional sigmas, gaps in fuel crosswalk and resolution, and replay-target quality.
 - Owner: all lanes (BEACON compiles).
 
 ## 10. Reproducibility
