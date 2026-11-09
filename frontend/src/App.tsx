@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { createApiClient, createMockAdapter, type ApiClient, type IgnitionResult, type SpreadOptions } from './api/client';
+import type { ApiClient, IgnitionResult, SpreadOptions } from './api/client';
+import { createConfiguredClient, readApiConfig } from './api';
 import { BASEMAP_DISABLED_BY_CONFIG } from './config';
 import { DEV_SCENARIOS, type DevScenario } from './mocks/fixtures';
 import type { ApiErrorInfo, Loaded, WeatherOverride, WeatherRecord } from './types';
@@ -37,13 +38,15 @@ export interface AppProps {
   makeClient?: (getScenario: () => DevScenario) => ApiClient;
 }
 
+const API_CONFIG = readApiConfig();
+
 export default function App({ makeClient }: AppProps = {}) {
   const [scenario, setScenario] = useState<DevScenario>(initialScenario);
   const [ignitionDate, setIgnitionDate] = useState<RequestedDate>(initialDate);
   const scenarioRef = useRef(scenario);
   scenarioRef.current = scenario;
   const client = useMemo(
-    () => (makeClient ?? ((g: () => DevScenario) => createApiClient(createMockAdapter({ getScenario: g }))))(() => scenarioRef.current),
+    () => (makeClient ?? ((g: () => DevScenario) => createConfiguredClient(API_CONFIG, g)))(() => scenarioRef.current),
     [],
   );
   
@@ -117,8 +120,10 @@ export default function App({ makeClient }: AppProps = {}) {
   const spreadGeo = useMemo(() => spreadHorizonGeoJSON(spreadOut, horizon), [spreadOut, horizon]);
   const spreadPointGeo = useMemo(() => ignitionPointGeoJSON(spreadOut), [spreadOut]);
   const selected = ignition?.ok ? (ignition.data.records.find((r) => r.cell_id === selectedCellId) ?? null) : null;
-  // MOCK whenever the adapter is a mock OR any response says it is mock data (envelope `mock` / X-Mock-Data).
-  const isMock = client.adapter.isMock || [ignition?.meta, weather?.meta, run?.result.meta].some((m) => m?.mock === true);
+  // MOCK whenever the adapter is a mock, OR until at least one response explicitly says it is not mock and
+  // none says it is (envelope `mock` / X-Mock-Data). Fail safe: unknown => MOCK.
+  const metas = [ignition?.meta, weather?.meta, run?.result.meta].filter((m) => m !== undefined);
+  const isMock = client.adapter.isMock || metas.length === 0 || metas.some((m) => m.mock !== false);
 
   return (
     <div className="app">
@@ -155,9 +160,11 @@ export default function App({ makeClient }: AppProps = {}) {
             data-testid="date-input"
           />
         </div>
-        <DevToggle scenario={scenario} onChange={setScenario} />
+        {client.adapter.isMock && <DevToggle scenario={scenario} onChange={setScenario} />}
       </header>
-      <MockBanner />
+      {isMock ? <MockBanner /> : <div className="banner banner-warn" data-testid="live-banner">Responses report X-Mock-Data: false. Check model_version on every panel before trusting a value.</div>}
+      {!makeClient && API_CONFIG.configError && <div className="banner banner-warn" data-testid="config-error">{API_CONFIG.configError}</div>}
+      {!client.adapter.isMock && <div className="small adapter-note" data-testid="adapter-name">Data source: {client.adapter.name}</div>}
       <main className="main">
         <div className="mapcol">
           <MapView
@@ -178,7 +185,7 @@ export default function App({ makeClient }: AppProps = {}) {
             spreadVisible={!!spreadOut}
             estimated={spreadOut ? spreadOut.uncertainty_status === 'estimated' : true}
           />
-          {mode === 'spread' && <div className="map-hint" data-testid="spread-hint">Spread mode: click anywhere on the map to request a MOCK spread run.</div>}
+          {mode === 'spread' && <div className="map-hint" data-testid="spread-hint">Spread mode: click anywhere on the map to request a {isMock ? 'MOCK ' : ''}spread run.</div>}
           {cells && cells.skipped > 0 && <div className="map-note">{cells.skipped} cell(s) skipped: unparseable cell_id</div>}
         </div>
         <aside className="sidebar">
