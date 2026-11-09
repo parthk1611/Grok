@@ -25,7 +25,11 @@ research-estimate disclaimer in the contract schemas.
   - Audit dated, issue-time-valid predictors (fuel/vegetation, lightning, human access) against the baselines before adding model complexity, and check stability across years, regions and negative-sampling seeds: sections 3, 5.
   - Assess geographic and data-coverage fairness and community impacts: section 8.
   - Keep iteration #1 results frozen and run new experiments under a new evaluation design: sections 2, 4, 10.
-- Iteration #1 weaknesses that motivate E2 are cited from the frozen iteration #1 results (run ID TBD), not re-measured. `[TBD: Team Lead confirm which frozen figures to cite]`
+- Frozen iteration #1 figures that motivate E2, cited only here and not re-measured. Source: Iteration #1 report (submitted Oct 16 2026), §6, frozen at `system_sha256 ac84064c…`, `frozen_at_utc 2026-10-09T07:28Z`:
+  - historical temporal test (2019): precision 0.353% at the 1% alert budget;
+  - selected-source temporal test (Sep–Oct 2025): precision 0.0845% at the 1% alert budget;
+  - selected-source geographic final test: 1 of 14 positives detected.
+  These are not compared with E2 results in any table or figure.
 - Iteration #1 results stay frozen and are cited as "frozen iteration #1 results (run ID TBD)", with no figures re-quoted.
 - What E2 changes relative to the iteration #1 protocol: the split design, uncertainty estimation and operational budgets. Gaps already listed under "Limits" in `docs/modeling/final_report.md` are named here, without numbers.
 - Owner: Team Lead. Source: feedback notes, `docs/modeling/evaluation_protocol.md`.
