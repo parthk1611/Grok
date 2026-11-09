@@ -27,11 +27,11 @@ export function manualRunWarnings(out: SpreadOutput, sent: WeatherOverride | und
   return w;
 }
 
-/** UI-side bounds for the manual form. Sanity limits, NOT contract limits (the contract only bounds direction 0-360, RH 0-100, speed/precip >= 0). */
+/** UI-side bounds for the manual form, approved by Team Lead (2026-11-09) as sanity limits, NOT contract limits (the contract only bounds direction 0-360, RH 0-100, speed/precip >= 0). */
 export const OVERRIDE_FIELDS = [
   { key: 'wind_speed_kmh', label: 'Wind speed', unit: 'km/h', required: true, min: 0, max: 200, help: '10 m wind speed at start_time' },
   { key: 'wind_direction_deg', label: 'Wind direction', unit: '° (from)', required: true, min: 0, max: 360, help: 'degrees the wind blows FROM (0/360 = north)' },
-  { key: 'ffmc', label: 'FFMC', unit: 'index', required: false, min: 0, max: 101, help: 'Fine Fuel Moisture Code (0-101)' },
+  { key: 'ffmc', label: 'FFMC', unit: 'index', required: false, min: 0, max: 101, help: 'Fine Fuel Moisture Code; 0-101 is the real FWI scale' },
   { key: 'bui', label: 'BUI', unit: 'index', required: false, min: 0, max: 500, help: 'Buildup Index (>= 0)' },
   { key: 'temp_c', label: 'Temperature', unit: '°C', required: false, min: -50, max: 50, help: '' },
   { key: 'rh_pct', label: 'Relative humidity', unit: '%', required: false, min: 0, max: 100, help: '' },
