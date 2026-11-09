@@ -52,7 +52,10 @@ export function MapView(p: MapViewProps) {
   const [ready, setReady] = useState(false);
   const [tileError, setTileError] = useState(false);
   const latest = useRef(p);
-  latest.current = p;
+  // keep the newest props for map event handlers (synced after render, never during it)
+  useEffect(() => {
+    latest.current = p;
+  });
 
   // create the map once
   useEffect(() => {
@@ -62,7 +65,7 @@ export function MapView(p: MapViewProps) {
       style: buildStyle(),
       center: MAP_DEFAULTS.center,
       zoom: MAP_DEFAULTS.zoom,
-      attributionControl: { compact: true },
+      attributionControl: { compact: false }, // always-visible attribution (OSM tile policy)
     });
     mapRef.current = map;
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
@@ -140,14 +143,14 @@ export function MapView(p: MapViewProps) {
     setData('ignition', p.ignition);
     const map = mapRef.current!;
     map.setPaintProperty('ignition-fill', 'fill-color', ['interpolate', ['linear'], ['get', 'probability'], ...rampStops(p.maxProbability)]);
-  }, [ready, p.ignition, p.maxProbability]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [ready, p.ignition, p.maxProbability]);
 
   useEffect(() => {
     if (ready) {
       setData('spread', p.spread);
       setData('spread-point', p.spreadPoint);
     }
-  }, [ready, p.spread, p.spreadPoint]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [ready, p.spread, p.spreadPoint]);
 
   // zoom to the spread footprint when a new run arrives or the horizon changes
   useEffect(() => {
@@ -159,7 +162,9 @@ export function MapView(p: MapViewProps) {
     };
     p.spread.features.forEach((f) => walk((f.geometry as { coordinates: unknown }).coordinates));
     if (!bounds.isEmpty()) mapRef.current?.fitBounds(bounds, { padding: 80, maxZoom: 11, duration: 0 });
-  }, [ready, p.spreadFitKey]); // eslint-disable-line react-hooks/exhaustive-deps
+    // Intentionally keyed on spreadFitKey only: refit on a new run or horizon, not on every new features array.
+    // The features are read from the props of the render that changed the key.
+  }, [ready, p.spreadFitKey]); // eslint-disable-line react-hooks/exhaustive-deps -- see comment above
 
   useEffect(() => {
     if (ready) mapRef.current!.setFilter('ignition-selected', ['==', ['get', 'cell_id'], p.selectedCellId ?? '']);

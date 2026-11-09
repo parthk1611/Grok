@@ -8,6 +8,7 @@ import { parseIgnitionPayload, type IgnitionEnvelopeMeta } from '../lib/envelope
 import { checkIgnitionDates, type DateCheck, type RequestedDate } from '../lib/ignitionDate';
 import { parseApiError, reasonMessage } from '../lib/apiError';
 import { manualRunWarnings } from '../lib/manual';
+import { RequestTimeoutError } from './relayAdapter';
 
 export interface AdapterResponse {
   status: number;
@@ -70,6 +71,9 @@ async function load<T>(
   try {
     res = await fetcher();
   } catch (e) {
+    if (e instanceof RequestTimeoutError) {
+      return { ok: false, kind: 'unavailable', title: `${what}: ${e.message}`, errors: ['The dashboard gave up waiting (client-side limit); the server may still be working.'] };
+    }
     return { ok: false, kind: 'unavailable', title: `${what}: request failed`, errors: [e instanceof Error ? e.message : String(e)] };
   }
   const meta = metaFrom(res);
@@ -108,6 +112,16 @@ export function createApiClient(adapter: ApiAdapter, opts: { envelope?: boolean 
         },
         (data, meta) => {
           meta.warnings.push(...data.dates.warnings);
+          const env = data.envelope;
+          if (env?.stale_sources) {
+            const order = ['fresh', 'stale', 'expired'];
+            for (const s of env.stale_sources) {
+              if (order.indexOf(s.stale_level) > order.indexOf(env.stale_level)) {
+                meta.warnings.push(`stale_sources: ${s.source} is "${s.stale_level}" but envelope stale_level is "${env.stale_level}" (should be the worst)`);
+              }
+            }
+          }
+          // Envelope `mock: true` always wins (MOCK); a disagreement with the header is also listed.
           if (data.envelope?.mock !== undefined) {
             if (meta.mock !== undefined && meta.mock !== data.envelope.mock) meta.warnings.push(`envelope mock=${data.envelope.mock} disagrees with X-Mock-Data=${meta.mock}`);
             meta.mock = meta.mock || data.envelope.mock;

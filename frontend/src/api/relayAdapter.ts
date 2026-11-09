@@ -5,6 +5,16 @@ import type { AdapterResponse, ApiAdapter } from './client';
 import type { LonLat } from '../geo/cell';
 import type { SpreadRequestBody } from '../types';
 
+/** Thrown when the client-side abort fires; the client turns it into a specific "timed out" message. */
+export class RequestTimeoutError extends Error {
+  readonly timeoutMs: number;
+  constructor(timeoutMs: number) {
+    super(`request timed out after ${Math.round(timeoutMs / 1000)} s`);
+    this.name = 'RequestTimeoutError';
+    this.timeoutMs = timeoutMs;
+  }
+}
+
 export interface RelayAdapterOptions {
   baseUrl: string;
   fetchImpl?: typeof fetch;
@@ -18,15 +28,18 @@ async function toAdapterResponse(res: Response): Promise<AdapterResponse> {
     headers[k.toLowerCase()] = v;
   });
   const text = await res.text();
-  let body: unknown = text;
-  if (text.length > 0) {
-    try {
-      body = JSON.parse(text);
-    } catch {
-      body = text; // non-JSON body: the client reports it as an off-model error/payload
-    }
-  } else body = null;
-  return { status: res.status, body, headers };
+  return { status: res.status, body: parseBody(text), headers };
+}
+
+/** JSON if it parses; otherwise the raw text (the client reports it as an off-model payload); null when empty. */
+function parseBody(text: string): unknown {
+  if (text.length === 0) return null;
+  try {
+    return JSON.parse(text);
+  } catch {
+    return text;
+  }
+
 }
 
 export function createRelayAdapter(opts: RelayAdapterOptions): ApiAdapter {
@@ -39,6 +52,9 @@ export function createRelayAdapter(opts: RelayAdapterOptions): ApiAdapter {
     try {
       const res = await f(`${base}${path}`, { ...init, signal: ctl.signal, headers: { Accept: 'application/json', ...(init?.headers ?? {}) } });
       return await toAdapterResponse(res);
+    } catch (e) {
+      if (ctl.signal.aborted) throw new RequestTimeoutError(timeoutMs);
+      throw e;
     } finally {
       clearTimeout(t);
     }

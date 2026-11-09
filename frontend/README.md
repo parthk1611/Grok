@@ -21,7 +21,7 @@ npm run dev       # http://localhost:5173
 npm run build     # type-check + production build into dist/
 npm run preview   # serve dist/ at http://localhost:4173
 npm test          # vitest (unit + component tests)
-npm run lint      # tsc --noEmit
+npm run lint      # tsc --noEmit, then ESLint (flat config: typescript-eslint + react-hooks, eslint.config.js)
 npm run smoke:relay  # optional, needs a running RELAY server (see below)
 ```
 
@@ -80,7 +80,8 @@ adapter (RELAY's scenario is server-side: `RELAY_MOCK_SCENARIO`).
 
 ```sh
 VITE_API_ADAPTER=relay VITE_API_BASE_URL=http://127.0.0.1:8765 npm run dev
-# RELAY must list the dashboard origin in RELAY_CORS_ORIGINS (e.g. http://localhost:5173)
+# RELAY must list the dashboard origin in RELAY_CORS_ORIGINS. Vite may be opened as either host, so list both:
+#   RELAY_CORS_ORIGINS=http://localhost:5173,http://127.0.0.1:5173   (add :4173 for `npm run preview`)
 ```
 
 ## Team Lead rulings implemented (2026-11-09)
@@ -104,18 +105,39 @@ VITE_API_ADAPTER=relay VITE_API_BASE_URL=http://127.0.0.1:8765 npm run dev
   enum (`src/lib/apiError.ts`) has a plain-language message, shown with the HTTP status, the server's text,
   `last_cache_time` (UTC + Toronto, or *never cached* when null) and `request_id`. Off-model bodies (unknown reason,
   extra or missing fields, wrong disclaimer, status mismatch) are listed field by field, never fixed up.
-- **Envelope**: `{mode, stale_level, age_minutes, data_timestamp, requested_date, mock?, records}` is checked
-  structurally (no schema in `/contracts` yet), and each record is validated against the ignition schema on its own.
+- **Envelope**: `{mode, stale_level, age_minutes, data_timestamp, requested_date, mock?, stale_sources?, records}` is
+  checked structurally (no schema in `/contracts` yet), and each record is validated against the ignition schema on
+  its own. Any other envelope key is rejected.
+- **PROVISIONAL, until Team Lead approves contract v0.3.0:** the envelope's optional `mock` (CR-4, boolean) and
+  `stale_sources` (CR-6, `[{source: hrdps|cwfis_firewx_stns|swob_realtime, stale_level, age_minutes,
+  fetch_age_minutes?}]`) follow RELAY's proposal `contracts/proposals/v0.3.0-cr4-cr6.patch` (RELAY 71583ce).
+  Envelope `mock: true` always means MOCK, even if `X-Mock-Data` says false (the disagreement is listed).
+  `stale_sources` is listed per feed in the stale banner, and an entry worse than the envelope `stale_level` is
+  flagged. **When v0.3.0 is approved, the client needs a matching change:** records carrying `mock` /
+  `stale_sources` are rejected by the v0.2.1 schemas in `/contracts` until those schemas are updated (we import
+  them read-only), and the hand-written envelope check should then follow whatever shape v0.3.0 settles on.
 - **`not_estimated` spread** is decided only from `uncertainty_status`: p50 is drawn once, labelled *single-run
   footprint*, and p10/p90 are ignored whether they repeat the footprint or are empty. There is no fallback to p10/p90.
 - **Bad examples**: `src/lib/contract.bad-examples.test.ts` loads every `contracts/examples/bad_*.json` from disk and
   asserts the app's validators (strictTypes/strictRequired relaxed) reject each one.
 
+## Timeouts and errors
+
+The HTTP adapter aborts a request after 70 s (the server's synchronous spread limit is 60 s). That shows as
+*request timed out after 70 s*; a server-side 504 `spread_timeout` shows the timeout reason with its
+`request_id`. Other network failures show *request failed*.
+
+## MOCK labelling
+
+One decision (`src/lib/mockDecision.ts`) drives the MOCK banner, panel badges and the footer: MOCK if the adapter is
+the mock, before any response arrives, or unless every response explicitly says `X-Mock-Data: false` (and no
+envelope says `mock: true`). Any disagreement means MOCK.
+
 ## RELAY smoke test
 
 ```sh
 # terminal 1, in RELAY's worktree with its venv
-RELAY_MOCK_SCENARIO=expired RELAY_CORS_ORIGINS=http://localhost:5173 uvicorn backend.app.main:get_app --factory --port 8765
+RELAY_MOCK_SCENARIO=expired RELAY_CORS_ORIGINS=http://localhost:5173,http://127.0.0.1:5173 uvicorn backend.app.main:get_app --factory --port 8765
 # terminal 2
 RELAY_SMOKE_URL=http://127.0.0.1:8765 RELAY_SMOKE_SCENARIO=expired npm run smoke:relay
 ```
@@ -125,8 +147,15 @@ list (deviations from the contract and rulings). It only fails if the server is 
 
 ## Basemap
 
-Default: OpenStreetMap raster tiles with attribution (fine for a demo; see the
-[OSM tile policy](https://operations.osmfoundation.org/policies/tiles/) before any real deployment).
+Default: OpenStreetMap raster tiles with attribution. The map's attribution control is always expanded (not the
+compact "i" button), so "© OpenStreetMap contributors" is visible whenever the basemap is on.
+
+**OSM tile usage policy.** `tile.openstreetmap.org` is a donated community service with a
+[tile usage policy](https://operations.osmfoundation.org/policies/tiles/): light, occasional use such as a
+classroom demo is fine, with visible attribution. Heavy or public demos (a projected live demo with many viewers, a
+publicly hosted build, load tests, offline pre-caching) should use another tile provider or self-host tiles, and
+set `VITE_BASEMAP_URL` plus a proper `VITE_BASEMAP_ATTRIBUTION` for that provider (it must still credit OSM
+contributors if the tiles are OSM-derived). Never bulk-download or scrape OSM tiles.
 Configure via env vars at dev/build time:
 
 ```sh
