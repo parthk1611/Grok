@@ -2,7 +2,7 @@
 
 Every case is a made-up grid with fuel, wind and ground set by hand, so the
 expected behaviour follows from the physics rather than from any real fire.
-Two tests are marked expectedFailure: they document real simulator artefacts
+Some tests are marked expectedFailure: they document real simulator artefacts
 (see their docstrings) and must be revisited, not deleted, if the simulator changes.
 """
 
@@ -181,15 +181,50 @@ class BarrierTest(unittest.TestCase):
         self.assertTrue(np.isfinite(blocked.arrival_min[behind]))
         self.assertGreater(blocked.arrival_min[behind], open_ground.arrival_min[behind])
 
-    @unittest.expectedFailure
     def test_a_one_cell_wide_barrier_blocks_the_fire(self) -> None:
-        """KNOWN SIMULATOR ARTEFACT (reported, not fixed here): the search uses knight moves such as (+1, +2),
-        which step over a single 90 m cell, so a one-cell-wide river or road never stops the fire.
-        Measured on a 61 x 121 grid, 20 km/h west wind, 6 h: a 1-cell wall let 690 cells burn beyond it, a 2-cell wall none."""
+        """Was a known artefact: knight moves such as (+1, +2) stepped over a single 90 m cell.  Fixed in simulate_spread
+        (a move is blocked when any cell it passes through is water or non-fuel).  Before the fix, on this grid with a
+        20 km/h west wind at 6 h, 690 cells burned beyond a 1-cell wall."""
         fuel = np.full((SIZE, SIZE), SPRUCE, dtype=np.int32)
         fuel[:, CENTRE + 20] = SIM.WATER_CODE
         result = run(synthetic_case(fuel))
+        self.assertTrue(np.isfinite(result.arrival_min[CENTRE, CENTRE + 19]), msg="the fire must reach the wall")
         self.assertFalse(result.masks[6][:, CENTRE + 21 :].any())
+        self.assertFalse(result.masks[6][fuel == SIM.WATER_CODE].any())
+
+    def test_a_one_cell_wall_in_every_axis_direction_blocks_like_a_two_cell_wall(self) -> None:
+        for wind_from, build in (
+            (270.0, lambda f: f.__setitem__((slice(None), CENTRE + 20), SIM.WATER_CODE)),
+            (90.0, lambda f: f.__setitem__((slice(None), CENTRE - 20), SIM.WATER_CODE)),
+            (180.0, lambda f: f.__setitem__((CENTRE - 20, slice(None)), SIM.WATER_CODE)),
+            (0.0, lambda f: f.__setitem__((CENTRE + 20, slice(None)), SIM.WATER_CODE)),
+        ):
+            fuel = np.full((SIZE, SIZE), SPRUCE, dtype=np.int32)
+            build(fuel)
+            result = run(synthetic_case(fuel, wind_from=wind_from))
+            burned = result.masks[6]
+            rows, columns = np.indices(burned.shape)
+            side = {270.0: columns > CENTRE + 20, 90.0: columns < CENTRE - 20, 180.0: rows < CENTRE - 20, 0.0: rows > CENTRE + 20}[wind_from]
+            self.assertFalse((burned & side).any(), msg=f"wind from {wind_from}")
+
+    def test_an_unobstructed_fire_is_unchanged_by_the_barrier_rule(self) -> None:
+        # reference areas measured before the fix (uniform spruce, 20 km/h wind from the west, 90 m cells)
+        result = run(synthetic_case())
+        self.assertEqual([result.area_ha[h] for h in (1, 3, 6)], [28.35, 234.9, 935.55])
+
+    @unittest.expectedFailure
+    def test_a_diagonal_one_cell_wall_blocks_the_fire(self) -> None:
+        """KNOWN SIMULATOR ARTEFACT (reported, not fixed): fire still squeezes between two water cells that touch only at
+        a corner, by a diagonal (+-1, +-1) move.  Measured with a 1-cell anti-diagonal wall through (centre, centre + 20):
+        616 cells burned beyond it before the knight-move fix and 567 after."""
+        fuel = np.full((SIZE, SIZE), SPRUCE, dtype=np.int32)
+        for row in range(SIZE):
+            column = CENTRE + 20 - (row - CENTRE)
+            if 0 <= column < SIZE:
+                fuel[row, column] = SIM.WATER_CODE
+        result = run(synthetic_case(fuel))
+        rows, columns = np.indices(result.masks[6].shape)
+        self.assertFalse((result.masks[6] & ((rows - CENTRE) + (columns - CENTRE) > 20)).any())
 
 
 class IgnitionPointTest(unittest.TestCase):
