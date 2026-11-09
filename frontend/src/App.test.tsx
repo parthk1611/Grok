@@ -166,3 +166,15 @@ describe('MOCK labelling with a non-mock adapter', () => {
     expect(screen.getByTestId('live-banner')).toBeInTheDocument();
   });
 });
+
+describe('manual form limits note (ruling 4)', () => {
+  it('labels the ranges as sanity limits and FFMC 0-101 as the real scale', async () => {
+    const { click } = setup('expired');
+    click();
+    await screen.findByTestId('degraded-dialog');
+    fireEvent.click(screen.getByTestId('degraded-manual'));
+    expect(screen.getByTestId('manual-limits-note')).toHaveTextContent('sanity limits, not contract limits');
+    expect(screen.getByTestId('manual-limits-note')).toHaveTextContent('FFMC 0-101 is the real FWI scale');
+    expect(screen.getByTestId('manual-form')).toHaveTextContent('0-101 is the real FWI scale');
+  });
+});

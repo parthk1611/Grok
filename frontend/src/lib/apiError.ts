@@ -1,5 +1,6 @@
 // Common API error body (RELAY's openapi.yaml ErrorResponse + Team Lead rulings of 2026-11-09):
 //   {status, error, reason, last_cache_time, request_id, disclaimer, details?}
+// The shape is CLOSED (Team Lead, 2026-11-09): any other field, e.g. `retryable`, is reported as unexpected.
 // `reason` is a CLOSED enum (now including `confirmation_required`); `last_cache_time` is filled from
 // the cache on every error and is null only when nothing was ever cached. There is no JSON Schema for
 // this in /contracts yet (the openapi spec is still a draft), so this is a hand-written structural check.
@@ -23,6 +24,12 @@ export const ERROR_REASONS = [
   'internal_error',
 ] as const;
 export type ErrorReason = (typeof ERROR_REASONS)[number];
+
+/**
+ * Reason for "nothing was ever cached" (Team Lead ruling 2026-11-09: also the answer to confirm_degraded on expired
+ * weather with no cache). Kept in ONE place: if Team Lead renames it, change it here and in ERROR_REASONS.
+ */
+export const NO_CACHE_REASON = 'no_cached_data' satisfies ErrorReason;
 
 export const ERROR_STATUSES = [400, 404, 405, 409, 500, 503, 504] as const;
 

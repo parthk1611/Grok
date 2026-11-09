@@ -88,15 +88,19 @@ VITE_API_ADAPTER=relay VITE_API_BASE_URL=http://127.0.0.1:8765 npm run dev
 - **Spread on expired weather.** Before a run the client checks the weather record; if it is expired or unusable, or
   the API answers **409 `confirmation_required`**, a dialog offers *Run anyway (degraded)* (`confirm_degraded: true`)
   or *Enter wind/moisture by hand* (validated form with units: wind km/h and direction FROM in degrees required;
-  FFMC, BUI, temp, RH and precip optional; the ranges are UI sanity limits, not contract limits; empty optional fields
-  are not sent). Cancel sends nothing. A 409 after the user already confirmed is shown as an error, never looped.
+  FFMC, BUI, temp, RH and precip optional; empty optional fields are not sent). The ranges are **sanity limits, not
+  contract limits** (approved by Team Lead 2026-11-09): wind 0-200 km/h, direction 0-360° (from), FFMC 0-101 (the
+  real FWI scale), BUI 0-500, temperature -50 to 50 °C, RH 0-100 %, precip 0-500 mm. The form says so too. Cancel sends nothing. A 409 after the user already confirmed is shown as an error, never looped. Expired weather
+  with no cache at all: `confirm_degraded` gets 503 `no_cached_data`; a manual override still runs (200, stale, manual).
 - **Manual inputs.** A response with `inputs.weather_source: "manual"` gets a **Manual inputs** badge above the stale
   banner and is never shown as fresh. If the server's manual response departs from the ruling (`stale_level` not
   `stale`, `stale_flag` not true, a different `stale_reason`, wind not echoed), the UI lists that as a deviation.
 - **Ignition stale day.** A date picker (Toronto day, or *latest map*) drives `GET /ignition?date=D|latest`. Records
   always show their own `date`; when it differs from D a banner reads *Showing &lt;date&gt;; requested &lt;D&gt;
-  unavailable*. Earlier records without `stale_flag: true`, or records dated after D, are listed as deviations.
-- **Error bodies** `{status, error, reason, last_cache_time, request_id, disclaimer}`: each `reason` in the closed
+  unavailable*, only when an explicit date was requested (`requested_date` echoes the request, so `latest` stays
+  `latest`; the records' `date` is the served day). Earlier records without `stale_flag: true`, or records dated after D, are listed as deviations.
+- **Error bodies** `{status, error, reason, last_cache_time, request_id, disclaimer}` (closed shape; any other
+  field, e.g. `retryable`, is listed as unexpected): each `reason` in the closed
   enum (`src/lib/apiError.ts`) has a plain-language message, shown with the HTTP status, the server's text,
   `last_cache_time` (UTC + Toronto, or *never cached* when null) and `request_id`. Off-model bodies (unknown reason,
   extra or missing fields, wrong disclaimer, status mismatch) are listed field by field, never fixed up.

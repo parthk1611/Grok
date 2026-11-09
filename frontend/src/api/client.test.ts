@@ -3,6 +3,7 @@ import { createApiClient, createMockAdapter, type AdapterResponse, type ApiAdapt
 import type { DevScenario } from '../mocks/fixtures';
 import { DISCLAIMER } from '../lib/contract';
 import { MANUAL_STALE_REASON } from '../lib/manual';
+import { NO_CACHE_REASON } from '../lib/apiError';
 import { torontoDate } from '../lib/time';
 import ignitionExample from '../../../contracts/examples/ignition_output.example.json';
 import spreadExample from '../../../contracts/examples/spread_output.example.json';
@@ -139,6 +140,30 @@ describe('ruling 2: ignition stale day, date=latest, 404 only when nothing at or
       expect(r.data.dates.banner).toBeNull();
     }
   });
+  it('envelope requested_date "latest" with an older served date: no banner, no warning (records carry the served day)', async () => {
+    const rec = { ...ignitionExample, date: '2026-07-15', stale_flag: true, stale_level: 'stale', stale_reason: 'x' };
+    const env = { mode: 'retrospective', stale_level: 'stale', age_minutes: 999, data_timestamp: '2026-07-14T20:00:00Z', requested_date: 'latest', records: [rec] };
+    const r = await createApiClient(fixed({ status: 200, body: env })).loadIgnition('latest');
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.data.envelope?.requested_date).toBe('latest');
+    expect(r.data.dates.shownDates).toEqual(['2026-07-15']);
+    expect(r.data.dates.banner).toBeNull();
+    expect(r.meta?.warnings).toEqual([]);
+  });
+  it('explicit date with the same envelope shape: banner compares the served date against the explicit date', async () => {
+    const rec = { ...ignitionExample, date: '2026-07-15', stale_flag: true, stale_level: 'stale', stale_reason: 'x' };
+    const env = { mode: 'retrospective', stale_level: 'stale', age_minutes: 999, data_timestamp: '2026-07-14T20:00:00Z', requested_date: '2026-11-09', records: [rec] };
+    const r = await createApiClient(fixed({ status: 200, body: env })).loadIgnition('2026-11-09');
+    expect(r.ok && r.data.dates.banner).toBe('Showing 2026-07-15; requested 2026-11-09 unavailable');
+    expect(r.ok && r.meta?.warnings).toEqual([]);
+  });
+  it('a server that rewrites requested_date "latest" to the resolved day is flagged (must echo the request)', async () => {
+    const env = { mode: 'retrospective', stale_level: 'fresh', age_minutes: 5, data_timestamp: '2026-07-15T10:00:00Z', requested_date: '2026-07-15', records: [ignitionExample] };
+    const r = await createApiClient(fixed({ status: 200, body: env })).loadIgnition('latest');
+    expect(r.ok && r.data.dates.banner).toBeNull();
+    expect(r.ok && r.meta?.warnings.join(' ')).toMatch(/does not echo the requested "latest"/);
+  });
   it('a date before the earliest map => 404 not_found', async () => {
     const r = await mk('stale_day').loadIgnition('2026-10-01');
     expect(r.ok).toBe(false);
@@ -178,9 +203,31 @@ describe('ruling 3: error bodies', () => {
       expect(r.errors).toEqual([]);
     }
   });
-  it('no_cache + manual override still runs (manual inputs need no cache)', async () => {
+  it('no cache + confirm_degraded => 503 NO_CACHE_REASON (confirming cannot conjure weather)', async () => {
+    const r = await mk('no_cache').runSpread([-86, 50], { confirmDegraded: true });
+    expect(r.ok).toBe(false);
+    if (r.ok) return;
+    expect(r.httpStatus).toBe(503);
+    expect(r.apiError?.reason).toBe(NO_CACHE_REASON);
+    expect(r.apiError?.last_cache_time).toBeNull();
+  });
+  it('no cache + manual override still runs: 200, manual, stale', async () => {
     const r = await mk('no_cache').runSpread([-86, 50], { override: { wind_speed_kmh: 5, wind_direction_deg: 0 } });
     expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.data.inputs.weather_source).toBe('manual');
+    expect(r.data.stale_level).toBe('stale');
+    expect(r.data.inputs.stale_reason).toBe(MANUAL_STALE_REASON);
+    expect(r.meta?.warnings).toEqual([]);
+  });
+  it('mock error bodies have exactly the six ruled fields (no retryable)', async () => {
+    const res = await createMockAdapter({ getScenario: () => 'no_cache', latencyMs: 0, getNow: () => NOW }).runSpread({ longitude: -86, latitude: 50, start_time: '2026-11-02T20:00:00Z', confirm_degraded: true });
+    expect(Object.keys(res.body as object).sort()).toEqual(['disclaimer', 'error', 'last_cache_time', 'reason', 'request_id', 'status']);
+  });
+  it('a body with retryable is flagged as an unexpected field (closed shape)', async () => {
+    const r = await createApiClient(fixed({ status: 503, body: errBody({ retryable: true }) })).loadWeather();
+    expect(!r.ok && r.errors).toEqual(['error body: unexpected field "retryable"']);
+    expect(!r.ok && r.apiError?.reason).toBe(NO_CACHE_REASON);
   });
   it('off-model bodies are reported field by field (unknown reason, missing request_id, wrong disclaimer, status mismatch)', async () => {
     const body = { status: 500, error: 'x', reason: 'http_error', last_cache_time: null, disclaimer: 'nope' };

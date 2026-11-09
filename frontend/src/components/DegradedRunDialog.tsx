@@ -83,7 +83,9 @@ export function DegradedRunDialog({ reasons, serverError, onCancel, onRunDegrade
                 />
               ))}
             </div>
-            <p className="small muted">* required. Ranges are UI sanity limits, not contract limits. Empty optional fields are not sent.</p>
+            <p className="small muted" data-testid="manual-limits-note">
+              * required. Ranges are sanity limits, not contract limits (FFMC 0-101 is the real FWI scale). Empty optional fields are not sent.
+            </p>
             <div className="modal-actions">
               <button type="button" onClick={onCancel} data-testid="manual-cancel">
                 Cancel

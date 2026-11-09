@@ -38,9 +38,10 @@ MOCK API emulation (`mockServer.ts`), following the Team Lead rulings of 2026-11
   (`last_cache_time` = the mock weather's `retrieved_at`). With an override, the example output is returned with the
   entered values echoed into `inputs`, `weather_source: "manual"`, `stale_level: "stale"`, the exact manual
   `stale_reason`, and `age_minutes: 0`. It is still the translated example polygon, not a simulation.
-- `no_cache`: 503 `no_cached_data` with `last_cache_time: null` for ignition, weather and spread (a spread with a
+- `no_cache`: 503 `no_cached_data` with `last_cache_time: null` for ignition, weather and spread, including a spread
+  sent with `confirm_degraded` (a spread with a
   manual override still runs).
-- Error messages start with `MOCK:` and request ids with `mock-`.
+- Error bodies have exactly the six ruled fields (no `retryable`). Error messages start with `MOCK:` and request ids with `mock-`.
 
 The base fixtures are the unmodified `contracts/examples/*.example.json`
 files, imported directly. At runtime `fixtures.ts` re-bases the **timestamps and `age_minutes` / `stale_level` / `stale_flag`**

@@ -7,6 +7,7 @@ import { describe, expect, it } from 'vitest';
 import { createApiClient } from '../src/api/client';
 import { createRelayAdapter } from '../src/api/relayAdapter';
 import { torontoDate } from '../src/lib/time';
+import { NO_CACHE_REASON } from '../src/lib/apiError';
 import type { Loaded } from '../src/types';
 
 const URL_ = process.env.RELAY_SMOKE_URL ?? '';
@@ -57,7 +58,7 @@ describe.skipIf(!URL_)(`RELAY smoke (${SCENARIO})`, () => {
       for (const w of s?.warnings ?? []) findings.push(`${k}: ${w}`);
       if (s?.kind === 'api_error') for (const e of s.errors ?? []) findings.push(`${k}: ${e}`);
       if (s?.kind === 'invalid') findings.push(`${k}: payload failed contract validation: ${(s.errors ?? []).join('; ')}`);
-      if (s?.kind === 'api_error' && s.reason !== 'no_cached_data' && s.reason !== 'not_found' && s.reason !== 'invalid_request' && s.reason !== 'out_of_domain' && s.last_cache_time === null && SCENARIO !== 'no_cache') {
+      if (s?.kind === 'api_error' && s.reason !== NO_CACHE_REASON && s.reason !== 'not_found' && s.reason !== 'invalid_request' && s.reason !== 'out_of_domain' && s.last_cache_time === null && SCENARIO !== 'no_cache') {
         findings.push(`${k}: ${s.reason} has last_cache_time null although scenario "${SCENARIO}" has a cache (ruling: null only when never cached)`);
       }
     }

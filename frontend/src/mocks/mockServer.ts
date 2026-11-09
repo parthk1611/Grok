@@ -3,11 +3,13 @@
 //  - GET /ignition?date=D|latest: the newest map at or before D (records keep their own date, stale_flag true
 //    when it is not D); 404 not_found only when nothing exists at or before D. The mock holds ONE map.
 //  - POST /spread: expired weather + neither confirm_degraded nor weather_override => 409 confirmation_required.
-//  - no_cache scenario: 503 no_cached_data with last_cache_time null everywhere (nothing was ever cached).
-//  - every error body: {status, error, reason, last_cache_time, request_id, disclaimer}.
+//  - no_cache scenario: 503 NO_CACHE_REASON with last_cache_time null everywhere (nothing was ever cached),
+//    including spread with confirm_degraded; a spread with weather_override still runs (200, manual, stale).
+//  - every error body is exactly {status, error, reason, last_cache_time, request_id, disclaimer} (closed shape).
 import type { AdapterResponse, ApiAdapter } from '../api/client';
 import type { LonLat } from '../geo/cell';
 import { DISCLAIMER } from '../lib/contract';
+import { NO_CACHE_REASON } from '../lib/apiError';
 import type { SpreadRequestBody, WeatherRecord } from '../types';
 import { mockIgnition, mockLatestMapDate, mockSpread, mockWeather, type DevScenario, type Scenario } from './fixtures';
 
@@ -43,7 +45,7 @@ export function createMockAdapter(opts: MockAdapterOptions): ApiAdapter {
     async getIgnition({ date, envelope }) {
       await delay();
       const sc = payloadScenario(opts.getScenario());
-      if (!sc) return errorResponse(503, 'no_cached_data', 'No cached data exists yet; no successful ingestion has completed.', null);
+      if (!sc) return errorResponse(503, NO_CACHE_REASON, 'No cached data exists yet; no successful ingestion has completed.', null);
       const t = now();
       const latest = mockLatestMapDate(sc, t);
       if (date !== 'latest' && date < latest) {
@@ -68,7 +70,7 @@ export function createMockAdapter(opts: MockAdapterOptions): ApiAdapter {
     async getWeather(point: LonLat | null) {
       await delay();
       const sc = payloadScenario(opts.getScenario());
-      if (!sc) return errorResponse(503, 'no_cached_data', 'No weather has ever been cached for this point.', null);
+      if (!sc) return errorResponse(503, NO_CACHE_REASON, 'No weather has ever been cached for this point.', null);
       return okResponse(mockWeather(sc, now(), point));
     },
 
@@ -78,7 +80,7 @@ export function createMockAdapter(opts: MockAdapterOptions): ApiAdapter {
       const point: LonLat = [body.longitude, body.latitude];
       if (!sc) {
         if (body.weather_override) return okResponse(mockSpread('fresh', now(), point, body.weather_override));
-        return errorResponse(503, 'no_cached_data', 'No weather has ever been cached; enter wind and moisture by hand to run.', null);
+        return errorResponse(503, NO_CACHE_REASON, 'No weather has ever been cached; enter wind and moisture by hand to run.', null);
       }
       if (sc === 'expired' && !body.confirm_degraded && !body.weather_override) {
         const wx = mockWeather(sc, now(), point) as WeatherRecord;
