@@ -34,6 +34,7 @@ The StatCan RNF zip URLs returned HTTP 403 to a HEAD request from my computer, w
 
 1. **Recent burn history.** Prior-season burned area acts as a fuel break and a proxy for young stands. It uses the same NFDB
    family we already depend on, it's dated by fire year, and it needs no new time alignment beyond "strictly earlier fire year".
+   Polygons with a missing or uncertain fire year are dropped, not guessed, and the dropped count is reported per year.
    Polygon dates and mapping completeness vary by agency and year (to be quantified in the coverage analysis). Known risk: it
    is correlated with the existing `fire_history_*` features, so EMBER should report the gain over the v1 panel, not raw importance.
 2. **NDVI/EVI.** The v6.1 collection was reprocessed (published 2021-02-16), so historical values are retrospective, not the
