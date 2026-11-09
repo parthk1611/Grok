@@ -8,12 +8,19 @@ import { Disclaimer } from './Meta';
 import { CellDetails, IgnitionPanel, SpreadPanel, WeatherPanel, type SpreadRun } from './Panels';
 import { assessIgnition } from '../lib/staleness';
 import { DISCLAIMER } from '../lib/contract';
+import { ERROR_REASONS, reasonMessage } from '../lib/apiError';
 import { mockIgnition, mockSpread, mockWeather, SCENARIOS, type Scenario } from '../mocks/fixtures';
 import type { IgnitionRecord, SpreadOutput, WeatherRecord } from '../types';
+import type { IgnitionResult } from '../api/client';
+import { checkIgnitionDates } from '../lib/ignitionDate';
 
 afterEach(cleanup);
 const NOW = new Date('2026-11-02T20:00:00Z');
 const ign = (s: Scenario) => mockIgnition(s, NOW) as IgnitionRecord[];
+const ignRes = (s: Scenario, requested: string = 'latest'): IgnitionResult => {
+  const records = ign(s);
+  return { records, envelope: null, requested, dates: checkIgnitionDates(records, requested) };
+};
 const spread = (s: Scenario) => mockSpread(s, NOW, [-86, 50]) as SpreadOutput;
 const runOf = (out: SpreadOutput, degraded = false): SpreadRun => ({ point: [-86, 50], result: { ok: true, data: out }, degradedConfirmed: degraded });
 const renderSpread = (out: SpreadOutput, horizon: 1 | 3 | 6 = 6, degraded = false) =>
@@ -21,7 +28,7 @@ const renderSpread = (out: SpreadOutput, horizon: 1 | 3 | 6 = 6, degraded = fals
 
 describe('MOCK labelling', () => {
   it('persistent banner and per-panel badges', () => {
-    render(<><MockBanner /><IgnitionPanel state={{ ok: true, data: ign('fresh') }} isMock /><WeatherPanel state={null} isMock /></>);
+    render(<><MockBanner /><IgnitionPanel state={{ ok: true, data: ignRes('fresh') }} isMock /><WeatherPanel state={null} isMock /></>);
     expect(screen.getByTestId('mock-banner')).toHaveTextContent('MOCK DATA');
     expect(screen.getAllByTestId('mock-badge')).toHaveLength(2);
   });
@@ -33,19 +40,19 @@ describe('MOCK labelling', () => {
 
 describe('staleness banners', () => {
   it('stale_flag true => visible stale banner with the reason (ignition panel)', () => {
-    render(<IgnitionPanel state={{ ok: true, data: ign('stale') }} isMock />);
+    render(<IgnitionPanel state={{ ok: true, data: ignRes('stale') }} isMock />);
     const b = screen.getByTestId('stale-banner');
     expect(b).toHaveTextContent('STALE DATA');
     expect(b).toHaveTextContent('stale_flag is true');
     expect(b).toHaveTextContent('MOCK: synthetic input feed is 120 min old');
   });
   it('fresh => no banner', () => {
-    render(<IgnitionPanel state={{ ok: true, data: ign('fresh') }} isMock />);
+    render(<IgnitionPanel state={{ ok: true, data: ignRes('fresh') }} isMock />);
     expect(screen.queryByTestId('stale-banner')).toBeNull();
     expect(screen.queryByTestId('expired-banner')).toBeNull();
   });
   it('expired => distinct expired banner, not the stale one', () => {
-    render(<IgnitionPanel state={{ ok: true, data: ign('expired') }} isMock />);
+    render(<IgnitionPanel state={{ ok: true, data: ignRes('expired') }} isMock />);
     expect(screen.getByTestId('expired-banner')).toHaveTextContent('EXPIRED DATA');
     expect(screen.queryByTestId('stale-banner')).toBeNull();
   });
@@ -231,5 +238,47 @@ describe('disclaimer', () => {
   });
   it('every non-invalid ignition fixture carries the exact disclaimer', () => {
     for (const s of SCENARIOS.filter((x) => x !== 'invalid')) for (const r of ign(s)) expect(r.disclaimer).toBe(DISCLAIMER);
+  });
+});
+
+describe('rulings 2026-11-09: API errors, manual inputs, stale day', () => {
+  it.each(ERROR_REASONS)('error reason %s renders its message, last_cache_time and request_id', (reason) => {
+    const apiError = { status: 503, error: 'server text', reason, last_cache_time: '2026-11-02T19:45:00Z', request_id: 'req-abc-12345', disclaimer: DISCLAIMER };
+    render(<ErrorState kind="api_error" title="t" errors={[]} httpStatus={503} apiError={apiError} />);
+    const e = screen.getByTestId('error-state');
+    expect(e).toHaveAttribute('data-reason', reason);
+    expect(e).toHaveTextContent(reasonMessage(reason));
+    expect(screen.getByTestId('api-error-last-cache')).toHaveTextContent('2026-11-02 19:45');
+    expect(screen.getByTestId('api-error-last-cache')).toHaveTextContent('Toronto');
+    expect(screen.getByTestId('api-error-request-id')).toHaveTextContent('req-abc-12345');
+    expect(e).toHaveTextContent('server text');
+  });
+  it('null last_cache_time reads "never cached"; unknown reasons are called out', () => {
+    render(<ErrorState kind="api_error" title="t" errors={['error body: reason "http_error" is not in the closed enum']} httpStatus={500} apiError={{ status: 500, error: '', reason: 'http_error', last_cache_time: null, request_id: '', disclaimer: DISCLAIMER }} />);
+    expect(screen.getByTestId('api-error-last-cache')).toHaveTextContent('never cached');
+    expect(screen.getByTestId('error-state')).toHaveTextContent('not in the closed enum');
+    expect(screen.getByTestId('api-error-request-id')).toHaveTextContent('not provided');
+  });
+  it('manual run: Manual inputs badge sits above the stale banner; never shown as fresh even if mislabelled', () => {
+    const out = mockSpread('fresh', NOW, [-86, 50], { wind_speed_kmh: 20, wind_direction_deg: 90 }) as SpreadOutput;
+    out.stale_level = 'fresh'; // a mislabelling server
+    render(<SpreadPanel run={{ point: [-86, 50], result: { ok: true, data: out, meta: { warnings: ['x deviates'] } }, degradedConfirmed: false }} loading={false} horizon={6} onHorizon={() => {}} isMock />);
+    const badge = screen.getByTestId('manual-inputs-badge');
+    const stale = screen.getByTestId('stale-banner');
+    expect(badge.compareDocumentPosition(stale) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(stale).toHaveTextContent('manual inputs are never fresh');
+    expect(screen.getByTestId('contract-warnings')).toHaveTextContent('x deviates');
+  });
+  it('non-manual run has no Manual inputs badge', () => {
+    renderSpread(spread('stale'));
+    expect(screen.queryByTestId('manual-inputs-badge')).toBeNull();
+  });
+  it('ignition stale day: banner + records\' own date shown', () => {
+    const records = (mockIgnition('stale_day', NOW) as IgnitionRecord[]);
+    const data: IgnitionResult = { records, envelope: null, requested: '2026-11-02', dates: checkIgnitionDates(records, '2026-11-02') };
+    render(<IgnitionPanel state={{ ok: true, data }} isMock />);
+    expect(screen.getByTestId('stale-day-banner')).toHaveTextContent('Showing 2026-11-01; requested 2026-11-02 unavailable');
+    expect(screen.getByTestId('ignition-shown-date')).toHaveTextContent('2026-11-01');
+    expect(screen.getByTestId('stale-banner')).toBeInTheDocument();
   });
 });

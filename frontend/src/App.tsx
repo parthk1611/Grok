@@ -1,36 +1,53 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { createApiClient, createMockAdapter } from './api/client';
+import { createApiClient, createMockAdapter, type ApiClient, type IgnitionResult, type SpreadOptions } from './api/client';
 import { BASEMAP_DISABLED_BY_CONFIG } from './config';
-import { SCENARIOS, type Scenario } from './mocks/fixtures';
-import type { IgnitionRecord, Loaded, WeatherRecord } from './types';
+import { DEV_SCENARIOS, type DevScenario } from './mocks/fixtures';
+import type { ApiErrorInfo, Loaded, WeatherOverride, WeatherRecord } from './types';
+import type { RequestedDate } from './lib/ignitionDate';
+import { torontoDate } from './lib/time';
 import { MockBanner } from './components/Banners';
 import { DevToggle } from './components/DevToggle';
 import { Footer } from './components/Footer';
-import { ConfirmDialog } from './components/ConfirmDialog';
+import { DegradedRunDialog } from './components/DegradedRunDialog';
 import { MapView } from './components/MapView';
 import { CellDetails, IgnitionPanel, Legend, SpreadPanel, WeatherPanel, type SpreadRun } from './components/Panels';
 import { spreadConfirmationReasons } from './lib/gate';
 import { ignitionPointGeoJSON, ignitionToGeoJSON, spreadHorizonGeoJSON } from './lib/geojson';
 import type { Horizon } from './lib/horizons';
 
-function initialScenario(): Scenario {
+function initialScenario(): DevScenario {
   const q = new URLSearchParams(window.location.search).get('scenario');
-  return (SCENARIOS as readonly string[]).includes(q ?? '') ? (q as Scenario) : 'fresh';
+  return (DEV_SCENARIOS as readonly string[]).includes(q ?? '') ? (q as DevScenario) : 'fresh';
+}
+
+function initialDate(): RequestedDate {
+  const q = new URLSearchParams(window.location.search).get('date');
+  return q === 'latest' || /^\d{4}-\d{2}-\d{2}$/.test(q ?? '') ? (q as string) : torontoDate(new Date());
 }
 
 interface PendingConfirm {
   point: [number, number];
   reasons: string[];
+  /** Set when the API itself answered 409 confirmation_required. */
+  serverError?: ApiErrorInfo | null;
 }
 
-export default function App() {
-  const [scenario, setScenario] = useState<Scenario>(initialScenario);
+export interface AppProps {
+  /** Test hook: build the client from the DEV scenario getter. Defaults to the in-browser MOCK adapter. */
+  makeClient?: (getScenario: () => DevScenario) => ApiClient;
+}
+
+export default function App({ makeClient }: AppProps = {}) {
+  const [scenario, setScenario] = useState<DevScenario>(initialScenario);
+  const [ignitionDate, setIgnitionDate] = useState<RequestedDate>(initialDate);
   const scenarioRef = useRef(scenario);
   scenarioRef.current = scenario;
-  const client = useMemo(() => createApiClient(createMockAdapter({ getScenario: () => scenarioRef.current })), []);
-  const isMock = client.adapter.isMock;
-
-  const [ignition, setIgnition] = useState<Loaded<IgnitionRecord[]> | null>(null);
+  const client = useMemo(
+    () => (makeClient ?? ((g: () => DevScenario) => createApiClient(createMockAdapter({ getScenario: g }))))(() => scenarioRef.current),
+    [],
+  );
+  
+  const [ignition, setIgnition] = useState<Loaded<IgnitionResult> | null>(null);
   const [weather, setWeather] = useState<Loaded<WeatherRecord> | null>(null);
   const [run, setRun] = useState<SpreadRun | null>(null);
   const [runId, setRunId] = useState(0);
@@ -51,20 +68,27 @@ export default function App() {
     setPending(null);
     setSpreadLoading(false);
     setSelectedCellId(null);
-    void client.loadIgnition().then((r) => {
+    void client.loadIgnition(ignitionDate).then((r) => {
       if (gen === generation.current) setIgnition(r);
     });
-  }, [scenario, client]);
+  }, [scenario, ignitionDate, client]);
 
   const execRun = useCallback(
-    async (point: [number, number], degradedConfirmed: boolean) => {
+    async (point: [number, number], opts: Pick<SpreadOptions, 'confirmDegraded' | 'override'> = {}) => {
       const gen = generation.current;
       setSpreadLoading(true);
-      const result = await client.runSpread(point);
+      setPending(null);
+      const result = await client.runSpread(point, opts);
       if (gen !== generation.current) return;
-      setRun({ point, result, degradedConfirmed });
-      setRunId((n) => n + 1);
       setSpreadLoading(false);
+      // 409 confirmation_required opens the expired-weather flow, unless the user already confirmed or
+      // entered inputs (then the 409 is shown as an error, never looped).
+      if (!result.ok && result.kind === 'api_error' && result.apiError?.reason === 'confirmation_required' && !opts.confirmDegraded && !opts.override) {
+        setPending({ point, reasons: ['The API reports that the live weather for this point is expired.'], serverError: result.apiError });
+        return;
+      }
+      setRun({ point, result, degradedConfirmed: !!opts.confirmDegraded });
+      setRunId((n) => n + 1);
     },
     [client],
   );
@@ -83,16 +107,18 @@ export default function App() {
         setPending({ point, reasons });
         return;
       }
-      await execRun(point, false);
+      await execRun(point);
     },
     [client, execRun],
   );
 
-  const cells = useMemo(() => (ignition?.ok ? ignitionToGeoJSON(ignition.data) : null), [ignition]);
+  const cells = useMemo(() => (ignition?.ok ? ignitionToGeoJSON(ignition.data.records) : null), [ignition]);
   const spreadOut = run?.result.ok ? run.result.data : null;
   const spreadGeo = useMemo(() => spreadHorizonGeoJSON(spreadOut, horizon), [spreadOut, horizon]);
   const spreadPointGeo = useMemo(() => ignitionPointGeoJSON(spreadOut), [spreadOut]);
-  const selected = ignition?.ok ? (ignition.data.find((r) => r.cell_id === selectedCellId) ?? null) : null;
+  const selected = ignition?.ok ? (ignition.data.records.find((r) => r.cell_id === selectedCellId) ?? null) : null;
+  // MOCK whenever the adapter is a mock OR any response says it is mock data (envelope `mock` / X-Mock-Data).
+  const isMock = client.adapter.isMock || [ignition?.meta, weather?.meta, run?.result.meta].some((m) => m?.mock === true);
 
   return (
     <div className="app">
@@ -110,6 +136,25 @@ export default function App() {
           <input type="checkbox" checked={showBasemap} disabled={BASEMAP_DISABLED_BY_CONFIG} onChange={(e) => setShowBasemap(e.target.checked)} data-testid="basemap-toggle" /> Basemap
           {BASEMAP_DISABLED_BY_CONFIG ? ' (disabled by config)' : ''}
         </label>
+        <div className="datepick" data-testid="date-picker">
+          <label>
+            <input
+              type="checkbox"
+              checked={ignitionDate === 'latest'}
+              onChange={(e) => setIgnitionDate(e.target.checked ? 'latest' : torontoDate(new Date()))}
+              data-testid="date-latest"
+            />{' '}
+            latest map
+          </label>
+          <input
+            type="date"
+            aria-label="Ignition map date (America/Toronto)"
+            value={ignitionDate === 'latest' ? '' : ignitionDate}
+            disabled={ignitionDate === 'latest'}
+            onChange={(e) => e.target.value && setIgnitionDate(e.target.value)}
+            data-testid="date-input"
+          />
+        </div>
         <DevToggle scenario={scenario} onChange={setScenario} />
       </header>
       <MockBanner />
@@ -145,16 +190,12 @@ export default function App() {
       </main>
       <Footer />
       {pending && (
-        <ConfirmDialog
-          title="Run spread on expired or unavailable weather?"
-          body={[...pending.reasons, 'The result would be degraded and must not be treated as current. Continue only if you understand this.']}
-          confirmLabel="Run anyway (degraded)"
+        <DegradedRunDialog
+          reasons={pending.reasons}
+          serverError={pending.serverError}
           onCancel={() => setPending(null)}
-          onConfirm={() => {
-            const p = pending.point;
-            setPending(null);
-            void execRun(p, true);
-          }}
+          onRunDegraded={() => void execRun(pending.point, { confirmDegraded: true })}
+          onManual={(o: WeatherOverride) => void execRun(pending.point, { override: o })}
         />
       )}
     </div>

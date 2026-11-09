@@ -7,7 +7,9 @@ import { singleRunFootprint } from '../lib/geojson';
 import { formatAge, formatToronto, formatUtc } from '../lib/time';
 import { BAND_COLORS, formatProbability, RAMP } from '../lib/colors';
 import { cellIdToCentre, parseCellId } from '../geo/cell';
-import { ErrorState, LevelChip, MockBadge, StaleBanner, UnvalidatedBadge } from './Banners';
+import { ContractWarnings, ErrorState, LevelChip, ManualInputsBadge, MockBadge, StaleBanner, UnvalidatedBadge } from './Banners';
+import type { IgnitionResult } from '../api/client';
+import { isManualRun } from '../lib/manual';
 import { ModeBadge } from './ModeBadge';
 import { Disclaimer, fmtNum, KV, TimeStamp } from './Meta';
 
@@ -31,7 +33,7 @@ function worstIgnition(records: IgnitionRecord[]): { rec: IgnitionRecord; a: Sta
   return { rec: best, a: bestA };
 }
 
-export function IgnitionPanel({ state, isMock }: { state: Loaded<IgnitionRecord[]> | null; isMock: boolean }) {
+export function IgnitionPanel({ state, isMock }: { state: Loaded<IgnitionResult> | null; isMock: boolean }) {
   return (
     <section className="panel" data-testid="ignition-panel">
       <h2>
@@ -40,15 +42,16 @@ export function IgnitionPanel({ state, isMock }: { state: Loaded<IgnitionRecord[
       {!state ? (
         <Loading what="ignition risk" />
       ) : !state.ok ? (
-        <ErrorState title={state.title} errors={state.errors} kind={state.kind} />
+        <ErrorState {...state} />
       ) : (
-        <IgnitionBody records={state.data} />
+        <IgnitionBody result={state.data} warnings={state.meta?.warnings} />
       )}
     </section>
   );
 }
 
-function IgnitionBody({ records }: { records: IgnitionRecord[] }) {
+function IgnitionBody({ result, warnings }: { result: IgnitionResult; warnings?: string[] }) {
+  const { records, dates, requested, envelope } = result;
   const { rec, a } = useMemo(() => worstIgnition(records), [records]);
   const versions = [...new Set(records.map((r) => r.model_version))];
   const modes = [...new Set(records.map((r) => r.mode))];
@@ -60,9 +63,17 @@ function IgnitionBody({ records }: { records: IgnitionRecord[] }) {
           <ModeBadge key={m} mode={m} />
         ))}
       </div>
+      {dates.banner && (
+        <div className="banner banner-staleday" role="alert" data-testid="stale-day-banner">
+          <strong>{dates.banner}.</strong> These are the latest earlier records; each keeps its own date.
+        </div>
+      )}
       <StaleBanner assessment={a} subject="Ignition inputs" />
+      <ContractWarnings warnings={warnings} />
       <KV k="cells" v={records.length} />
-      <KV k="date (Toronto day)" v={rec.date} mono />
+      <KV k="map date (Toronto day)" v={<span data-testid="ignition-shown-date">{dates.shownDates.join(', ')}</span>} mono />
+      <KV k="requested" v={<span data-testid="ignition-requested-date">{requested === 'latest' ? 'latest available' : requested}</span>} mono />
+      {envelope && <KV k="response" v={`envelope (requested_date ${envelope.requested_date}, stale_level ${envelope.stale_level})`} />}
       <KV k="model_version" v={versions.join(', ')} mono />
       <TimeStamp iso={newest} label="data_timestamp" />
       <KV
@@ -119,7 +130,7 @@ export function WeatherPanel({ state, isMock }: { state: Loaded<WeatherRecord> |
       {!state ? (
         <p className="muted small">No weather loaded yet. It is requested for the clicked point when a spread run starts.</p>
       ) : !state.ok ? (
-        <ErrorState title={state.title} errors={state.errors} kind={state.kind} />
+        <ErrorState {...state} />
       ) : (
         <WeatherBody rec={state.data} />
       )}
@@ -193,23 +204,41 @@ export function SpreadPanel({
       ) : !run ? (
         <p className="muted small">Switch to “Spread” mode and click the map to request a run.</p>
       ) : !run.result.ok ? (
-        <ErrorState title={run.result.title} errors={run.result.errors} kind={run.result.kind} />
+        <ErrorState {...run.result} />
       ) : (
-        <SpreadBody out={run.result.data} degradedConfirmed={run.degradedConfirmed} horizon={horizon} onHorizon={onHorizon} />
+        <SpreadBody out={run.result.data} degradedConfirmed={run.degradedConfirmed} horizon={horizon} onHorizon={onHorizon} warnings={run.result.meta?.warnings} />
       )}
     </section>
   );
 }
 
-function SpreadBody({ out, degradedConfirmed, horizon, onHorizon }: { out: SpreadOutput; degradedConfirmed: boolean; horizon: Horizon; onHorizon: (h: Horizon) => void }) {
-  const a = assessSpread(out);
+function SpreadBody({
+  out,
+  degradedConfirmed,
+  horizon,
+  onHorizon,
+  warnings,
+}: {
+  out: SpreadOutput;
+  degradedConfirmed: boolean;
+  horizon: Horizon;
+  onHorizon: (h: Horizon) => void;
+  warnings?: string[];
+}) {
+  const manual = isManualRun(out);
+  const declared = assessSpread(out);
+  // Manual inputs are never shown as fresh, even if a server mislabels them (that is also listed as a warning).
+  const a: StalenessAssessment =
+    manual && declared.level === 'fresh' ? { ...declared, level: 'stale', reasons: [...declared.reasons, 'manual inputs are never fresh'] } : declared;
   const estimated = out.uncertainty_status === 'estimated';
   const rows = out.features.filter((f) => f.properties.horizon_h === horizon);
   const validated = isHorizonValidated(out, horizon);
   return (
     <>
       <ModeBadge mode={out.mode} />
-      <StaleBanner assessment={a} subject="Spread weather inputs" />
+      {manual && <ManualInputsBadge />}
+      <StaleBanner assessment={a} subject={manual ? 'Manually entered spread weather' : 'Spread weather inputs'} />
+      <ContractWarnings warnings={warnings} />
       {degradedConfirmed && (
         <div className="banner banner-degraded" data-testid="degraded-note">
           <strong>DEGRADED RUN.</strong> You confirmed running on expired or unavailable weather. Do not treat this as current.
