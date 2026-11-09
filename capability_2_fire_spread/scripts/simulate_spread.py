@@ -56,6 +56,16 @@ def _crossed_cells(dr: int, dc: int) -> list[tuple[int, int]]:
 MOVE_CROSSED = [_crossed_cells(dr, dc) for dr, dc in MOVES]
 
 
+def _corner_cells(dr: int, dc: int) -> list[tuple[int, int]]:
+    """For a single diagonal step, the two cells that touch the start and end cell at the corner it passes through."""
+    return [(dr, 0), (0, dc)] if abs(dr) == 1 and abs(dc) == 1 else []
+
+
+# A diagonal step is blocked when BOTH corner cells are water or non-fuel: fire cannot squeeze between two
+# non-fuel cells that touch only at a corner (a one-cell diagonal river or road).  One non-fuel corner is allowed.
+MOVE_CORNERS = [_corner_cells(dr, dc) for dr, dc in MOVES]
+
+
 @dataclass
 class Settings:
     """The simulator's adjustable settings."""
@@ -279,6 +289,9 @@ def simulate(
                 continue
             if any(fuel_flat[(row + cr) * columns + column + cc] < 0 for cr, cc in MOVE_CROSSED[move]):  # cells between two grid cells are on the grid
                 continue  # the move would step over water or non-fuel
+            corners = MOVE_CORNERS[move]
+            if corners and all(fuel_flat[(row + cr) * columns + column + cc] < 0 for cr, cc in corners):
+                continue  # a diagonal step would squeeze between two non-fuel cells touching at a corner
             rate_here, rate_there = source_rates[move], table[target_fuel][move]
             if rate_here <= 0 or rate_there <= 0:
                 continue
