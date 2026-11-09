@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass, field
+from datetime import datetime
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -35,12 +36,18 @@ class Settings:
     port: int = 8000                        # RELAY_PORT
     log_level: str = "INFO"                 # RELAY_LOG_LEVEL
     validate_responses: bool = True         # RELAY_VALIDATE_RESPONSES: fail closed on schema-invalid payloads
-    cors_origins: tuple[str, ...] = field(default_factory=tuple)  # RELAY_CORS_ORIGINS, comma separated; empty = none
+    # RELAY_CORS_ORIGINS, comma separated explicit origins; empty = no CORS headers. For the BEACON dev server:
+    #   RELAY_CORS_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
+    cors_origins: tuple[str, ...] = field(default_factory=tuple)
     # Coarse sanity box for point queries (not an Ontario boundary test): lon/lat degrees.
     bbox_lon: tuple[float, float] = (-95.5, -74.0)
     bbox_lat: tuple[float, float] = (41.5, 57.0)
     spread_start_max_future_hours: float = 48.0
     spread_max_runs: int = 1000
+    spread_default_runs: int = 200          # RELAY_SPREAD_DEFAULT_RUNS: n_runs when the request omits it (BLAZE: ~4 s / 200 runs)
+    # RELAY_MOCK_NOW: pin the MockProvider's clock (ISO UTC with Z) for demos/tests; unset = server clock.
+    # Mock data ages are measured against it (the example payloads are dated July 2026).
+    mock_now: "datetime | None" = None
     spread_timeout_seconds: float = 60.0    # RELAY_SPREAD_TIMEOUT_S: synchronous spread run limit (Team Lead decision)
 
     @classmethod
@@ -70,7 +77,24 @@ class Settings:
             raise ConfigError("RELAY_SPREAD_TIMEOUT_S must be a number") from exc
         if not 0 < spread_timeout <= 600:
             raise ConfigError("RELAY_SPREAD_TIMEOUT_S must be in (0, 600]")
+        try:
+            default_runs = int(e.get("RELAY_SPREAD_DEFAULT_RUNS", "200"))
+        except ValueError as exc:
+            raise ConfigError("RELAY_SPREAD_DEFAULT_RUNS must be an integer") from exc
+        if not 1 <= default_runs <= cls.spread_max_runs:
+            raise ConfigError(f"RELAY_SPREAD_DEFAULT_RUNS must be in 1..{cls.spread_max_runs}")
+        mock_now = None
+        if e.get("RELAY_MOCK_NOW", "").strip():
+            raw = e["RELAY_MOCK_NOW"].strip()
+            if not raw.endswith("Z"):
+                raise ConfigError("RELAY_MOCK_NOW must be ISO 8601 UTC ending in Z")
+            try:
+                mock_now = datetime.fromisoformat(raw[:-1] + "+00:00")
+            except ValueError as exc:
+                raise ConfigError("RELAY_MOCK_NOW must be ISO 8601 UTC ending in Z") from exc
         return cls(
+            mock_now=mock_now,
+            spread_default_runs=default_runs,
             spread_timeout_seconds=spread_timeout,
             data_mode=mode,
             mock_scenario=scenario,

@@ -8,7 +8,8 @@ Two separate ages are judged and ``stale_level`` is the WORSE of the two:
    runs such as HRDPS), with PER-SOURCE thresholds (:data:`DATA_AGE_THRESHOLDS`).
 
 All thresholds are in this file. Fetch-health values are the proposals from
-cache_fallback.md. Per-source data-age values are **TBD placeholders**: they come
+cache_fallback.md. Per-source data-age values for CWFIS and swob are **TBD placeholders** (HRDPS is
+provisional 600/720 min, Team Lead 2026-11-09, until contracts v0.3.0): they come
 from single snapshots seen on 2026-11-02 (HRDPS run ~5.5 h old; CWFIS station
 report ~11.5 h old; swob ~1 min old), NOT from a measured cadence. Team Lead
 reviews RELAY's 24 h cadence measurement (/workspace/relay-evidence/feed_cadence.jsonl)
@@ -52,14 +53,21 @@ class AgeThresholds:
             raise ValueError("require 0 < fresh_max_minutes < stale_max_minutes")
 
 
-# TBD PLACEHOLDERS (see module docstring). Keys are the source names used by the
-# ingestion status endpoint. Replace after the 24 h cadence review.
+# Keys are the SourceStatus.source enum of /api/v1/ingestion/status (openapi.yaml 0.2.1-draft).
+# HRDPS: PROVISIONAL values set by Team Lead on 2026-11-09 (fresh <= 600 min, stale 600-720 min,
+#   expired > 720 min, measured from source_run_time). Provisional until contracts v0.3.0; they satisfy
+#   the cache_fallback.md constraint (6 h cycle + ~180 min measured Datamart lag, ATLAS T1.1 = 540 min < 600).
+# CWFIS and swob: still TBD PLACEHOLDERS (see module docstring); replace after the 24 h cadence review.
 DATA_AGE_THRESHOLDS: Mapping[str, AgeThresholds] = MappingProxyType({
-    "hrdps_geomet_wms": AgeThresholds(480, 1080),          # TBD: 6-hourly runs; seen 332 min old at probe 0
-    "cwfis_firewx_stns_current": AgeThresholds(900, 2160),  # TBD: seen 692 min old at probe 0
-    "msc_swob_realtime": AgeThresholds(90, 360),           # TBD: minute-level obs, seen 1.4 min old
+    "hrdps": AgeThresholds(600, 720),                 # PROVISIONAL until v0.3.0 (Team Lead, 2026-11-09)
+    "cwfis_firewx_stns": AgeThresholds(900, 2160),    # TBD: seen 692 min old at probe 0
+    "swob_realtime": AgeThresholds(90, 360),          # TBD: minute-level obs, seen 1.4 min old
 })
-DATA_AGE_THRESHOLDS_TBD = True
+# Ignition maps are built from CWFIS daily station observations, so their data age (now - data_timestamp)
+# is judged with the CWFIS data-age thresholds (TBD placeholders like CWFIS itself).
+IGNITION_DATA_AGE_SOURCE = "cwfis_firewx_stns"
+DATA_AGE_PROVISIONAL = frozenset({"hrdps"})          # set provisionally (not TBD); final in contracts v0.3.0
+DATA_AGE_THRESHOLDS_TBD = True                       # True while any source above is still a placeholder
 
 
 @dataclass(frozen=True)

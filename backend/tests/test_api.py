@@ -22,6 +22,9 @@ SPEC_URI = (CONTRACTS / "openapi.yaml").resolve().as_uri()
 CELL = "ofr10km_-10000_100000"
 DAY = "2026-07-15"
 DISCLAIMER = "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders."
+MOCK_NOW = "2026-07-14T20:10:00Z"        # pinned mock clock: example ignition data_timestamp + 10 min
+CACHE_TIME = "2026-07-15T16:05:00Z"      # newest cached time in contracts/examples (weather retrieved_at)
+MANUAL_REASON = "manual weather override; not live data"
 SPREAD_BODY = {"longitude": -85.0, "latitude": 50.0, "start_time": "2026-11-02T12:00:00Z", "n_runs": 100, "seed": 385}
 
 
@@ -64,7 +67,8 @@ class ApiBase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         Settings, create_app = _build()
-        s = replace(Settings.from_env({"RELAY_MOCK_SCENARIO": cls.scenario}), log_level="ERROR", **cls.overrides)
+        s = replace(Settings.from_env({"RELAY_MOCK_SCENARIO": cls.scenario, "RELAY_MOCK_NOW": MOCK_NOW}),
+                    log_level="ERROR", **cls.overrides)
         cls.app = create_app(s)
         cls.client = TestClient(cls.app)
 
@@ -93,7 +97,39 @@ class SpecTests(ApiBase):
         validate(SPEC, base_uri=SPEC_URI)
         self.assertEqual(SPEC["openapi"], "3.1.0")
         self.assertIn("draft", SPEC["info"]["version"])
-        self.assertTrue(SPEC["info"]["version"].startswith("0.2.0"))
+        self.assertEqual(SPEC["info"]["version"], "0.2.1-draft")
+        from backend.app import __version__
+        self.assertEqual(__version__, SPEC["info"]["version"])
+
+    def test_error_reason_enum_is_closed_and_matches_the_server(self):
+        from backend.app.errors import REASONS, STATUSES
+        err = SPEC["components"]["schemas"]["ErrorResponse"]
+        self.assertEqual(set(err["properties"]["reason"]["enum"]), set(REASONS))
+        self.assertEqual(set(err["properties"]["status"]["enum"]), set(STATUSES))
+        self.assertNotIn("retryable", json.dumps(SPEC))           # Team Lead: dropped, error shape closed
+        self.assertFalse(err["additionalProperties"])
+        self.assertNotIn("400/404", json.dumps(SPEC))
+        self.assertIn("confirmation_required", REASONS)
+        self.assertEqual(REASONS["confirmation_required"][0], 409)
+        self.assertEqual(REASONS["spread_timeout"][0], 504)
+        self.assertEqual({r for r, v in REASONS.items() if v[0] == 503},
+                         {"no_cached_data", "provider_unavailable", "invalid_provider_payload"})
+
+    def test_cr5_dropped_and_proposals_documented(self):
+        ids = [c["id"] for c in SPEC["x-change-requests"]]
+        self.assertNotIn("CR-5", ids)
+        self.assertIn("weather-latest-selection", SPEC["x-proposals"])
+        desc = SPEC["info"]["description"]
+        for needle in ("RELAY_CORS_ORIGINS=http://localhost:5173,http://127.0.0.1:5173", "get_app --factory", "gzip"):
+            self.assertIn(needle, desc)
+
+    def test_source_enum_and_required_source_status_fields(self):
+        schemas = SPEC["components"]["schemas"]
+        self.assertEqual(schemas["SourceName"]["enum"], ["hrdps", "cwfis_firewx_stns", "swob_realtime"])
+        req = set(schemas["SourceStatus"]["required"])
+        for f in ("mock", "last_attempt_at", "last_error_at", "age_minutes", "fetch_age_minutes", "next_poll_at"):
+            self.assertIn(f, req)
+        self.assertIn("mock", schemas["IngestionStatus"]["required"])
 
     def test_every_documented_route_is_implemented_and_vice_versa(self):
         implemented = {(r.path, m.lower()) for r in self.app.routes if hasattr(r, "methods")
@@ -114,7 +150,8 @@ class FreshMockTests(ApiBase):
         r = self.client.get("/healthz")
         self.assertEqual(r.status_code, 200)
         body = self.check("/healthz", "get", r)
-        self.assertEqual((body["status"], body["mode"], body["mock"], body["contract_version"]), ("ok", "mock", True, "0.2.0"))
+        self.assertEqual((body["status"], body["mode"], body["mock"], body["contract_version"]), ("ok", "mock", True, "0.2.1"))
+        self.assertEqual(body["api_version"], "0.2.1-draft")
 
     def test_ignition_list_validates_and_is_labelled_mock(self):
         r = self.client.get(f"/api/v1/ignition?date={DAY}")
@@ -165,9 +202,15 @@ class FreshMockTests(ApiBase):
         self.assertTrue(body["mock"])
         self.assertTrue(body["cache_policy"]["proposal"])
         self.assertTrue(body["cache_policy"]["data_age_thresholds_tbd"])
-        self.assertEqual(len(body["sources"]), 3)
+        self.assertEqual(body["cache_policy"]["data_age_thresholds_provisional"], ["hrdps"])
+        self.assertEqual(body["cache_policy"]["data_age"]["hrdps"], {"fresh_max_minutes": 600, "stale_max_minutes": 720})
+        self.assertEqual([s["source"] for s in body["sources"]], ["hrdps", "cwfis_firewx_stns", "swob_realtime"])
         for s in body["sources"]:
-            self.assertEqual((s["stale_level"], s["consecutive_failures"], s["last_error"]), ("fresh", 0, None))
+            self.assertEqual((s["stale_level"], s["consecutive_failures"], s["last_error"], s["last_error_at"]),
+                             ("fresh", 0, None, None))
+            self.assertTrue(s["mock"])
+            self.assertGreater(s["next_poll_at"], s["last_attempt_at"])
+            self.assertEqual((s["age_minutes"], s["fetch_age_minutes"]), (10.0, 10.0))
 
     def test_request_id_generated_echoed_and_sanitised(self):
         r = self.client.get("/healthz")
@@ -208,7 +251,8 @@ class BadRequestTests(ApiBase):
             with self.subTest(url=url):
                 r = self.client.get(url)
                 body = self.assert_error(r, 400, "invalid_request", None)
-                self.assertIsNone(body["last_cache_time"])
+                self.assertEqual(body["last_cache_time"], CACHE_TIME)      # filled from the cache on every error
+                self.assertNotIn("Retry-After", r.headers)
                 self.check("/api/v1/ignition", "get", r, 400)
 
     def test_out_of_domain_point(self):
@@ -243,10 +287,14 @@ class BadRequestTests(ApiBase):
                 self.assert_error(r, 400, "invalid_request", "/api/v1/spread", "post")
 
     def test_not_found_and_method_errors_use_the_error_model(self):
-        self.assert_error(self.client.get("/nope"), 404, "route_not_found", None)
-        self.assert_error(self.client.get(f"/api/v1/ignition?date=2026-07-16"), 404, "not_found", "/api/v1/ignition")
-        self.assert_error(self.client.get(f"/api/v1/ignition/ofr10km_0_0?date={DAY}"), 404, "not_found", "/api/v1/ignition/{cell_id}")
-        self.assert_error(self.client.post("/healthz"), 405, "method_not_allowed", None)
+        for r, st, reason, tpl, m in (
+                (self.client.get("/nope"), 404, "route_not_found", None, "get"),
+                (self.client.get("/api/v1/ignition?date=2026-07-14"), 404, "not_found", "/api/v1/ignition", "get"),
+                (self.client.get(f"/api/v1/ignition/ofr10km_0_0?date={DAY}"), 404, "not_found", "/api/v1/ignition/{cell_id}", "get"),
+                (self.client.post("/healthz"), 405, "method_not_allowed", None, "get")):
+            with self.subTest(reason=reason, status=st):
+                body = self.assert_error(r, st, reason, tpl, m)
+                self.assertEqual(body["last_cache_time"], CACHE_TIME)
 
 
 class ScenarioTests(unittest.TestCase):
@@ -265,7 +313,8 @@ def _scenario_case(level, age):
             self.assertEqual(r.headers["X-Stale-Level"], level)
 
         def test_spread_staleness_is_consistent(self):
-            out = self.check("/api/v1/spread", "post", self.client.post("/api/v1/spread", json=SPREAD_BODY))
+            body = dict(SPREAD_BODY, confirm_degraded=True) if level == "expired" else SPREAD_BODY
+            out = self.check("/api/v1/spread", "post", self.client.post("/api/v1/spread", json=body))
             self.assertEqual((out["stale_level"], out["inputs"]["stale_flag"], out["age_minutes"]), (level, True, age))
 
         def test_weather_and_ingestion_status(self):
@@ -295,12 +344,14 @@ class Scenario_no_cache(ApiBase):
                 err = self.assert_error(r, 503, "no_cached_data", tpl, method)
                 self.assertIsNone(err["last_cache_time"])
                 self.assertEqual(err["status"], 503)
+                self.assertEqual(r.headers["Retry-After"], "900")
                 self.assertNotIn("probability", json.dumps(err))        # nothing invented
 
     def test_status_endpoint_still_answers(self):
         st = self.check("/api/v1/ingestion/status", "get", self.client.get("/api/v1/ingestion/status"))
         for s in st["sources"]:
-            self.assertEqual((s["stale_level"], s["last_success_retrieved_at"], s["last_source_time"]), ("no_cache", None, None))
+            self.assertEqual((s["stale_level"], s["stale_flag"], s["last_success_retrieved_at"], s["last_source_time"],
+                              s["age_minutes"], s["fetch_age_minutes"]), ("expired", True, None, None, None, None))
 
     def test_healthz_unaffected(self):
         self.assertEqual(self.client.get("/healthz").status_code, 200)
@@ -353,7 +404,7 @@ class FailClosedTests(unittest.TestCase):
 
     def test_unhandled_error_in_a_route_is_500_with_request_id(self):
         # an error outside the provider-failure path (response rendering) must still fail closed
-        def bad_status(self):
+        def bad_status(self, now):
             return object()          # not JSON-serialisable -> failure in response rendering
         c = self.make(self.mock("ingestion_status", bad_status))
         r = c.get("/api/v1/ingestion/status")
@@ -377,7 +428,8 @@ class FailClosedTests(unittest.TestCase):
         c = self.make(self.mock("run_spread", slow), spread_timeout_seconds=0.05)
         r = c.post("/api/v1/spread", json=SPREAD_BODY)
         self.assertEqual((r.status_code, r.json()["reason"]), (504, "spread_timeout"))
-        self.assertIsNone(r.json()["last_cache_time"])
+        self.assertEqual(r.json()["last_cache_time"], CACHE_TIME)
+        self.assertEqual(r.headers["Retry-After"], "60")
         self.assertEqual(r.json()["disclaimer"], DISCLAIMER)
         time.sleep(0.5)    # let the worker thread finish
 

@@ -1,11 +1,12 @@
 # DRAFT for Team Lead review (RELAY, task T1.8 / openapi). Not an approved contract.
-# contract_version: 0.2.0-draft  (the JSON Schemas referenced below are contracts v0.2.0, unchanged)
+# contract_version: 0.2.1-draft  (the JSON Schemas referenced below are contracts v0.2.1, unchanged)
+# 0.2.1-draft applies BEACON's review (2026-11-09) and the Team Lead rulings of 2026-11-09.
 # Where this draft needs a contract change, it says so under "x-change-requests" at the end; nothing
 # under contracts/ other than this new file has been edited.
 openapi: 3.1.0
 info:
   title: COMP-385 Ontario wildfire decision-support API
-  version: 0.2.0-draft
+  version: 0.2.1-draft
   summary: Research-estimate ignition risk, point-start spread cones, live weather and ingestion status.
   description: |
     **Research estimate for decision support only. It does not replace official fire alerts,
@@ -14,11 +15,24 @@ info:
     * Ignition and spread responses are research estimates computed from the latest data available.
       They carry `mode`, `model_version`, `stale_level`, `age_minutes` and `stale_flag`
       (true exactly when `stale_level` is not `fresh`; the schemas enforce it).
-    * Data degrades per `cache_fallback.md` (v0.2.0 two-age model: fetch health from `retrieved_at`,
+    * Data degrades per `cache_fallback.md` (v0.2.1 two-age model: fetch health from `retrieved_at`,
       data age from `valid_time`/`source_run_time` with per-source thresholds; `stale_level` is the worse
       of the two): fresh -> stale -> expired still serve the last cached data with the staleness stated;
-      **HTTP 503 is returned only when no cached data exists at all** (or the provider/payload fails
-      closed). Weather values are never invented or defaulted.
+      **HTTP 503 is returned only when no cached data exists at all, or on a fail-closed path**
+      (provider failure, contract-invalid provider payload). Weather values are never invented or defaulted.
+    * Every error uses `ErrorResponse`: a closed `reason` enum, `request_id`, the exact disclaimer, and
+      `last_cache_time`, which is filled from the cache on **every** error and is null only when nothing
+      was ever cached. 503 `no_cached_data`/`provider_unavailable` and 504 `spread_timeout` carry
+      `Retry-After` (seconds). The error shape is closed: no other fields.
+    * Responses of 1 KiB or more are gzip-compressed when the request sends `Accept-Encoding: gzip`
+      (`Content-Encoding: gzip`). Measured on a synthetic 9,673-record ignition list (mock records, one
+      per 10 km cell): see `x-gzip-measurement` below.
+    * CORS is off by default. `RELAY_CORS_ORIGINS` (comma-separated explicit origins, `*` is refused)
+      enables it; for the BEACON dev server use
+      `RELAY_CORS_ORIGINS=http://localhost:5173,http://127.0.0.1:5173`. Exposed headers: `X-Request-ID`,
+      `X-Data-Mode`, `X-Mock-Data`, `X-Stale-Level`, `X-Data-Timestamp`, `Retry-After`.
+    * Run locally: `uvicorn backend.app.main:get_app --factory --host 127.0.0.1 --port 8000`
+      (the app is built by the `get_app` factory; there is no module-level `app`).
     * While the backend runs on the MockProvider every response carries `X-Mock-Data: true` and
       `X-Data-Mode: mock`, and payloads keep `model_version: example-not-a-real-model`.
     * Timestamps are ISO 8601 UTC with `Z`; dates are local America/Toronto calendar dates
@@ -55,25 +69,41 @@ paths:
     get:
       tags: [ignition]
       operationId: listIgnition
-      summary: Per-cell ignition probability for one local date
+      summary: Per-cell ignition probability for one local date (or the latest map)
       description: |
-        Returns an array of `ignition_output` records (one per cell, as the contract defines).
+        Returns an array of `ignition_output` records (one per cell, as the contract defines), or, with
+        `envelope=true`, an `IgnitionEnvelope` whose `records` are the same records.
+
+        **Stale-day rule (Team Lead ruling 2026-11-09).** For `date=D` the response is the latest map at or
+        before D. When that map is from an earlier day, records keep their **original** `date`, carry
+        `stale_flag: true`, `stale_level` at least `stale` and a `stale_reason` naming both days.
+        `age_minutes` and the age-based `stale_level` come only from the record's `data_timestamp` against the
+        server clock, so the same record reports the same age whether it was asked for by date or as `latest`
+        (the stale-day rule never changes `age_minutes`). Mock: ages use the server clock, or `RELAY_MOCK_NOW`
+        when pinned; the example records are dated July 2026, so on the real clock they read `expired`. **404 only when no map exists at or before D.** `date=latest`
+        returns the newest map (no day-gap staleness). `GET /api/v1/ignition/dates` lists the held dates.
         `top_k` limits the response to the k highest-probability cells (by `rank_in_day` when present).
         `stale_level`, `age_minutes`, `stale_flag` and `stale_reason` on each record state staleness;
         the same level is in `X-Stale-Level`.
       parameters:
-        - name: date
+        - &ignitionDateParam
+          name: date
           in: query
           required: true
-          description: Local America/Toronto calendar date.
-          schema: {type: string, pattern: '^\d{4}-\d{2}-\d{2}$', examples: ["2026-07-15"]}
+          description: Local America/Toronto calendar date, or `latest`.
+          schema: {type: string, pattern: '^(\d{4}-\d{2}-\d{2}|latest)$', examples: ["2026-07-15", "latest"]}
         - name: top_k
           in: query
           required: false
           schema: {type: integer, minimum: 1, maximum: 10000}
+        - name: envelope
+          in: query
+          required: false
+          description: "Opt-in: `true` wraps the records in an `IgnitionEnvelope` (adds `requested_date`). Default `false` = bare contract array."
+          schema: {type: string, enum: ["true", "false"], default: "false"}
       responses:
         "200":
-          description: Ignition records for the date.
+          description: Ignition records for the date (bare array), or an `IgnitionEnvelope` when `envelope=true`.
           headers: &dataHeaders
             X-Request-ID: {$ref: "#/components/headers/XRequestID"}
             X-Data-Mode: {$ref: "#/components/headers/XDataMode"}
@@ -83,25 +113,38 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items: {$ref: "./ignition_output.schema.json"}
+                oneOf:
+                  - type: array
+                    items: {$ref: "./ignition_output.schema.json"}
+                  - {$ref: "#/components/schemas/IgnitionEnvelope"}
         "400": {$ref: "#/components/responses/BadRequest"}
         "404": {$ref: "#/components/responses/NotFound"}
+        "503": {$ref: "#/components/responses/Unavailable"}
+  /api/v1/ignition/dates:
+    get:
+      tags: [ignition]
+      operationId: listIgnitionDates
+      summary: Local dates that have an ignition map, oldest first
+      responses:
+        "200":
+          description: Held dates; `latest` is the newest (null when none).
+          headers: *commonHeaders
+          content:
+            application/json:
+              schema: {$ref: "#/components/schemas/IgnitionDates"}
+        "400": {$ref: "#/components/responses/BadRequest"}
         "503": {$ref: "#/components/responses/Unavailable"}
   /api/v1/ignition/{cell_id}:
     get:
       tags: [ignition]
       operationId: getIgnitionCell
-      summary: Ignition probability for one cell and local date
+      summary: Ignition probability for one cell and local date (stale-day rule as for the list)
       parameters:
         - name: cell_id
           in: path
           required: true
           schema: {type: string, pattern: '^ofr10km_-?[0-9]+_-?[0-9]+$', examples: ["ofr10km_-10000_100000"]}
-        - name: date
-          in: query
-          required: true
-          schema: {type: string, pattern: '^\d{4}-\d{2}-\d{2}$'}
+        - *ignitionDateParam
       responses:
         "200":
           description: One ignition record.
@@ -131,12 +174,36 @@ paths:
         The point must be inside the coarse Ontario box (lon -95.5..-74.0, lat 41.5..57.0), else 400
         `out_of_domain`. The mock provider moves the example polygon to the requested point and echoes
         `start_time`, `n_runs`, `seed`; it does not simulate anything.
+
+        **Horizons.** Every response has one feature per (horizon, band) for horizons **1, 3 and 6 h**
+        from `start_time` and bands p10/p50/p90 (burn-probability contours, EPSG:4326; simulation in
+        EPSG:3978). Only horizons listed in `validated_horizons_h` are validated (today: 6); clients label
+        1 h and 3 h as unvalidated. Horizons are fixed, not a request parameter.
+
+        **n_runs and seed.** `n_runs` defaults to **200** when omitted (`RELAY_SPREAD_DEFAULT_RUNS`;
+        BLAZE measured about 4 s per 200 synthetic runs); max 1000. `seed` is **always echoed**: the
+        request's seed when given, otherwise a server-chosen seed, so `seed` + `n_runs` + `perturbation`
+        reproduce the run.
+
+        **Expired inputs (Team Lead ruling 2026-11-09).** When the live inputs are `expired` and the request
+        has neither `confirm_degraded: true` nor `weather_override`, the response is **409**
+        `confirmation_required` (nothing is run). With `confirm_degraded: true` the run uses the expired
+        cache and says so (`stale_level: expired`). With `weather_override` the run uses the entered values:
+        `inputs.weather_source: "manual"`, `stale_level: "stale"`, `inputs.stale_flag: true`,
+        `inputs.stale_reason` exactly `"manual weather override; not live data"`, `age_minutes: 0`,
+        `inputs.weather_valid_time` = `start_time`; omitted optional fields are null, never defaulted.
+        Manual inputs need no weather cache, so `weather_override` also runs (200, manual, `stale`) when no
+        cache exists; `confirm_degraded: true` with no cache at all is 503 `no_cached_data` (nothing to run on).
       requestBody:
         required: true
         content:
           application/json:
             schema: {$ref: "#/components/schemas/SpreadRequest"}
-            example: {longitude: -85.0, latitude: 50.0, start_time: "2026-07-15T16:00:00Z", n_runs: 100, seed: 385}
+            examples:
+              live: {value: {longitude: -85.0, latitude: 50.0, start_time: "2026-07-15T16:00:00Z", n_runs: 200, seed: 385}}
+              confirmed_degraded: {value: {longitude: -85.0, latitude: 50.0, start_time: "2026-07-15T16:00:00Z", confirm_degraded: true}}
+              manual_weather: {value: {longitude: -85.0, latitude: 50.0, start_time: "2026-07-15T16:00:00Z",
+                                       weather_override: {wind_speed_kmh: 22, wind_direction_deg: 225, ffmc: 88, rh_pct: 35}}}
       responses:
         "200":
           description: Spread contours.
@@ -145,6 +212,7 @@ paths:
             application/json:
               schema: {$ref: "./spread_output.schema.json"}
         "400": {$ref: "#/components/responses/BadRequest"}
+        "409": {$ref: "#/components/responses/ConfirmationRequired"}
         "503": {$ref: "#/components/responses/Unavailable"}
         "504": {$ref: "#/components/responses/Timeout"}
   /api/v1/weather/latest:
@@ -152,7 +220,11 @@ paths:
       tags: [weather]
       operationId: getLatestWeather
       summary: Latest cached weather record for a point or a cell
-      description: Provide either `cell_id`, or both `lat` and `lon` (not a mix).
+      description: |
+        Provide either `cell_id`, or both `lat` and `lon` (not a mix).
+
+        **Selection rule: PROPOSAL (RELAY, 2026-11-09), needs Team Lead approval; the MockProvider ignores it
+        and returns the example record.** See `x-proposals.weather-latest-selection` below.
       parameters:
         - name: lat
           in: query
@@ -177,7 +249,10 @@ paths:
       tags: [ops]
       operationId: getIngestionStatus
       summary: Per-source ingestion and cache status
-      description: "Always 200, including when a source has never succeeded (stale_level no_cache)."
+      description: |
+        Always 200. A source that has never succeeded reports `stale_level: expired`, `stale_flag: true`,
+        `last_success_retrieved_at`, `last_source_time`, `age_minutes` and `fetch_age_minutes` null.
+        `stale_level` is only ever fresh, stale or expired in any response.
       responses:
         "200":
           description: Status per upstream source.
@@ -187,6 +262,9 @@ paths:
               schema: {$ref: "#/components/schemas/IngestionStatus"}
 components:
   headers:
+    RetryAfter:
+      description: Seconds before a retry may succeed. Sent on 503 no_cached_data (900) and provider_unavailable (60), and on 504 spread_timeout (60).
+      schema: {type: integer, minimum: 1}
     XRequestID:
       description: Request correlation ID (echoed or generated).
       schema: {type: string, pattern: '^[A-Za-z0-9._-]{8,64}$'}
@@ -205,25 +283,44 @@ components:
   responses:
     BadRequest:
       description: Invalid or unknown parameter, malformed body, point outside the domain.
+      headers: &errorHeaders
+        X-Request-ID: {$ref: "#/components/headers/XRequestID"}
+        X-Data-Mode: {$ref: "#/components/headers/XDataMode"}
+        X-Mock-Data: {$ref: "#/components/headers/XMockData"}
       content:
         application/json:
           schema: {$ref: "#/components/schemas/ErrorResponse"}
     NotFound:
-      description: No data for that cell/date (or unknown route).
+      description: No data for that cell at or before the date (or unknown route).
+      headers: *errorHeaders
+      content:
+        application/json:
+          schema: {$ref: "#/components/schemas/ErrorResponse"}
+    ConfirmationRequired:
+      description: |
+        Spread inputs are expired and the request had neither `confirm_degraded: true` nor `weather_override`
+        (reason `confirmation_required`). Resend with one of them. Nothing is run.
+      headers: *errorHeaders
       content:
         application/json:
           schema: {$ref: "#/components/schemas/ErrorResponse"}
     Timeout:
-      description: "The synchronous spread run exceeded its time limit (reason spread_timeout). Nothing is served."
+      description: "The synchronous spread run exceeded its 60 s limit (reason spread_timeout, Retry-After 60). Nothing is served."
+      headers: &retryHeaders
+        X-Request-ID: {$ref: "#/components/headers/XRequestID"}
+        X-Data-Mode: {$ref: "#/components/headers/XDataMode"}
+        X-Mock-Data: {$ref: "#/components/headers/XMockData"}
+        Retry-After: {$ref: "#/components/headers/RetryAfter"}
       content:
         application/json:
           schema: {$ref: "#/components/schemas/ErrorResponse"}
     Unavailable:
       description: |
-        No cached data exists at all (`reason: no_cached_data`, `last_cache_time: null`), the provider
-        failed (`provider_unavailable`) or produced a contract-invalid payload (`invalid_provider_payload`).
-        Fail closed: no probability or weather value is guessed. Body always carries `error`, `reason`,
-        `last_cache_time` (nullable) and the exact disclaimer.
+        503 only when no cached data exists at all (`reason: no_cached_data`, `last_cache_time: null`), or on a
+        fail-closed path: the provider failed (`provider_unavailable`) or produced a contract-invalid payload
+        (`invalid_provider_payload`, no Retry-After). No probability or weather value is guessed. Stale or
+        expired cache is never a 503: it is served with its staleness stated.
+      headers: *retryHeaders
       content:
         application/json:
           schema: {$ref: "#/components/schemas/ErrorResponse"}
@@ -258,34 +355,59 @@ components:
           format: date-time
           pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$'
           description: UTC with Z. Rejected if before 2000-01-01 or more than 48 h after the server clock.
-        n_runs: {type: integer, minimum: 1, maximum: 1000, description: "Monte Carlo ensemble size (server default if omitted)"}
-        seed: {type: integer, minimum: 0, maximum: 2147483647}
+        n_runs: {type: integer, minimum: 1, maximum: 1000, default: 200, description: "Monte Carlo ensemble size (default 200, RELAY_SPREAD_DEFAULT_RUNS)"}
+        seed: {type: integer, minimum: 0, maximum: 2147483647, description: "Always echoed in the response; server-chosen when omitted."}
+        confirm_degraded:
+          type: boolean
+          default: false
+          description: "true = the user confirmed a run on expired inputs. Without it (or weather_override) expired inputs give 409 confirmation_required."
+        weather_override: {$ref: "#/components/schemas/WeatherOverride"}
+    WeatherOverride:
+      type: object
+      additionalProperties: false
+      description: |
+        Manual weather entered by the user. The response then has inputs.weather_source "manual", stale_level "stale",
+        inputs.stale_flag true and inputs.stale_reason exactly "manual weather override; not live data".
+        Bounds are server sanity limits (the same as the dashboard form).
+      required: [wind_speed_kmh, wind_direction_deg]
+      properties:
+        wind_speed_kmh: {type: number, minimum: 0, maximum: 200, description: "10 m wind speed at start_time"}
+        wind_direction_deg: {type: number, minimum: 0, maximum: 360, description: "Degrees the wind blows FROM"}
+        ffmc: {type: [number, "null"], minimum: 0, maximum: 101}
+        bui: {type: [number, "null"], minimum: 0, maximum: 500}
+        temp_c: {type: [number, "null"], minimum: -50, maximum: 50}
+        rh_pct: {type: [number, "null"], minimum: 0, maximum: 100}
+        precip_mm: {type: [number, "null"], minimum: 0, maximum: 500}
     ErrorResponse:
       type: object
       additionalProperties: false
       required: [status, error, reason, last_cache_time, request_id, disclaimer]
       properties:
-        status: {type: integer, enum: [400, 404, 405, 500, 503, 504]}
+        status: {type: integer, enum: [400, 404, 405, 409, 500, 503, 504]}
         error: {type: string, description: "Human-readable message; never contains secrets or internals."}
         reason:
-          type: string
-          description: Machine-readable cause.
-          examples: [invalid_request, out_of_domain, not_found, route_not_found, method_not_allowed,
-                     no_cached_data, provider_unavailable, invalid_provider_payload, spread_timeout, internal_error]
+          description: |
+            Machine-readable cause (CLOSED enum). Status per reason: invalid_request/out_of_domain 400;
+            not_found/route_not_found 404; method_not_allowed 405; confirmation_required 409; internal_error 500;
+            no_cached_data/provider_unavailable/invalid_provider_payload 503; spread_timeout 504.
+          enum: [invalid_request, out_of_domain, not_found, route_not_found, method_not_allowed,
+                 confirmation_required, internal_error, no_cached_data, provider_unavailable,
+                 invalid_provider_payload, spread_timeout]
         last_cache_time:
           type: [string, "null"]
           format: date-time
-          description: UTC time of the newest data ever cached for this request; null when nothing was ever cached (and for 400/404).
-        request_id: {type: string}
+          pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$'
+          description: UTC time of the newest data in the cache, filled on every error; null only when nothing was ever cached.
+        request_id: {type: string, description: "Same value as the X-Request-ID header."}
         disclaimer:
           const: Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.
         details: {type: array, items: {type: object}}
     IngestionStatus:
       type: object
       additionalProperties: false
-      required: [sources, cache_policy, generated_at]
+      required: [mock, sources, cache_policy, generated_at]
       properties:
-        mock: {type: boolean, description: "Present and true while on the MockProvider."}
+        mock: {type: boolean, description: "True while on the MockProvider."}
         note: {type: string}
         generated_at: {type: string, format: date-time, pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$'}
         cache_policy:
@@ -294,10 +416,15 @@ components:
           required: [proposal, poll_interval_minutes, fresh_max_minutes, stale_max_minutes, fetch_timeout_seconds]
           properties:
             proposal: {type: boolean}
-            data_age_thresholds_tbd: {type: boolean, description: "True until Team Lead sets per-source data-age thresholds from the 24 h cadence measurement."}
+            data_age_thresholds_tbd: {type: boolean, description: "True while any source's data-age thresholds are still placeholders."}
+            data_age_thresholds_provisional:
+              type: array
+              items: {$ref: "#/components/schemas/SourceName"}
+              description: "Sources whose data-age thresholds are set provisionally until contracts v0.3.0 (today: hrdps 600/720 min)."
             data_age:
               type: object
-              description: Per-source data-age thresholds in minutes (placeholders while data_age_thresholds_tbd).
+              description: Per-source data-age thresholds in minutes, keyed by SourceName.
+              propertyNames: {$ref: "#/components/schemas/SourceName"}
               additionalProperties:
                 type: object
                 required: [fresh_max_minutes, stale_max_minutes]
@@ -311,12 +438,21 @@ components:
         sources:
           type: array
           items: {$ref: "#/components/schemas/SourceStatus"}
+    SourceName:
+      description: Upstream feeds polled by RELAY (HRDPS via GeoMet WMS, CWFIS firewx_stns_current WFS, MSC swob-realtime).
+      enum: [hrdps, cwfis_firewx_stns, swob_realtime]
     SourceStatus:
       type: object
       additionalProperties: false
-      required: [source, last_success_retrieved_at, last_source_time, last_error, stale_level, consecutive_failures]
+      required: [source, mock, last_attempt_at, last_success_retrieved_at, last_source_time, last_error,
+                 last_error_at, stale_level, stale_flag, age_minutes, fetch_age_minutes, consecutive_failures, next_poll_at]
       properties:
-        source: {type: string, description: "e.g. hrdps_geomet_wms, cwfis_firewx_stns_current, msc_swob_realtime"}
+        source: {$ref: "#/components/schemas/SourceName"}
+        mock: {type: boolean, description: "True when this row is simulated by the MockProvider."}
+        last_attempt_at:
+          type: [string, "null"]
+          format: date-time
+          description: When the last poll of this source started, successful or not (null = never polled).
         last_success_retrieved_at:
           type: [string, "null"]
           format: date-time
@@ -324,29 +460,110 @@ components:
         last_source_time:
           type: [string, "null"]
           format: date-time
-          description: The upstream's own time for that data (after the plausibility check); null = never.
+          description: The upstream's own time for that data (valid_time or source_run_time, after the plausibility check); null = never.
         last_error: {type: [string, "null"], description: "Last failure text, secret-free; null if the last poll succeeded."}
-        stale_level: {enum: [fresh, stale, expired, no_cache]}
+        last_error_at: {type: [string, "null"], format: date-time, description: "When last_error happened; null if the last poll succeeded."}
+        stale_level:
+          enum: [fresh, stale, expired]
+          description: "Worse of fetch health and data age; a source that never succeeded is `expired`."
+        stale_flag: {type: boolean, description: "True exactly when stale_level is not fresh."}
+        age_minutes:
+          type: [number, "null"]
+          minimum: 0
+          description: Data age (now - last_source_time) in minutes; null when the source never succeeded.
+        fetch_age_minutes:
+          type: [number, "null"]
+          minimum: 0
+          description: Fetch health (now - last_success_retrieved_at) in minutes; null when the source never succeeded.
         consecutive_failures: {type: integer, minimum: 0}
+        next_poll_at: {type: [string, "null"], format: date-time, description: "When the next scheduled poll is due (15-minute cadence)."}
+    IgnitionDates:
+      type: object
+      additionalProperties: false
+      required: [dates, latest, mock, generated_at, api_version, disclaimer]
+      properties:
+        dates:
+          type: array
+          items: {type: string, pattern: '^\d{4}-\d{2}-\d{2}$'}
+          description: Local America/Toronto dates with an ignition map, oldest first.
+        latest: {type: [string, "null"], pattern: '^\d{4}-\d{2}-\d{2}$'}
+        mock: {type: boolean}
+        generated_at: {type: string, format: date-time, pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$'}
+        api_version: {type: string}
+        disclaimer:
+          const: Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders.
+    IgnitionEnvelope:
+      type: object
+      additionalProperties: false
+      description: |
+        Opt-in (`envelope=true`) wrapper for the ignition list. Each record validates against
+        `ignition_output.schema.json` on its own (and so carries model_version, data_timestamp and the disclaimer).
+        `stale_level` is the worst record level; `age_minutes` the largest record age; `requested_date` echoes
+        exactly what was requested (`latest` stays `latest`) while each record's `date` is the day actually
+        served; `mock` is present and true on the MockProvider.
+      required: [mode, stale_level, age_minutes, data_timestamp, requested_date, records]
+      properties:
+        mode: {enum: [retrospective, hindcast, forecast_like, forecast]}
+        stale_level: {enum: [fresh, stale, expired]}
+        age_minutes: {type: number, minimum: 0}
+        data_timestamp: {type: string, format: date-time, pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$'}
+        requested_date: {type: string, pattern: '^(\d{4}-\d{2}-\d{2}|latest)$'}
+        mock: {type: boolean}
+        records:
+          type: array
+          items: {$ref: "./ignition_output.schema.json"}
 # ---------------------------------------------------------------------------------------------
 # Proposed contract change requests (NOT applied; need Team Lead approval). Mirrored in the RELAY report.
 # (v0.2.0 already adopted: stale_level/age_minutes/mode on outputs, two-age staleness, uncertainty_status, empty bands.)
+# CR-5 dropped in 0.2.1-draft: v0.2.1 already pins age_minutes to data age and adds fetch_age_minutes.
+# CR-4 and CR-6 are written up as a patch under contracts/proposals/ for Team Lead to commit as v0.3.0.
 x-change-requests:
   - id: CR-2
     target: "new contracts/error.schema.json and ingestion_status.schema.json"
     change: "Promote ErrorResponse and IngestionStatus above to standalone JSON Schemas so every lane validates against one file (they are inline in this draft)."
   - id: CR-3
     target: "ignition_output.schema.json / grid_spec.md"
-    change: "Decide whether the list response needs an envelope (data_timestamp, stale_level, mock flag once per response instead of per record). Draft keeps the contract's bare array."
+    change: "RESOLVED by Team Lead ruling 2026-11-09: bare array by default plus the opt-in `envelope=true` IgnitionEnvelope above. Promote IgnitionEnvelope to a contract schema when CR-2 is done."
   - id: CR-4
     target: "all payload schemas"
     change: "Add an optional `mock` boolean, or require model_version to start with example- for mock data, so mock-ness is machine-checkable in the body. Schemas are additionalProperties:false, so today it is only the X-Mock-Data / X-Data-Mode headers."
-  - id: CR-5
-    target: "live_weather_record.schema.json"
-    change: "age_minutes is described as now-retrieved_at or now-valid_time. Under the v0.2.0 two-age model pin it to the age of the input that sets stale_level, and add fetch_age_minutes / data_age_minutes (optional) so the UI can show both."
   - id: CR-6
     target: "ignition_output.schema.json, spread_output.schema.json, cache_fallback.md"
     change: "Both outputs take one stale_level but are built from several feeds (HRDPS, CWFIS, swob). State that stale_level is the worst across all feeds used, and add an optional stale_sources array [{source, stale_level, age_minutes}] so the cause is machine-readable."
   - id: CR-7
     target: "openapi.yaml status codes"
     change: "Spread timeout returns 504 spread_timeout (not 503), keeping 503 for no cached data / fail-closed, as decided. Confirm."
+# ---------------------------------------------------------------------------------------------
+# Measured 2026-11-09 with backend/tests/test_rulings.py:measure_gzip() (Starlette 1.10.0 GZipMiddleware,
+# default level 9). SYNTHETIC mock records (contracts/examples ignition record cloned per cell), so the
+# ratio is optimistic: real probabilities vary more. Reproduce:
+#   python -c "from backend.tests.test_rulings import measure_gzip; print(measure_gzip())"
+x-gzip-measurement:
+  records: 9673
+  raw_bytes: 4086162
+  gzip_bytes: 91861
+  ratio: 0.0225
+  min_size_bytes: 1024
+# ---------------------------------------------------------------------------------------------
+# Proposals that are not schema changes (need Team Lead approval; not enforced by the MockProvider).
+x-proposals:
+  weather-latest-selection:
+    status: PROPOSAL (RELAY, 2026-11-09)
+    rule: |
+      1. Location. `cell_id` is used as given. `lat`/`lon` is snapped to the containing ofr10km cell
+         (EPSG:3978, grid_spec.md); the response keeps the requested lat/lon and adds that `cell_id`.
+      2. Candidates. Only records cached for that cell whose source time passed the plausibility check
+         (not > 2 h in the future, not before 2000). Nothing is interpolated across sources or invented.
+      3. Pick the record whose `valid_time` is the latest at or before the serving time ("now"):
+         a. an observation (swob station mapped to the cell, or CWFIS firewx station) with
+            `valid_time` within the source's fresh data-age limit wins first, since it is measured, not modelled;
+         b. otherwise the HRDPS forecast hour with `valid_time` = the latest top of hour <= now, taken from the
+            newest `source_run_time` that has that hour;
+         c. otherwise the newest remaining record of any source (it will report stale or expired).
+         Ties: newer `source_run_time`, then newer `retrieved_at`, then source order hrdps, swob_realtime,
+         cwfis_firewx_stns.
+      4. A forecast hour with `valid_time` in the past used as "latest" is flagged at least `stale`
+         (cache_fallback.md). `stale_level`, `age_minutes`, `fetch_age_minutes` and `from_cache` report the
+         chosen record, not the best one seen.
+      5. No candidate at all: 503 `no_cached_data` (never a default value).
+

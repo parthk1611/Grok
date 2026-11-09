@@ -20,7 +20,7 @@ class LevelTests(unittest.TestCase):
         self.assertTrue(DATA_AGE_THRESHOLDS_TBD)
         self.assertEqual((p.poll_interval_minutes, p.fresh_max_minutes, p.stale_max_minutes, p.fetch_timeout_seconds),
                          (15.0, 30.0, 360.0, 20.0))
-        self.assertEqual(set(DATA_AGE_THRESHOLDS), {"hrdps_geomet_wms", "cwfis_firewx_stns_current", "msc_swob_realtime"})
+        self.assertEqual(set(DATA_AGE_THRESHOLDS), {"hrdps", "cwfis_firewx_stns", "swob_realtime"})
 
     def test_boundaries(self):
         self.assertIs(level_for_age(0), F)
@@ -67,7 +67,7 @@ class AgeTests(unittest.TestCase):
 
 class DecideFetchHealthTests(unittest.TestCase):
     def test_no_cache_means_503_path(self):
-        d = decide(NOW, None, source="hrdps_geomet_wms")
+        d = decide(NOW, None, source="hrdps")
         self.assertEqual((d.level, d.serve, d.stale_flag, d.age_minutes), (N, False, True, None))
         self.assertIn("hrdps", d.reason)
 
@@ -99,33 +99,42 @@ class DecideTwoAgeTests(unittest.TestCase):
 
     def test_per_source_data_age_thresholds(self):
         # the same 11 h-old report is fresh for CWFIS (placeholder 15 h) but expired for swob (6 h)
-        cw = decide(NOW, ago(minutes=5), source="cwfis_firewx_stns_current", valid_time=ago(hours=11))
-        sw = decide(NOW, ago(minutes=5), source="msc_swob_realtime", valid_time=ago(hours=11))
+        cw = decide(NOW, ago(minutes=5), source="cwfis_firewx_stns", valid_time=ago(hours=11))
+        sw = decide(NOW, ago(minutes=5), source="swob_realtime", valid_time=ago(hours=11))
         self.assertIs(cw.level, F)
         self.assertIs(sw.level, E)
 
     def test_fetch_stale_and_data_fresh_reports_fetch_age(self):
-        d = decide(NOW, ago(hours=2), source="cwfis_firewx_stns_current", valid_time=ago(hours=1))
+        d = decide(NOW, ago(hours=2), source="cwfis_firewx_stns", valid_time=ago(hours=1))
         self.assertEqual((d.level, d.fetch_level, d.data_level), (S, S, F))
         self.assertAlmostEqual(d.age_minutes, 120)
 
     def test_level_is_worse_of_the_two(self):
-        d = decide(NOW, ago(hours=2), source="msc_swob_realtime", valid_time=ago(hours=7))   # fetch stale, data expired
+        d = decide(NOW, ago(hours=2), source="swob_realtime", valid_time=ago(hours=7))   # fetch stale, data expired
         self.assertEqual((d.level, d.fetch_level, d.data_level), (E, S, E))
         self.assertIn("fetch stale", d.reason)
         self.assertIn("data expired", d.reason)
 
     def test_forecast_uses_source_run_time(self):
-        # HRDPS run 7 h old (placeholder fresh 8 h): still fresh
-        d = decide(NOW, ago(minutes=5), kind="forecast", source="hrdps_geomet_wms",
+        # HRDPS run 7 h old (provisional fresh 10 h): still fresh
+        d = decide(NOW, ago(minutes=5), kind="forecast", source="hrdps",
                    source_run_time=ago(hours=7), valid_time=NOW + timedelta(hours=3))
         self.assertIs(d.level, F)
-        d = decide(NOW, ago(minutes=5), kind="forecast", source="hrdps_geomet_wms",
+        d = decide(NOW, ago(minutes=5), kind="forecast", source="hrdps",
                    source_run_time=ago(hours=19), valid_time=NOW + timedelta(hours=3))
         self.assertIs(d.level, E)
 
+    def test_hrdps_provisional_thresholds_600_720(self):
+        from backend.app.cache_policy import DATA_AGE_PROVISIONAL
+        self.assertEqual(DATA_AGE_THRESHOLDS["hrdps"], AgeThresholds(600, 720))
+        self.assertEqual(DATA_AGE_PROVISIONAL, frozenset({"hrdps"}))
+        for run_age_min, level in ((540, F), (600, F), (601, S), (720, S), (721, E)):
+            d = decide(NOW, ago(minutes=5), kind="forecast", source="hrdps",
+                       source_run_time=ago(minutes=run_age_min), valid_time=NOW + timedelta(hours=1))
+            self.assertIs(d.level, level, run_age_min)
+
     def test_forecast_valid_time_in_past_is_at_least_stale(self):
-        d = decide(NOW, ago(minutes=5), kind="forecast", source="hrdps_geomet_wms",
+        d = decide(NOW, ago(minutes=5), kind="forecast", source="hrdps",
                    source_run_time=ago(hours=1), valid_time=ago(minutes=1))
         self.assertIs(d.level, S)
 

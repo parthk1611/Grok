@@ -30,7 +30,7 @@ class Contracts:
             Draft202012Validator.check_schema(s)
         self._validators = {k: Draft202012Validator(s) for k, s in self.schemas.items()}
         self.disclaimer: str = self.schemas["ignition"]["properties"]["disclaimer"]["const"]
-        self.contract_version = "0.2.0"
+        self.contract_version = "0.2.1"
 
     def example(self, kind: str) -> dict:
         return json.loads((self.dir / "examples" / EXAMPLE_FILES[kind]).read_text(encoding="utf-8"))
