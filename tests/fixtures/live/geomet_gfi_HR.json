@@ -1,0 +1,27 @@
+{
+
+  "type": "FeatureCollection",
+  "layer": "HRDPS.CONTINENTAL_HR",
+  "features": [
+    
+    {
+      "type": "Feature",
+      "id": "HRDPS.CONTINENTAL_HR(-89.260384,48.38596)",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+            -89.2604,48.3860
+        ]
+      },
+      "properties": {
+        "value": 99.57312,
+        "class": "95 - 100",
+        "title_en": "HRDPS.CONTINENTAL - Relative humidity at 2m above ground [%]",
+        "title_fr": "HRDPS.CONTINENTAL - Humidité relative à 2m au dessus de la surface [%]",
+        "time": "2026-11-02T23:00:00Z",
+        "dim_reference_time": "2026-11-02T18:00:00Z"
+      }
+    }
+  ]
+
+}

@@ -1,0 +1,27 @@
+{
+
+  "type": "FeatureCollection",
+  "layer": "HRDPS.CONTINENTAL_WSPD",
+  "features": [
+    
+    {
+      "type": "Feature",
+      "id": "HRDPS.CONTINENTAL_WSPD(-89.260384,48.38596)",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+            -89.2604,48.3860
+        ]
+      },
+      "properties": {
+        "value": 4.52,
+        "class": "5 - 10 kts",
+        "title_en": "HRDPS.CONTINENTAL - Wind speed at 10m above surface [m/s]",
+        "title_fr": "HRDPS.CONTINENTAL - Vitesse du vent à 10m au dessus de la surface [m/s]",
+        "time": "2026-11-03T00:00:00Z",
+        "dim_reference_time": "2026-11-02T18:00:00Z"
+      }
+    }
+  ]
+
+}

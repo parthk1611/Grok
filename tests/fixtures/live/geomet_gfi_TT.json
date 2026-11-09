@@ -1,0 +1,27 @@
+{
+
+  "type": "FeatureCollection",
+  "layer": "HRDPS.CONTINENTAL_TT",
+  "features": [
+    
+    {
+      "type": "Feature",
+      "id": "HRDPS.CONTINENTAL_TT(-89.260384,48.38596)",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+            -89.2604,48.3860
+        ]
+      },
+      "properties": {
+        "value": 10.023005,
+        "class": "10 15",
+        "title_en": "HRDPS.CONTINENTAL - Air temperature at 2m above ground [°C]",
+        "title_fr": "HRDPS.CONTINENTAL - Température de l'air à 2m au dessus de la surface [°C]",
+        "time": "2026-11-02T23:00:00Z",
+        "dim_reference_time": "2026-11-02T18:00:00Z"
+      }
+    }
+  ]
+
+}

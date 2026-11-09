@@ -1,0 +1,27 @@
+{
+
+  "type": "FeatureCollection",
+  "layer": "HRDPS.CONTINENTAL_PR",
+  "features": [
+    
+    {
+      "type": "Feature",
+      "id": "HRDPS.CONTINENTAL_PR(-89.260384,48.38596)",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+            -89.2604,48.3860
+        ]
+      },
+      "properties": {
+        "value": 9.9367199,
+        "class": "5.0 - 10.0",
+        "title_en": "HRDPS.CONTINENTAL - Precipitation accumulation [mm]",
+        "title_fr": "HRDPS.CONTINENTAL - Précipitations accumulées [mm]",
+        "time": "2026-11-02T23:00:00Z",
+        "dim_reference_time": "2026-11-02T18:00:00Z"
+      }
+    }
+  ]
+
+}

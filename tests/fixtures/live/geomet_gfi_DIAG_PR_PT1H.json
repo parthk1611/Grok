@@ -1,0 +1,27 @@
+{
+
+  "type": "FeatureCollection",
+  "layer": "HRDPS.CONTINENTAL.DIAG_PR_PT1H",
+  "features": [
+    
+    {
+      "type": "Feature",
+      "id": "HRDPS.CONTINENTAL.DIAG_PR_PT1H(-89.260384,48.38596)",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+            -89.2604,48.3860
+        ]
+      },
+      "properties": {
+        "value": 3.2193375,
+        "class": "2.0 - 5.0",
+        "title_en": "HRDPS.DIAG - Precipitation - 1-hour accumulation [mm]",
+        "title_fr": "HRDPS.DIAG - Précipitations - accumulation sur 1 heure [mm]",
+        "time": "2026-11-02T23:00:00Z",
+        "dim_reference_time": "2026-11-02T18:00:00Z"
+      }
+    }
+  ]
+
+}
