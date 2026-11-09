@@ -58,20 +58,21 @@ forces `repair_burn_scar=False`, ignores the observed arrival cells, and raises 
 not cover the run. `seed` is recorded but nothing is perturbed yet (Monte Carlo is T1.7).
 Note: `Settings().ros_scale` defaults to 1.0; pass the tuned value explicitly if you want it.
 
-Pinned environment and tests (run from the repository root, Python 3.13 tested):
+Pinned environment and tests (run from the repository root, Python 3.13.5 tested). Use this lane venv,
+not a system or other venv: the full suite needs every package in the lock (Pillow and jsonschema included).
 
 ```bash
-python3 -m venv .venv-spread
+python3.13 -m venv .venv-spread
 .venv-spread/bin/pip install -r capability_2_fire_spread/requirements-lock.txt
-cd capability_2_fire_spread
-../.venv-spread/bin/python -m unittest discover -s tests -v
-cd .. && .venv-spread/bin/python -m unittest tests.test_contracts -v
+.venv-spread/bin/python -m unittest discover -s capability_2_fire_spread/tests
+.venv-spread/bin/python -m unittest tests.test_contracts -v
 ```
 
-`tests/test_spread_point_api.py` uses made-up grids only (no dataset needed). Two tests are
-marked `expectedFailure` because they document simulator artefacts: fire still squeezes through a
-one-cell *diagonal* wall (the one-cell straight wall leak was fixed), and a diagonal wind burns about
-11% more area at 6 h than an axis-aligned one (31% more at 1 h).
+`tests/test_spread_point_api.py` uses made-up grids only (no dataset needed). Fire cannot cross a one-cell
+wall of water or non-fuel, straight or diagonal: a knight move is blocked if either cell it passes through is
+non-fuel, and a diagonal step is blocked if both cells at the corner it passes are non-fuel. One test is
+marked `expectedFailure` because it documents a simulator artefact: a diagonal wind burns about 11% more
+area at 6 h than an axis-aligned one (31% more at 1 h).
 
 ## Monte Carlo burn-probability bands (T1.7)
 

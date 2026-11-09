@@ -212,11 +212,9 @@ class BarrierTest(unittest.TestCase):
         result = run(synthetic_case())
         self.assertEqual([result.area_ha[h] for h in (1, 3, 6)], [28.35, 234.9, 935.55])
 
-    @unittest.expectedFailure
     def test_a_diagonal_one_cell_wall_blocks_the_fire(self) -> None:
-        """KNOWN SIMULATOR ARTEFACT (reported, not fixed): fire still squeezes between two water cells that touch only at
-        a corner, by a diagonal (+-1, +-1) move.  Measured with a 1-cell anti-diagonal wall through (centre, centre + 20):
-        616 cells burned beyond it before the knight-move fix and 567 after."""
+        """Fire must not squeeze between two water cells that touch only at a corner.  Before the diagonal-corner rule a
+        1-cell anti-diagonal wall through (centre, centre + 20) let 616 cells burn beyond it (567 after the knight-move fix)."""
         fuel = np.full((SIZE, SIZE), SPRUCE, dtype=np.int32)
         for row in range(SIZE):
             column = CENTRE + 20 - (row - CENTRE)
@@ -225,6 +223,21 @@ class BarrierTest(unittest.TestCase):
         result = run(synthetic_case(fuel))
         rows, columns = np.indices(result.masks[6].shape)
         self.assertFalse((result.masks[6] & ((rows - CENTRE) + (columns - CENTRE) > 20)).any())
+
+    def test_a_diagonal_wall_with_a_one_cell_gap_still_lets_fire_through(self) -> None:
+        """The corner rule must only block a squeeze between two non-fuel cells, not close a real one-cell gap."""
+        fuel = np.full((SIZE, SIZE), SPRUCE, dtype=np.int32)
+        for row in range(SIZE):
+            column = CENTRE + 20 - (row - CENTRE)
+            if 0 <= column < SIZE and row != CENTRE:
+                fuel[row, column] = SIM.WATER_CODE
+        result = run(synthetic_case(fuel))
+        rows, columns = np.indices(result.masks[6].shape)
+        self.assertTrue((result.masks[6] & ((rows - CENTRE) + (columns - CENTRE) > 20)).any())
+
+    def test_only_the_four_diagonal_steps_have_corner_cells(self) -> None:
+        with_corners = [move for move, corners in zip(SIM.MOVES, SIM.MOVE_CORNERS) if corners]
+        self.assertEqual(sorted(with_corners), [(-1, -1), (-1, 1), (1, -1), (1, 1)])
 
 
 class IgnitionPointTest(unittest.TestCase):
