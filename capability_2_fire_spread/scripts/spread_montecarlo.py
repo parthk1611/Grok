@@ -262,6 +262,10 @@ def run_monte_carlo(
     # All random numbers are drawn up front, in a fixed order, so results do not depend on how runs are processed.
     rng = np.random.default_rng(seed)
     z = {name: rng.standard_normal(n_runs) for name in ("wind_speed", "wind_direction", "ffmc", "ros_scale")}
+    if n_runs == 1:
+        # A single run is the base (unperturbed) run, so the not_estimated footprint matches the inputs it reports;
+        # one random draw would be an arbitrary variant presented as "the" forecast.
+        z = {name: np.zeros(1) for name in z}
     draws = {
         "wind_speed_factor": np.exp(config.wind_speed_log_sigma * z["wind_speed"]),
         "wind_direction_offset_deg": config.wind_direction_sigma_deg * z["wind_direction"],

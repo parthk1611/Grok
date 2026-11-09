@@ -238,6 +238,14 @@ class CollapseTest(unittest.TestCase):
         self.assertEqual(mc(n_runs=1).geojson["uncertainty_status"], "not_estimated")
         self.assertEqual(mc(n_runs=2).geojson["uncertainty_status"], "estimated")
 
+    def test_a_single_run_is_the_unperturbed_base_run_whatever_the_seed(self) -> None:
+        case = MC.synthetic_case(size=201)
+        base = API.run_point(case, START, ignition_xy=MC.synthetic_ignition_xy(case), settings=SIM.Settings(ros_scale=0.8))
+        for seed in (7, 385):
+            result = mc(case, n_runs=1, seed=seed)
+            for h in HORIZONS:
+                np.testing.assert_array_equal(result.burn_fraction[h] > 0, base.masks[float(h)], err_msg=f"seed {seed}, {h} h")
+
 
 class GeometryTest(unittest.TestCase):
     def test_head_direction_is_downwind_in_true_bearing(self) -> None:
