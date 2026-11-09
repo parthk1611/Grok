@@ -152,6 +152,27 @@ describe('spread panel (contract v0.2.0)', () => {
     expect(screen.queryByTestId('band-table')).toBeNull();
     expect(screen.getByTestId('single-run-summary')).toBeInTheDocument();
   });
+  it.each(['same-footprint', 'empty'] as const)('not_estimated with p10/p90 %s: single-run summary uses p50 only, no band table', (variant) => {
+    const out = JSON.parse(JSON.stringify(spread('fresh'))) as SpreadOutput;
+    out.uncertainty_status = 'not_estimated';
+    out.n_runs = 1;
+    const p50 = out.features.find((f) => f.properties.horizon_h === 6 && f.properties.band === 'p50')!;
+    for (const f of out.features) {
+      if (f.properties.horizon_h !== 6 || f.properties.band === 'p50') continue;
+      if (variant === 'empty') {
+        f.geometry = { type: 'MultiPolygon', coordinates: [] };
+        f.properties.area_ha = 0;
+      } else {
+        f.geometry = JSON.parse(JSON.stringify(p50.geometry));
+        f.properties.area_ha = 999999; // deliberately different, must be ignored
+      }
+    }
+    renderSpread(out, 6);
+    expect(screen.queryByTestId('band-table')).toBeNull();
+    expect(screen.getByTestId('single-run-summary')).toHaveTextContent(`single-run footprint area: ${p50.properties.area_ha} ha`);
+    expect(screen.getByTestId('single-run-summary')).not.toHaveTextContent('999999');
+    expect(screen.getByTestId('uncertainty-not-estimated')).toHaveTextContent('p10 and p90 are ignored');
+  });
   it('empty band shows "no area reached this level"', () => {
     renderSpread(spread('rich'), 1);
     expect(screen.getByTestId('empty-band')).toHaveTextContent('no area reached this level');
