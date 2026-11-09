@@ -10,6 +10,10 @@ adjustments (all visible in the API via the X-Mock-Data header):
     position follow the request, so a map click lands where the user clicked;
   * a spread request with ``weather_override`` echoes the entered values in ``inputs``
     (weather_source "manual", stale_level "stale", exact MANUAL_STALE_REASON);
+  * weather ``valid_time``/``retrieved_at``, spread ``run_timestamp``/``inputs.weather_valid_time``
+    and the status source times are derived from the data clock (RELAY_MOCK_NOW when pinned,
+    else the server clock): valid_time = clock - scenario age, retrieved_at = valid_time + 5 min,
+    run_timestamp = clock, so every timestamp agrees with its age_minutes;
   * an ignition request for a later date than the example gets the example map with its
     original ``date`` and stale_flag true (stale-day rule).
 """
@@ -30,6 +34,13 @@ _SCENARIO_LEVEL = {"fresh": StaleLevel.FRESH, "stale": StaleLevel.STALE,
                    "expired": StaleLevel.EXPIRED, "no_cache": StaleLevel.NO_CACHE}
 _SCENARIO_AGE_MIN = {"fresh": 10.0, "stale": 120.0, "expired": 720.0}
 _SOURCES = ("hrdps", "cwfis_firewx_stns", "swob_realtime")   # SourceStatus.source enum (openapi.yaml)
+
+
+_RETRIEVE_LAG = timedelta(minutes=5)   # example: retrieved_at - valid_time
+
+
+def _iso(dt: datetime) -> str:
+    return dt.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def _shift(coords, dlon: float, dlat: float):
@@ -68,17 +79,19 @@ class MockProvider(DataProvider):
         return (f"MOCK scenario '{self.scenario}': simulated {self.level.value} feed "
                 f"(age {_SCENARIO_AGE_MIN[self.scenario]:.0f} min)")
 
+    def _weather_times(self, now: datetime | None = None) -> tuple[float, str, str]:
+        """(age_minutes, valid_time, retrieved_at) for the simulated weather feed on the data clock."""
+        now = now or self._now()
+        age = _SCENARIO_AGE_MIN.get(self.scenario, _SCENARIO_AGE_MIN["fresh"])
+        valid = now - timedelta(minutes=age)
+        return age, _iso(valid), _iso(valid + _RETRIEVE_LAG)
+
     # -- DataProvider ----------------------------------------------------
-    def _overlay_staleness(self, rec: dict) -> None:
-        """Top-level stale_level/age_minutes (contract v0.2.1); stale_flag must equal level != fresh."""
-        if self.level is not StaleLevel.FRESH:
-            rec["stale_level"] = self.level.value
-            rec["age_minutes"] = _SCENARIO_AGE_MIN[self.scenario]
 
     def last_cache_time(self) -> str | None:
         if self.level is StaleLevel.NO_CACHE:
             return None
-        return max(self._wx["retrieved_at"], self._ign["data_timestamp"])
+        return max(self._weather_times()[2], self._ign["data_timestamp"])
 
     def ignition_dates(self) -> list[str]:
         self._require_cache()
@@ -145,6 +158,7 @@ class MockProvider(DataProvider):
                     "Spread inputs are expired. Resend with confirm_degraded: true to run on them, "
                     "or with weather_override to enter wind and moisture by hand.")
         out = copy.deepcopy(self._spread)
+        out["run_timestamp"] = _iso(self._now())
         ex = out["ignition_point"]
         dlon, dlat = req.longitude - ex["longitude"], req.latitude - ex["latitude"]
         for f in out["features"]:
@@ -173,8 +187,11 @@ class MockProvider(DataProvider):
             out["stale_level"] = StaleLevel.STALE.value
             out["age_minutes"] = 0
             return Served(out, StaleLevel.STALE, start)
+        age, valid, _ = self._weather_times()
+        out["inputs"]["weather_valid_time"] = valid
         if self.level is not StaleLevel.FRESH:
-            self._overlay_staleness(out)
+            out["stale_level"] = self.level.value
+            out["age_minutes"] = age
             out["inputs"]["stale_flag"] = True
             out["inputs"]["stale_reason"] = self._stale_reason()
         return Served(out, self.level, out["inputs"]["weather_valid_time"])
@@ -187,15 +204,15 @@ class MockProvider(DataProvider):
         if cell_id is not None:
             rec["cell_id"] = cell_id
         rec["quality_flags"] = ["MOCK: example payload, not a real observation"]
-        if self.level is not StaleLevel.FRESH:
-            rec["stale_level"] = self.level.value
-            rec["age_minutes"] = _SCENARIO_AGE_MIN[self.scenario]
-            rec["from_cache"] = True
+        age, rec["valid_time"], rec["retrieved_at"] = self._weather_times()
+        rec["age_minutes"] = age
+        rec["stale_level"] = self.level.value
+        rec["from_cache"] = self.level is not StaleLevel.FRESH
         return Served(rec, self.level, rec["valid_time"])
 
     def ingestion_status(self, now: datetime) -> dict:
         """MOCK status. Poll times are derived from `now` on the 15-minute grid; ages are the
-        scenario's simulated ages; success/source times are the contracts/examples placeholders."""
+        scenario's simulated ages; success/source times are derived from `now` minus those ages."""
         p = DEFAULT_POLICY
         none = self.level is StaleLevel.NO_CACHE
         failures = {"fresh": 0, "stale": 4, "expired": 24, "no_cache": 3}[self.scenario]
@@ -203,15 +220,15 @@ class MockProvider(DataProvider):
         midnight = now.replace(hour=0, minute=0, second=0, microsecond=0)
         last_attempt = midnight + step * int((now - midnight) / step)
         iso = lambda dt: dt.strftime("%Y-%m-%dT%H:%M:%SZ")  # noqa: E731
-        age = None if none else _SCENARIO_AGE_MIN[self.scenario]
+        age, valid, retrieved = (None, None, None) if none else self._weather_times(now)
         sources = []
         for s in _SOURCES:
             sources.append({
                 "source": s,
                 "mock": True,
                 "last_attempt_at": iso(last_attempt),
-                "last_success_retrieved_at": None if none else self._wx["retrieved_at"],
-                "last_source_time": None if none else self._wx["valid_time"],
+                "last_success_retrieved_at": retrieved,
+                "last_source_time": valid,
                 "last_error": None if failures == 0 else "MOCK: simulated upstream timeout",
                 "last_error_at": None if failures == 0 else iso(last_attempt),
                 # never "no_cache" in a response: a source that never succeeded is expired (Team Lead)
@@ -224,7 +241,7 @@ class MockProvider(DataProvider):
             })
         return {
             "mock": True,
-            "note": "MOCK values: success/source times are contracts/examples placeholders; ages are simulated",
+            "note": "MOCK values: ages are simulated; success/source times are the data clock minus those ages",
             "sources": sources,
             "cache_policy": {
                 "proposal": True,

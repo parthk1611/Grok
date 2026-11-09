@@ -138,12 +138,14 @@ def create_app(settings: Settings | None = None, provider: DataProvider | None =
     settings = settings or Settings.from_env()
     configure_logging(settings.log_level)
     contracts = Contracts(settings.contracts_dir)
+    data_clock = now_fn
     if provider is None:
         if settings.data_mode != "mock":
             raise RuntimeError("RELAY_DATA_MODE=live: LiveProvider is not implemented yet (T2.6/T2.7); "
                                "refusing to start rather than serve guesses.")
         mock_clock = (lambda: settings.mock_now) if settings.mock_now else now_fn
         provider = MockProvider(contracts, settings.mock_scenario, now_fn=mock_clock)
+        data_clock = mock_clock
 
     # No generated docs / openapi.json: contracts/openapi.yaml is the contract.
     app = FastAPI(title="COMP-385 wildfire decision-support API", version=__version__,
@@ -390,8 +392,11 @@ def create_app(settings: Settings | None = None, provider: DataProvider | None =
 
     @app.get("/api/v1/ingestion/status")
     async def ingestion_status():
-        payload = call(provider.ingestion_status, now_fn())
-        payload = {**payload, "generated_at": _iso(now_fn())}
+        # Data clock: RELAY_MOCK_NOW when pinned in mock mode, else the server clock. start_time
+        # validation for spread stays on the server clock because clients send real times.
+        now = data_clock()
+        payload = call(provider.ingestion_status, now)
+        payload = {**payload, "generated_at": _iso(now)}
         return finish(payload)
 
     return app
