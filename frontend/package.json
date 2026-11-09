@@ -12,7 +12,8 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "lint": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "smoke:relay": "vitest run --config smoke/vitest.smoke.config.ts"
   },
   "dependencies": {
     "ajv": "8.20.0",
