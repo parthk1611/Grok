@@ -23,7 +23,7 @@ CELL = "ofr10km_-10000_100000"
 DAY = "2026-07-15"
 DISCLAIMER = "Research estimate for decision support only. It does not replace official fire alerts, warnings or evacuation orders."
 MOCK_NOW = "2026-07-14T20:10:00Z"        # pinned mock clock: example ignition data_timestamp + 10 min
-CACHE_TIME = "2026-07-15T16:05:00Z"      # newest cached time in contracts/examples (weather retrieved_at)
+CACHE_TIME = "2026-07-14T20:05:00Z"      # newest cache time at MOCK_NOW: derived weather retrieved_at (MOCK_NOW - 10 min + 5 min)
 MANUAL_REASON = "manual weather override; not live data"
 SPREAD_BODY = {"longitude": -85.0, "latitude": 50.0, "start_time": "2026-11-02T12:00:00Z", "n_runs": 100, "seed": 385}
 
@@ -372,7 +372,9 @@ class FailClosedTests(unittest.TestCase):
         class P(MockProvider):
             pass
         setattr(P, fn_name, fn)
-        return P(Contracts(CONTRACTS))
+        from datetime import datetime
+        pinned = datetime.fromisoformat(MOCK_NOW.replace("Z", "+00:00"))
+        return P(Contracts(CONTRACTS), now_fn=lambda: pinned)   # same data clock as the other tests
 
     def test_schema_invalid_payload_is_never_served(self):
         def bad(self, date, top_k):

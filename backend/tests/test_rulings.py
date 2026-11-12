@@ -39,7 +39,8 @@ class ExpiredSpreadNeedsConfirmation(ApiBase):
     def test_expired_without_confirm_or_override_is_409_confirmation_required(self):
         r = self.client.post("/api/v1/spread", json=SPREAD_BODY)
         body = self.assert_error(r, 409, "confirmation_required", "/api/v1/spread", "post")
-        self.assertEqual(body["last_cache_time"], CACHE_TIME)
+        # expired weather was retrieved 715 min before MOCK_NOW, so the newest cache time is ignition's
+        self.assertEqual(body["last_cache_time"], "2026-07-14T20:00:00Z")
         self.assertNotIn("Retry-After", r.headers)
         self.assertNotIn("features", body)
 
@@ -270,7 +271,7 @@ class ErrorModel(ApiBase):
         class P(MockProvider):
             def latest_weather(self, *a):
                 raise RuntimeError("boom")
-        r = _client(provider=P(Contracts(CONTRACTS))).get("/api/v1/weather/latest?lat=50&lon=-90")
+        r = _client(provider=P(Contracts(CONTRACTS), now_fn=lambda: _at(MOCK_NOW))).get("/api/v1/weather/latest?lat=50&lon=-90")
         body = self.assert_error(r, 503, "provider_unavailable", "/api/v1/weather/latest")
         self.assertEqual((body["last_cache_time"], r.headers["Retry-After"]), (CACHE_TIME, "60"))
         self.assertNotIn("retryable", body)

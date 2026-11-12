@@ -21,6 +21,9 @@ Config is by environment variable; see `.env.example` (no secrets needed).
 `RELAY_MOCK_SCENARIO=stale|expired|no_cache` demos the staleness banners and the 503 path.
 `RELAY_MOCK_NOW=2026-07-14T20:10:00Z` pins the mock clock: ignition data ages are measured from each record's
 `data_timestamp` against the clock, and the examples are dated July 2026, so on the real clock they read `expired`.
+Mock weather `valid_time`/`retrieved_at`, spread `run_timestamp`/`inputs.weather_valid_time`, ingestion-status
+source times and `generated_at` follow the same clock (valid_time = clock minus the scenario age, retrieved 5 min
+later). Spread `start_time` limits always use the server clock, so send real start times even when the clock is pinned.
 `RELAY_CORS_ORIGINS=http://localhost:5173,http://127.0.0.1:5173` lets BEACON's Vite dev server call the API
 (off by default; `*` is refused). `RELAY_SPREAD_DEFAULT_RUNS` (default 200) is `n_runs` when a request omits it.
 Responses of 1 KiB or more are gzip-compressed for clients that send `Accept-Encoding: gzip`.
